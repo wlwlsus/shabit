@@ -3,8 +3,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update # jpa DB table update
-    generate-ddl: false # db ??? ?? ?
-    show-sql: true # ??? sql ??
+    generate-ddl: false # db 초기화 설정 끔
+    show-sql: true # 사용된 sql 보임
   # mariaDB Setting
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
