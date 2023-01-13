@@ -9,19 +9,22 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="vod")
+@Table(name = "vod")
 public class Vod {
-    @Id
-    @Column(name = "vod_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long vodId;
+  @Id
+  @Column(name = "vod_id", nullable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long vodId;
 
-    @Column(name = "name", nullable = false)
-    private String name; // 유튜브 제목
+  @Column(name = "name", nullable = false)
+  private String name; // 유튜브 제목
 
-    @Column(name = "category", nullable = false)
-    private String category;
+  @Column(name = "category", nullable = false)
+  private String category;
 
-    @Column(name = "url", nullable = false)
-    private String url;
+  @Column(name = "url", nullable = false)
+  private String url;
+
+  @Column(name = "length", nullable = false)
+  private int length;
 }
