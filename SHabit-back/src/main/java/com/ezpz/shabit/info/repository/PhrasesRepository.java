@@ -1,7 +1,7 @@
 package com.ezpz.shabit.info.repository;
 
-import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.entity.Phrases;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PhrasesRepository extends JpaRepository<Vod, Long> {
+public interface PhrasesRepository extends JpaRepository<Phrases, Long> {
 }
