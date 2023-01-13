@@ -8,9 +8,9 @@ spring:
   # mariaDB Setting
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/ssafy
-    username: easypeasy
-    password: lemon
+    url: jdbc:mariadb://localhost:3306/testdb
+    username: root
+    password: ssafy
 
 # Hibernate loggin
 logging:
