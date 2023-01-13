@@ -1,4 +1,4 @@
-package com.ezpz.shabit.vod.service;
+package com.ezpz.shabit.info.service;
 
 import org.springframework.stereotype.Service;
 

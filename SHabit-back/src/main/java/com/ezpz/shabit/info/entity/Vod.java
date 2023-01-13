@@ -1,4 +1,4 @@
-package com.ezpz.shabit.vod.entity;
+package com.ezpz.shabit.info.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
