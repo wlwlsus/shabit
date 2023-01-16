@@ -1,9 +1,9 @@
-import UiTest from "./components/UiTest/UiTest";
+import RagneBarDaily from './components/UiTest/RagneBarDaily';
 
 function App() {
   return (
     <div className="App">
-      <UiTest/>
+      <RagneBarDaily />
     </div>
   );
 }
