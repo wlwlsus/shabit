@@ -3,7 +3,7 @@ import Chart from 'react-apexcharts';
 
 //출처 https://apexcharts.com/react-chart-demos/timeline-charts/multiple-series-group-rows/
 
-const RagneBarDaily = () => {
+const RangeBarDaily = () => {
   //그래프에 쓰이는 데이터를 스테이트로 선언합니다.
   const [series, setSeries] = useState([]);
   const [options, setOptions] = useState({});
@@ -96,4 +96,4 @@ const RagneBarDaily = () => {
   );
 };
 
-export default RagneBarDaily;
+export default RangeBarDaily;
