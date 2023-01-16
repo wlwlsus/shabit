@@ -1,7 +1,24 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class UserServiceImpl {
+@Slf4j
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService {
+
+  private final UserRepository userRepository;
+
+  @Override
+  public boolean checkEmail(String email) throws Exception {
+    log.info("check email : {}", email);
+
+    return userRepository.findByEmail(email).isPresent();
+  }
 }

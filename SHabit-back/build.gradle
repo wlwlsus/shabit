@@ -31,7 +31,6 @@ dependencies {
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.23.1'
     // test
     runtimeOnly 'com.h2database:h2'
-    testImplementation "org.assertj:assertj-core:3.20.2"
 
 
     // Querydsl
