@@ -3,6 +3,7 @@ package com.ezpz.shabit.user.service;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
+import com.ezpz.shabit.user.entity.User;
 import com.ezpz.shabit.user.repository.UserRepository;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,30 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+//    private final PasswordEncoder passwordEncoder;
+
     private final JwtTokenProvider jwtTokenProvider;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    @Override
+    public ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp) {
+        if (userRepository.existsByEmail(signUp.getEmail())) {
+            return Response.badRequest("이미 회원가입된 이메일입니다.");
+        }
+
+        User user = User.builder()
+                .email(signUp.getEmail())
+                .nickname(signUp.getNickname())
+//                .password(passwordEncoder.encode(signUp.getPassword()))
+                .password(signUp.getPassword())
+                .build();
+
+        userRepository.save(user);
+
+        return Response.ok("회원가입에 성공하였습니다.");
+
+    }
 
     @Override
     public ResponseEntity<?> login(UserTestReqDto.Login login) {
