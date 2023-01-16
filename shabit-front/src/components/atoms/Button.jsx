@@ -19,7 +19,7 @@ const Button = ({ background, type, role, text, icon, onClick, children }) => {
   );
 };
 
-Button.PropTypes = {
+Button.propTypes = {
   background: PropTypes.oneOf(['primary', 'secondary']),
   type: PropTypes.oneOf(['round', 'square']),
   role: PropTypes.oneOf(['button', 'submit']),

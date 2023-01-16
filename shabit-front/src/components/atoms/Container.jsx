@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Container = ({ background, border, shadow, onClick, children }) => {
-  const backgroundClass = `bg-${background}`;
+const Container = ({ size, bg, border, shadow, onClick, children }) => {
+  const bgClass = `bg-${bg}`;
 
   return (
     <ContainerWrapper
-      className={`${backgroundClass} ${border} ${shadow}`}
+      className={` ${size} ${bgClass} ${border} ${shadow}`}
       onClick={onClick}
     >
       {children}
@@ -16,7 +16,8 @@ const Container = ({ background, border, shadow, onClick, children }) => {
 };
 
 Container.propTypes = {
-  background: PropTypes.oneOf(['primary', 'secondary']),
+  size: PropTypes.oneOf(['lg', 'square']).isRequired,
+  bg: PropTypes.oneOf(['primary', 'secondary']),
   border: PropTypes.oneOf(['rounded']),
   shadow: PropTypes.oneOf(['shadow']),
   onClick: PropTypes.func,
@@ -24,7 +25,8 @@ Container.propTypes = {
 };
 
 Container.defaultProps = {
-  background: undefined,
+  size: undefined,
+  bg: undefined,
   border: undefined,
   shadow: undefined,
   onClick: undefined,
@@ -32,7 +34,6 @@ Container.defaultProps = {
 };
 
 const ContainerWrapper = styled.div`
-  display: inline-flex;
   background-color: ${({ theme }) => theme.color.whiteColor};
 
   &.bg-primary {
@@ -43,12 +44,22 @@ const ContainerWrapper = styled.div`
     background-color: ${({ theme }) => theme.color.secondary};
   }
 
-  $.rounded {
+  &.rounded {
     border-radius: 0.5rem;
   }
 
-  $.shadow {
-    box-shadow: 0.5rem 0.5rem 0.5rem ${({ theme }) => theme.color.shadowColor};
+  &.shadow {
+    box-shadow: 0.3rem 0.3rem 0.3rem ${({ theme }) => theme.color.shadowColor};
+  }
+
+  &.lg {
+    width: 70rem;
+    height: 30rem;
+  }
+
+  &.square {
+    width: 35rem;
+    height: 35rem;
   }
 `;
 

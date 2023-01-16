@@ -13,7 +13,7 @@ const Input = ({ role, placeholder, shadow, onClick }) => {
   );
 };
 
-Input.PropTypes = {
+Input.propTypes = {
   role: PropTypes.oneOf(['text', 'checkbox']),
   placeholder: PropTypes.string,
   shadow: PropTypes.oneOf(['shadow']),
