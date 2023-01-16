@@ -1,7 +1,10 @@
 package com.ezpz.shabit.info.service;
 
+import com.ezpz.shabit.info.dto.res.PhrasesResDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.repository.PhrasesRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,7 @@ import java.util.Random;
 @Slf4j
 @RequiredArgsConstructor
 public class InfoServiceImpl implements InfoService {
+  private final PhrasesRepository phrasesRepository;
   private final VodRepository vodRepository;
 
   @Override
@@ -29,20 +33,42 @@ public class InfoServiceImpl implements InfoService {
 
     List<VodResDto> list = new ArrayList<>();
 
-    list.add(getRandomOne(length3));
-    list.add(getRandomOne(length5));
-    list.add(getRandomOne(length10));
+    list.add(getRandomVod(length3));
+    list.add(getRandomVod(length5));
+    list.add(getRandomVod(length10));
 
     log.info("random vodList : {}", list);
 
     return list;
   }
 
-  private VodResDto getRandomOne(List<Vod> list) {
+  @Override
+  public PhrasesResDto getPhrase() throws Exception {
+    List<Phrases> phrasesList = phrasesRepository.findAll();
+    log.info("phrasesList : {}", phrasesList);
+
+    return getRandomPhrases(phrasesList);
+  }
+
+  private VodResDto getRandomVod(List<Vod> list) {
     VodResDto vod = new VodResDto();
     Random random = new Random();
+
     int index = random.nextInt(list.size());
+    log.info("random vod index : {}", index);
+    log.info("random vod : {}", list.get(index));
 
     return new VodResDto(list.get(index));
+  }
+
+  private PhrasesResDto getRandomPhrases(List<Phrases> list) {
+    PhrasesResDto phrases = new PhrasesResDto();
+    Random random = new Random();
+
+    int index = random.nextInt(list.size());
+    log.info("random phrases index : {}", index);
+    log.info("random phrases : {}", list.get(index));
+
+    return new PhrasesResDto(list.get(index));
   }
 }

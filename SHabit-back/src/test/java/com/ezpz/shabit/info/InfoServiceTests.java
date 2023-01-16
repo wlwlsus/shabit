@@ -1,11 +1,13 @@
 package com.ezpz.shabit.info;
 
+import com.ezpz.shabit.info.dto.res.PhrasesResDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.repository.PhrasesRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import com.ezpz.shabit.info.service.InfoService;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +34,8 @@ public class InfoServiceTests {
   private InfoService infoService;
   @Autowired
   private VodRepository vodRepository;
+  @Autowired
+  private PhrasesRepository phrasesRepository;
 
   @BeforeEach
   void setUpVod() {
@@ -56,7 +60,17 @@ public class InfoServiceTests {
     vodRepository.save(vod1);
     vodRepository.save(vod2);
     vodRepository.save(vod3);
-    System.out.println("save successfully");
+    System.out.println("vods save successfully");
+  }
+
+  @BeforeEach
+  void setPhrases() {
+    Phrases phrases1 = Phrases.builder()
+                               .content("테스트 구문1")
+                               .build();
+
+    phrasesRepository.save(phrases1);
+    System.out.println("phrases save successfully");
   }
 
   @Test
@@ -76,6 +90,31 @@ public class InfoServiceTests {
   public void getVodListMethodAPITest() throws Exception {
     // given
     String url = "/api/v1/vods";
+    // when
+    mockMvc.perform(MockMvcRequestBuilders.get(url)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding("UTF-8"))
+            // then
+            .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("랜덤 건강 구문 조회 Test")
+  public void getPhrasesMethodSuccessTest() throws Exception {
+    // given
+
+    // when
+    final PhrasesResDto phrases = infoService.getPhrase();
+
+    // then
+    assertThat(phrases.getContent()).isEqualTo("테스트 구문1");
+  }
+
+  @Test
+  @DisplayName("랜덤 건강 구문 조회 API Test")
+  public void getPhrasesMethodAPITest() throws Exception {
+    // given
+    String url = "/api/v1/phrases";
     // when
     mockMvc.perform(MockMvcRequestBuilders.get(url)
                             .contentType(MediaType.APPLICATION_JSON)
