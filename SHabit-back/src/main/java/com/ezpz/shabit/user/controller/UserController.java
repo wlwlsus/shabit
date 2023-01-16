@@ -1,7 +1,9 @@
 package com.ezpz.shabit.user.controller;
 
+import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.service.UserService;
 import com.ezpz.shabit.util.Response;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,24 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final UserService userService;
+  private final EmailService emailService;
 
-  // 이메일 중복체크 API
-  @GetMapping("user/{email}")
-  public ResponseEntity<?> CheckEmail(@PathVariable String email) {
-    log.info("input email : {}", email);
+  // 이메일 인증 API
+  @GetMapping("email/{email}")
+  public ResponseEntity<?> certifyEmail(@PathVariable String email) {
+    log.info("send email : {}", email);
     try {
-      boolean isPresent = userService.checkEmail(email);
-      log.info("isPresent : {}", isPresent);
+      String code = emailService.sendCertificationEmail(email);
+      log.info("code : {}", code);
 
-      if (isPresent) {
-        return Response.makeResponse(HttpStatus.FORBIDDEN, "이미 사용 중인 Email 입니다.");
-      } else {
-        return Response.makeResponse(HttpStatus.OK, "존재하지 않는 Email 입니다.");
-      }
+      return Response.makeResponse(HttpStatus.OK, "이메일 전송 성공", 1, code);
     } catch (Exception e) {
-      log.info(e.getMessage());
-      return Response.badRequest("잘못된 요청입니다.");
+      log.error(e.getMessage());
+      return Response.badRequest("이메일 전송 실패");
     }
   }
+
 }

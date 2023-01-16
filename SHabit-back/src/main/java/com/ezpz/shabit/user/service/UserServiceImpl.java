@@ -13,12 +13,4 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  private final UserRepository userRepository;
-
-  @Override
-  public boolean checkEmail(String email) throws Exception {
-    log.info("check email : {}", email);
-
-    return userRepository.findByEmail(email).isPresent();
-  }
 }

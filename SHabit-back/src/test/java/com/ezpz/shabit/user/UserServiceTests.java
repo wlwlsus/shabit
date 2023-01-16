@@ -2,6 +2,7 @@ package com.ezpz.shabit.user;
 
 import com.ezpz.shabit.user.entity.User;
 import com.ezpz.shabit.user.repository.UserRepository;
+import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,53 +26,24 @@ public class UserServiceTests {
   @Autowired
   private MockMvc mockMvc;
   @Autowired
-  private UserService userService;
-  @Autowired
-  private UserRepository userRepository;
-
-  @BeforeEach
-  void setUser() {
-    User user = User.builder()
-                        .email("ssafy@ssafy.com")
-                        .nickname("test")
-                        .password("1234")
-                        .build();
-
-    userRepository.save(user);
-    System.out.println("user save successfully");
-  }
+  private EmailService emailService;
 
   @Test
-  @DisplayName("이메일 중복 체크 Success Test")
-  public void checkEmailSuccessTest() throws Exception {
+  @DisplayName("이메일 인증 Success Test")
+  public void certifyEmailSuccessTest() throws Exception {
     // given
-    String email = "dnzma13@ssafy.com";
+    String email = "dnzma13@naver.com";
     // when
-    boolean isPresent = userService.checkEmail(email);
-
-    // then
-    assertThat(isPresent).isFalse();
+    String code = emailService.sendCertificationEmail(email);
+    //then
+    assertThat(code).isNotEmpty();
   }
 
   @Test
-  @DisplayName("이메일 중복 체크 Forbidden Test")
-  public void checkEmailForbiddenTest() throws Exception {
+  @DisplayName("이메일 인증 API Test")
+  public void certifyEmailSuccessAPITest() throws Exception {
     // given
-    String email = "ssafy@ssafy.com";
-    // when
-    User user = userRepository.findByEmail(email).orElseThrow();
-    boolean isPresent = userService.checkEmail(email);
-
-    // then
-    assertThat(user.getNickname()).isEqualTo("test");
-    assertThat(isPresent).isTrue();
-  }
-
-  @Test
-  @DisplayName("이메일 중복 체크 Success API Test")
-  public void checkEmailSuccessApiTest() throws Exception {
-    // given
-    String url = "/api/v1/user/ssafy1@ssafy.com";
+    String url = "/api/v1/email/dnzma13@naver.com";
     // when
     mockMvc.perform(MockMvcRequestBuilders.get(url)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -80,16 +52,4 @@ public class UserServiceTests {
             .andExpect(status().isOk());
   }
 
-  @Test
-  @DisplayName("이메일 중복 체크 Forbidden API Test")
-  public void checkEmailForbiddenApiTest() throws Exception {
-    // given
-    String url = "/api/v1/user/ssafy@ssafy.com";
-    // when
-    mockMvc.perform(MockMvcRequestBuilders.get(url)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding("UTF-8"))
-            // then
-            .andExpect(status().isForbidden());
-  }
 }

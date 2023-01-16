@@ -7,7 +7,4 @@ import com.ezpz.shabit.info.entity.Phrases;
 import java.util.List;
 
 public interface InfoService {
-  List<VodResDto> getVodList() throws Exception;
-
-  PhrasesResDto getPhrase() throws Exception;
 }

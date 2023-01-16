@@ -18,57 +18,5 @@ import java.util.Random;
 @Slf4j
 @RequiredArgsConstructor
 public class InfoServiceImpl implements InfoService {
-  private final PhrasesRepository phrasesRepository;
-  private final VodRepository vodRepository;
 
-  @Override
-  public List<VodResDto> getVodList() throws Exception {
-    List<Vod> length3 = vodRepository.findByLength(3);
-    List<Vod> length5 = vodRepository.findByLength(5);
-    List<Vod> length10 = vodRepository.findByLength(10);
-
-    log.info("length 3 vodList : {}", length3);
-    log.info("length 5 vodList : {}", length5);
-    log.info("length 10 vodList : {}", length10);
-
-    List<VodResDto> list = new ArrayList<>();
-
-    list.add(getRandomVod(length3));
-    list.add(getRandomVod(length5));
-    list.add(getRandomVod(length10));
-
-    log.info("random vodList : {}", list);
-
-    return list;
-  }
-
-  @Override
-  public PhrasesResDto getPhrase() throws Exception {
-    List<Phrases> phrasesList = phrasesRepository.findAll();
-    log.info("phrasesList : {}", phrasesList);
-
-    return getRandomPhrases(phrasesList);
-  }
-
-  private VodResDto getRandomVod(List<Vod> list) {
-    VodResDto vod = new VodResDto();
-    Random random = new Random();
-
-    int index = random.nextInt(list.size());
-    log.info("random vod index : {}", index);
-    log.info("random vod : {}", list.get(index));
-
-    return new VodResDto(list.get(index));
-  }
-
-  private PhrasesResDto getRandomPhrases(List<Phrases> list) {
-    PhrasesResDto phrases = new PhrasesResDto();
-    Random random = new Random();
-
-    int index = random.nextInt(list.size());
-    log.info("random phrases index : {}", index);
-    log.info("random phrases : {}", list.get(index));
-
-    return new PhrasesResDto(list.get(index));
-  }
 }
