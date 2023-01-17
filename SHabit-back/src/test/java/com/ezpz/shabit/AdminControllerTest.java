@@ -2,6 +2,7 @@ package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
+import com.ezpz.shabit.info.entity.Vod;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -42,39 +42,15 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    public void 없는_영상_삭제_실패() throws Exception {
+    void 영상_목록_조회_성공() throws Exception{
         // given
-        List<Integer> list = vodIdList();
-        doReturn(0).when(adminService)
-                .deleteVod(list);
+        // findAll에 대한 stub필요
+        doReturn(vodList()).when(adminService)
+                .getVodList();
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
-                        .content(gson.toJson(list))
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        // HTTP Status가 OK인지 확인
-        MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
-
-        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
-        System.out.println(mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
-    void 영상_삭제_성공() throws Exception{
-        // given
-        List<Integer> list = vodIdList();
-        doReturn(3).when(adminService)
-                .deleteVod(list);
-
-        // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
-                        .content(gson.toJson(list))
-                        .contentType(MediaType.APPLICATION_JSON)
+                MockMvcRequestBuilders.get("/api/v1/admin/vods")
         );
 
         // then
@@ -85,12 +61,18 @@ public class AdminControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    private List<Integer> vodIdList() {
-        List<Integer> vodIdList = new ArrayList<>();
+    private List<Vod> vodList() {
+        List<Vod> vodList = new ArrayList<>();
         for(int i=0; i<3; i++){
-            vodIdList.add(i+1);
+            vodList.add(Vod.builder()
+                    .vodId(1L)
+                    .url("test url")
+                    .length(3)
+                    .name("test title")
+                    .category("거북")
+                    .build());
         }
-        return vodIdList;
+        return vodList;
     }
 
 }

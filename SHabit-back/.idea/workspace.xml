@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/res/VodTestResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/res/VodResDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/PhrasesRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +149,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminControllerTest.영상_삭제_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AdminControllerTest.영상_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -159,13 +159,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="METHOD_NAME" value="영상_삭제_성공" />
+      <option name="METHOD_NAME" value="영상_목록_조회_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AdminServiceTest.영상_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -175,12 +175,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="METHOD_NAME" value="영상_목록_조회_성공" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminServiceTest.영상_삭제_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AdminServiceTest.건강_문구_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -190,13 +191,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
-      <option name="METHOD_NAME" value="영상_삭제_성공" />
+      <option name="METHOD_NAME" value="건강_문구_목록_조회_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="VodRepositoryTest.없는_영상_삭제_실패" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="VodRepositoryTest.영상_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -206,7 +207,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.VodRepositoryTest" />
-      <option name="METHOD_NAME" value="없는_영상_삭제_실패" />
+      <option name="METHOD_NAME" value="영상_목록_조회_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -222,10 +223,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.AdminControllerTest" />
-        <item itemvalue="JUnit.AdminControllerTest.영상_삭제_성공" />
-        <item itemvalue="JUnit.AdminServiceTest" />
-        <item itemvalue="JUnit.AdminServiceTest.영상_삭제_성공" />
-        <item itemvalue="JUnit.VodRepositoryTest.없는_영상_삭제_실패" />
+        <item itemvalue="JUnit.AdminControllerTest.영상_목록_조회_성공" />
+        <item itemvalue="JUnit.AdminServiceTest.영상_목록_조회_성공" />
+        <item itemvalue="JUnit.AdminServiceTest.건강_문구_목록_조회_성공" />
+        <item itemvalue="JUnit.VodRepositoryTest.영상_목록_조회_성공" />
       </list>
     </recent_temporary>
   </component>
@@ -245,7 +246,7 @@
       <workItem from="1673838991293" duration="8807000" />
       <workItem from="1673849824436" duration="4152000" />
       <workItem from="1673853989946" duration="13088000" />
-      <workItem from="1673977797163" duration="6373000" />
+      <workItem from="1673977797163" duration="7570000" />
     </task>
     <servers />
   </component>

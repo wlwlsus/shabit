@@ -11,11 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,36 +24,32 @@ public class AdminServiceTest {
     private VodRepository vodRepository;
 
     @Test
-    public void 없는_영상_삭제_실패(){
+    public void 영상_목록_조회_성공(){
         // given
-        doReturn(Optional.empty()).when(vodRepository).findById(any());
+        doReturn(vodList())
+                .when(vodRepository)
+                .findAll();
 
         // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deleteVod(vodIdList()));
+        List<Vod> vodList = target.getVodList();
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("없는 문구 입니다.");
+        assertThat(vodList.size()).isEqualTo(3);
     }
 
-    @Test
-    public void 영상_삭제_성공(){
-        // given
-        Optional<Vod> vod = Optional.ofNullable(Vod.builder().build());
-        doReturn(vod).when(vodRepository).findById(any());
-
-        // when
-        int res = target.deleteVod(vodIdList());
-
-        // then
-        assertThat(res).isEqualTo(3);
-    }
-
-    private List<Integer> vodIdList() {
-        List<Integer> vodIdList = new ArrayList<>();
+    private List<Vod> vodList() {
+        List<Vod> vodList = new ArrayList<>();
         for(int i=0; i<3; i++){
-            vodIdList.add(i+1);
+            vodList.add(Vod.builder()
+                    .vodId(1L)
+                    .url("test url")
+                    .length(3)
+                    .name("test title")
+                    .category("거북")
+                    .build());
         }
-        return vodIdList;
+        return vodList;
     }
+
 
 }

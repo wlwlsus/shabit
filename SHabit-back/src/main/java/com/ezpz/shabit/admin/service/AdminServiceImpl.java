@@ -1,5 +1,6 @@
 package com.ezpz.shabit.admin.service;
 
+import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.VodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,8 @@ public class AdminServiceImpl implements AdminService{
     private final VodRepository vodRepository;
 
     @Override
-    public int deleteVod(List<Integer> vodIdList) {
-        vodIdList.forEach(i -> {
-                if(vodRepository.findById(Integer.toUnsignedLong(i)).isEmpty()){
-                    throw new NullPointerException("없는 문구 입니다.");
-                }
-                vodRepository.deleteById(Integer.toUnsignedLong(i));});
-        return vodIdList.size();
+    public List<Vod> getVodList() {
+        return vodRepository.findAll();
     }
+
 }
