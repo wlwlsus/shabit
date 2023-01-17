@@ -5,7 +5,6 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ public class EmailServiceImpl implements EmailService {
 
   private final JavaMailSender mailSender;
   private final int CODE_LENGTH = 8;
-  private final String CODE = createdCode(CODE_LENGTH);
+  private String CODE;
 
   @Override
   public String sendFindPasswordEmail(String email) throws Exception {
@@ -38,17 +37,17 @@ public class EmailServiceImpl implements EmailService {
 
   private String createFindPasswordEmail() {
     StringBuilder message = new StringBuilder();
-
+    CODE = createdCode(CODE_LENGTH);
     message.append("<div style='margin:20px;'>")
-            .append("<p>안녕하세요. SHabit 임시 비밀번호 발급 메일입니다.</p>")
-            .append("<p>임시 비밀번호로 로그인 해주세요.</p>")
-            .append("<p>감사합니다.</p>")
-            .append("<br>")
-            .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
-            .append("<div style='font-size:130%'>")
-            .append("CODE : <strong>" + CODE + "</strong>")
-            .append("<div>")
-            .append("</div>");
+      .append("<p>안녕하세요. SHabit 임시 비밀번호 발급 메일입니다.</p>")
+      .append("<p>임시 비밀번호로 로그인 해주세요.</p>")
+      .append("<p>감사합니다.</p>")
+      .append("<br>")
+      .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
+      .append("<div style='font-size:130%'>")
+      .append("CODE : <strong>" + CODE + "</strong>")
+      .append("<div>")
+      .append("</div>");
 
     return message.toString();
   }
