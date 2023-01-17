@@ -41,15 +41,10 @@ const ContainerWrapper = styled.div`
   position: relative;
 
   & > div {
-    &.nth-child(1) {
-      display: flex;
-      flex-direction: left;
-    }
-
     &:nth-child(2) {
       position: absolute;
-      top: -10%;
-      left: 15%;
+      top: -4%;
+      left: 12%;
 
       display: flex;
       justify-content: center;

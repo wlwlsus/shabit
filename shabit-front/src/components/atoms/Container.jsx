@@ -45,7 +45,7 @@ const ContainerWrapper = styled.div`
   }
 
   &.rounded {
-    border-radius: 0.5rem;
+    border-radius: 1.5rem;
   }
 
   &.shadow {
@@ -55,13 +55,13 @@ const ContainerWrapper = styled.div`
 }
 
   &.md{
-    width: 33rem;
+    width: 28rem;
     height: 25rem;
   }
 
   &.square {
-    width: 30rem;
-    height: 30rem;
+    width: 27rem;
+    height: 27rem;
   }
 `;
 

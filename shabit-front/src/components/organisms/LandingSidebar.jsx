@@ -31,11 +31,14 @@ const Sidebar = () => {
 };
 
 const SidebarWrapper = styled.div`
-  width: 30%;
+  width: 25%;
   height: 100%;
+
+  padding-bottom: 1rem;
+
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 `;
 

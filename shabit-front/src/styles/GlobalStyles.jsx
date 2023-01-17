@@ -39,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
     color: ${theme.textColor};
     font-size: 100%;
     line-height: 1.2;
+    background-color: ${theme.color.secondary};
   }
   table {
     border-collapse: collapse;
