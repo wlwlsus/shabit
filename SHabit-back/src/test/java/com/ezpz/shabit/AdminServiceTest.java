@@ -1,8 +1,8 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
-import com.ezpz.shabit.info.entity.Phrases;
-import com.ezpz.shabit.info.repository.PhrasesRepository;
+import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.repository.VodRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,39 +24,39 @@ public class AdminServiceTest {
     @InjectMocks
     private AdminServiceImpl target;
     @Mock
-    private PhrasesRepository phrasesRepository;
+    private VodRepository vodRepository;
 
     @Test
-    public void 없는_건강_문구_삭제_실패(){
+    public void 없는_영상_삭제_실패(){
         // given
-        doReturn(Optional.empty()).when(phrasesRepository).findById(any());
+        doReturn(Optional.empty()).when(vodRepository).findById(any());
 
         // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deletePhrases(phrasesIdList()));
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deleteVod(vodIdList()));
 
         // then
         assertThat(exception.getMessage()).isEqualTo("없는 문구 입니다.");
     }
 
     @Test
-    public void 건강_문구_삭제_성공(){
+    public void 영상_삭제_성공(){
         // given
-        Optional<Phrases> phrases = Optional.ofNullable(Phrases.builder().build());
-        doReturn(phrases).when(phrasesRepository).findById(any());
+        Optional<Vod> vod = Optional.ofNullable(Vod.builder().build());
+        doReturn(vod).when(vodRepository).findById(any());
 
         // when
-        int res = target.deletePhrases(phrasesIdList());
+        int res = target.deleteVod(vodIdList());
 
         // then
         assertThat(res).isEqualTo(3);
     }
 
-    private List<Integer> phrasesIdList() {
-        List<Integer> phrasesIdList = new ArrayList<>();
+    private List<Integer> vodIdList() {
+        List<Integer> vodIdList = new ArrayList<>();
         for(int i=0; i<3; i++){
-            phrasesIdList.add(i+1);
+            vodIdList.add(i+1);
         }
-        return phrasesIdList;
+        return vodIdList;
     }
 
 }

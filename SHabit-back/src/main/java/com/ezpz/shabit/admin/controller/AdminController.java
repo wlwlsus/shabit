@@ -20,17 +20,17 @@ public class AdminController {
 
     private final AdminServiceImpl adminService;
 
-    @DeleteMapping("/phrase")
-    ResponseEntity<?> deletePhrases(@RequestBody List<Integer> phrasesIdList) {
+    @DeleteMapping("/vods")
+    ResponseEntity<?> deleteVod(@RequestBody List<Integer> vodIdList) {
         int res = 0;
         try{
-            res = adminService.deletePhrases(phrasesIdList);
+            res = adminService.deleteVod(vodIdList);
         } catch (Exception e){
             log.info(e.getMessage());
         }
 
-        if(res == 0) return Response.notFound("문구 삭제를 실패하였습니다.");
-        return Response.ok("문구 삭제를 성공하였습니다.");
+        if(res == 0) return Response.notFound("영상 삭제에 실패하였습니다.");
+        return Response.ok("영상 삭제에 성공하였습니다.");
     }
 
 }

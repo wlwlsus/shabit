@@ -42,15 +42,15 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    public void 없는_건강_문구_삭제_실패() throws Exception {
+    public void 없는_영상_삭제_실패() throws Exception {
         // given
-        List<Integer> list = phrasesIdList();
+        List<Integer> list = vodIdList();
         doReturn(0).when(adminService)
-                .deletePhrases(list);
+                .deleteVod(list);
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/phrase")
+                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
                         .content(gson.toJson(list))
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -64,15 +64,15 @@ public class AdminControllerTest {
     }
 
     @Test
-    void 건강_문구_삭제_성공() throws Exception{
+    void 영상_삭제_성공() throws Exception{
         // given
-        List<Integer> list = phrasesIdList();
+        List<Integer> list = vodIdList();
         doReturn(3).when(adminService)
-                .deletePhrases(list);
+                .deleteVod(list);
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/phrase")
+                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
                         .content(gson.toJson(list))
                         .contentType(MediaType.APPLICATION_JSON)
         );
@@ -85,12 +85,12 @@ public class AdminControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    private List<Integer> phrasesIdList() {
-        List<Integer> phrasesIdList = new ArrayList<>();
+    private List<Integer> vodIdList() {
+        List<Integer> vodIdList = new ArrayList<>();
         for(int i=0; i<3; i++){
-            phrasesIdList.add(i+1);
+            vodIdList.add(i+1);
         }
-        return phrasesIdList;
+        return vodIdList;
     }
 
 }
