@@ -28,7 +28,11 @@ public class User extends BaseTimeEntity {
   @Column(name = "password", nullable = false)
   private String password;
 
+  @Column(name = "thema", nullable = false)
+  private int thema;
+
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
   private Image image;
+
 }

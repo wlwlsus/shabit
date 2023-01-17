@@ -17,14 +17,9 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
 
   @Override
-  @Transactional
-  public void updatePassword(String email, String password) throws Exception {
-    log.info("email : {}, password : {}", email, password);
+  public void changeThema(String email, int thema) throws Exception {
     User user = userRepository.findByEmail(email).orElseThrow();
-    log.info("before user : {}", user);
-
-    user.setPassword(password);
+    user.setThema(thema);
     userRepository.save(user);
-    log.info("after user : {}", user);
   }
 }
