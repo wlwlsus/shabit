@@ -55,8 +55,11 @@ public class StatisticsServiceTest {
     public void 주간_데이터_일치하는_이메일_없음(){
         int page = -1;
 
-        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
-        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusDays(page*(-7));
+        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusWeeks(page*(-1));
+        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusWeeks(page*(-1));
+
+        System.out.println(weekStart);
+        System.out.println(weekEnd);
 
         // given
         doReturn(null).when(userRepository)
@@ -66,15 +69,15 @@ public class StatisticsServiceTest {
         final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getWeeklyData("kosy1782", page));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"com.ezpz.shabit.user.entity.User.getEmail()\" because \"user\" is null");
+        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"com.ezpz.shabit.user.entity.Users.getEmail()\" because \"user\" is null");
     }
 
     @Test
     public void 주간_데이터_가져오기_성공(){
         int page = -1;
 
-        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
-        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusDays(page*(-7));
+        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusWeeks(page*(-1));
+        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusWeeks(page*(-1));
 
         // given
         doReturn(Users.builder().email(email).build()).when(userRepository)

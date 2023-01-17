@@ -1,5 +1,6 @@
 package com.ezpz.shabit.statistics.controller;
 
+import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.util.Response;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,7 +31,13 @@ public class StatisticsController {
         }
 
         if(data == null) return Response.notFound("주간 데이터 요청 실패");
-        return Response.makeResponse(HttpStatus.OK, "주간 데이터 가져오기 성공", data.size(), data);
+
+        List<StatisticsSimpleResDto> resData = new ArrayList<>();
+        data.forEach(d -> resData.add(StatisticsSimpleResDto.builder()
+                .date(d.getDate())
+                .time(d.getTime())
+                .posture(d.getPosture().getName()).build()));
+        return Response.makeResponse(HttpStatus.OK, "주간 데이터 가져오기 성공", resData.size(), resData);
     }
 
 }
