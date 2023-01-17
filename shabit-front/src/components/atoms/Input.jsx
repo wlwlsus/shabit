@@ -29,8 +29,9 @@ Input.defaultProps = {
 
 const InputWrapper = styled.input`
   display: inline-block;
+  padding: 0.7rem;
 
-  $.shadow {
+  &.shadow {
     box-shadow: 0.2rem 0.2rem 0.2rem ${({ theme }) => theme.color.shadowColor};
   }
 `;
