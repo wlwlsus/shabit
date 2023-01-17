@@ -2,18 +2,28 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update # jpa DB table update
-    generate-ddl: false # db ??? ?? ?
-    show-sql: true # ??? sql ??
-  # mariaDB Setting
+      ddl-auto: create-drop # jpa DB table update
+    generate-ddl: false # db 초기화 설정 끔
+    show-sql: true # 사용된 sql 보임
+    # h2 설정
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/ssafy
-    username: easypeasy
-    password: lemon
+    # test h2db setting
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: h2test
+    password: h2test
+    # mariaDB Setting
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    url: jdbc:mariadb://localhost:3306/ssafy
+#    username: easypeasy
+#    password: lemon
 
 # Hibernate loggin
 logging:
   level:
     org:
       Hibernate: info
+

@@ -1,7 +1,8 @@
 package com.ezpz.shabit.user.repository;
 
-import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<Users, Long> {
+    Users findByEmail(String email);
 }

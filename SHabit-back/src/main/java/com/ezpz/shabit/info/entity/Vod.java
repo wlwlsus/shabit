@@ -24,4 +24,7 @@ public class Vod {
 
     @Column(name = "url", nullable = false)
     private String url;
+
+    @Column(name = "length", nullable = false)
+    private int length;
 }

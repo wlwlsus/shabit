@@ -9,12 +9,12 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="setting")
+@Table(name="phrases")
 public class Phrases {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phrasesId;
 
     @Column(name = "content", nullable = false)
-    private int content;
+    private String content;
 }
