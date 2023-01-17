@@ -23,7 +23,7 @@ public class AdminController {
     private final AdminServiceImpl adminService;
 
     @GetMapping("/phrase")
-    ResponseEntity<?> insertPhrases() {
+    ResponseEntity<?> getPhrasesList() {
         List<Phrases> data = null;
         try{
             data = adminService.getPhrasesList();
