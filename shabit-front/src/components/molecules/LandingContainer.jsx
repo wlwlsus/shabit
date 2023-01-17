@@ -2,11 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import Container from '../atoms/Container';
 
-const LandingContainer = () => {
+const LandingContainer = ({ children1, children2 }) => {
   return (
     <ContainerWrapper>
-      <Container shadow={'shadow'} border={'rounded'} size={'lg'}>
-        <Container bg={'primary'} size={'square'} />
+      {children1}
+      <Container
+        shadow={'shadow'}
+        border={'rounded'}
+        size={'lg'}
+        className="container"
+      >
+        <Container bg={'primary'} size={'square'} shadow={'shadow'}>
+          {children2}
+        </Container>
       </Container>
     </ContainerWrapper>
   );
@@ -18,6 +26,16 @@ const ContainerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  & > div {
+    position: relative;
+
+    & > div {
+      position: absolute;
+      top: -10%;
+      left: 15%;
+    }
+  }
 `;
 
 export default LandingContainer;

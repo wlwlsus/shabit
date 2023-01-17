@@ -49,17 +49,18 @@ const ContainerWrapper = styled.div`
   }
 
   &.shadow {
-    box-shadow: 0.3rem 0.3rem 0.3rem ${({ theme }) => theme.color.shadowColor};
+    box-shadow: 0rem 0.5rem 1rem ${({ theme }) => theme.color.shadowColor},
+      0rem 0.5rem 0.5rem ${({ theme }) => theme.color.shadowColor};
   }
 
   &.lg {
-    width: 70rem;
-    height: 30rem;
+    width: 65rem;
+    height: 25rem;
   }
 
   &.square {
-    width: 35rem;
-    height: 35rem;
+    width: 30rem;
+    height: 30rem;
   }
 `;
 
