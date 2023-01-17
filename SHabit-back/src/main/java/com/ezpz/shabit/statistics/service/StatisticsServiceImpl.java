@@ -22,14 +22,16 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final StatisticsRepository statisticsRepository;
 
     @Override
-    public List<Statistics> getWeeklyData(String email, int page) {
+    public List<Statistics> getMonthlyData(String email, int page) {
         Users user = userRepository.findByEmail(email);
 
         LocalDate today = now();
-        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
-        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusDays(page*(-7));
+        LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
+        monthStart = monthStart.minusMonths((-1)*page);
 
-        return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), weekStart, weekEnd);
+        LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
+
+        return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), monthStart, monthEnd);
     }
 
 }

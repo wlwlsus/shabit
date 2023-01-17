@@ -52,46 +52,52 @@ public class StatisticsServiceTest {
             .build();
 
     @Test
-    public void 주간_데이터_일치하는_이메일_없음(){
+    public void 월간_데이터_일치하는_이메일_없음(){
         int page = -1;
 
-        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
-        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusDays(page*(-7));
+        LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
+        monthStart = monthStart.minusMonths((-1)*page);
+
+        LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
 
         // given
         doReturn(null).when(userRepository)
                 .findByEmail("kosy1782");
 
         // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getWeeklyData("kosy1782", page));
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getMonthlyData("kosy1782", page));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"com.ezpz.shabit.user.entity.User.getEmail()\" because \"user\" is null");
+        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"com.ezpz.shabit.user.entity.Users.getEmail()\" because \"user\" is null");
     }
 
     @Test
-    public void 주간_데이터_가져오기_성공(){
+    public void 월간_데이터_가져오기_성공(){
         int page = -1;
 
-        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
-        LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusDays(page*(-7));
+        LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
+        monthStart = monthStart.minusMonths((-1)*page);
+
+        LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
+
 
         // given
         doReturn(Users.builder().email(email).build()).when(userRepository)
                 .findByEmail(email);
         doReturn(statisticsList()).when(statisticsRepository)
-                .findByUserEmailAndDateBetweenOrderByDateAsc(email, weekStart, weekEnd);
+                .findByUserEmailAndDateBetweenOrderByDateAsc(email, monthStart, monthEnd);
 
         // when
-        final List<Statistics> data = target.getWeeklyData(email, page);
+        final List<Statistics> data = target.getMonthlyData(email, page);
 
         // then
-        assertThat(data.size()).isEqualTo(3);
+        assertThat(data.size()).isEqualTo(13);
     }
 
     private List<Statistics> statisticsList() {
         List<Statistics> statisticsList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 30; i++) {
+            if(now().minusDays(i).getMonthValue() != 12) continue;
             statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
         }
         return statisticsList;

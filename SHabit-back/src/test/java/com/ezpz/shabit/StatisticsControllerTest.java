@@ -63,12 +63,12 @@ public class StatisticsControllerTest {
     String email = "kosy1782@gmail.com";
 
     @Test
-    public void 주간_데이터_일치하는_이메일_없음() throws Exception {
+    public void 월간_데이터_일치하는_이메일_없음() throws Exception {
         // given
-        final String url = "/api/v1/statistics/weekly/{email}";
-        // StatisticsService getWeeklyData에 대한 stub필요
+        final String url = "/api/v1/statistics/monthly/{email}";
+        // StatisticsService getMonthlyData에 대한 stub필요
         doThrow(new NullPointerException()).when(statisticsService)
-                .getWeeklyData("kosy1782", -1);
+                .getMonthlyData("kosy1782", -1);
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -83,12 +83,12 @@ public class StatisticsControllerTest {
     }
 
     @Test
-    public void 주간_데이터_가져오기_성공() throws Exception {
+    public void 월간_데이터_가져오기_성공() throws Exception {
         // given
-        final String url = "/api/v1/statistics/weekly/{email}";
-        // StatisticsService getWeeklyData에 대한 stub필요
+        final String url = "/api/v1/statistics/monthly/{email}";
+        // StatisticsService getMonthlyData에 대한 stub필요
         doReturn(statisticsList()).when(statisticsService)
-                .getWeeklyData(email, -1);
+                .getMonthlyData(email, -1);
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -106,6 +106,7 @@ public class StatisticsControllerTest {
     private List<Statistics> statisticsList() {
         List<Statistics> statisticsList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
+            if(now().minusDays(i).getMonthValue() != 12) continue;
             statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
         }
         return statisticsList;
