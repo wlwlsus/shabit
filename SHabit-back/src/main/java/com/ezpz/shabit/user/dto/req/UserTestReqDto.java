@@ -52,4 +52,15 @@ public class UserTestReqDto {
 		}
 	}
 
+	@Getter
+	@Setter
+	public static class Logout {
+		@NotEmpty(message = "잘못된 요청입니다.")
+		@Schema(description = "액세스 토큰", example = "ey...")
+		private String accessToken;
+
+		@NotEmpty(message = "잘못된 요청입니다.")
+		@Schema(description = "리프레쉬 토큰", example = "ey...")
+		private String refreshToken;
+	}
 }

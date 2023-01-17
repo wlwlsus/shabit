@@ -75,4 +75,28 @@ public class UserServiceImpl implements UserService {
 
 		return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
 	}
+
+	public ResponseEntity<?> logout(UserTestReqDto.Logout logout) {
+		// 1. Access Token 검증
+		if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
+			return Response.badRequest("잘못된 요청입니다.");
+		}
+
+		// 2. Access Token 에서 User email 을 가져옵니다.
+		Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
+
+		// 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
+		if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
+			// Refresh Token 삭제
+			redisTemplate.delete("RT:" + authentication.getName());
+		}
+
+		// 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
+		Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
+		redisTemplate.opsForValue()
+						.set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+
+		return Response.ok("로그아웃 되었습니다.");
+	}
+
 }

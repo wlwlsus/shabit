@@ -8,4 +8,8 @@ public interface UserService {
     ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
     ResponseEntity<?> login(UserTestReqDto.Login login);
+
+    ResponseEntity<?> logout(UserTestReqDto.Logout logout);
+
+
 }
