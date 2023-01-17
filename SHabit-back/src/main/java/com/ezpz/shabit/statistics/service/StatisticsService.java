@@ -1,9 +1,9 @@
 package com.ezpz.shabit.statistics.service;
 
-import com.ezpz.shabit.statistics.entity.Statistics;
+import com.ezpz.shabit.statistics.entity.Daily;
 
 import java.util.List;
 
 public interface StatisticsService {
-    List<Statistics> getWeeklyData(String email, int page);
+    List<Daily> getTodayData(String email);
 }

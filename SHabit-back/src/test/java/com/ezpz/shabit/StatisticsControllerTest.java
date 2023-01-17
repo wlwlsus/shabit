@@ -1,6 +1,7 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.statistics.controller.StatisticsController;
+import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,17 +65,16 @@ public class StatisticsControllerTest {
     String email = "kosy1782@gmail.com";
 
     @Test
-    public void 주간_데이터_일치하는_이메일_없음() throws Exception {
+    public void 오늘_데이터_일치하는_이메일_없음() throws Exception {
         // given
-        final String url = "/api/v1/statistics/weekly/{email}";
-        // StatisticsService getWeeklyData에 대한 stub필요
+        final String url = "/api/v1/statistics/today/{email}";
+        // StatisticsService getTodayData에 대한 stub필요
         doThrow(new NullPointerException()).when(statisticsService)
-                .getWeeklyData("kosy1782", -1);
+                .getTodayData("kosy1782");
 
         // when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url, "kosy1782")
-                        .queryParam("page", "-1")
                         .contentType(MediaType.APPLICATION_JSON)
         );
 
@@ -83,17 +84,16 @@ public class StatisticsControllerTest {
     }
 
     @Test
-    public void 주간_데이터_가져오기_성공() throws Exception {
+    public void 오늘_데이터_가져오기_성공() throws Exception {
         // given
-        final String url = "/api/v1/statistics/weekly/{email}";
-        // StatisticsService getWeeklyData에 대한 stub필요
-        doReturn(statisticsList()).when(statisticsService)
-                .getWeeklyData(email, -1);
+        final String url = "/api/v1/statistics/today/{email}";
+        // StatisticsService getTodayData에 대한 stub필요
+        doReturn(dailyList()).when(statisticsService)
+                .getTodayData(email);
 
         // when
         final ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(url, email)
-                        .queryParam("page", "-1")
                         .contentType(MediaType.APPLICATION_JSON)
         );
 
@@ -103,11 +103,16 @@ public class StatisticsControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    private List<Statistics> statisticsList() {
-        List<Statistics> statisticsList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
+    private List<Daily> dailyList() {
+        List<Daily> dailyList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            dailyList.add(Daily.builder()
+                    .user(user)
+                    .posture(posture)
+                    .startTime(LocalDateTime.now().minusHours(i+2))
+                    .endTime(LocalDateTime.now().minusHours(i))
+                    .build());
         }
-        return statisticsList;
+        return dailyList;
     }
 }
