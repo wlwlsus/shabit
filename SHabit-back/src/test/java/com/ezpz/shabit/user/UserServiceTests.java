@@ -26,30 +26,19 @@ public class UserServiceTests {
   @Autowired
   private MockMvc mockMvc;
   @Autowired
+  private UserService userService;
+  @Autowired
   private EmailService emailService;
 
   @Test
-  @DisplayName("이메일 인증 Success Test")
-  public void certifyEmailSuccessTest() throws Exception {
+  @DisplayName("임시 비밀번호 발급 Success Test")
+  public void findPasswordSuccess() {
     // given
-    String email = "dnzma13@naver.com";
-    // when
-    String code = emailService.sendCertificationEmail(email);
-    //then
-    assertThat(code).isNotEmpty();
-  }
 
-  @Test
-  @DisplayName("이메일 인증 API Test")
-  public void certifyEmailSuccessAPITest() throws Exception {
-    // given
-    String url = "/api/v1/email/dnzma13@naver.com";
     // when
-    mockMvc.perform(MockMvcRequestBuilders.get(url)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .characterEncoding("UTF-8"))
-            // then
-            .andExpect(status().isOk());
+
+    // then
+
   }
 
 }

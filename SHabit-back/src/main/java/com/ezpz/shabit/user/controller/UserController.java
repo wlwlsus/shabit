@@ -8,31 +8,35 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/")
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
-
   private final EmailService emailService;
+  private final UserService userService;
 
-  // 이메일 인증 API
-  @GetMapping("email/{email}")
-  public ResponseEntity<?> certifyEmail(@PathVariable String email) {
-    log.info("send email : {}", email);
+  @PutMapping("user/{email}")
+  public ResponseEntity<?> findPassword(@PathVariable String email) {
+    log.info("input email : {}", email);
     try {
-      String code = emailService.sendCertificationEmail(email);
-      log.info("code : {}", code);
-
-      return Response.makeResponse(HttpStatus.OK, "이메일 전송 성공", 1, code);
+      String password = emailService.sendFindPasswordEmail(email);
+      if (password.length() == 0) {
+        return Response.makeResponse(HttpStatus.INTERNAL_SERVER_ERROR, "임시 비밀번호 발급 실패");
+      } else {
+        userService.updatePassword(email, password);
+      }
+      return Response.makeResponse(HttpStatus.OK, "임시 비밀번호 발급 완료");
+    } catch (NoSuchElementException s) {
+      log.info(s.getMessage());
+      return Response.noContent("존재하지 않는 이메일 입니다.");
     } catch (Exception e) {
-      log.error(e.getMessage());
-      return Response.badRequest("이메일 전송 실패");
+      log.info(e.getMessage());
+      return Response.makeResponse(HttpStatus.NOT_FOUND, "잘못된 데이터입니다.");
     }
   }
 

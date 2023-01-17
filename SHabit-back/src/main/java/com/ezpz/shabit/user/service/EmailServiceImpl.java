@@ -13,38 +13,35 @@ import java.util.Random;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-  JavaMailSender emailSender;
-  public static final int CODE_LENGTH = 10;
-  public static final String CODE = createdCode(CODE_LENGTH);
-
-  @Autowired
-  public EmailServiceImpl(JavaMailSender emailSender) {
-    this.emailSender = emailSender;
-  }
+  private final JavaMailSender mailSender;
+  private final int CODE_LENGTH = 8;
+  private final String CODE = createdCode(CODE_LENGTH);
 
   @Override
-  public String sendCertificationEmail(String email) throws Exception {
-    MimeMessage message = emailSender.createMimeMessage();
+  public String sendFindPasswordEmail(String email) throws Exception {
+    MimeMessage message = mailSender.createMimeMessage();
 
     message.setFrom("dnzma13@naver.com");
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-    message.setSubject("SHabit 회원가입 인증 메일");
-    message.setText(createCertificationEmail(), "UTF-8", "html");
-    log.info("CODE : {}", CODE);
-
-    emailSender.send(message);
-
+    message.setSubject("SHabit 임시 비밀번호 발급 메일");
+    message.setText(createFindPasswordEmail(), "UTF-8", "html");
+    try {
+      mailSender.send(message);
+    } catch (Exception e) {
+      return "";
+    }
     return CODE;
   }
 
-  private String createCertificationEmail() {
+  private String createFindPasswordEmail() {
     StringBuilder message = new StringBuilder();
 
     message.append("<div style='margin:20px;'>")
-            .append("<p>안녕하세요. SHabit 회원가입 인증 메일입니다.</p>")
-            .append("<p>아래 코드를 복사해 입력해주세요.</p>")
+            .append("<p>안녕하세요. SHabit 임시 비밀번호 발급 메일입니다.</p>")
+            .append("<p>임시 비밀번호로 로그인 해주세요.</p>")
             .append("<p>감사합니다.</p>")
             .append("<br>")
             .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
@@ -78,4 +75,5 @@ public class EmailServiceImpl implements EmailService {
     return key.toString();
 
   }
+
 }
