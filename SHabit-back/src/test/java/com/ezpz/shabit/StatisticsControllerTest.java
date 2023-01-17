@@ -1,9 +1,8 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.statistics.controller.StatisticsController;
-import com.ezpz.shabit.statistics.entity.Daily;
+import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.entity.Posture;
-import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.user.entity.Users;
 import com.google.gson.Gson;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,12 +52,7 @@ public class StatisticsControllerTest {
             .password("1234")
             .image(null)
             .build();
-    final Statistics statistic = Statistics.builder()
-            .user(user)
-            .posture(posture)
-            .time(30)
-            .date(now())
-            .build();
+
     @Mock
     private StatisticsServiceImpl statisticsService;
     String email = "kosy1782@gmail.com";
@@ -67,10 +60,10 @@ public class StatisticsControllerTest {
     @Test
     public void 오늘_데이터_일치하는_이메일_없음() throws Exception {
         // given
-        final String url = "/api/v1/statistics/today/{email}";
+        final String url = "/api/v1/statistics/grass/{email}";
         // StatisticsService getTodayData에 대한 stub필요
         doThrow(new NullPointerException()).when(statisticsService)
-                .getTodayData("kosy1782");
+                .getGrassData("kosy1782");
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -86,10 +79,10 @@ public class StatisticsControllerTest {
     @Test
     public void 오늘_데이터_가져오기_성공() throws Exception {
         // given
-        final String url = "/api/v1/statistics/today/{email}";
+        final String url = "/api/v1/statistics/grass/{email}";
         // StatisticsService getTodayData에 대한 stub필요
-        doReturn(dailyList()).when(statisticsService)
-                .getTodayData(email);
+        doReturn(grassList()).when(statisticsService)
+                .getGrassData(email);
 
         // when
         final ResultActions resultActions = mockMvc.perform(
@@ -103,16 +96,16 @@ public class StatisticsControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    private List<Daily> dailyList() {
-        List<Daily> dailyList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            dailyList.add(Daily.builder()
+    private List<Grass> grassList() {
+        List<Grass> grassList = new ArrayList<>();
+        for(int i=29; i>=0; i--){
+            grassList.add(Grass.builder()
                     .user(user)
-                    .posture(posture)
-                    .startTime(LocalDateTime.now().minusHours(i+2))
-                    .endTime(LocalDateTime.now().minusHours(i))
+                    .date(now().minusDays(i))
+                    .percentage(i*10)
                     .build());
         }
-        return dailyList;
+        return grassList;
     }
+
 }
