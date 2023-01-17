@@ -1,9 +1,7 @@
 package com.ezpz.shabit.admin.service;
 
-import com.ezpz.shabit.info.entity.Vod;
-
-import java.util.List;
+import com.ezpz.shabit.info.dto.req.VodReqDto;
 
 public interface AdminService {
-    List<Vod> getVodList();
+    int insertVod(VodReqDto req);
 }

@@ -2,7 +2,7 @@ package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
-import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,15 +10,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,37 +41,44 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    void 영상_목록_조회_성공() throws Exception{
+    public void 영상_중복() throws Exception {
         // given
-        // findAll에 대한 stub필요
-        doReturn(vodList()).when(adminService)
-                .getVodList();
+        final String url = "/api/v1/admin/vods";
+        VodReqDto req = VodReqDto.builder().url("test url").build();
+        doReturn(0).when(adminService)
+                .insertVod(any(VodReqDto.class));
 
         // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/v1/admin/vods")
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .content(new Gson().toJson(req))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 NotFound인지 확인
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void 영상_추가_성공() throws Exception {
+        // given
+        final String url = "/api/v1/admin/vods";
+        VodReqDto req = VodReqDto.builder().url("test url").build();
+        doReturn(1).when(adminService)
+                .insertVod(any(VodReqDto.class));
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(req))
         );
 
         // then
         // HTTP Status가 OK인지 확인
         MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
-
-        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
         System.out.println(mvcResult.getResponse().getContentAsString());
-    }
-
-    private List<Vod> vodList() {
-        List<Vod> vodList = new ArrayList<>();
-        for(int i=0; i<3; i++){
-            vodList.add(Vod.builder()
-                    .vodId(1L)
-                    .url("test url")
-                    .length(3)
-                    .name("test title")
-                    .category("거북")
-                    .build());
-        }
-        return vodList;
     }
 
 }

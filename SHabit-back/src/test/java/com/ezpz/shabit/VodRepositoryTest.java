@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest // JPA Repository들에 대한 빈들을 등록하여 단위 테스트의 작성을 용이하게 함
@@ -18,9 +16,10 @@ public class VodRepositoryTest {
     @Autowired
     private VodRepository vodRepository;
 
+
     @Test
-    public void 영상_목록_조회_성공(){
-        // given
+    public void 영상_중복(){
+        //given
         Vod vod = Vod.builder()
                 .vodId(1L)
                 .url("test url")
@@ -30,12 +29,34 @@ public class VodRepositoryTest {
                 .build();
         vodRepository.save(vod);
 
-        // when
-        List<Vod> vodList = vodRepository.findAll();
+        //when
+        Vod foundVod = vodRepository.findByUrl(vod.getUrl());
 
         //then
-        assertThat(vodList.size()).isEqualTo(1);
+        assertThat(foundVod).isNotNull();
     }
+
+    @Test
+    public void 영상_추가_성공(){
+        // given
+        Vod vod = Vod.builder()
+                .vodId(1L)
+                .url("test url")
+                .length(3)
+                .name("test title")
+                .category("거북")
+                .build();
+
+        // when
+        Vod savedVod = vodRepository.save(vod);
+
+        //then
+        assertThat(savedVod.getCategory()).isEqualTo(vod.getCategory());
+        assertThat(savedVod.getUrl()).isEqualTo(vod.getUrl());
+        assertThat(savedVod.getName()).isEqualTo(vod.getName());
+        assertThat(savedVod.getLength()).isEqualTo(vod.getLength());
+    }
+
 
 
 
