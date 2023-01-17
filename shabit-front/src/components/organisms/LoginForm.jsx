@@ -9,12 +9,15 @@ const LoginForm = () => {
   return (
     <FormWrapper>
       <Label text={'SHabit에 로그인하고 서비스를 이용해보세요'} />
+
       <Input placeholder={'아이디'} shadow={'shadow'} />
       <Input placeholder={'비밀번호'} shadow={'shadow'} />
+
       <Checkbox>
         <Input role={'checkbox'} />
         <Label text={'자동 로그인'} />
       </Checkbox>
+
       <Label text={'비밀번호를 잊으셨나요?'} />
 
       <ArrowBtn size={'lg'} />
@@ -39,4 +42,5 @@ const FormWrapper = styled.div`
 const Checkbox = styled.div``;
 
 const Signup = styled.div``;
+
 export default LoginForm;

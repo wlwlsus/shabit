@@ -1,20 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import Label from '../atoms/Label';
+import Button from '../atoms/Button';
 
 import { HiArrowRightCircle } from 'react-icons/hi2';
 
 const ArrowBtn = ({ size }) => {
-  return <Label icon={<HiArrowRightCircle />} size={size} />;
-};
-
-ArrowBtn.propTypes = {
-  size: PropTypes.oneOf(['sm', 'md', 'lg']),
-};
-
-ArrowBtn.defaultProps = {
-  size: 'sm',
+  console.log(size);
+  return <Button icon={<HiArrowRightCircle />} size={size} />;
 };
 
 export default ArrowBtn;
