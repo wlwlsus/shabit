@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="" />
+    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsListDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsRepositoryTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +64,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="feat/#70" />
+        <entry key="$PROJECT_DIR$/.." value="feat/#5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -119,22 +123,7 @@
       <recent name="com.ezpz.shabit.vod.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.StatisticsControllerTest.주간_데이터_일치하는_이메일_없음">
-    <configuration name="StatisticsControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.StatisticsRepositoryTest.findByUserEmailAndDateBetweenOrderByAsc_성공">
     <configuration name="StatisticsControllerTest.주간_데이터_일치하는_이메일_없음" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
@@ -162,6 +151,22 @@
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsRepositoryTest" />
       <option name="METHOD_NAME" value="주간_데이터_일치하는_이메일_없음" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StatisticsRepositoryTest.findByUserEmailAndDateBetweenOrderByAsc_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsRepositoryTest" />
+      <option name="METHOD_NAME" value="findByUserEmailAndDateBetweenOrderByAsc_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -207,11 +212,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StatisticsControllerTest.주간_데이터_일치하는_이메일_없음" />
+        <item itemvalue="JUnit.StatisticsRepositoryTest.findByUserEmailAndDateBetweenOrderByAsc_성공" />
         <item itemvalue="JUnit.StatisticsServiceTest.주간_데이터_일치하는_이메일_없음" />
         <item itemvalue="JUnit.StatisticsServiceTest" />
         <item itemvalue="JUnit.StatisticsRepositoryTest.주간_데이터_일치하는_이메일_없음" />
-        <item itemvalue="JUnit.StatisticsControllerTest" />
+        <item itemvalue="JUnit.StatisticsControllerTest.주간_데이터_일치하는_이메일_없음" />
       </list>
     </recent_temporary>
   </component>
@@ -230,7 +235,7 @@
       <workItem from="1673827295754" duration="8025000" />
       <workItem from="1673838991293" duration="8807000" />
       <workItem from="1673849824436" duration="4152000" />
-      <workItem from="1673853989946" duration="12032000" />
+      <workItem from="1673853989946" duration="13088000" />
     </task>
     <servers />
   </component>
