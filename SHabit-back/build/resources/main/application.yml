@@ -2,7 +2,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update # jpa DB table update
+      ddl-auto: create-drop # jpa DB table update
     generate-ddl: false # db 초기화 설정 끔
     show-sql: true # 사용된 sql 보임
   datasource:

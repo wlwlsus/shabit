@@ -31,8 +31,9 @@ public class WebSecurityConfig {
 						.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 						.and()
 						.authorizeHttpRequests()
-						.requestMatchers("/**").permitAll()
-//						.requestMatchers("/api/v1/user/sign-up", "/api/v1/user/login", "/api/v1/user/authority", "/api/v1/user/reissue", "/api/v1/user/logout").permitAll()
+//						.requestMatchers("/**").permitAll()
+						.requestMatchers("/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/swagger-ui/**", "/v3/api" +
+										"-docs/**").permitAll()
 						.and()
 						.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
 		// JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.

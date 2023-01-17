@@ -63,11 +63,16 @@ public class UserServiceImpl implements UserService {
 
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-		UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+		UserTestResDto.UserInfo userInfo = jwtTokenProvider.generateToken(authentication);
+
+		User user = userRepository.findUserByEmail(login.getEmail());
+		UserTestResDto.LoginUserRes loginUserRes =
+						UserTestResDto.LoginUserRes.builder().email(user.getEmail()).nickname(user.getNickname()).color(user.getColor()).image(user.getImage()).build();
+		userInfo.setUser(loginUserRes);
 
 		redisTemplate.opsForValue()
-						.set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+						.set("RT:" + authentication.getName(), userInfo.getRefreshToken(), userInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
-		return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, tokenInfo);
+		return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
 	}
 }

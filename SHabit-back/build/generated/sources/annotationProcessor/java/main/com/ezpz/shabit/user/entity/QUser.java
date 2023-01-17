@@ -24,6 +24,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final com.ezpz.shabit.util.QBaseTimeEntity _super = new com.ezpz.shabit.util.QBaseTimeEntity(this);
 
+    public final StringPath color = createString("color");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
