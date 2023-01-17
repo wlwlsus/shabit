@@ -37,6 +37,8 @@ const UpadtingDonut = ({ jsonData, day }) => {
       type: 'donut',
     },
     dataLabels: {
+      //라벨 가운데로 보내기
+      //https://stackoverflow.com/questions/73834342/how-to-customize-label-unit-on-apexchart-radialbar?rq=1
       enabled: false,
     },
     labels: labels,
