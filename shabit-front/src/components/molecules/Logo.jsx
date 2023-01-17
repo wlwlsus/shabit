@@ -22,7 +22,7 @@ const LogoWrapper = styled.img`
   display: inline-block;
   margin: 3rem;
   &.sm {
-    width: 3rem;
+    width: 4rem;
   }
 
   &.lg {

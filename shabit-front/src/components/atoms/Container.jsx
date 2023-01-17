@@ -16,7 +16,7 @@ const Container = ({ size, bg, border, shadow, onClick, children }) => {
 };
 
 Container.propTypes = {
-  size: PropTypes.oneOf(['lg', 'square']).isRequired,
+  size: PropTypes.oneOf(['md', 'square']).isRequired,
   bg: PropTypes.oneOf(['primary', 'secondary']),
   border: PropTypes.oneOf(['rounded']),
   shadow: PropTypes.oneOf(['shadow']),
@@ -52,9 +52,10 @@ const ContainerWrapper = styled.div`
     box-shadow: 0rem 0.5rem 1rem ${({ theme }) => theme.color.shadowColor},
       0rem 0.5rem 0.5rem ${({ theme }) => theme.color.shadowColor};
   }
+}
 
-  &.lg {
-    width: 65rem;
+  &.md{
+    width: 33rem;
     height: 25rem;
   }
 

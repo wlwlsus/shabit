@@ -2,14 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Label = ({ size, text, color, background, shadow, icon }) => {
-  const backgroundClass = `bg-${background}`;
+const Label = ({ size, text, color, bg, shadow, icon }) => {
+  const bgClass = `bg-${bg}`;
 
   return (
-    <LabelWrapper
-      color={color}
-      className={`${size} ${backgroundClass} ${shadow}`}
-    >
+    <LabelWrapper color={color} className={`${size} ${bgClass} ${shadow}`}>
       {icon && <Icon>{icon}</Icon>}
       <Text>{text}</Text>
     </LabelWrapper>
@@ -17,10 +14,10 @@ const Label = ({ size, text, color, background, shadow, icon }) => {
 };
 
 Label.propTypes = {
-  size: PropTypes.oneOf(['md', 'lg']),
+  size: PropTypes.oneOf(['sm', 'md', 'lg']),
   text: PropTypes.string.isRequired,
   color: PropTypes.string,
-  background: PropTypes.oneOf(['primary', 'secondary']),
+  background: PropTypes.oneOf(['primary', 'secondary', 'white']),
   icon: PropTypes.element,
 };
 
@@ -36,7 +33,7 @@ const LabelWrapper = styled.div`
   display: inline-block;
   vertical-align: baseline;
   color: ${(props) => props.color || 'black'};
-  background-color: ${({ theme }) => theme.color.whiteColor};
+  background-color: 'none';
 
   &.bg-primary {
     background-color: ${({ theme }) => theme.color.primary};
@@ -46,12 +43,20 @@ const LabelWrapper = styled.div`
     background-color: ${({ theme }) => theme.color.secondary};
   }
 
+  &.bg-white {
+    background-color: ${({ theme }) => theme.color.whiteColor};
+  }
+
   &.shadow {
     box-shadow: 0.2rem 0.2rem 0.2rem ${({ theme }) => theme.color.shadowColor};
   }
 
+  &.sm {
+    font-size: 1rem;
+  }
+
   &.md {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   &.lg {
@@ -62,7 +67,6 @@ const LabelWrapper = styled.div`
 const Text = styled.span`
   display: inline-block;
   text-align: center;
-  flex: 1;
 `;
 
 const Icon = styled.span`
