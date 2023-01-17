@@ -22,7 +22,7 @@ public class QStatistics extends EntityPathBase<Statistics> {
 
     public static final QStatistics statistics = new QStatistics("statistics");
 
-    public final DateTimePath<java.util.Date> date = createDateTime("date", java.util.Date.class);
+    public final DatePath<java.time.LocalDate> date = createDate("date", java.time.LocalDate.class);
 
     public final QPosture posture;
 
