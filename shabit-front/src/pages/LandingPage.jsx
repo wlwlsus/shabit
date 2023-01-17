@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LandingIntro from '../components/template/LandingIntro';
+// import LandingIntro from '../components/template/LandingIntro';
+import LandingLogin from '../components/template/LandingLogin';
 
 const LandingPage = () => {
   return (
     <PageWrapper>
-      <LandingIntro />
+      {/* <LandingIntro /> */}
+      <LandingLogin />
     </PageWrapper>
   );
 };

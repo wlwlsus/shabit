@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Label = ({ size, text, color, bg, shadow, icon }) => {
+const Label = ({ size, text, color, bg, shadow, icon, onClick }) => {
   const bgClass = `bg-${bg}`;
 
   return (
@@ -19,14 +19,16 @@ Label.propTypes = {
   color: PropTypes.string,
   background: PropTypes.oneOf(['primary', 'secondary', 'white']),
   icon: PropTypes.element,
+  onClick: PropTypes.func,
 };
 
 Label.defaultProps = {
-  size: undefined,
+  size: 'sm',
   text: '',
   background: undefined,
   color: undefined,
   icon: null,
+  onClick: undefined,
 };
 
 const LabelWrapper = styled.div`
