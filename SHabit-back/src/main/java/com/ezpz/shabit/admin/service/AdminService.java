@@ -1,7 +1,9 @@
 package com.ezpz.shabit.admin.service;
 
-import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
+import com.ezpz.shabit.info.entity.Phrases;
+
+import java.util.List;
 
 public interface AdminService {
-    int insertPhrases(PhrasesReqDto req);
+    List<Phrases> getPhrasesList();
 }

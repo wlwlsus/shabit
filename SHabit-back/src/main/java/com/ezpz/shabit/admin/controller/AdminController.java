@@ -1,15 +1,18 @@
 package com.ezpz.shabit.admin.controller;
 
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
-import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/admin")
@@ -19,16 +22,20 @@ public class AdminController {
 
     private final AdminServiceImpl adminService;
 
-    @PostMapping("/phrase")
-    ResponseEntity<?> insertPhrases(@RequestBody PhrasesReqDto req) {
-        int res = 0;
+    @GetMapping("/phrase")
+    ResponseEntity<?> insertPhrases() {
+        List<Phrases> data = null;
         try{
-            res = adminService.insertPhrases(req);
+            data = adminService.getPhrasesList();
         } catch (Exception e){
             log.info(e.getMessage());
         }
 
-        if(res == 0) return Response.notFound("문구 등록을 실패하였습니다.");
-        return Response.ok("문구 등록을 성공하였습니다.");
+        if(data == null) return Response.notFound("문구 리스트 조회를 실패하였습니다");
+
+        List<String> resData = new ArrayList<>();
+        data.forEach(d -> resData.add(d.getContent()));
+        return Response.makeResponse(HttpStatus.OK, "문구 리스트 조회를 성공하였습니다", resData.size(), resData);
     }
+
 }
