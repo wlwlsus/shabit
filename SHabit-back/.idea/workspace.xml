@@ -68,7 +68,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="feat/#22" />
+        <entry key="$PROJECT_DIR$/.." value="feat/#23" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -132,8 +132,8 @@
       <recent name="com.ezpz.shabit.vod.service" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AdminControllerTest.건강_문구_목록_조회_성공">
-    <configuration name="AdminControllerTest.건강_문구_중복" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AdminControllerTest.없는_건강_문구_삭제_실패">
+    <configuration name="AdminControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -143,13 +143,28 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="METHOD_NAME" value="건강_문구_중복" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminControllerTest.없는_건강_문구_삭제_실패" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
+      <option name="METHOD_NAME" value="없는_건강_문구_삭제_실패" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminControllerTest.건강_문구_추가_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AdminServiceTest.건강_문구_삭제_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -158,24 +173,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="METHOD_NAME" value="건강_문구_추가_성공" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AdminControllerTest.건강_문구_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="METHOD_NAME" value="건강_문구_목록_조회_성공" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
+      <option name="METHOD_NAME" value="건강_문구_삭제_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -197,7 +196,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PhrasesRepositoryTest.건강_문구_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AdminServiceTest.없는_건강_문구_삭제_실패" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -206,8 +205,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.PhrasesRepositoryTest" />
-      <option name="METHOD_NAME" value="건강_문구_목록_조회_성공" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
+      <option name="METHOD_NAME" value="없는_건강_문구_삭제_실패" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -222,11 +221,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AdminControllerTest.건강_문구_목록_조회_성공" />
+        <item itemvalue="JUnit.AdminControllerTest.없는_건강_문구_삭제_실패" />
+        <item itemvalue="JUnit.AdminControllerTest" />
+        <item itemvalue="JUnit.AdminServiceTest.없는_건강_문구_삭제_실패" />
+        <item itemvalue="JUnit.AdminServiceTest.건강_문구_삭제_성공" />
         <item itemvalue="JUnit.AdminServiceTest.건강_문구_목록_조회_성공" />
-        <item itemvalue="JUnit.PhrasesRepositoryTest.건강_문구_목록_조회_성공" />
-        <item itemvalue="JUnit.AdminControllerTest.건강_문구_중복" />
-        <item itemvalue="JUnit.AdminControllerTest.건강_문구_추가_성공" />
       </list>
     </recent_temporary>
   </component>
@@ -246,7 +245,7 @@
       <workItem from="1673838991293" duration="8807000" />
       <workItem from="1673849824436" duration="4152000" />
       <workItem from="1673853989946" duration="13088000" />
-      <workItem from="1673977797163" duration="1413000" />
+      <workItem from="1673977797163" duration="5562000" />
     </task>
     <servers />
   </component>

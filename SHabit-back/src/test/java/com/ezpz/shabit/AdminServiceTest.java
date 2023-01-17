@@ -11,8 +11,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,27 +27,36 @@ public class AdminServiceTest {
     private PhrasesRepository phrasesRepository;
 
     @Test
-    public void 건강_문구_목록_조회_성공(){
+    public void 없는_건강_문구_삭제_실패(){
         // given
-        doReturn(phrasesList())
-                .when(phrasesRepository)
-                .findAll();
+        doReturn(Optional.empty()).when(phrasesRepository).findById(any());
 
         // when
-        List<Phrases> phrasesList = target.getPhrasesList();
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deletePhrases(phrasesIdList()));
 
         // then
-        assertThat(phrasesList.size()).isEqualTo(3);
+        assertThat(exception.getMessage()).isEqualTo("없는 문구 입니다.");
     }
 
-    private List<Phrases> phrasesList() {
-        List<Phrases> phrasesList = new ArrayList<>();
+    @Test
+    public void 건강_문구_삭제_성공(){
+        // given
+        Optional<Phrases> phrases = Optional.ofNullable(Phrases.builder().build());
+        doReturn(phrases).when(phrasesRepository).findById(any());
+
+        // when
+        int res = target.deletePhrases(phrasesIdList());
+
+        // then
+        assertThat(res).isEqualTo(3);
+    }
+
+    private List<Integer> phrasesIdList() {
+        List<Integer> phrasesIdList = new ArrayList<>();
         for(int i=0; i<3; i++){
-            phrasesList.add(Phrases.builder()
-                            .content("허리피세여" + Integer.toString(i))
-                    .build());
+            phrasesIdList.add(i+1);
         }
-        return phrasesList;
+        return phrasesIdList;
     }
 
 }

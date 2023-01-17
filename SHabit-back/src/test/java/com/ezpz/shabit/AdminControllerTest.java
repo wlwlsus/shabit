@@ -2,7 +2,6 @@ package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
-import com.ezpz.shabit.info.entity.Phrases;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -42,15 +42,39 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    void 건강_문구_목록_조회_성공() throws Exception{
+    public void 없는_건강_문구_삭제_실패() throws Exception {
         // given
-        // findAll에 대한 stub필요
-        doReturn(phrasesList()).when(adminService)
-                .getPhrasesList();
+        List<Integer> list = phrasesIdList();
+        doReturn(0).when(adminService)
+                .deletePhrases(list);
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/v1/admin/phrase")
+                MockMvcRequestBuilders.delete("/api/v1/admin/phrase")
+                        .content(gson.toJson(list))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
+
+        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void 건강_문구_삭제_성공() throws Exception{
+        // given
+        List<Integer> list = phrasesIdList();
+        doReturn(3).when(adminService)
+                .deletePhrases(list);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/v1/admin/phrase")
+                        .content(gson.toJson(list))
+                        .contentType(MediaType.APPLICATION_JSON)
         );
 
         // then
@@ -61,14 +85,12 @@ public class AdminControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    private List<Phrases> phrasesList() {
-        List<Phrases> phrasesList = new ArrayList<>();
+    private List<Integer> phrasesIdList() {
+        List<Integer> phrasesIdList = new ArrayList<>();
         for(int i=0; i<3; i++){
-            phrasesList.add(Phrases.builder()
-                    .content("허리피세여" + Integer.toString(i))
-                    .build());
+            phrasesIdList.add(i+1);
         }
-        return phrasesList;
+        return phrasesIdList;
     }
 
 }
