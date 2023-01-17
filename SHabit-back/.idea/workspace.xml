@@ -5,25 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/req/PhrasesReqDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/PhrasesRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/controller/PhrasesController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/controller/VodController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/controller/PhrasesController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/controller/VodController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/PhrasesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/PhrasesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/req/PhrasesReqDto.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/statistics/controller/StatisticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/statistics/controller/StatisticsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/statistics/service/StatisticsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/statistics/service/StatisticsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/statistics/service/StatisticsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/statistics/service/StatisticsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/DailyRepositoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/PostureRepositoryTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/StatisticsServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/UserRepositoryTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,21 +139,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.SHabitApplication">
-    <configuration name="AdminControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="AdminControllerTest.건강_문구_중복" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
@@ -174,7 +155,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminControllerTest.건강_문구_추가_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StatisticsControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -183,29 +164,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="METHOD_NAME" value="건강_문구_추가_성공" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminServiceTest.건강_문구_중복" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StatisticsRepositoryTest.트래킹데이터_저장_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -214,8 +179,39 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
-      <option name="METHOD_NAME" value="건강_문구_중복" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsRepositoryTest" />
+      <option name="METHOD_NAME" value="트래킹데이터_저장_성공" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StatisticsServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StatisticsServiceTest.트래킹데이터_저장_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.StatisticsServiceTest" />
+      <option name="METHOD_NAME" value="트래킹데이터_저장_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -230,11 +226,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.StatisticsControllerTest" />
+        <item itemvalue="JUnit.StatisticsServiceTest.트래킹데이터_저장_성공" />
+        <item itemvalue="JUnit.StatisticsServiceTest" />
+        <item itemvalue="JUnit.StatisticsRepositoryTest.트래킹데이터_저장_성공" />
         <item itemvalue="JUnit.AdminControllerTest.건강_문구_중복" />
-        <item itemvalue="JUnit.AdminControllerTest.건강_문구_추가_성공" />
-        <item itemvalue="JUnit.AdminControllerTest" />
-        <item itemvalue="JUnit.AdminServiceTest" />
-        <item itemvalue="JUnit.AdminServiceTest.건강_문구_중복" />
       </list>
     </recent_temporary>
   </component>
@@ -259,6 +255,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
