@@ -10,24 +10,25 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="user")
+@Table(name = "user")
 public class User extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id", nullable = false)
-    private Long userId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id", nullable = false)
+	private Long userId;
 
-    @Column(name="email", nullable = false)
-    private String email;
+	@Column(name = "email", nullable = false)
+	private String email;
 
-    @Column(name="nickname", nullable = false)
-    private String nickname;
+	@Column(name = "nickname", nullable = false)
+	private String nickname;
 
-    @Column(name="password", nullable = false)
-    private String password;
+	@Column(name = "password", nullable = false)
+	private String password;
 
-    @OneToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private Image image;
+	@OneToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private Image image;
+
 }
