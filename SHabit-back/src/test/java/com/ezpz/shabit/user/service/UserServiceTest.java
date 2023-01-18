@@ -58,7 +58,7 @@ class UserServiceTest {
     user.setPassword("ssafy!1234");
 
     // when
-    Object data = userService.login(user);
+    userService.login(user);
 
     // then
 
