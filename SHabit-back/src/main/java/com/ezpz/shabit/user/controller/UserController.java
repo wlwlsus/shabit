@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class UserController {
   private final UserService userService;
-  private final S3FileService s3FileService;
 
   @DeleteMapping("profile/{email}")
   public ResponseEntity<?> deleteProfile(@PathVariable String email) {
