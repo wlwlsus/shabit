@@ -1,4 +1,4 @@
 package com.ezpz.shabit.info.service;
 
-public interface PhrasesService {
+public interface InfoService {
 }

@@ -32,6 +32,4 @@ public class AdminController {
         return Response.ok("영상 등록에 성공하였습니다.");
     }
 
-
-
 }

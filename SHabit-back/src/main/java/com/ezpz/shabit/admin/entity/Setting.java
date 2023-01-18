@@ -15,9 +15,9 @@ public class Setting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long settingId;
 
-    @Column(name = "stretching_time", nullable = false)
+    @Column(name = "stretching_time", columnDefinition = "integer default 50", nullable = false)
     private int stretchingTime;
 
-    @Column(name = "alert_time", nullable = false)
+    @Column(name = "alert_time", columnDefinition = "integer default 3", nullable = false)
     private int alertTime;
 }
