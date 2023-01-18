@@ -1,5 +1,6 @@
 package com.ezpz.shabit;
 
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.statistics.controller.StatisticsController;
 import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
 import com.ezpz.shabit.statistics.entity.Posture;
@@ -45,75 +46,38 @@ public class StatisticsControllerTest {
                 .build();
     }
 
-    final Posture posture = Posture.builder()
-            .name("바른 자세")
-            .build();
-    final Users user = Users.builder()
-            .email("kosy1782@gmail.com")
-            .nickname("고수")
-            .password("1234")
-            .build();
-
     @Mock
     private StatisticsServiceImpl statisticsService;
-    String email = "kosy1782@gmail.com";
 
     @Test
-    public void 데이터_삽입_일치하는_이메일_없음() throws Exception {
+    void 자세_목록_조회_성공() throws Exception{
         // given
-        final String url = "/api/v1/statistics/{email}";
-        List<DailyReqDto> req = new ArrayList<>();
-        for(int i=0; i<5; i++){
-            req.add(DailyReqDto.builder()
-                    .postureId(1L)
-                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .build());
-        }
-        // StatisticsService getTodayData에 대한 stub필요
-        doThrow(new NullPointerException()).when(statisticsService)
-                .insertTodayData(req, "kosy1782");
+        // findAll에 대한 stub필요
+        doReturn(postureList()).when(statisticsService)
+                .getPostureList();
 
         // when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post(url, "kosy1782")
-                        .content(new Gson().toJson(req))
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        // HTTP Status가 NotFound인지 확인
-        resultActions.andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void 트래킹데이터_저장_성공() throws Exception {
-        // given
-        final String url = "/api/v1/statistics/{email}";
-        List<DailyReqDto> req = new ArrayList<>();
-        for(int i=0; i<5; i++){
-            req.add(DailyReqDto.builder()
-                    .postureId(1L)
-                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .build());
-        }
-
-        // StatisticsService insertTodayData에 대한 stub필요
-        doReturn(req.size()).when(statisticsService)
-                .insertTodayData(any(), any());
-
-        // when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.post(url, email)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new Gson().toJson(req))
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/statistics/posture")
         );
 
         // then
         // HTTP Status가 OK인지 확인
         MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+
+        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
         System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    private List<Posture> postureList() {
+        List<Posture> postureList = new ArrayList<>();
+        postureList.add(Posture.builder()
+                .name("바른 자세")
+                .build());
+        postureList.add(Posture.builder()
+                .name("거북목")
+                .build());
+        return postureList;
     }
 
 }
