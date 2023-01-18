@@ -35,7 +35,6 @@ public class StatisticsServiceTest {
             .email("kosy1782@gmail.com")
             .nickname("고수")
             .password("1234")
-            .image(null)
             .build();
 
     @Test

@@ -22,13 +22,13 @@ public class QGrass extends EntityPathBase<Grass> {
 
     public static final QGrass grass = new QGrass("grass");
 
-    public final DateTimePath<java.util.Date> date = createDateTime("date", java.util.Date.class);
+    public final DatePath<java.time.LocalDate> date = createDate("date", java.time.LocalDate.class);
 
     public final NumberPath<Long> grassId = createNumber("grassId", Long.class);
 
     public final NumberPath<Integer> percentage = createNumber("percentage", Integer.class);
 
-    public final com.ezpz.shabit.user.entity.QUser user;
+    public final com.ezpz.shabit.user.entity.QUsers user;
 
     public QGrass(String variable) {
         this(Grass.class, forVariable(variable), INITS);
@@ -48,7 +48,7 @@ public class QGrass extends EntityPathBase<Grass> {
 
     public QGrass(Class<? extends Grass> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUser(forProperty("user"), inits.get("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUsers(forProperty("user")) : null;
     }
 
 }

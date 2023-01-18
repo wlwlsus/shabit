@@ -50,7 +50,6 @@ public class StatisticsControllerTest {
             .email("kosy1782@gmail.com")
             .nickname("고수")
             .password("1234")
-            .image(null)
             .build();
 
     @Mock
@@ -58,7 +57,7 @@ public class StatisticsControllerTest {
     String email = "kosy1782@gmail.com";
 
     @Test
-    public void 오늘_데이터_일치하는_이메일_없음() throws Exception {
+    public void 잔디_데이터_일치하는_이메일_없음() throws Exception {
         // given
         final String url = "/api/v1/statistics/grass/{email}";
         // StatisticsService getTodayData에 대한 stub필요
@@ -77,7 +76,7 @@ public class StatisticsControllerTest {
     }
 
     @Test
-    public void 오늘_데이터_가져오기_성공() throws Exception {
+    public void 잔디_데이터_가져오기_성공() throws Exception {
         // given
         final String url = "/api/v1/statistics/grass/{email}";
         // StatisticsService getTodayData에 대한 stub필요
