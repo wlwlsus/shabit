@@ -220,11 +220,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StatisticsControllerTest.월간_데이터_가져오기_성공" />
-        <item itemvalue="JUnit.StatisticsControllerTest.월간_데이터_일치하는_이메일_없음" />
         <item itemvalue="JUnit.StatisticsServiceTest.월간_데이터_일치하는_이메일_없음" />
         <item itemvalue="JUnit.StatisticsServiceTest.월간_데이터_가져오기_성공" />
         <item itemvalue="JUnit.StatisticsControllerTest.주간_데이터_가져오기_성공" />
+        <item itemvalue="JUnit.StatisticsControllerTest.월간_데이터_일치하는_이메일_없음" />
+        <item itemvalue="JUnit.StatisticsControllerTest.월간_데이터_일치하는_이메일_없음" />
       </list>
     </recent_temporary>
   </component>
