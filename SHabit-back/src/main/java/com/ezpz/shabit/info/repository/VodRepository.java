@@ -7,5 +7,4 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface VodRepository extends JpaRepository<Vod, Long> {
-  List<Vod> findByLength(int length) throws SQLException;
 }
