@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,7 +124,7 @@
       <recent name="com.ezpz.shabit.vod.service" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AdminControllerTest.영상_입력된_길이로_목록_조회_성공">
+  <component name="RunManager" selected="JUnit.AdminControllerTest">
     <configuration name="AdminControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
@@ -222,7 +213,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AdminControllerTest.영상_입력된_길이로_목록_조회_성공" />
         <item itemvalue="JUnit.AdminControllerTest.영상_입력된_카테고리_목록_조회_성공" />
         <item itemvalue="JUnit.AdminControllerTest.영상_전체_목록_조회_성공" />
         <item itemvalue="JUnit.AdminControllerTest" />
