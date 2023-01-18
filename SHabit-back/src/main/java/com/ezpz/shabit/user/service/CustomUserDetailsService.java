@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-
 /**
  * author : cadqe13@gmail.com
  * date : 2023-01-17
@@ -32,6 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	// 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
 	private UserDetails createUserDetails(com.ezpz.shabit.user.entity.User user) {
-		return new User(user.getEmail(), user.getPassword(), new HashSet<>());
+		return new User(user.getEmail(), user.getPassword(), user.getAuthorities());
 	}
 }

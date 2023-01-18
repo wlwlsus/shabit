@@ -13,4 +13,6 @@ public interface UserService {
 
     ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue);
 
+    ResponseEntity<?> getUserInfo(String email);
+
 }
