@@ -5,17 +5,15 @@ spring:
       ddl-auto: create-drop # jpa DB table update
     generate-ddl: false # db 초기화 설정 끔
     show-sql: true # 사용된 sql 보임
+  # mariaDB Setting
   datasource:
-    # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3307/testdb
+    url: jdbc:mariadb://localhost:3306/testdb
     username: root
     password: ssafy
 
-# JWT
 jwt:
-  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
-
+  secret: UDVaY0VRREoyaEl2d2JlWXFFN2haOWF3ekRxbFBzTnpscEFFaE5mdDBSZw==
 
 # Hibernate loggin
 logging:

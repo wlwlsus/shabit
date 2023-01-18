@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
 		User user = userRepository.findUserByEmail(login.getEmail());
 		UserTestResDto.LoginUserRes loginUserRes =
-						UserTestResDto.LoginUserRes.builder().email(user.getEmail()).nickname(user.getNickname()).color(user.getColor()).image(user.getImage()).build();
+						UserTestResDto.LoginUserRes.builder().email(user.getEmail()).nickname(user.getNickname()).theme(user.getTheme()).image(user.getImage()).build();
 		userInfo.setUser(loginUserRes);
 
 		redisTemplate.opsForValue()

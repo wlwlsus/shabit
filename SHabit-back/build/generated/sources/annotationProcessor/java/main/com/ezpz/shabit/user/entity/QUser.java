@@ -24,8 +24,6 @@ public class QUser extends EntityPathBase<User> {
 
     public final com.ezpz.shabit.util.QBaseTimeEntity _super = new com.ezpz.shabit.util.QBaseTimeEntity(this);
 
-    public final StringPath color = createString("color");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
@@ -39,6 +37,8 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath nickname = createString("nickname");
 
     public final StringPath password = createString("password");
+
+    public final NumberPath<Integer> theme = createNumber("theme", Integer.class);
 
     public final NumberPath<Long> userId = createNumber("userId", Long.class);
 

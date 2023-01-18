@@ -36,7 +36,7 @@ public class UserTestResDto {
 
         private String nickname;
 
-        private String color;
+        private int theme;
 
         private Image image;
 
