@@ -17,6 +17,24 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RequiredArgsConstructor
 public class UserController {
+  private final UserService userService;
+  private final S3FileService s3FileService;
 
+  @DeleteMapping("profile/{email}")
+  public ResponseEntity<?> deleteProfile(@PathVariable String email) {
+    log.info("input email : {}", email);
+    try {
+      userService.deleteProfile(email);
+      log.info("profile delete successfully");
+      return Response.makeResponse(HttpStatus.OK, "프로필 사진 삭제 성공");
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.noContent("존재하지 않는 이메일");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.badRequest("프로필 사진 삭제 실패");
+    }
+
+  }
 
 }
