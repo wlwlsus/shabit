@@ -41,7 +41,6 @@ public class StatisticsServiceTest {
             .email("kosy1782@gmail.com")
             .nickname("고수")
             .password("1234")
-            .image(null)
             .build();
     final Posture posture = Posture.builder()
             .name("바른 자세").build();
@@ -52,7 +51,7 @@ public class StatisticsServiceTest {
         List<DailyReqDto> req = new ArrayList<>();
         for(int i=0; i<5; i++){
             req.add(DailyReqDto.builder()
-                    .posture("바른 자세")
+                    .postureId(1L)
                     .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .build());
@@ -75,7 +74,7 @@ public class StatisticsServiceTest {
         List<DailyReqDto> req = new ArrayList<>();
         for(int i=0; i<5; i++){
             req.add(DailyReqDto.builder()
-                    .posture("바른 자세")
+                    .postureId(Integer.toUnsignedLong(i+1))
                     .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .build());

@@ -52,7 +52,6 @@ public class StatisticsControllerTest {
             .email("kosy1782@gmail.com")
             .nickname("고수")
             .password("1234")
-            .image(null)
             .build();
 
     @Mock
@@ -66,7 +65,7 @@ public class StatisticsControllerTest {
         List<DailyReqDto> req = new ArrayList<>();
         for(int i=0; i<5; i++){
             req.add(DailyReqDto.builder()
-                    .posture("바른 자세")
+                    .postureId(1L)
                     .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .build());
@@ -94,7 +93,7 @@ public class StatisticsControllerTest {
         List<DailyReqDto> req = new ArrayList<>();
         for(int i=0; i<5; i++){
             req.add(DailyReqDto.builder()
-                    .posture("바른 자세")
+                    .postureId(1L)
                     .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                     .build());

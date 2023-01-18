@@ -37,7 +37,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                                 .endTime(LocalDateTime.parse(req.getEndTime(),
                                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                                 .user(userRepository.findByEmail(user.getEmail()))
-                                .posture(postureRepository.findByName(req.getPosture()))
+                                .posture(postureRepository.findById(req.getPostureId()).orElse(null))
                                 .build()
                 ));
 

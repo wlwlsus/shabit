@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class DailyReqDto {
     private String startTime;
     private String endTime;
-    private String posture;
+    private Long postureId;
 }
