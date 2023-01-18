@@ -31,5 +31,5 @@ public class Users extends BaseTimeEntity {
     private int theme;
 
     @Column(name="profile")
-    private String profile
+    private String profile;
 }
