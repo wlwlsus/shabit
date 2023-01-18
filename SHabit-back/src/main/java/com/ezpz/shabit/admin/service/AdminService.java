@@ -5,5 +5,5 @@ import com.ezpz.shabit.info.entity.Vod;
 import java.util.List;
 
 public interface AdminService {
-    List<Vod> getVodList();
+    List<Vod> getVodList(String search, String query);
 }

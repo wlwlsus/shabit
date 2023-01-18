@@ -19,7 +19,82 @@ public class VodRepositoryTest {
     private VodRepository vodRepository;
 
     @Test
-    public void 영상_목록_조회_성공(){
+    public void 영상_입력된_이름_목록_조회_성공(){
+        // given
+        vodRepository.save(Vod.builder()
+                .vodId(1L)
+                .url("test url")
+                .length(3)
+                .name("test title")
+                .category("거북")
+                .build());
+        vodRepository.save(Vod.builder()
+                .vodId(2L)
+                .url("test url2")
+                .length(3)
+                .name("test title")
+                .category("거북이")
+                .build());
+
+        // when
+        List<Vod> vodList = vodRepository.findByNameIsLike("%title%");
+
+        //then
+        assertThat(vodList.size()).isEqualTo(2);
+    }
+
+    @Test
+    public void 영상_입력된_길이로_목록_조회_성공(){
+        // given
+        vodRepository.save(Vod.builder()
+                .vodId(1L)
+                .url("test url")
+                .length(3)
+                .name("test title")
+                .category("거북")
+                .build());
+        vodRepository.save(Vod.builder()
+                .vodId(2L)
+                .url("test url2")
+                .length(5)
+                .name("test title")
+                .category("거북이")
+                .build());
+
+        // when
+        List<Vod> vodList = vodRepository.findByLength(3);
+
+        //then
+        assertThat(vodList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void 영상_입력된_카테고리_목록_조회_성공(){
+        // given
+        vodRepository.save(Vod.builder()
+                .vodId(1L)
+                .url("test url")
+                .length(3)
+                .name("test title")
+                .category("거북")
+                .build());
+        vodRepository.save(Vod.builder()
+                .vodId(2L)
+                .url("test url2")
+                .length(3)
+                .name("test title")
+                .category("거북이")
+                .build());
+
+        // when
+        List<Vod> vodList = vodRepository.findByCategory("거북");
+
+        //then
+        assertThat(vodList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void 영상_전체_목록_조회_성공(){
         // given
         Vod vod = Vod.builder()
                 .vodId(1L)
@@ -36,8 +111,6 @@ public class VodRepositoryTest {
         //then
         assertThat(vodList.size()).isEqualTo(1);
     }
-
-
 
 }
 

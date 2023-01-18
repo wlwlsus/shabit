@@ -24,14 +24,54 @@ public class AdminServiceTest {
     private VodRepository vodRepository;
 
     @Test
-    public void 영상_목록_조회_성공(){
+    public void 영상_입력된_이름_목록_조회_성공(){
+        // given
+        doReturn(vodList()).when(vodRepository).findByNameIsLike("%title%");
+
+        // when
+        List<Vod> vodList = target.getVodList("name", "title");
+
+        //then
+        assertThat(vodList.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void 영상_입력된_길이로_목록_조회_성공(){
+        // given
+        doReturn(vodList())
+                .when(vodRepository)
+                .findByLength(3);
+
+        // when
+        List<Vod> vodList = target.getVodList("length", "3");
+
+        //then
+        assertThat(vodList.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void 영상_입력된_카테고리_목록_조회_성공(){
+        // given
+        doReturn(vodList())
+                .when(vodRepository)
+                .findByCategory("거북");
+
+        // when
+        List<Vod> vodList = target.getVodList("category", "거북");
+
+        //then
+        assertThat(vodList.size()).isEqualTo(3);
+    }
+
+    @Test
+    public void 영상_전체_목록_조회_성공(){
         // given
         doReturn(vodList())
                 .when(vodRepository)
                 .findAll();
 
         // when
-        List<Vod> vodList = target.getVodList();
+        List<Vod> vodList = target.getVodList(null, null);
 
         // then
         assertThat(vodList.size()).isEqualTo(3);

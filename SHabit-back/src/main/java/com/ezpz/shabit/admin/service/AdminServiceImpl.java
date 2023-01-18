@@ -14,8 +14,14 @@ public class AdminServiceImpl implements AdminService{
     private final VodRepository vodRepository;
 
     @Override
-    public List<Vod> getVodList() {
-        return vodRepository.findAll();
+    public List<Vod> getVodList(String search, String query) {
+        if(search == null) return vodRepository.findAll();
+        return switch (search) {
+            case ("category") -> vodRepository.findByCategory(query);
+            case ("name") -> vodRepository.findByNameIsLike("%" + query + "%");
+            case ("length") -> vodRepository.findByLength(Integer.parseInt(query));
+            default -> vodRepository.findAll();
+        };
     }
 
 }

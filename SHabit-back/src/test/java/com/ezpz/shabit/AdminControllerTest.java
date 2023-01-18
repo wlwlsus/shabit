@@ -42,15 +42,61 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    void 영상_목록_조회_성공() throws Exception{
+    void 영상_입력된_길이로_목록_조회_성공() throws Exception{
         // given
         // findAll에 대한 stub필요
         doReturn(vodList()).when(adminService)
-                .getVodList();
+                .getVodList("length", "3");
 
         // when
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/v1/admin/vods")
+                        .queryParam("search", "length")
+                        .queryParam("query", "3")
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+
+        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void 영상_입력된_카테고리_목록_조회_성공() throws Exception{
+        // given
+        // findAll에 대한 stub필요
+        doReturn(vodList()).when(adminService)
+                .getVodList("category", "거북");
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/admin/vods")
+                        .queryParam("search", "category")
+                        .queryParam("query", "거북")
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+
+        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
+    void 영상_전체_목록_조회_성공() throws Exception{
+        // given
+        // findAll에 대한 stub필요
+        doReturn(vodList()).when(adminService)
+                .getVodList("", "");
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/admin/vods")
+                        .queryParam("search", "")
+                        .queryParam("query", "")
         );
 
         // then
