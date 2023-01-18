@@ -29,4 +29,7 @@ public class Users extends BaseTimeEntity {
 
     @Column(name="theme", columnDefinition="integer default 0")
     private int theme;
+
+    @Column(name="profile")
+    private String profile
 }
