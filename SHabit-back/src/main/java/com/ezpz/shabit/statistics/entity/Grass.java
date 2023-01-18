@@ -4,7 +4,7 @@ import com.ezpz.shabit.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -20,7 +20,7 @@ public class Grass {
     private Long grassId;
 
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "percentage", nullable = false)
     private int percentage;

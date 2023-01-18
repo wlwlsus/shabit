@@ -19,8 +19,9 @@ public class Vod {
     @Column(name = "name", nullable = false)
     private String name; // 유튜브 제목
 
-    @Column(name = "category", nullable = false)
-    private String category;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "url", nullable = false)
     private String url;

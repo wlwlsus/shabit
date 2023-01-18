@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +39,9 @@ public class StatisticsController {
 
         List<DailyResDto> resData = new ArrayList<>();
         data.forEach(d -> resData.add(DailyResDto.builder()
-                        .startTime(d.getStartTime())
-                        .endTime(d.getEndTime())
-                        .posture(d.getPosture().getName()).build()));
+                        .startTime(d.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        .endTime(d.getEndTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        .postureId(d.getPosture().getPostureId()).build()));
         return Response.makeResponse(HttpStatus.OK, "일일 데이터 가져오기 성공", resData.size(), resData);
     }
 

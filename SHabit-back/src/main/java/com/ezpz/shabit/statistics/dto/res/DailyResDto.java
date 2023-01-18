@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyResDto {
-    private String posture;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Long postureId;
+    private String startTime;
+    private String endTime;
 }
