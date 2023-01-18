@@ -19,32 +19,32 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig {
 
-	private final JwtTokenProvider jwtTokenProvider;
-	private final RedisTemplate redisTemplate;
+  private final JwtTokenProvider jwtTokenProvider;
+  private final RedisTemplate redisTemplate;
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws
-					Exception {
-		httpSecurity
-						.httpBasic().disable()
-						.csrf().disable()
-						.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-						.and()
-						.authorizeHttpRequests()
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws
+      Exception {
+    httpSecurity
+        .httpBasic().disable()
+        .csrf().disable()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeHttpRequests()
 //						.requestMatchers("/**").permitAll()
-						.requestMatchers("/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/swagger-ui/**", "/v3/api" +
-										"-docs/**").permitAll()
-						.and()
-						.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
-		// JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
+        .requestMatchers("/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
+            "-docs/**").permitAll()
+        .and()
+        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
+    // JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
 
-		return httpSecurity.build();
-	}
+    return httpSecurity.build();
+  }
 
 
-	// 암호화에 필요한 PasswordEncoder Bean 등록
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+  // 암호화에 필요한 PasswordEncoder Bean 등록
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }

@@ -11,5 +11,6 @@ public interface UserService {
 
     ResponseEntity<?> logout(UserTestReqDto.Logout logout);
 
+    ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue);
 
 }

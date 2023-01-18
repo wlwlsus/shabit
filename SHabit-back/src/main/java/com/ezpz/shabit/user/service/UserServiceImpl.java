@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -63,15 +64,19 @@ public class UserServiceImpl implements UserService {
 
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-		UserTestResDto.UserInfo userInfo = jwtTokenProvider.generateToken(authentication);
+		UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+		UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
 
 		User user = userRepository.findUserByEmail(login.getEmail());
+
 		UserTestResDto.LoginUserRes loginUserRes =
 						UserTestResDto.LoginUserRes.builder().email(user.getEmail()).nickname(user.getNickname()).theme(user.getTheme()).image(user.getImage()).build();
+
+		userInfo.setToken(tokenInfo);
 		userInfo.setUser(loginUserRes);
 
 		redisTemplate.opsForValue()
-						.set("RT:" + authentication.getName(), userInfo.getRefreshToken(), userInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+						.set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
 		return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
 	}
@@ -99,4 +104,33 @@ public class UserServiceImpl implements UserService {
 		return Response.ok("로그아웃 되었습니다.");
 	}
 
+	@Override
+	public ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue) {
+		// 1. Refresh Token 검증
+		if (!jwtTokenProvider.validateToken(reissue.getRefreshToken())) {
+			return Response.badRequest("Refresh Token 정보가 유효하지 않습니다.");
+		}
+
+		// 2. Access Token 에서 User email 을 가져옵니다.
+		Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
+
+		// 3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져옵니다.
+		String refreshToken = (String)redisTemplate.opsForValue().get("RT:" + authentication.getName());
+		// (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
+		if(ObjectUtils.isEmpty(refreshToken)) {
+			return Response.badRequest("잘못된 요청입니다.");
+		}
+		if(!refreshToken.equals(reissue.getRefreshToken())) {
+			return Response.badRequest("Refresh Token 정보가 일치하지 않습니다.");
+		}
+
+		// 4. 새로운 토큰 생성
+		UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+
+		// 5. RefreshToken Redis 업데이트
+		redisTemplate.opsForValue()
+				.set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+
+		return Response.makeResponse(HttpStatus.OK, "토큰 재발급을 성공하였습니다.", 0, tokenInfo);
+	}
 }

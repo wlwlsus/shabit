@@ -21,7 +21,7 @@ public class UserTestReqDto {
 		private String email;
 
 		@NotEmpty(message = "닉네임은 필수 입력값입니다.")
-		@Pattern(regexp = "[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,8}", message = "닉네임 형식에 맞지 않습니다.")
+		@Pattern(regexp = "[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,16}", message = "닉네임 형식에 맞지 않습니다.")
 		@Schema(description = "닉네임", example = "ssafy")
 		private String nickname;
 
@@ -61,6 +61,16 @@ public class UserTestReqDto {
 
 		@NotEmpty(message = "잘못된 요청입니다.")
 		@Schema(description = "리프레쉬 토큰", example = "ey...")
+		private String refreshToken;
+	}
+
+	@Getter
+	@Setter
+	public static class Reissue {
+		@NotEmpty(message = "accessToken 을 입력해주세요.")
+		private String accessToken;
+
+		@NotEmpty(message = "refreshToken 을 입력해주세요.")
 		private String refreshToken;
 	}
 }

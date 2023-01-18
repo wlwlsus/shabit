@@ -71,4 +71,18 @@ public class UserController {
 		}
 		return userService.logout(logout);
 	}
+
+	@Operation(description = "토큰 재발급 API", responses = {
+			@ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
+			@Schema(implementation = UserTestResDto.TokenInfo.class))),
+			@ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
+	})
+	@PostMapping("/token")
+	public ResponseEntity<?> reissue(@RequestBody @Validated UserTestReqDto.Reissue reissue, Errors errors) {
+		// validation check
+		if (errors.hasErrors()) {
+			return Response.badRequest("토큰 재발급을 실패하였습니다.");
+		}
+		return userService.reissue(reissue);
+	}
 }
