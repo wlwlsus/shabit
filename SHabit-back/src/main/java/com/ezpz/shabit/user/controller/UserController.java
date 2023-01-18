@@ -84,7 +84,8 @@ public class UserController {
   }
 
   @Operation(description = "회원 정보 API", responses = {
-      @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공"),
+      @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
+      @Schema(implementation = UserTestResDto.LoginUserRes.class))),
       @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
   })
   @GetMapping("/{email}")

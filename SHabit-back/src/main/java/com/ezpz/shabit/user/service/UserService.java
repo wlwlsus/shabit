@@ -5,14 +5,14 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-    ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
+  ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
-    ResponseEntity<?> login(UserTestReqDto.Login login);
+  ResponseEntity<?> login(UserTestReqDto.Login login);
 
-    ResponseEntity<?> logout(UserTestReqDto.Logout logout);
+  ResponseEntity<?> logout(UserTestReqDto.Logout logout);
 
-    ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue);
+  ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue);
 
-    ResponseEntity<?> getUserInfo(String email);
+  ResponseEntity<?> getUserInfo(String email);
 
 }

@@ -49,9 +49,7 @@ public class User extends BaseTimeEntity implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return this.roles.stream()
-        .map(SimpleGrantedAuthority::new)
-        .collect(Collectors.toList());
+    return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
   }
 
 

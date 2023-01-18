@@ -31,7 +31,6 @@ public class WebSecurityConfig {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeHttpRequests()
-//						.requestMatchers("/**").permitAll()
         .requestMatchers("/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
             "-docs/**").permitAll()
         .requestMatchers("/**").hasRole("USER")

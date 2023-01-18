@@ -56,11 +56,11 @@ public class UserTestReqDto {
 	@Setter
 	public static class Logout {
 		@NotEmpty(message = "잘못된 요청입니다.")
-		@Schema(description = "액세스 토큰", example = "ey...")
+		@Schema(description = "액세스 토큰", example = "token")
 		private String accessToken;
 
 		@NotEmpty(message = "잘못된 요청입니다.")
-		@Schema(description = "리프레쉬 토큰", example = "ey...")
+		@Schema(description = "리프레쉬 토큰", example = "token")
 		private String refreshToken;
 	}
 
@@ -68,9 +68,11 @@ public class UserTestReqDto {
 	@Setter
 	public static class Reissue {
 		@NotEmpty(message = "accessToken 을 입력해주세요.")
+		@Schema(description = "액세스 토큰", example = "access")
 		private String accessToken;
 
 		@NotEmpty(message = "refreshToken 을 입력해주세요.")
+		@Schema(description = "리프레쉬 토큰", example = "refresh")
 		private String refreshToken;
 	}
 }
