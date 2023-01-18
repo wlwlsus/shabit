@@ -22,7 +22,7 @@ public class QStatistics extends EntityPathBase<Statistics> {
 
     public static final QStatistics statistics = new QStatistics("statistics");
 
-    public final DateTimePath<java.util.Date> date = createDateTime("date", java.util.Date.class);
+    public final DatePath<java.time.LocalDate> date = createDate("date", java.time.LocalDate.class);
 
     public final QPosture posture;
 
@@ -30,7 +30,7 @@ public class QStatistics extends EntityPathBase<Statistics> {
 
     public final NumberPath<Integer> time = createNumber("time", Integer.class);
 
-    public final com.ezpz.shabit.user.entity.QUser user;
+    public final com.ezpz.shabit.user.entity.QUsers user;
 
     public QStatistics(String variable) {
         this(Statistics.class, forVariable(variable), INITS);
@@ -51,7 +51,7 @@ public class QStatistics extends EntityPathBase<Statistics> {
     public QStatistics(Class<? extends Statistics> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.posture = inits.isInitialized("posture") ? new QPosture(forProperty("posture")) : null;
-        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUser(forProperty("user"), inits.get("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUsers(forProperty("user")) : null;
     }
 
 }

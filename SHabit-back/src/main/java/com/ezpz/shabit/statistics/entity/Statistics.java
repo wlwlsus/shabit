@@ -1,10 +1,10 @@
 package com.ezpz.shabit.statistics.entity;
 
-import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,7 +21,7 @@ public class Statistics {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "posture_id", nullable = false)
@@ -31,5 +31,5 @@ public class Statistics {
     private int time; // 분
 
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
 }
