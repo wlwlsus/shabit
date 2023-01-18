@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/req/VodReqDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/req/VodTestReqDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -254,6 +243,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
