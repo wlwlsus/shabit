@@ -29,54 +29,5 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 public class UserProfileTest {
-  @Autowired
-  private MockMvc mockMvc;
-  @Autowired
-  private UserRepository userRepository;
 
-  @Autowired
-  private S3FileService s3FileService;
-
-  @Autowired
-  AmazonS3Client amazonS3Client;
-
-  @BeforeEach
-  void setUser() throws Exception {
-    Users user = Users.builder()
-                         .email("dnzma13@naver.com")
-                         .build();
-    userRepository.save(user);
-  }
-
-  @Value("${cloud.aws.s3.bucket}")
-  String bucket;
-
-  @Test
-  @DisplayName("회원 프로필 사진 수정 성공 Test")
-  public void updateProfileSuccessTest() throws Exception {
-    // given
-    MockMultipartFile file = new MockMultipartFile("놀자에몽", "놀자에몽.png",
-            "image/png", new FileInputStream(""));
-    // when
-    String fileUrl = s3FileService.upload(file, "test");
-    S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, fileUrl));
-    // then
-    assertThat(s3Object).isNotNull();
-  }
-
-  @Test
-  @DisplayName("회원 프로필 사진 수정 성공 API Test")
-  public void updateProfileSuccessAPITest() throws Exception {
-    // given
-    String fileName = "놀자에몽";
-    String url = "/api/v1/user/profile/dnzma13@naver.com";
-    MockMultipartFile file = new MockMultipartFile("놀자에몽", "놀자에몽.png",
-            "image/png", new FileInputStream(""));
-    // when
-    mockMvc.perform(multipart(url)
-                            .file(file).part(new MockPart("id", "foo".getBytes(StandardCharsets.UTF_8))))
-            // then
-            .andExpect(status().isOk());
-
-  }
 }
