@@ -42,7 +42,6 @@ public class StatisticsServiceTest {
             .email("kosy1782@gmail.com")
             .nickname("고수")
             .password("1234")
-            .image(null)
             .build();
     final Statistics statistic = Statistics.builder()
             .user(user)
@@ -91,7 +90,7 @@ public class StatisticsServiceTest {
         final List<Statistics> data = target.getMonthlyData(email, page);
 
         // then
-        assertThat(data.size()).isEqualTo(13);
+        assertThat(data.size()).isEqualTo(30-now().getDayOfMonth());
     }
 
     private List<Statistics> statisticsList() {

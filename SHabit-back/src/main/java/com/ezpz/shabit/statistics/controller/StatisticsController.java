@@ -30,13 +30,13 @@ public class StatisticsController {
             log.info(e.getMessage());
         }
 
-        if(data == null) return Response.notFound("월간 데이터 요청 실패");
+        if(data == null) return Response.notFound("월간 데이터 가져오기 실패");
 
         List<StatisticsSimpleResDto> resData = new ArrayList<>();
         data.forEach(d -> resData.add(StatisticsSimpleResDto.builder()
                 .date(d.getDate())
                 .time(d.getTime())
-                .posture(d.getPosture().getName()).build()));
+                .postureId(d.getPosture().getPostureId()).build()));
         return Response.makeResponse(HttpStatus.OK, "월간 데이터 가져오기 성공", resData.size(), resData);
     }
 
