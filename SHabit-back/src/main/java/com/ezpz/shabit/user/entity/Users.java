@@ -11,23 +11,24 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
-public class User extends BaseTimeEntity {
-
+public class Users extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id", nullable = false)
     private Long userId;
 
-    @Column(name="email", nullable = false)
+    @Column(name="email", length=63, nullable = false)
     private String email;
 
-    @Column(name="nickname", nullable = false)
+    @Column(name="nickname", length=15, nullable = false)
     private String nickname;
 
     @Column(name="password", nullable = false)
     private String password;
 
-    @OneToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private Image image;
+    @Column(name="theme", columnDefinition="integer default 0")
+    private int theme;
+
+    @Column(name="profile")
+    private String profile;
 }
