@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="" />
+    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/config/QueryDslConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/config/QuerydslConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -140,22 +143,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminControllerTest.영상_전체_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
-      <option name="METHOD_NAME" value="영상_전체_목록_조회_성공" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="AdminControllerTest.영상_입력된_카테고리_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
@@ -188,7 +175,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AdminServiceTest.영상_입력된_이름_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
@@ -198,7 +185,37 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
       <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
-      <option name="METHOD_NAME" value="영상_입력된_이름_목록_조회_성공" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VodRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.VodRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VodRepositoryTest.영상_입력된_길이로_목록_조회_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.VodRepositoryTest" />
+      <option name="METHOD_NAME" value="영상_입력된_길이로_목록_조회_성공" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -213,10 +230,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AdminControllerTest.영상_입력된_카테고리_목록_조회_성공" />
-        <item itemvalue="JUnit.AdminControllerTest.영상_전체_목록_조회_성공" />
         <item itemvalue="JUnit.AdminControllerTest" />
-        <item itemvalue="JUnit.AdminServiceTest.영상_입력된_이름_목록_조회_성공" />
+        <item itemvalue="JUnit.AdminServiceTest" />
+        <item itemvalue="JUnit.VodRepositoryTest.영상_입력된_길이로_목록_조회_성공" />
+        <item itemvalue="JUnit.VodRepositoryTest" />
+        <item itemvalue="JUnit.AdminControllerTest.영상_입력된_카테고리_목록_조회_성공" />
       </list>
     </recent_temporary>
   </component>
@@ -242,6 +260,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
