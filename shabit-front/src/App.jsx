@@ -9,7 +9,7 @@ import RangeBarDaily from './components/UiTest/RangeBarDaily';
 function App() {
   const [isStarting, setIsStarting] = useState(false);
   const savedIntevalId = useRef();
-  const wabcamStop = useRef();
+  // const webcamObject = useRef();
 
   return (
     <div className="App">
@@ -18,14 +18,13 @@ function App() {
           isStarting={isStarting}
           setIsStarting={setIsStarting}
           savedIntevalId={savedIntevalId}
-          wabcamStop={wabcamStop}
+          // webcamObject={webcamObject}
         />
       ) : (
-        <div></div>
+        <button type="button" onClick={() => setIsStarting(true)}>
+          start
+        </button>
       )}
-      <button type="button" onClick={() => setIsStarting(true)}>
-        start
-      </button>
       <HeatMap />
       <LandingTest />
       <RangeBarDaily />

@@ -8,7 +8,7 @@ const TeachableMachine = ({
   isStarting,
   setIsStarting,
   savedIntevalId,
-  wabcamStop,
+  // webcamObject,
 }) => {
   // More API functions here:
   // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
@@ -37,7 +37,7 @@ const TeachableMachine = ({
     isRunning = false;
     await localStorage.setItem('data', jsonData);
     await clearInterval(savedIntevalId.current);
-    await wabcamStop.current();
+    // await webcamObject.current.stop();
     // await webcamStop();
     await setIsStarting(false);
     // await window.location.replace('/');
@@ -66,7 +66,7 @@ const TeachableMachine = ({
 
     await webcam.setup(); // request access to the webcam
     await webcam.play();
-    wabcamStop.current = webcam.stop;
+    // webcamObject.current = webcam;
     setIsLoading(false);
     // window.requestAnimationFrame(loop);
     // setTimeout(loop, 16);
