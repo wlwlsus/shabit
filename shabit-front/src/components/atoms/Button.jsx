@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Button = ({ bg, role, size, text, icon, onClick, children }) => {
+const Button = ({ bg, role, size, text, icon, shadow, onClick, children }) => {
   const bgClass = `bg-${bg}`;
 
   return (
     <ButtonWrapper
       type={role}
-      className={`${bgClass} ${size}`}
+      className={`${bgClass} ${size} ${shadow}`}
       onClick={onClick}
     >
       {icon && <Icon>{icon}</Icon>}
@@ -19,21 +19,23 @@ const Button = ({ bg, role, size, text, icon, onClick, children }) => {
 };
 
 Button.propTypes = {
-  background: PropTypes.oneOf(['primary', 'secondary']),
+  bg: PropTypes.oneOf(['primary', 'secondary']),
   role: PropTypes.oneOf(['button', 'submit']),
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   text: PropTypes.string,
   icon: PropTypes.element,
+  shadow: PropTypes.oneOf(['shadow']),
   onClick: PropTypes.func,
   children: PropTypes.element,
 };
 
 Button.defaultProps = {
-  background: undefined,
+  bg: undefined,
   role: 'button',
   size: 'sm',
   text: '',
   icon: null,
+  shadow: undefined,
   onClick: undefined,
   children: undefined,
 };
@@ -41,7 +43,8 @@ Button.defaultProps = {
 const ButtonWrapper = styled.button`
   display: inline-flex;
   background-color: ${({ theme }) => theme.color.whiteColor};
-  border-radius: 1rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 
   &.bg-primary {
     background-color: ${({ theme }) => theme.color.primary};
@@ -55,17 +58,18 @@ const ButtonWrapper = styled.button`
 
   &.sm {
     font-size: 1rem;
-    width: 1rem;
   }
 
   &.md {
     font-size: 2rem;
-    width: 2rem;
   }
 
   &.lg {
     font-size: 3rem;
-    width: 3rem;
+  }
+
+  &.shadow {
+    box-shadow: 0 0.2rem 0.5rem #e9e9e9;
   }
 `;
 

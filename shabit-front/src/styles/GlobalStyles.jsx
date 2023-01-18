@@ -10,7 +10,6 @@ const theme = {
     redColor: '#F16666',
     greenColor: '#89CA88',
     yellowColor: '#FFCD34',
-    shadowColor: '#E1E1E1',
   },
   fontSize: {},
 };

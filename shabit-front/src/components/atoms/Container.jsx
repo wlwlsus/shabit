@@ -49,8 +49,7 @@ const ContainerWrapper = styled.div`
   }
 
   &.shadow {
-    box-shadow: 0rem 0.5rem 1rem ${({ theme }) => theme.color.shadowColor},
-      0rem 0.5rem 0.5rem ${({ theme }) => theme.color.shadowColor};
+    box-shadow: 0 0.1rem 0.5rem #D3D3D3;
   }
 }
 

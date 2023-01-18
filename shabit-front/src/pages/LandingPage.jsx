@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 // import LandingIntro from '../components/template/LandingIntro';
-import LandingLogin from '../components/template/LandingLogin';
+// import LandingLogin from '../components/template/LandingLogin';
+import LandingSignup from '../components/template/LandingSignup';
 
 const LandingPage = () => {
   return (
     <PageWrapper>
       {/* <LandingIntro /> */}
-      <LandingLogin />
+      {/* <LandingLogin /> */}
+      <LandingSignup />
     </PageWrapper>
   );
 };
