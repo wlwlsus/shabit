@@ -1,42 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import CalendarHeatmap from 'react-calendar-heatmap';
 
 const HeatMap = () => {
-  //https://bitsofco.de/github-contribution-graph-css-grid/
-  const squares = document.querySelector('.squares');
-  for (var i = 1; i < 365; i++) {
-    const level = Math.floor(Math.random() * 3);
-    squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
-  }
+  // Import the calendarheatmap
+  const [values, setValues] = useState([]);
+  const [endDate, setEndDate] = useState(() => {
+    const now = new Date();
+    const today = now
+      .toLocaleDateString()
+      .split(' ')
+      .map((e) => {
+        return e.replace('.', '').padStart(2, '0');
+      })
+      .join('-');
+    return today;
+  });
+  // const startDate = () => {
+  //   const dateArr = endDate.split('-');
+  //   dateArr[0] = (~~dateArr[0] - 1).toString();
+  //   console.log(dateArr);
+  //   return dateArr.join('-');
+  // };
+
+  useEffect(() => {
+    fetch(`/testData/heatMapData.json`)
+      .then((res) => res.json())
+      .then((res) => {
+        const jsonData = res.result;
+        const newArray = [];
+        for (let element of jsonData) {
+          const { date, percentage } = element;
+          let classValue = 0;
+          if (percentage >= 80) classValue = 4;
+          else if (percentage >= 60) classValue = 3;
+          else if (percentage >= 40) classValue = 2;
+          else if (percentage >= 20) classValue = 1;
+          newArray.push({ date, percentage, classValue });
+        }
+        setValues(newArray);
+      });
+  }, []);
+
+  // const values = [
+  //   { date: '2023-01-18', count: 4 },
+  //   { date: '2023-01-15', count: 1 },
+  //   { date: '2023-01-10', count: 3 },
+  // { date: new Date(2016, 0, 4) },
+  // ];
+  // How many days should be shown
+  // const numDays = 365;
+
+  const onClick = (e) => console.log(e);
 
   return (
-    <StyledContainer>
-      <div className="graph">
-        <ul className="months">
-          <li>Jan</li>
-          <li>Feb</li>
-          <li>Mar</li>
-          <li>Apr</li>
-          <li>May</li>
-          <li>Jun</li>
-          <li>Jul</li>
-          <li>Aug</li>
-          <li>Sep</li>
-          <li>Oct</li>
-          <li>Nov</li>
-          <li>Dec</li>
-        </ul>
-        <ul className="days">
-          <li>Sun</li>
-          <li>Mon</li>
-          <li>Tue</li>
-          <li>Wed</li>
-          <li>Thu</li>
-          <li>Fri</li>
-          <li>Sat</li>
-        </ul>
-        <ul className="squares">{/* added via javascript */}</ul>
-      </div>
+    <StyledContainer style={{ width: 700 }}>
+      <CalendarHeatmap
+        endDate={endDate}
+        // startDate={startDate}
+        // numDays={numDays}
+        values={values}
+        onClick={onClick}
+        showWeekdayLabels={true}
+        classForValue={(value) => {
+          if (!value) {
+            return 'color-empty';
+          }
+          return `color-gitlab-${value.classValue}`;
+        }}
+      />
     </StyledContainer>
   );
 };
@@ -44,95 +76,87 @@ const HeatMap = () => {
 export default HeatMap;
 
 const StyledContainer = styled.div`
-  /* Article - https://bitsofco.de/github-contribution-graph-css-grid/ */
+  /*
+ * https://ourcodeworld.com/articles/read/563/creating-a-calendar-heatmap-chart-github-contributions-like-in-reactjs
+ * react-calendar-heatmap styles
+ *
+ * All of the styles in this file are optional and configurable!
+ * The github and gitlab color scales are provided for reference.
+ */
 
-  /* Grid-related CSS */
-
-  :root {
-    --square-size: 15px;
-    --square-gap: 5px;
-    --week-width: calc(var(--square-size) + var(--square-gap));
+  .react-calendar-heatmap text {
+    font-size: 10px;
+    fill: #aaa;
   }
 
-  .months {
-    grid-area: months;
-  }
-  .days {
-    grid-area: days;
-  }
-  .squares {
-    grid-area: squares;
+  .react-calendar-heatmap rect:hover {
+    stroke: #555;
+    stroke-width: 1px;
   }
 
-  .graph {
-    display: inline-grid;
-    grid-template-areas:
-      'empty months'
-      'days squares';
-    grid-template-columns: auto 1fr;
-    grid-gap: 10px;
+  /*
+ * Default color scale
+ */
+
+  .react-calendar-heatmap .color-empty {
+    fill: #eeeeee;
   }
 
-  .months {
-    display: grid;
-    grid-template-columns:
-      calc(var(--week-width) * 4) /* Jan */
-      calc(var(--week-width) * 4) /* Feb */
-      calc(var(--week-width) * 4) /* Mar */
-      calc(var(--week-width) * 5) /* Apr */
-      calc(var(--week-width) * 4) /* May */
-      calc(var(--week-width) * 4) /* Jun */
-      calc(var(--week-width) * 5) /* Jul */
-      calc(var(--week-width) * 4) /* Aug */
-      calc(var(--week-width) * 4) /* Sep */
-      calc(var(--week-width) * 5) /* Oct */
-      calc(var(--week-width) * 4) /* Nov */
-      calc(var(--week-width) * 5) /* Dec */;
+  .react-calendar-heatmap .color-filled {
+    fill: #8cc665;
   }
 
-  .days,
-  .squares {
-    display: grid;
-    grid-gap: var(--square-gap);
-    grid-template-rows: repeat(7, var(--square-size));
+  /*
+ * Github color scale
+ */
+
+  .react-calendar-heatmap .color-github-0 {
+    fill: #eeeeee;
+  }
+  .react-calendar-heatmap .color-github-1 {
+    fill: #d6e685;
+  }
+  .react-calendar-heatmap .color-github-2 {
+    fill: #8cc665;
+  }
+  .react-calendar-heatmap .color-github-3 {
+    fill: #44a340;
+  }
+  .react-calendar-heatmap .color-github-4 {
+    fill: #1e6823;
   }
 
-  .squares {
-    grid-auto-flow: column;
-    grid-auto-columns: var(--square-size);
+  /*
+ * Gitlab color scale
+ */
+
+  .react-calendar-heatmap .color-gitlab-0 {
+    fill: #ededed;
+  }
+  .react-calendar-heatmap .color-gitlab-1 {
+    fill: #acd5f2;
+  }
+  .react-calendar-heatmap .color-gitlab-2 {
+    fill: #7fa8d1;
+  }
+  .react-calendar-heatmap .color-gitlab-3 {
+    fill: #49729b;
+  }
+  .react-calendar-heatmap .color-gitlab-4 {
+    fill: #254e77;
   }
 
-  /* Other styling */
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    font-size: 12px;
+  /* 색깔은 여기에서 바꾸세여 */
+  .react-calendar-heatmap .color-scale-1 {
+    fill: #d6e685;
   }
-
-  .graph {
-    padding: 20px;
-    border: 1px #e1e4e8 solid;
-    margin: 20px;
+  .react-calendar-heatmap .color-scale-2 {
+    fill: #8cc665;
   }
-
-  .days li:nth-child(odd) {
-    visibility: hidden;
+  .react-calendar-heatmap .color-scale-3 {
+    fill: #44a340;
   }
-
-  .squares li {
-    background-color: #ebedf0;
-  }
-
-  .squares li[data-level='1'] {
-    background-color: #c6e48b;
-  }
-
-  .squares li[data-level='2'] {
-    background-color: #7bc96f;
-  }
-
-  .squares li[data-level='3'] {
-    background-color: #196127;
+  .react-calendar-heatmap .color-scale-4 {
+    fill: #1e6823;
   }
 `;
