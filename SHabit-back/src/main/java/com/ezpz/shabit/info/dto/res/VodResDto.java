@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VodResDto {
     private String name;
-    private String category;
+    private Long categoryId;
     private String url;
     private int length;
 }

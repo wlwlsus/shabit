@@ -1,6 +1,7 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.VodRepository;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ public class AdminServiceTest {
         // given
         doReturn(vodList())
                 .when(vodRepository)
-                .findByCategory("거북");
+                .findByCategoryName("거북");
 
         // when
         List<Vod> vodList = target.getVodList("category", "거북");
@@ -85,7 +86,7 @@ public class AdminServiceTest {
                     .url("test url")
                     .length(3)
                     .name("test title")
-                    .category("거북")
+                    .category(Category.builder().name("거북"+Integer.toString(i+1)).build())
                     .build());
         }
         return vodList;

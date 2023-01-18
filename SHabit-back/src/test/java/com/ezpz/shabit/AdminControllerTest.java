@@ -2,6 +2,7 @@ package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -115,7 +116,7 @@ public class AdminControllerTest {
                     .url("test url")
                     .length(3)
                     .name("test title")
-                    .category("거북")
+                    .category(Category.builder().name("거북"+Integer.toString(i+1)).build())
                     .build());
         }
         return vodList;

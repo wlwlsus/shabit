@@ -37,7 +37,7 @@ public class AdminController {
 
         List<VodResDto> resData = new ArrayList<>();
         data.forEach(d -> resData.add(VodResDto.builder()
-                .category(d.getCategory())
+                .categoryId(d.getCategory().getCategoryId())
                 .length(d.getLength())
                 .name(d.getName())
                 .url(d.getUrl())

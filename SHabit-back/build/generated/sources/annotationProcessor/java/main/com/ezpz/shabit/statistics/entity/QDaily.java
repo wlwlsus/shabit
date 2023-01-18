@@ -24,13 +24,13 @@ public class QDaily extends EntityPathBase<Daily> {
 
     public final NumberPath<Long> dailyId = createNumber("dailyId", Long.class);
 
-    public final DateTimePath<java.util.Date> endTime = createDateTime("endTime", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> endTime = createDateTime("endTime", java.time.LocalDateTime.class);
 
     public final QPosture posture;
 
-    public final DateTimePath<java.util.Date> startTime = createDateTime("startTime", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> startTime = createDateTime("startTime", java.time.LocalDateTime.class);
 
-    public final com.ezpz.shabit.user.entity.QUser user;
+    public final com.ezpz.shabit.user.entity.QUsers user;
 
     public QDaily(String variable) {
         this(Daily.class, forVariable(variable), INITS);
@@ -51,7 +51,7 @@ public class QDaily extends EntityPathBase<Daily> {
     public QDaily(Class<? extends Daily> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.posture = inits.isInitialized("posture") ? new QPosture(forProperty("posture")) : null;
-        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUser(forProperty("user"), inits.get("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUsers(forProperty("user")) : null;
     }
 
 }
