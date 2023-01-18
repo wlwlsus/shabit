@@ -1,6 +1,8 @@
 package com.ezpz.shabit;
 
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,12 @@ public class VodRepositoryTest {
 
     @Autowired
     private VodRepository vodRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    final Category category = Category.builder()
+            .name("거북")
+            .build();
 
     @Test
     public void 없는_영상_삭제_실패(){
@@ -26,7 +34,7 @@ public class VodRepositoryTest {
                 .url("test url")
                 .length(3)
                 .name("test title")
-                .category("거북")
+                .category(category)
                 .build();
 
         // when
@@ -39,12 +47,13 @@ public class VodRepositoryTest {
     @Test
     public void 영상_삭제_성공(){
         // given
+        categoryRepository.save(category);
         Vod vod = Vod.builder()
                 .vodId(1L)
                 .url("test url")
                 .length(3)
                 .name("test title")
-                .category("거북")
+                .category(category)
                 .build();
         vodRepository.save(vod);
 

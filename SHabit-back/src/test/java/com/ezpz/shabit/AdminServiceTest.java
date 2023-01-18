@@ -35,7 +35,7 @@ public class AdminServiceTest {
         final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deleteVod(vodIdList()));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("없는 문구 입니다.");
+        assertThat(exception.getMessage()).isEqualTo("영상이 없습니다.");
     }
 
     @Test

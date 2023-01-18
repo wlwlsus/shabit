@@ -16,7 +16,7 @@ public class AdminServiceImpl implements AdminService{
     public int deleteVod(List<Integer> vodIdList) {
         vodIdList.forEach(i -> {
                 if(vodRepository.findById(Integer.toUnsignedLong(i)).isEmpty()){
-                    throw new NullPointerException("없는 문구 입니다.");
+                    throw new NullPointerException("영상이 없습니다.");
                 }
                 vodRepository.deleteById(Integer.toUnsignedLong(i));});
         return vodIdList.size();
