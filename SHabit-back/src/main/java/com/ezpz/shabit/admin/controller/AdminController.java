@@ -1,6 +1,8 @@
 package com.ezpz.shabit.admin.controller;
 
+import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
+import com.ezpz.shabit.admin.service.youtube.YouTubeServiceImpl;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.InputMismatchException;
+
 @RestController
 @RequestMapping("api/v1/admin")
 @RequiredArgsConstructor
@@ -19,16 +23,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     private final AdminServiceImpl adminService;
+    private final YouTubeServiceImpl youtubeService;
 
     @PostMapping("/vods")
     ResponseEntity<?> insertVod(@RequestBody VodReqDto req) {
         int res = 0;
         try{
-            res = adminService.insertVod(req);
+            YouTubeDto youtube = youtubeService.get(req.getUrl());
+
+            res = adminService.insertVod(youtube, req.getCategoryId());
         } catch(DataIntegrityViolationException e){
             log.info(e.getMessage());
             return Response.badRequest("이미 존재하는 영상입니다.");
-        } catch(Exception e){
+        } catch(InputMismatchException e){
+            log.info(e.getMessage());
+            return Response.badRequest("영상 길이가 13분 이상입니다.");
+        }catch(Exception e){
             log.info(e.getMessage());
         }
 

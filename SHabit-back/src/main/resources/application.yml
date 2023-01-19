@@ -28,3 +28,6 @@ logging:
     org:
       Hibernate: info
 
+# key
+key:
+  youtube: AIzaSyCgGyrOibFVCbL9Bvkqt0A8MWEYEZPwwJc

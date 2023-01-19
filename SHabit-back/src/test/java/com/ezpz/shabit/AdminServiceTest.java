@@ -1,5 +1,6 @@
 package com.ezpz.shabit;
 
+import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.entity.Category;
@@ -11,12 +12,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminServiceTest {
@@ -33,24 +36,27 @@ public class AdminServiceTest {
         // given
         doReturn(Vod.builder()
                 .vodId(1L)
-                .url("test url")
-                .length(3)
-                .name("test title")
+                .videoId("test url")
+                .length(7)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
                 .category(Category.builder().name("거북").build())
                 .build())
                 .when(vodRepository)
-                .findByUrl("test url");
-        
+                .findByVideoId("test url");
+
         // when
-        int cnt = target.insertVod(VodReqDto.builder()
-                .url("test url")
-                .length(3)
-                .name("test title")
-                .categoryId(1L)
-                .build());
+        DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class, () -> target.insertVod(YouTubeDto.builder()
+                .videoId("test url")
+                .length(7)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
+                .build(), 1L));
 
         // then
-        assertThat(cnt).isEqualTo(0);
+        assertThat(exception.getMessage()).isEqualTo("이미 존재하는 영상입니다.");
     }
 
     @Test
@@ -58,27 +64,38 @@ public class AdminServiceTest {
         // given
         doReturn(null)
                 .when(vodRepository)
-                .findByUrl("test url");
+                .findByVideoId("test url");
         doReturn(null)
                 .when(vodRepository)
                 .save(any(Vod.class));
         doReturn(Optional.of(Category.builder().build())).when(categoryRepository).findById(1L);
 
         // when
-        VodReqDto vod = VodReqDto.builder()
-                .url("test url")
+        YouTubeDto youTubeDto = YouTubeDto.builder()
+                .videoId("test url")
                 .length(7)
-                .name("test title")
-                .categoryId(1L)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
                 .build();
-        if(vod.getLength() < 4){
+
+        Vod vod = Vod.builder()
+                .vodId(1L)
+                .videoId("test url")
+                .length(7)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
+                .category(Category.builder().build())
+                .build();
+        if(youTubeDto.getLength() < 4){
             vod.setLength(3);
-        }else if(vod.getLength() < 8){
+        }else if(youTubeDto.getLength() < 8){
             vod.setLength(5);
-        } else if(vod.getLength() < 12){
+        } else if(youTubeDto.getLength() < 12){
             vod.setLength(10);
         }
-        int cnt = target.insertVod(vod);
+        int cnt = target.insertVod(youTubeDto, 1L);
 
         // then
         assertThat(cnt).isEqualTo(1);

@@ -4,49 +4,150 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0740659-326d-4f4d-b47a-cc4f71df511a" name="Changes" comment="">
+    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/dto/YouTubeDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/youtube/YouTubeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/youtube/YouTubeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/req/VodReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/req/VodReqDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/entity/Vod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/entity/Vod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="feat/#22" />
+        <entry key="$PROJECT_DIR$/.." value="feat/#21" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
-  <component name="RunManager">
-    <configuration name="SHabitApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ezpz.shabit.SHabitApplication" />
+}</component>
+  <component name="RunManager" selected="JUnit.AdminControllerTest.영상_중복">
+    <configuration name="AdminControllerTest.영상_중복" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.ezpz.shabit.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
+      <option name="METHOD_NAME" value="영상_중복" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminServiceTest.영상_중복" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
+      <option name="METHOD_NAME" value="영상_중복" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminServiceTest.영상_추가_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
+      <option name="METHOD_NAME" value="영상_추가_성공" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VodRepositoryTest.영상_중복" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.VodRepositoryTest" />
+      <option name="METHOD_NAME" value="영상_중복" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VodRepositoryTest.영상_추가_성공" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.VodRepositoryTest" />
+      <option name="METHOD_NAME" value="영상_추가_성공" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.SHabitApplication" />
+        <item itemvalue="JUnit.AdminControllerTest.영상_중복" />
+        <item itemvalue="JUnit.AdminServiceTest.영상_추가_성공" />
+        <item itemvalue="JUnit.AdminServiceTest.영상_중복" />
+        <item itemvalue="JUnit.VodRepositoryTest.영상_추가_성공" />
+        <item itemvalue="JUnit.VodRepositoryTest.영상_중복" />
       </list>
     </recent_temporary>
   </component>

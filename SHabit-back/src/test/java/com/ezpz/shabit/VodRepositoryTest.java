@@ -27,15 +27,17 @@ public class VodRepositoryTest {
         categoryRepository.save(category);
         Vod vod = Vod.builder()
                 .vodId(1L)
-                .url("test url")
-                .length(3)
-                .name("test title")
+                .videoId("test url")
+                .length(7)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
                 .category(category)
                 .build();
         vodRepository.save(vod);
 
         //when
-        Vod foundVod = vodRepository.findByUrl(vod.getUrl());
+        Vod foundVod = vodRepository.findByVideoId(vod.getVideoId());
 
         //then
         assertThat(foundVod).isNotNull();
@@ -48,9 +50,11 @@ public class VodRepositoryTest {
         categoryRepository.save(category);
         Vod vod = Vod.builder()
                 .vodId(1L)
-                .url("test url")
+                .videoId("test url")
                 .length(7)
-                .name("test title")
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
                 .category(category)
                 .build();
 
@@ -59,13 +63,12 @@ public class VodRepositoryTest {
 
         //then
         assertThat(savedVod.getCategory()).isEqualTo(vod.getCategory());
-        assertThat(savedVod.getUrl()).isEqualTo(vod.getUrl());
-        assertThat(savedVod.getName()).isEqualTo(vod.getName());
+        assertThat(savedVod.getVideoId()).isEqualTo(vod.getVideoId());
+        assertThat(savedVod.getThumbnail()).isEqualTo(vod.getThumbnail());
+        assertThat(savedVod.getOriginalLength()).isEqualTo(vod.getOriginalLength());
+        assertThat(savedVod.getTitle()).isEqualTo(vod.getTitle());
         assertThat(savedVod.getLength()).isEqualTo(7);
     }
-
-
-
 
 }
 

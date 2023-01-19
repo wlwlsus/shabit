@@ -42,6 +42,11 @@ dependencies {
     // swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // google
+    compileOnly 'com.google.api-client:google-api-client:1.30.9'
+    compileOnly 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    compileOnly 'com.google.apis:google-api-services-youtube:v3-rev222-1.25.0'
 }
 
 tasks.named('test') {

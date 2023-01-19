@@ -1,12 +1,17 @@
 package com.ezpz.shabit.admin.service;
 
+import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.InputMismatchException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,28 +21,32 @@ public class AdminServiceImpl implements AdminService{
     private final CategoryRepository categoryRepository;
 
     @Override
-    public int insertVod(VodReqDto req) {
-        int res = 0;
-        Vod vod = vodRepository.findByUrl(req.getUrl());
-        if(vod == null){ // 중복되지 않음!
-            if(req.getLength() < 4){
-                req.setLength(3);
-            }else if(req.getLength() < 8){
-                req.setLength(5);
-            } else if(req.getLength() < 12){
-                req.setLength(10);
-            }
-            vodRepository.save(Vod.builder()
-                    .url(req.getUrl())
-                    .length(req.getLength())
-                    .name(req.getName())
-                    .category(categoryRepository.findById(req.getCategoryId()).orElse(null))
-                    .build());
-            res = 1;
-        }else {
+    public int insertVod(YouTubeDto youtube, Long categoryId) {
+        Vod vod = vodRepository.findByVideoId(youtube.getVideoId());
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        if(vod != null)
             throw new DataIntegrityViolationException("이미 존재하는 영상입니다.");
-        }
-        return res;
+        if(category.isEmpty())
+            throw new NullPointerException("카테고리를 찾을 수 없습니다.");
+
+        vod = Vod.builder()
+                .thumbnail(youtube.getThumbnail())
+                .title(youtube.getTitle())
+                .originalLength(youtube.getOriginalLength())
+                .category(category.get())
+                .videoId(youtube.getVideoId())
+                .build();
+
+        if(youtube.getLength() < 4){
+            vod.setLength(3);
+        }else if(youtube.getLength() < 8){
+            vod.setLength(5);
+        } else if(youtube.getLength() < 12){
+            vod.setLength(10);
+        } else throw new InputMismatchException("영상 길이가 13분 이상입니다.");
+
+        vodRepository.save(vod);
+        return 1;
     }
 
 
