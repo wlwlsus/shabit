@@ -6,6 +6,7 @@ import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class AdminServiceImpl implements AdminService{
                     .build());
             res = 1;
         }else {
-            throw new UnsupportedOperationException("이미 존재하는 영상입니다.");
+            throw new DataIntegrityViolationException("이미 존재하는 영상입니다.");
         }
         return res;
     }
