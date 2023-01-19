@@ -26,6 +26,9 @@ public class AdminController {
             res = adminService.insertVod(req);
         } catch (Exception e){
             log.info(e.getMessage());
+            if(e.getMessage() == "이미 존재하는 영상입니다."){
+                return Response.badRequest("이미 존재하는 영상입니다.");
+            }
         }
 
         if(res == 0) return Response.notFound("영상 등록에 실패하였습니다.");

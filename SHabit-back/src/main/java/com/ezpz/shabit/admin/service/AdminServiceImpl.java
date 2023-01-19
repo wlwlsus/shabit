@@ -33,6 +33,8 @@ public class AdminServiceImpl implements AdminService{
                     .category(categoryRepository.findById(req.getCategoryId()).orElse(null))
                     .build());
             res = 1;
+        }else {
+            throw new UnsupportedOperationException("이미 존재하는 영상입니다.");
         }
         return res;
     }
