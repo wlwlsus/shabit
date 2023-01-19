@@ -59,6 +59,13 @@ const Landing = () => {
 };
 
 const LandingWrapper = styled.div`
-  display: flex;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  & > div:nth-child(2) {
+    position: absolute;
+    left: 12%;
 `;
 export default LandingTemplate;
