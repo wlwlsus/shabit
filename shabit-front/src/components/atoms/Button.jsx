@@ -1,14 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { theme } from '../../styles/GlobalStyles';
 
-const Button = ({ bg, role, size, text, icon, shadow, onClick, children }) => {
+const Button = ({
+  bg,
+  role,
+  size,
+  text,
+  color,
+  icon,
+  shadow,
+  onClick,
+  children,
+}) => {
   const bgClass = `bg-${bg}`;
 
   return (
     <ButtonWrapper
       type={role}
-      className={`${bgClass} ${size} ${shadow}`}
+      className={`${bgClass} ${size} ${shadow} ${color}`}
       onClick={onClick}
     >
       {icon && <Icon>{icon}</Icon>}
@@ -23,6 +34,7 @@ Button.propTypes = {
   role: PropTypes.oneOf(['button', 'submit']),
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   text: PropTypes.string,
+  color: PropTypes.oneOf(['primary', 'secondary', 'white']),
   icon: PropTypes.element,
   shadow: PropTypes.oneOf(['shadow']),
   onClick: PropTypes.func,
@@ -42,18 +54,36 @@ Button.defaultProps = {
 
 const ButtonWrapper = styled.button`
   display: inline-flex;
-  background-color: ${({ theme }) => theme.color.whiteColor};
   border-radius: 0.5rem;
   padding: 0.5rem;
+  background-color: transparent;
+
+  &.primary {
+    color: ${theme.color.primary};
+  }
+
+  &.secondary {
+    color: ${theme.color.secondary};
+  }
+
+  &.white {
+    color: ${theme.color.whiteColor};
+  }
 
   &.bg-primary {
-    background-color: ${({ theme }) => theme.color.primary};
-    color: ${({ theme }) => theme.color.secondary};
+    background-color: ${theme.color.primary};
   }
 
   &.bg-secondary {
-    background-color: ${({ theme }) => theme.color.secondary};
-    color: ${({ theme }) => theme.color.primary};
+    background-color: ${theme.color.secondary};
+  }
+
+  &.bg-white {
+    background-color: ${theme.color.whiteColor};
+  }
+
+  &.gray {
+    color: ${theme.color.grayColor};
   }
 
   &.sm {
@@ -61,7 +91,7 @@ const ButtonWrapper = styled.button`
   }
 
   &.md {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   &.lg {
@@ -69,7 +99,7 @@ const ButtonWrapper = styled.button`
   }
 
   &.shadow {
-    box-shadow: 0 0.2rem 0.5rem #e9e9e9;
+    box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
   }
 `;
 

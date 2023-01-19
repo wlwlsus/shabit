@@ -1,31 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Label from '../atoms/Label';
+import Button from '../atoms/Button';
 import Logo from '../molecules/Logo';
 
 import { RiUser3Line, RiUserAddLine, RiBookmark2Line } from 'react-icons/ri';
-import { theme } from '../../styles/GlobalStyles';
 
 const Sidebar = () => {
   return (
     <SidebarWrapper>
       <Logo color={'pink'} size={'sm'}></Logo>
-      <Label
-        icon={<RiUser3Line />}
-        color={theme.color.grayColor}
-        size={'md'}
-      ></Label>
-      <Label
-        icon={<RiUserAddLine />}
-        color={theme.color.grayColor}
-        size={'md'}
-      ></Label>
-      <Label
-        icon={<RiBookmark2Line />}
-        color={theme.color.grayColor}
-        size={'md'}
-      ></Label>
+      <Button icon={<RiUser3Line />} color={'gray'} size={'md'}></Button>
+      <Button icon={<RiUserAddLine />} color={'gray'} size={'md'}></Button>
+      <Button icon={<RiBookmark2Line />} color={'gray'} size={'md'}></Button>
     </SidebarWrapper>
   );
 };

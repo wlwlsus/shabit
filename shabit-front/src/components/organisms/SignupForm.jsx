@@ -27,7 +27,12 @@ const SignupForm = () => {
         <CheckIcon />
         <Label text={'일치하지 않습니다'} />
       </InputWrapper>
-      <Button text={'가입하기'} bg={'primary'} shadow={'shadow'} />
+      <Button
+        text={'가입하기'}
+        bg={'primary'}
+        color={'secondary'}
+        shadow={'shadow'}
+      />
     </FormWrapper>
   );
 };

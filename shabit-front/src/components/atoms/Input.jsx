@@ -33,7 +33,7 @@ const InputWrapper = styled.input`
   margin-bottom: 01rem;
 
   &.shadow {
-    box-shadow: 0 0.1rem 0.5rem #e9e9e9;
+    box-shadow: 0 0.1rem 0.5rem ${({ theme }) => theme.color.lightGrayColor};
   }
 `;
 
