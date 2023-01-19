@@ -22,7 +22,7 @@ const ProfileForm = () => {
       return Promise.resolve({ msg: '가짜api성공' });
     },
   };
-
+  //feat/#64 회원 정보 가져오기
   const [user, setUser] = useState({});
   //최초 실행시에 회원정보가 있는지를 확인하고, 없으면 로그인 페이지로 이동시킵니다. (로그인 할 때에 로컬 스토리지에 프로파일 저장됨.)
   //현재는 로컬 스토리지에 있지만, 상태관리툴을 도입시에는 상태관리 툴에서 받아옵니다.
@@ -47,6 +47,8 @@ const ProfileForm = () => {
   }, []);
 
   const { email, nickname, theme, image } = user;
+
+  //feat/#25 프로필 사진 변경하기
   let formData = new FormData();
 
   const onImgChagne = async (e) => {
@@ -59,6 +61,7 @@ const ProfileForm = () => {
     formData.get('file');
   };
 
+  // feat/#25: 프로필 사진 업로드 및 변경하기
   const [isUploading, setIsUploading] = useState(false);
   const onUpload = (e) => {
     e.preventDefault();
@@ -66,7 +69,7 @@ const ProfileForm = () => {
       alert('이미지 파일이 없습니다');
       return;
     }
-    // feat/#25: 프로필 사진 업로드 및 변경하기
+
     api
       .put(`/user/profile/${email}`, formData, {
         headers: {
@@ -91,6 +94,20 @@ const ProfileForm = () => {
           alert('로그인이 필요합니다');
         }
       });
+  };
+
+  //feat/#108 프로필 사진 삭제 요청하기
+  const onDeleteProfile = () => {
+    api.delete(`user/profile/${email}`).then(() => {
+      alert('프로필이 삭제되었습니다.');
+      api
+        .get(`user/${email}`)
+        .then((res) => {
+          localStorage.setItem('user', res.data.result);
+        })
+        .then(setIsUploading(!isUploading))
+        .catch((err) => alert(err.msg));
+    });
   };
   return (
     <div>
@@ -122,6 +139,9 @@ const ProfileForm = () => {
           </button>
           <button type="button" onClick={() => setIsUploading(!isUploading)}>
             업로드 취소하기
+          </button>
+          <button type="button" onClick={onDeleteProfile}>
+            프로필 사진 삭제하기
           </button>
         </form>
       )}
