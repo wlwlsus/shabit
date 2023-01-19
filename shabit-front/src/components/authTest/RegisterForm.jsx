@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
 
 const RegisterForm = ({ setIsLogginIn }) => {
+  //전체: 회원가입 폼의 인풋 태그를 관리합니다.
   const [inputs, setInputs] = useState({
     email: '',
     nickname: '',
@@ -9,20 +10,9 @@ const RegisterForm = ({ setIsLogginIn }) => {
     password2: '',
     emailCheck: '',
   });
-  const [message, setCurrentMessage] = useState('');
-  const setMessage = (str) => {
-    setCurrentMessage(str);
-    setTimeout(() => {
-      setCurrentMessage('');
-    }, 2000);
-  };
-  const [emailCode, setEmailCode] = useState('');
-  // const [isCodeChecking, setIsCodeChecking] = useState(false);
+  //전체: 회원가입 폼의 인풋 태그를 관리합니다.
   const { email, nickname, password, password2, emailCheck } = inputs;
-  const [emailChecked, setEmailChecked] = useState(false);
-  // const [checkingMessage, setChekingMessage] = useState('');
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [duplMessge, setDuplMessge] = useState('');
+
   const onChangeHandler = (e) => {
     const { value, name } = e.target;
     setInputs({
@@ -30,6 +20,18 @@ const RegisterForm = ({ setIsLogginIn }) => {
       [name]: value,
     });
   };
+
+  //전체: API 통신 내용 혹은 메시지를 관리합니다.
+  const [message, setCurrentMessage] = useState('');
+  //전체: 메시지을 2초 후 초기화합니다.
+  const setMessage = (str) => {
+    setCurrentMessage(str);
+    setTimeout(() => {
+      setCurrentMessage('');
+    }, 2000);
+  };
+
+  //전체: 목업 API입니다.
   const api = {
     post() {
       return Promise.resolve({ msg: '가짜api 성공' });
@@ -50,19 +52,8 @@ const RegisterForm = ({ setIsLogginIn }) => {
       return Promise.resolve({ msg: '가짜api성공' });
     },
   };
-
-  const onChecking = () => {
-    console.log(emailCode);
-    console.log(emailCheck);
-    if (emailCheck === emailCode) {
-      setEmailChecked(true);
-      setIsDisabled(true);
-      setEmailCode('');
-    } else {
-      setMessage('인증코드가 일치하지 않습니다.');
-    }
-  };
-
+  // ##################################################
+  //feat/#51 : 회원가입을 요청합니다.
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (password === password2) {
@@ -81,24 +72,17 @@ const RegisterForm = ({ setIsLogginIn }) => {
     }
   };
 
-  // const onEmailCheck = (e) => {
-  //   e.preventDefault();
-  //   api
-  //     .get(`/user/${email}`)
-  //     .then((res) => {
-  //       setMessage((res.msg || res.data.msg) + '이메일 체크');
-  //     })
-  //     .catch((err) => {
-  //       setMessage((err.msg || err.data.msg) + '이메일 체크');
-  //     });
-  // };
-  const onCheckCode = (e) => {
-    e.preventDefault();
-    api.get('/email/{email}', { email }).then((res) => {
-      setEmailCode(res.data.result.code);
-    });
-  };
+  //feat/#51 : 비밀번호와 확인용 비밀번호의 일치 여부를 파악합니다.
+  const debouncedPasswordConfirm = useDebounce(password2, 300);
+  useEffect(() => {
+    if (debouncedPasswordConfirm) {
+      if (password !== password2) {
+        setMessage('비밀번호가 일치하지 않습니다');
+      }
+    }
+  }, [debouncedPasswordConfirm]);
 
+  //feat/#28 : 이메일 중복 여부를 체크합니다.
   const debouncedEmailTerm = useDebounce(email, 300);
   const checkDuplicated = (email) => {
     api
@@ -118,15 +102,35 @@ const RegisterForm = ({ setIsLogginIn }) => {
     }
   }, [debouncedEmailTerm]);
 
-  const debouncedPasswordConfirm = useDebounce(password2, 300);
-  useEffect(() => {
-    if (debouncedPasswordConfirm) {
-      if (password !== password2) {
-        setMessage('비밀번호가 일치하지 않습니다');
-      }
-    }
-  }, [debouncedPasswordConfirm]);
+  // ##################################################
+  //feat/#26 : 이메일 인증을 요청합니다.
+  const [emailCode, setEmailCode] = useState('');
+  const [emailChecked, setEmailChecked] = useState(false);
+  //feat/#26 이메일 인증이 완료되면 이메일 인풋폼을 Diabled합니다.
+  const [isDisabled, setIsDisabled] = useState(false);
 
+  //feat/#26 : API에 요청하여 이메일 인증코드를 받습니다.
+  const onCheckCode = (e) => {
+    e.preventDefault();
+    api.get(`/email/${email}`, { email }).then((res) => {
+      setEmailCode(res.data.result.code);
+    });
+  };
+
+  //feat/#26 : 이메일 인증 코드를 비교합니다..
+  const onChecking = () => {
+    console.log(emailCode);
+    console.log(emailCheck);
+    if (emailCheck === emailCode) {
+      setEmailChecked(true);
+      setIsDisabled(true);
+      setEmailCode('');
+    } else {
+      setMessage('인증코드가 일치하지 않습니다.');
+    }
+  };
+
+  // ##################################################
   return (
     <div>
       {message}
@@ -141,7 +145,7 @@ const RegisterForm = ({ setIsLogginIn }) => {
                 <br />
               </div>
             ) : (
-              <div>{duplMessge}</div>
+              <div></div>
             )}
             <input
               type="email"

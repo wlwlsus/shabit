@@ -19,19 +19,19 @@ const TeachableMachine = ({
 
   //이전 데이터를 저장할 전역변수를 만듭니다.
   let prevMaxClass = '';
-  let prevMaxPrediction = 0;
   let maxTime = '';
   let preparedLog = {};
-  let intervalID;
+  let prevMaxPrediction = 0;
+  // let intervalID;
   // let webcamStop = {};
   let isRunning = true;
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩중이면 스핀휠을 호출
+  const [maxClassState, setMaxClassState] = useState(''); // 비율이 가장 높은 자세
+  const [maxPredictionState, setMaxPredictionState] = useState(''); // 가장 높은 자세의 비율
+  const [logArray, setLogArray] = useState([]); // 로그를 배열로 기록함.
 
-  const [maxClassState, setMaxClassState] = useState('');
-  const [maxPredictionState, setMaxPredictionState] = useState('');
-  const [logArray, setLogArray] = useState([]);
-
+  // TM: 정지 버튼을 눌렀을 때에 intervalID를 기준으로 loop함수를 중단합니다.
   async function onStop() {
     const jsonData = JSON.stringify(logArray);
     isRunning = false;
@@ -43,6 +43,7 @@ const TeachableMachine = ({
     // await window.location.replace('/');
   }
 
+  // TM: 웹캠을 설정하고 loop함수를 interval로 등록하며, intervalID를 반환합니다.
   async function init() {
     // const modelURL = URL + "model.json";
     // const metadataURL = URL + "metadata.json";
@@ -85,6 +86,7 @@ const TeachableMachine = ({
     // }
   }
 
+  // TM: Predict 함수를 호출하는 함수입니다..
   async function loop(timestamp) {
     webcam.update(); // update the webcam frame
     await predict();
@@ -95,6 +97,7 @@ const TeachableMachine = ({
     // setTimeout(loop, 16);
   }
 
+  // TM: 자세를 예측하고 콘솔을 찍습니다.
   async function predict() {
     // Prediction #1: run input through posenet
     // estimatePose can take in an image, video or canvas html element
@@ -170,7 +173,7 @@ const TeachableMachine = ({
     // finally draw the poses
     drawPose(pose);
   }
-
+  // TM: 스켈레톤을 그립니다.
   function drawPose(pose) {
     if (webcam.canvas) {
       ctx.drawImage(webcam.canvas, 0, 0);
@@ -183,9 +186,11 @@ const TeachableMachine = ({
     }
   }
 
+  //컴포넌트가 마운트되면 TMpose를 실행합니다.
   useEffect(() => {
     if (isStarting) init();
   }, []);
+
   return (
     <div>
       {isLoading ? <Loading /> : <div></div>}

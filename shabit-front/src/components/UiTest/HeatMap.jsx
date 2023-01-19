@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
 
 const HeatMap = () => {
-  // Import the calendarheatmap
+  //히트맵 데이터에 들어갈 내용입니다.
   const [values, setValues] = useState([]);
+
+  //최초에 오늘 날짜를 마지막 날짜로 설정합니다.
   const [endDate, setEndDate] = useState(() => {
     const now = new Date();
     const today = now
@@ -16,13 +18,8 @@ const HeatMap = () => {
       .join('-');
     return today;
   });
-  // const startDate = () => {
-  //   const dateArr = endDate.split('-');
-  //   dateArr[0] = (~~dateArr[0] - 1).toString();
-  //   console.log(dateArr);
-  //   return dateArr.join('-');
-  // };
 
+  //마운트 됐을 때 json데이터를 가져옵니다. 배열에 날짜와 퍼센트, 그리고 클래스(색깔)을 저장합니다.
   useEffect(() => {
     fetch(`/testData/heatMapData.json`)
       .then((res) => res.json())
@@ -62,6 +59,7 @@ const HeatMap = () => {
         values={values}
         onClick={onClick}
         showWeekdayLabels={true}
+        //classForValue로 색깔이 될 클래스를 지정합니다.
         classForValue={(value) => {
           if (!value) {
             return 'color-empty';
