@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import LandingTest from './components/authTest/LandingTest';
+import ProfileForm from './components/authTest/ProfileForm';
 import TeachableMachine from './components/TeachableMachineTest/TeachableMachine';
 import HeatMap from './components/UiTest/HeatMap';
 import LineChart from './components/UiTest/LineChart';
@@ -30,6 +31,7 @@ function App() {
       <RangeBarDaily />
       {/* <UpdateDonutWeekly /> */}
       <LineChart />
+      <ProfileForm />
     </div>
   );
 }
