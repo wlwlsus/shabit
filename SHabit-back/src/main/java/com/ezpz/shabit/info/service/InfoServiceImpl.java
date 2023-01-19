@@ -46,6 +46,8 @@ public class InfoServiceImpl implements InfoService {
     long max = 0;
     for (DailyCalcDto calc : list) {
       long id = calc.getPosture().getPostureId();
+      if (id == 1)
+        continue;
       long time = map.get(id);
       long sum = time + calc.getTime();
       map.put(id, sum);
@@ -54,11 +56,12 @@ public class InfoServiceImpl implements InfoService {
         max = sum;
       }
     }
+
     log.info("calc map : {}", map);
     // 스트레칭 영상 내보내기
-    List<Vod> length3 = vodRepository.findByLengthAndCategoryCategoryId(3, postureId);
-    List<Vod> length5 = vodRepository.findByLengthAndCategoryCategoryId(5, postureId);
-    List<Vod> length10 = vodRepository.findByLengthAndCategoryCategoryId(10, postureId);
+    List<Vod> length3 = vodRepository.findByLengthAndCategoryCategoryId(3, postureId - 1);
+    List<Vod> length5 = vodRepository.findByLengthAndCategoryCategoryId(5, postureId - 1);
+    List<Vod> length10 = vodRepository.findByLengthAndCategoryCategoryId(10, postureId - 1);
 
     log.info("length 3 vodList : {}", length3);
     log.info("length 5 vodList : {}", length5);
