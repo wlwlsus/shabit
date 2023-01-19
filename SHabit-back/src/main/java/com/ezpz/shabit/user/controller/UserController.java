@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -24,10 +26,12 @@ public class UserController {
   @PutMapping("profile/{email}")
   public ResponseEntity<?> updateProfile(@RequestPart("profile") MultipartFile profile, @PathVariable String email) {
     try {
+      Map<String, String> result = new HashMap<>();
       String url = s3FileService.upload(profile, "profile");
       userService.updateProfile(email, url);
+      result.put("url", url);
 
-      return Response.makeResponse(HttpStatus.OK, "프로필 이미지 변경 성공");
+      return Response.makeResponse(HttpStatus.OK, "프로필 이미지 변경 성공", result.size(), result);
     } catch (NoSuchElementException e) {
       log.info(e.getMessage());
       return Response.noContent("존재하지 않는 이메일입니다.");
