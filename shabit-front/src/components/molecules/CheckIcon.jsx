@@ -4,8 +4,8 @@ import Label from '../atoms/Label';
 
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 
-const CheckIcon = () => {
-  return <Label icon={<BsFillCheckCircleFill />} />;
+const CheckIcon = ({ color }) => {
+  return <Label icon={<BsFillCheckCircleFill />} color={color} />;
 };
 
 export default CheckIcon;

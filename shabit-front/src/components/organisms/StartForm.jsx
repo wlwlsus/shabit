@@ -7,8 +7,8 @@ import ArrowBtn from '../molecules/ArrowBtn';
 const StartForm = () => {
   return (
     <Wrapper>
-      <Label text={'지금 바로 시작하기'} size={'sm'} />
-      <ArrowBtn size={'lg'} />
+      <Label text={'지금 바로 시작하기'} size={'sm'} color={'primary'} />
+      <ArrowBtn size={'lg'} color={'primary'} />
     </Wrapper>
   );
 };

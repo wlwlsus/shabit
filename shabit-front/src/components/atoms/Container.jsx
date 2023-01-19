@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { theme } from '../../styles/GlobalStyles';
 
 const Container = ({ size, bg, border, shadow, onClick, children }) => {
   const bgClass = `bg-${bg}`;
@@ -34,14 +35,14 @@ Container.defaultProps = {
 };
 
 const ContainerWrapper = styled.div`
-  background-color: ${({ theme }) => theme.color.whiteColor};
+  background-color: ${theme.color.whiteColor};
 
   &.bg-primary {
-    background-color: ${({ theme }) => theme.color.primary};
+    background-color: ${theme.color.primary};
   }
 
   &.bg-secondary {
-    background-color: ${({ theme }) => theme.color.secondary};
+    background-color: ${theme.color.secondary};
   }
 
   &.rounded {
@@ -49,7 +50,7 @@ const ContainerWrapper = styled.div`
   }
 
   &.shadow {
-    box-shadow: 0 0.1rem 0.5rem ${({ theme }) => theme.color.grayColor};
+    box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
   }
 }
 

@@ -19,9 +19,9 @@ const Label = ({ size, text, color, bg, shadow, icon, onClick }) => {
 };
 
 Label.propTypes = {
-  size: PropTypes.oneOf(['sm', 'md', 'lg']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
   text: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(['primary', 'secondary', 'white', 'gray']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'white', 'gray', 'red']),
   background: PropTypes.oneOf(['primary', 'secondary', 'white']),
   icon: PropTypes.element,
   onClick: PropTypes.func,
@@ -41,6 +41,7 @@ const LabelWrapper = styled.div`
   vertical-align: baseline;
   color: ${theme.color.blackColor};
   background-color: 'none';
+  font-weight: 600;
 
   &.primary {
     color: ${theme.color.primary};
@@ -56,6 +57,10 @@ const LabelWrapper = styled.div`
 
   &.gray {
     color: ${theme.color.grayColor};
+  }
+
+  &.red {
+    color: ${theme.color.redColor};
   }
 
   &.bg-primary {
@@ -74,16 +79,20 @@ const LabelWrapper = styled.div`
     box-shadow: 0.2rem 0.2rem 0.2rem ${theme.color.lightGrayColor};
   }
 
+  &.xs {
+    font-size: 0.7rem;
+  }
+
   &.sm {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   &.md {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   &.lg {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 `;
 

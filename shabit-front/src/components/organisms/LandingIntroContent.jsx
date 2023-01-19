@@ -11,7 +11,11 @@ const LandingIntroContent = () => {
   return (
     <ContentWrapper>
       <TextWrapper>
-        <Label text={'자세 교정을 위한 맞춤형 솔루션'} size={'md'} />
+        <Label
+          text={'자세 교정을 위한 맞춤형 솔루션'}
+          size={'md'}
+          color={'white'}
+        />
         <Logo size={'lg'} />
       </TextWrapper>
       <ImgWrapper>
@@ -24,13 +28,18 @@ const LandingIntroContent = () => {
 };
 
 const ContentWrapper = styled.div`
-  display: inline-block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 `;
 
 const TextWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 2rem;
 `;
 
 const ImgWrapper = styled.div`

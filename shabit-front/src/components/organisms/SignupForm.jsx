@@ -9,29 +9,30 @@ import CheckIcon from '../molecules/CheckIcon';
 const SignupForm = () => {
   return (
     <FormWrapper>
+      <Label text={'이미 존재합니다'} size={'xs'} color={'red'} />
       <InputWrapper>
         <Input placeholder={'이메일 아이디'} shadow={'shadow'} />
-        <CheckIcon />
-        <Label text={'이미 존재합니다'} />
+        <CheckIcon color={'primary'} />
       </InputWrapper>
+      <Label text={'이미 존재합니다'} size={'xs'} color={'red'} />
       <InputWrapper>
         <Input placeholder={'닉네임'} shadow={'shadow'} />
-        <CheckIcon />
-        <Label text={'이미 존재합니다'} />
+        <CheckIcon color={'primary'} />
       </InputWrapper>
       <InputWrapper>
-        <Input placeholder={'비밀번호'} shadow={'shadow'} />
+        <Input placeholder={'비밀번호'} shadow={'shadow'} color={'red'} />
       </InputWrapper>
+      <Label text={'일치하지 않습니다'} size={'xs'} color={'red'} />
       <InputWrapper>
         <Input placeholder={'비밀번호 확인'} shadow={'shadow'} />
-        <CheckIcon />
-        <Label text={'일치하지 않습니다'} />
+        <CheckIcon color={'primary'} />
       </InputWrapper>
       <Button
         text={'가입하기'}
         bg={'primary'}
         color={'secondary'}
         shadow={'shadow'}
+        p={1}
       />
     </FormWrapper>
   );
@@ -49,8 +50,10 @@ const FormWrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
+  width: 50%;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 `;
 
 export default SignupForm;

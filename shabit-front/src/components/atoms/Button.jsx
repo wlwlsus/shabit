@@ -11,15 +11,17 @@ const Button = ({
   color,
   icon,
   shadow,
+  p,
   onClick,
   children,
 }) => {
   const bgClass = `bg-${bg}`;
+  const padding = `p-${p}`;
 
   return (
     <ButtonWrapper
       type={role}
-      className={`${bgClass} ${size} ${shadow} ${color}`}
+      className={`${bgClass} ${size} ${shadow} ${color} ${padding}`}
       onClick={onClick}
     >
       {icon && <Icon>{icon}</Icon>}
@@ -32,11 +34,12 @@ const Button = ({
 Button.propTypes = {
   bg: PropTypes.oneOf(['primary', 'secondary']),
   role: PropTypes.oneOf(['button', 'submit']),
-  size: PropTypes.oneOf(['sm', 'md', 'lg']),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
   text: PropTypes.string,
-  color: PropTypes.oneOf(['primary', 'secondary', 'white']),
+  color: PropTypes.oneOf(['primary', 'secondary', 'white', 'blue', 'yellow']),
   icon: PropTypes.element,
   shadow: PropTypes.oneOf(['shadow']),
+  padding: PropTypes.number,
   onClick: PropTypes.func,
   children: PropTypes.element,
 };
@@ -48,15 +51,15 @@ Button.defaultProps = {
   text: '',
   icon: null,
   shadow: undefined,
+  padding: undefined,
   onClick: undefined,
   children: undefined,
 };
 
 const ButtonWrapper = styled.button`
   display: inline-flex;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
   background-color: transparent;
+  border-radius: 0.3rem;
 
   &.primary {
     color: ${theme.color.primary};
@@ -68,6 +71,18 @@ const ButtonWrapper = styled.button`
 
   &.white {
     color: ${theme.color.whiteColor};
+  }
+
+  &.gray {
+    color: ${theme.color.grayColor};
+  }
+
+  &.blue {
+    color: ${theme.color.blueColor};
+  }
+
+  &.yellow {
+    color: ${theme.color.yellowColor};
   }
 
   &.bg-primary {
@@ -82,8 +97,8 @@ const ButtonWrapper = styled.button`
     background-color: ${theme.color.whiteColor};
   }
 
-  &.gray {
-    color: ${theme.color.grayColor};
+  &.xs {
+    font-size: 0.7rem;
   }
 
   &.sm {
@@ -91,7 +106,7 @@ const ButtonWrapper = styled.button`
   }
 
   &.md {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   &.lg {
@@ -100,6 +115,10 @@ const ButtonWrapper = styled.button`
 
   &.shadow {
     box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+  }
+
+  &.p-1 {
+    padding: 0.5rem;
   }
 `;
 

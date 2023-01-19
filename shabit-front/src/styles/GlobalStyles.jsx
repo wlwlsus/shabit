@@ -11,6 +11,7 @@ const theme = {
     redColor: '#F16666',
     greenColor: '#89CA88',
     yellowColor: '#FFCD34',
+    blueColor: '#4267B2',
   },
   fontSize: {},
 };
