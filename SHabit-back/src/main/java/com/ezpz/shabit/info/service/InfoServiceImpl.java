@@ -81,8 +81,11 @@ public class InfoServiceImpl implements InfoService {
   private VodResDto getRandomOne(List<Vod> list) {
     VodResDto vod = new VodResDto();
     Random random = new Random();
-    int index = random.nextInt(list.size());
-
-    return new VodResDto(list.get(index));
+    try {
+      int index = random.nextInt(list.size());
+      return new VodResDto(list.get(index));
+    } catch (Exception e) {
+      throw new IllegalArgumentException();
+    }
   }
 }
