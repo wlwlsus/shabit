@@ -5,12 +5,13 @@ import TeachableMachine from './components/TeachableMachineTest/TeachableMachine
 import HeatMap from './components/UiTest/HeatMap';
 import LineChart from './components/UiTest/LineChart';
 import RangeBarDaily from './components/UiTest/RangeBarDaily';
+import Services from './services';
+
 // import UpdateDonutWeekly from './components/UiTest/UpdateDonutWeekly2';
 
 function App() {
   const [isStarting, setIsStarting] = useState(false);
   const savedIntevalId = useRef();
-  // const webcamObject = useRef();
 
   return (
     <div className="App">
