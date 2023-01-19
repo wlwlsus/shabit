@@ -1,7 +1,7 @@
 package com.ezpz.shabit.admin.service;
 
-import java.util.List;
+import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 
 public interface AdminService {
-    int deletePhrases(List<Integer> phrasesIdList);
+    int editSetting(SettingReqDto setting);
 }

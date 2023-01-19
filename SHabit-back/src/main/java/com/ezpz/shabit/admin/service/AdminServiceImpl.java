@@ -1,24 +1,29 @@
 package com.ezpz.shabit.admin.service;
 
-import com.ezpz.shabit.info.repository.PhrasesRepository;
+import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.entity.Setting;
+import com.ezpz.shabit.admin.repository.SettingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService{
 
-    private final PhrasesRepository phrasesRepository;
+    private final SettingRepository settingRepository;
 
     @Override
-    public int deletePhrases(List<Integer> phrasesIdList) {
-        phrasesIdList.forEach(i -> {
-                if(phrasesRepository.findById(Integer.toUnsignedLong(i)).isEmpty()){
-                    throw new NullPointerException("없는 문구 입니다.");
-                }
-                phrasesRepository.deleteById(Integer.toUnsignedLong(i));});
-        return phrasesIdList.size();
+    public int editSetting(SettingReqDto req) {
+        int res = 0;
+        Setting setting = settingRepository.findById(1L).orElse(null);
+        if(setting == null){
+            throw new NullPointerException("초기 세팅이 되어있지 않습니다.");
+        }else {
+            setting.setStretchingTime(req.getStretchingTime());
+            setting.setAlertTime(req.getAlertTime());
+            settingRepository.save(setting);
+            res = 1;
+        }
+        return res;
     }
 }

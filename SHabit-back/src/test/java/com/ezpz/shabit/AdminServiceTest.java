@@ -1,16 +1,15 @@
 package com.ezpz.shabit;
 
+import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.entity.Setting;
+import com.ezpz.shabit.admin.repository.SettingRepository;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
-import com.ezpz.shabit.info.entity.Phrases;
-import com.ezpz.shabit.info.repository.PhrasesRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -24,39 +23,47 @@ public class AdminServiceTest {
     @InjectMocks
     private AdminServiceImpl target;
     @Mock
-    private PhrasesRepository phrasesRepository;
+    private SettingRepository settingRepository;
 
     @Test
-    public void 없는_건강_문구_삭제_실패(){
+    public void 초기_세팅_안돼있음(){
         // given
-        doReturn(Optional.empty()).when(phrasesRepository).findById(any());
+        SettingReqDto setting = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doReturn(Optional.empty())
+                .when(settingRepository)
+                .findById(any(Long.class));
 
         // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deletePhrases(phrasesIdList()));
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target.editSetting(setting));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("없는 문구 입니다.");
+        assertThat(exception.getMessage()).isEqualTo("초기 세팅이 되어있지 않습니다.");
     }
 
     @Test
-    public void 건강_문구_삭제_성공(){
+    public void 세팅_수정_성공(){
         // given
-        Optional<Phrases> phrases = Optional.ofNullable(Phrases.builder().build());
-        doReturn(phrases).when(phrasesRepository).findById(any());
+        SettingReqDto setting = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doReturn(null)
+                .when(settingRepository)
+                .save(any(Setting.class));
+        doReturn(Optional.of(Setting.builder()
+                .alertTime(setting.getAlertTime())
+                .stretchingTime(setting.getStretchingTime()).build()))
+                .when(settingRepository)
+                .findById(any(Long.class));
 
         // when
-        int res = target.deletePhrases(phrasesIdList());
+        int cnt = target.editSetting(setting);
 
         // then
-        assertThat(res).isEqualTo(3);
-    }
-
-    private List<Integer> phrasesIdList() {
-        List<Integer> phrasesIdList = new ArrayList<>();
-        for(int i=0; i<3; i++){
-            phrasesIdList.add(i+1);
-        }
-        return phrasesIdList;
+        assertThat(cnt).isEqualTo(1);
     }
 
 }

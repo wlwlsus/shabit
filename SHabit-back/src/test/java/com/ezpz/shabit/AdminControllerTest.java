@@ -1,6 +1,7 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
+import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +17,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class) // @WebMVCTest를 이용할 수도 있지만 속도가 느리다
@@ -42,55 +42,50 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    public void 없는_건강_문구_삭제_실패() throws Exception {
+    public void 초기_세팅_안돼있음() throws Exception {
         // given
-        List<Integer> list = phrasesIdList();
-        doReturn(0).when(adminService)
-                .deletePhrases(list);
+        final String url = "/api/v1/admin/alarm";
+        SettingReqDto req = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doThrow(new NullPointerException("초기 세팅이 되어있지 않습니다."))
+                .when(adminService)
+                .editSetting(any(SettingReqDto.class));
 
         // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/phrase")
-                        .content(gson.toJson(list))
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(req))
         );
 
         // then
         // HTTP Status가 OK인지 확인
         MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
-
-        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
-        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
-    void 건강_문구_삭제_성공() throws Exception{
+    public void 세팅_수정_성공() throws Exception {
         // given
-        List<Integer> list = phrasesIdList();
-        doReturn(3).when(adminService)
-                .deletePhrases(list);
+        final String url = "/api/v1/admin/alarm";
+        SettingReqDto req = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doReturn(1).when(adminService)
+                .editSetting(any(SettingReqDto.class));
 
         // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/phrase")
-                        .content(gson.toJson(list))
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(req))
         );
 
         // then
         // HTTP Status가 OK인지 확인
         MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
-
-        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
-        System.out.println(mvcResult.getResponse().getContentAsString());
-    }
-
-    private List<Integer> phrasesIdList() {
-        List<Integer> phrasesIdList = new ArrayList<>();
-        for(int i=0; i<3; i++){
-            phrasesIdList.add(i+1);
-        }
-        return phrasesIdList;
     }
 
 }
