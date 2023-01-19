@@ -15,12 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -38,6 +41,7 @@ public class UserProfileTest {
   UserService userService;
   @Autowired
   UserRepository userRepository;
+
   @Value("${cloud.aws.s3.bucket}")
   String bucket;
 
@@ -61,8 +65,47 @@ public class UserProfileTest {
     Users user = userRepository.findByEmail(email).orElseThrow();
     String fileUrl = user.getProfile();
     userService.deleteProfile(email);
+    user = userRepository.findByEmail(email).orElseThrow();
     // then
-//    S3Object s3Object = amazonS3Client.getObject(new GetObjectRequest(bucket, fileUrl));
+    assertThat(user.getProfile()).isNull();
+  }
 
+  @Test
+  @Transactional
+  @DisplayName("프로필 사진 삭제 실패 Test")
+  public void deleteProfileNoContentTest() throws Exception {
+    // given
+    String email = "ssafy2@ssafy.com";
+    // when
+    Optional<Users> user = userRepository.findByEmail(email);
+    // then
+    assertThat(user).isNull();
+  }
+
+  @Test
+  @Transactional
+  @DisplayName("프로필 사진 삭제 API Success Test")
+  public void deleteProfileAPISuccessTest() throws Exception {
+    // given
+    String url = "api/v1/user/profile/ssafy1@ssafy.com";
+    // when
+    mockMvc.perform(MockMvcRequestBuilders.delete(url)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding("UTF-8"))
+            // then
+            .andExpect(status().isOk());
+  }
+  @Test
+  @Transactional
+  @DisplayName("프로필 사진 삭제 API NoContent Test")
+  public void deleteProfileAPINoContentTest() throws Exception {
+    // given
+    String url = "api/v1/user/profile/ssafy2@ssafy.com";
+    // when
+    mockMvc.perform(MockMvcRequestBuilders.delete(url)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .characterEncoding("UTF-8"))
+            // then
+            .andExpect(status().isNoContent());
   }
 }
