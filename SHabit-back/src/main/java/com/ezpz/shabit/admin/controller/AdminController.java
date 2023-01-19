@@ -20,7 +20,7 @@ public class AdminController {
     private final AdminServiceImpl adminService;
 
     @PutMapping("/alarm")
-    ResponseEntity<?> deletePhrases(@RequestBody SettingReqDto req) {
+    ResponseEntity<?> editSetting(@RequestBody SettingReqDto req) {
         int res = 0;
         try{
             res = adminService.editSetting(req);
