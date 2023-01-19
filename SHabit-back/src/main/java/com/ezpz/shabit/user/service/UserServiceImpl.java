@@ -11,12 +11,4 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  private final UserRepository userRepository;
-
-  @Override
-  public void updateProfile(String email, String url) throws Exception {
-    Users user = userRepository.findByEmail(email).orElseThrow();
-    user.setProfile(url);
-    userRepository.save(user);
-  }
 }

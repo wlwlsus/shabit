@@ -20,25 +20,4 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class UserController {
 
-  private final S3FileService s3FileService;
-  private final UserService userService;
-
-  @PutMapping("profile/{email}")
-  public ResponseEntity<?> updateProfile(@RequestPart("profile") MultipartFile profile, @PathVariable String email) {
-    try {
-      Map<String, String> result = new HashMap<>();
-      String url = s3FileService.upload(profile, "profile");
-      userService.updateProfile(email, url);
-      result.put("url", url);
-
-      return Response.makeResponse(HttpStatus.OK, "프로필 이미지 변경 성공", result.size(), result);
-    } catch (NoSuchElementException e) {
-      log.info(e.getMessage());
-      return Response.noContent("존재하지 않는 이메일입니다.");
-    } catch (Exception e) {
-      log.info(e.getMessage());
-      return Response.badRequest("프로필 이미지 변경 실패");
-    }
-  }
-
 }
