@@ -110,7 +110,7 @@ const Text = styled.span`
 `;
 
 const Icon = styled.span`
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 `;

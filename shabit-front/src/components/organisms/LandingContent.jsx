@@ -1,18 +1,26 @@
 import React from 'react';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
+import Container from '../atoms/Container';
 import WelcomeSign from '../molecules/WelcomeSign';
-import Social from '../molecules/Social';
 
-const LandingLoginContent = () => {
+const LandingContent = ({ children1, children2 }) => {
   return (
-    <Wrapper>
-      <WelcomeSign />
-      <Social />
-    </Wrapper>
+    <Container bg={'primary'} size={'square'} shadow={'shadow'}>
+      {children1}
+      {children2}
+    </Container>
   );
 };
 
-const Wrapper = styled.div``;
+LandingContent.propTypes = {
+  children1: PropTypes.element,
+  children2: PropTypes.element,
+};
 
-export default LandingLoginContent;
+LandingContent.defaultProps = {
+  children1: <WelcomeSign />,
+  children2: undefined,
+};
+
+export default LandingContent;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Label from '../atoms/Label';
 import ArrowBtn from '../molecules/ArrowBtn';
 
-const LandingIntroStart = () => {
+const StartForm = () => {
   return (
     <Wrapper>
       <Label text={'지금 바로 시작하기'} size={'sm'} />
@@ -19,4 +19,4 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-export default LandingIntroStart;
+export default StartForm;

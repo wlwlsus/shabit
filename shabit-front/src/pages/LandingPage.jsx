@@ -1,26 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 
-import LandingIntro from '../components/template/LandingIntro';
-// import LandingLogin from '../components/template/LandingLogin';
-// import LandingSignup from '../components/template/LandingSignup';
+import LandingTemplate from '../components/template/LandingTemplate';
 
 const LandingPage = () => {
-  return (
-    <PageWrapper>
-      <LandingIntro />
-      {/* <LandingLogin /> */}
-      {/* <LandingSignup /> */}
-    </PageWrapper>
-  );
+  return <LandingTemplate />;
 };
-
-const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default LandingPage;

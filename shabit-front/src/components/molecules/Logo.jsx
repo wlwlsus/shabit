@@ -20,7 +20,7 @@ Logo.defaultProps = {
 
 const LogoWrapper = styled.img`
   display: inline-block;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 
   &.sm {
     width: 5rem;

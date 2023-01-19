@@ -31,12 +31,9 @@ const LoginForm = () => {
 };
 
 const FormWrapper = styled.div`
-  height: 100%;
+  width: 30%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5rem;
 `;
 
 const Checkbox = styled.div``;
