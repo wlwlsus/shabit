@@ -12,7 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VodReqDto {
     private String name;
-    private String category;
+    private Long categoryId;
     private String url;
     private int length;
+
+    public void setLength(int length) {
+        this.length = length;
+    }
 }
