@@ -1,6 +1,6 @@
 package com.ezpz.shabit.admin.service;
 
-import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.entity.Setting;
 import com.ezpz.shabit.admin.repository.SettingRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +13,16 @@ public class AdminServiceImpl implements AdminService{
     private final SettingRepository settingRepository;
 
     @Override
-    public int editSetting(SettingReqDto req) {
-        int res = 0;
+    public SettingResDto getSetting() {
+        SettingResDto res = null;
         Setting setting = settingRepository.findById(1L).orElse(null);
         if(setting == null){
             throw new NullPointerException("초기 세팅이 되어있지 않습니다.");
         }else {
-            setting.setStretchingTime(req.getStretchingTime());
-            setting.setAlertTime(req.getAlertTime());
-            settingRepository.save(setting);
-            res = 1;
+             res = SettingResDto.builder()
+                    .stretchingTime(setting.getStretchingTime())
+                    .alertTime(setting.getAlertTime())
+                    .build();
         }
         return res;
     }

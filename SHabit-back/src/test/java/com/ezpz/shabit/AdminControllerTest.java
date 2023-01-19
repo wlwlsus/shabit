@@ -1,7 +1,7 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
-import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,16 +10,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class) // @WebMVCTest를 이용할 수도 있지만 속도가 느리다
@@ -42,50 +39,26 @@ public class AdminControllerTest {
     private AdminServiceImpl adminService;
 
     @Test
-    public void 초기_세팅_안돼있음() throws Exception {
+    public void 세팅_조회_성공() throws Exception {
         // given
         final String url = "/api/v1/admin/alarm";
-        SettingReqDto req = SettingReqDto.builder()
+        SettingResDto res = SettingResDto.builder()
                 .alertTime(5)
                 .stretchingTime(50)
                 .build();
-        doThrow(new NullPointerException("초기 세팅이 되어있지 않습니다."))
+        doReturn(res)
                 .when(adminService)
-                .editSetting(any(SettingReqDto.class));
+                .getSetting();
 
         // when
         final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.put(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new Gson().toJson(req))
-        );
-
-        // then
-        // HTTP Status가 OK인지 확인
-        MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
-    }
-
-    @Test
-    public void 세팅_수정_성공() throws Exception {
-        // given
-        final String url = "/api/v1/admin/alarm";
-        SettingReqDto req = SettingReqDto.builder()
-                .alertTime(5)
-                .stretchingTime(50)
-                .build();
-        doReturn(1).when(adminService)
-                .editSetting(any(SettingReqDto.class));
-
-        // when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.put(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new Gson().toJson(req))
+                MockMvcRequestBuilders.get(url)
         );
 
         // then
         // HTTP Status가 OK인지 확인
         MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
 }

@@ -1,7 +1,7 @@
 package com.ezpz.shabit.admin.service;
 
-import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.dto.res.SettingResDto;
 
 public interface AdminService {
-    int editSetting(SettingReqDto setting);
+    SettingResDto getSetting();
 }
