@@ -5,6 +5,7 @@ import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,11 +25,11 @@ public class AdminController {
         int res = 0;
         try{
             res = adminService.insertVod(req);
-        } catch (Exception e){
+        } catch(DataIntegrityViolationException e){
             log.info(e.getMessage());
-            if(e.getMessage() == "이미 존재하는 영상입니다."){
-                return Response.badRequest("이미 존재하는 영상입니다.");
-            }
+            return Response.badRequest("이미 존재하는 영상입니다.");
+        } catch(Exception e){
+            log.info(e.getMessage());
         }
 
         if(res == 0) return Response.notFound("영상 등록에 실패하였습니다.");
