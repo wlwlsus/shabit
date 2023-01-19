@@ -120,6 +120,9 @@ const ProfileForm = () => {
           <button type="submit" onClick={onUpload}>
             업로드 완료하기
           </button>
+          <button type="button" onClick={() => setIsUploading(!isUploading)}>
+            업로드 취소하기
+          </button>
         </form>
       )}
     </div>
