@@ -17,7 +17,7 @@ public class AdminServiceImpl implements AdminService{
     public List<Vod> getVodList(String search, String query) {
         if(search == null) return vodRepository.findAll();
         return switch (search) {
-            case ("category") -> vodRepository.findByCategory(query);
+            case ("category") -> vodRepository.findByCategoryName(query);
             case ("name") -> vodRepository.findByNameIsLike("%" + query + "%");
             case ("length") -> vodRepository.findByLength(Integer.parseInt(query));
             default -> vodRepository.findAll();
