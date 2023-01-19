@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VodResDto {
-    private String name;
+    private String title;
     private Long categoryId;
-    private String url;
+    private String videoId;
     private int length;
+    private String originalLength;
+    private String thumbnail;
 }

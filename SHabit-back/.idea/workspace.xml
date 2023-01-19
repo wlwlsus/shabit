@@ -6,21 +6,75 @@
   <component name="ChangeListManager">
     <list default="true" id="e0740659-326d-4f4d-b47a-cc4f71df511a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/admin/service/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/res/VodResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/dto/res/VodResDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/entity/Vod.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/entity/Vod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/repository/VodRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/AdminServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/VodRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.SHabitApplication">
+    <configuration name="AdminControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.AdminServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VodRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="SHabit.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ezpz.shabit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ezpz.shabit" />
+      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.VodRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SHabitApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="SHabit.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.ezpz.shabit.SHabitApplication" />
@@ -37,6 +91,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.SHabitApplication" />
+        <item itemvalue="JUnit.AdminControllerTest" />
+        <item itemvalue="JUnit.AdminServiceTest" />
+        <item itemvalue="JUnit.VodRepositoryTest" />
       </list>
     </recent_temporary>
   </component>

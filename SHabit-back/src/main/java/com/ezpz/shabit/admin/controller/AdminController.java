@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 
 @RestController
@@ -29,6 +30,9 @@ public class AdminController {
         List<Vod> data = null;
         try{
             data = adminService.getVodList(search, query);
+        } catch(InputMismatchException e) {
+            log.info(e.getMessage());
+            return Response.badRequest(e.getMessage());
         } catch (Exception e){
             log.info(e.getMessage());
         }
@@ -39,8 +43,10 @@ public class AdminController {
         data.forEach(d -> resData.add(VodResDto.builder()
                 .categoryId(d.getCategory().getCategoryId())
                 .length(d.getLength())
-                .name(d.getName())
-                .url(d.getUrl())
+                .title(d.getTitle())
+                .videoId(d.getVideoId())
+                .thumbnail(d.getThumbnail())
+                .originalLength(d.getOriginalLength())
                 .build()));
         return Response.makeResponse(HttpStatus.OK, "영상 리스트 조회를 성공하였습니다", resData.size(), resData);
     }

@@ -31,21 +31,25 @@ public class VodRepositoryTest {
         categoryRepository.save(category2);
         vodRepository.save(Vod.builder()
                 .vodId(1L)
-                .url("test url")
+                .videoId("test url")
                 .length(3)
-                .name("test title")
+                .title("test title")
+                .thumbnail("thumbnail")
                 .category(category1)
+                .originalLength("12:21")
                 .build());
         vodRepository.save(Vod.builder()
                 .vodId(2L)
-                .url("test url2")
+                .videoId("test url2")
                 .length(3)
-                .name("test title")
+                .title("test title2")
+                .thumbnail("thumbnail2")
                 .category(category2)
+                .originalLength("12:21")
                 .build());
 
         // when
-        List<Vod> vodList = vodRepository.findByNameIsLike("%title%");
+        List<Vod> vodList = vodRepository.findByTitleIsLike("%title%");
 
         //then
         assertThat(vodList.size()).isEqualTo(2);
@@ -60,17 +64,21 @@ public class VodRepositoryTest {
         categoryRepository.save(category2);
         vodRepository.save(Vod.builder()
                 .vodId(1L)
-                .url("test url")
+                .videoId("test url")
                 .length(3)
-                .name("test title")
+                .title("test title")
+                .thumbnail("thumbnail")
                 .category(category1)
+                .originalLength("12:21")
                 .build());
         vodRepository.save(Vod.builder()
                 .vodId(2L)
-                .url("test url2")
+                .videoId("test url2")
                 .length(3)
-                .name("test title")
+                .title("test title2")
+                .thumbnail("thumbnail2")
                 .category(category2)
+                .originalLength("12:21")
                 .build());
 
         // when
@@ -89,17 +97,21 @@ public class VodRepositoryTest {
         categoryRepository.save(category2);
         vodRepository.save(Vod.builder()
                 .vodId(1L)
-                .url("test url")
+                .videoId("test url")
                 .length(3)
-                .name("test title")
+                .title("test title")
+                .thumbnail("thumbnail")
                 .category(category1)
+                .originalLength("12:21")
                 .build());
         vodRepository.save(Vod.builder()
                 .vodId(2L)
-                .url("test url2")
+                .videoId("test url2")
                 .length(3)
-                .name("test title")
+                .title("test title2")
+                .thumbnail("thumbnail2")
                 .category(category2)
+                .originalLength("12:21")
                 .build());
 
         // when
@@ -116,10 +128,12 @@ public class VodRepositoryTest {
         categoryRepository.save(category);
         Vod vod = Vod.builder()
                 .vodId(1L)
-                .url("test url")
+                .videoId("test url")
                 .length(3)
-                .name("test title")
+                .title("test title")
+                .thumbnail("thumbnail")
                 .category(category)
+                .originalLength("12:21")
                 .build();
         vodRepository.save(vod);
 

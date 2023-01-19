@@ -113,10 +113,12 @@ public class AdminControllerTest {
         for(int i=0; i<3; i++){
             vodList.add(Vod.builder()
                     .vodId(1L)
-                    .url("test url")
+                    .videoId("test url")
                     .length(3)
-                    .name("test title")
-                    .category(Category.builder().name("거북"+Integer.toString(i+1)).build())
+                    .title("test title")
+                    .thumbnail("thumbnail")
+                    .originalLength("12:21")
+                    .category(Category.builder().name("거북" + Integer.toString(i + 1)).build())
                     .build());
         }
         return vodList;
