@@ -5,6 +5,7 @@ import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,10 @@ public class AdminController {
         int res = 0;
         try{
             res = adminService.insertPhrases(req);
-        } catch (Exception e){
+        } catch(DataIntegrityViolationException e){
+            log.info(e.getMessage());
+            return Response.badRequest("이미 존재하는 문구입니다.");
+        } catch(Exception e){
             log.info(e.getMessage());
         }
 
