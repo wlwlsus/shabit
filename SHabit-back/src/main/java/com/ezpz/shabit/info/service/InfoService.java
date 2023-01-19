@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface InfoService {
   List<VodResDto> getVodList() throws Exception;
+
 }
