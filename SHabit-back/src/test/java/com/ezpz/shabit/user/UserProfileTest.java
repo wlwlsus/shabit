@@ -44,6 +44,8 @@ public class UserProfileTest {
 
   @Value("${cloud.aws.s3.bucket}")
   String bucket;
+  @Value("${user.profile}")
+  String defaultUrl;
 
   @BeforeEach
   public void setUser() {
@@ -67,7 +69,7 @@ public class UserProfileTest {
     userService.deleteProfile(email);
     user = userRepository.findByEmail(email).orElseThrow();
     // then
-    assertThat(user.getProfile()).isNull();
+    assertThat(user.getProfile()).isEqualTo(defaultUrl);
   }
 
   @Test
@@ -95,6 +97,7 @@ public class UserProfileTest {
             // then
             .andExpect(status().isOk());
   }
+
   @Test
   @Transactional
   @DisplayName("프로필 사진 삭제 API NoContent Test")

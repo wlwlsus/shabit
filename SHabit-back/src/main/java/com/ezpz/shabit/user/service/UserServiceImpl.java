@@ -5,6 +5,7 @@ import com.ezpz.shabit.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
 
   private final S3FileService s3FileService;
+
+  @Value("${user.profile}")
+  String defaultUrl;
 
   @Override
   @Transactional
@@ -29,7 +33,7 @@ public class UserServiceImpl implements UserService {
     s3FileService.delete(fileUrl);
     log.info("file deletion success in userService");
     // DB 프로필 사진 삭제하기
-    user.setProfile(null);
+    user.setProfile(defaultUrl);
     userRepository.save(user);
   }
 }
