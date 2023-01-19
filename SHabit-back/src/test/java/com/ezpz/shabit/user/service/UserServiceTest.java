@@ -1,10 +1,11 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.entity.User;
 import com.ezpz.shabit.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,14 +22,12 @@ class UserServiceTest {
   @Autowired
   UserRepository userRepository;
 
-  @BeforeEach
-  public void beforeEach() {
-
-  }
-
+  @Autowired
+  JwtTokenProvider jwtTokenProvider;
 
   @Test
-  void signUp() {
+  @DisplayName("회원가입_서비스")
+  void 회원가입_서비스() {
     // given
     // 유저 객체 생성
     User user = User.builder()
@@ -48,47 +47,5 @@ class UserServiceTest {
     // then
     User expectedUser = userRepository.findUserByEmail(user.getEmail());
     assertThat(expectedUser.getEmail()).isEqualTo(signUp.getEmail());
-  }
-
-  @Test
-  void login() {
-    // given
-    UserTestReqDto.Login user = new UserTestReqDto.Login();
-    user.setEmail("ssafy123@gmail.com");
-    user.setPassword("ssafy!1234");
-
-    // when
-    userService.login(user);
-
-    // then
-
-
-  }
-
-  @Test
-  void logout() {
-    // given
-
-    // when
-
-    // then
-  }
-
-  @Test
-  void reissue() {
-    // given
-
-    // when
-
-    // then
-  }
-
-  @Test
-  void getUserInfo() {
-    // given
-
-    // when
-
-    // then
   }
 }
