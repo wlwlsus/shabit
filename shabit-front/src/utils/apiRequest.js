@@ -1,10 +1,91 @@
 import axios from 'axios';
 
 // #### 임시용 목업 API입니다.
+const apiRequest = {
+  get(...any) {
+    return Promise.resolve({
+      msg: '성공',
+      accessToken: '엑세스토큰',
+      refreshToken: '리프레시토큰',
+      result: {
+        email: 'ssafy@ssafy.com',
+        nickname: 'ssafy',
+        color: 'default',
+        image: 'default',
+        accessToken: '엑세스토큰',
+        refreshToken: '리프레시토큰',
+        code: '1234',
+      },
+      imageUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnHz8RxGs2mmAgFDQiPHEpbSHG86OCq-hQRwRN9og9Y2-9smFKbj2DspMmm4AW2aD8Zo8&usqp=CAU',
+      user: {
+        email: 'ssafy@ssafy.com',
+        nickname: 'ssafy',
+        color: 'default',
+        image: 'default',
+      },
+    });
+  },
+  put(...any) {
+    return Promise.resolve({
+      msg: '성공',
+      accessToken: '엑세스토큰',
+      refreshToken: '리프레시토큰',
+      result: {
+        email: 'ssafy@ssafy.com',
+        nickname: 'ssafy',
+        color: 'default',
+        image: 'default',
+        accessToken: '엑세스토큰',
+        refreshToken: '리프레시토큰',
+        code: '1234',
+        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnHz8RxGs2mmAgFDQiPHEpbSHG86OCq-hQRwRN9og9Y2-9smFKbj2DspMmm4AW2aD8Zo8&usqp=CAU',
+      },
+      user: {
+        email: 'ssafy@ssafy.com',
+        nickname: 'ssafy',
+        color: 'default',
+        image: 'default',
+      },
+    });
+  },
+  post(...any) {
+    return Promise.resolve({
+      msg: '성공',
+      accessToken: '엑세스토큰',
+      refreshToken: '리프레시토큰',
+      result: {
+        email: 'ssafy@ssafy.com',
+        nickname: 'ssafy',
+        color: 'default',
+        image: 'default',
+        accessToken: '엑세스토큰',
+        refreshToken: '리프레시토큰',
+        code: '1234',
+      },
+      imageUrl:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnHz8RxGs2mmAgFDQiPHEpbSHG86OCq-hQRwRN9og9Y2-9smFKbj2DspMmm4AW2aD8Zo8&usqp=CAU',
+      user: {
+        email: 'ssafy@ssafy.com',
+        nickname: 'ssafy',
+        color: 'default',
+        image: 'default',
+      },
+    });
+  },
+  patch(...any) {
+    return Promise.resolve({ msg: '가짜API 성공' });
+  },
+  delete(...any) {
+    return Promise.resolve({ msg: '가짜api성공' });
+  },
+};
+
+export default apiRequest;
 
 // #### 아래가 우리가 실제로 쓸 API입니다. ####
 // const apiRequest = axios.create({
-//   'http://localhost:3000'
+//   baseURL : http://localhost:3000'
 // });
 
 // apiRequest.interceptors.request.use(
@@ -36,4 +117,4 @@ import axios from 'axios';
 //   },
 // );
 
-export default apiRequest;
+// export default apiRequest;

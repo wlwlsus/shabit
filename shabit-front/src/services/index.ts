@@ -1,7 +1,6 @@
 // const AUTH_ENVS = ["Register", "FetchProfile","ChangeImage" , "DeleteImage" , "Login" , "RefreshLogin" , "Logout" , "ConfirmEmail" , "CheckEmail", "ResetPassword" , "ChangeTheme" , "ChangeNickname" ] as const;
 // type AUTH_PROP_TYPES = typeof AUTH_ENVS[number] // "Home" , "About"useInterval
 
-
 // // const Service = {
 
 // // }
@@ -13,11 +12,10 @@
 
 //   const Service = {auth}
 
-
 // export default Service
-import auth from "./auth"
+import Auth from './auth';
 
-  const Services = {auth}
-
-
-export default Services
+const Services = {
+  Auth,
+};
+export default Services;

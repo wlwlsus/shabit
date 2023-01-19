@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import Services from '../../services';
 
 const ProfileForm = () => {
   const api = {
@@ -63,37 +64,11 @@ const ProfileForm = () => {
 
   // feat/#25: 프로필 사진 업로드 및 변경하기
   const [isUploading, setIsUploading] = useState(false);
-  const onUpload = (e) => {
+  const onUpload = async (e) => {
     e.preventDefault();
-    if (!formData || !formData.has('file') || !formData.get('file')) {
-      alert('이미지 파일이 없습니다');
-      return;
-    }
-
-    api
-      .put(`/user/profile/${email}`, formData, {
-        headers: {
-          'Content-type': 'multipart/form-data',
-          // Authorization: `Token ${this.$store.state.token}`,
-        },
-      })
-      .then(() => {
-        console.log(formData.get('file'));
-        alert('업로드가 완료되었습니다.');
-        // feat/#64: 회원정보 가져오기
-        api
-          .get(`user/${email}`)
-          .then((res) => {
-            localStorage.setItem('user', res.data.result);
-          })
-          .then(setIsUploading(!isUploading))
-          .catch((err) => alert(err.msg));
-      })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          alert('로그인이 필요합니다');
-        }
-      });
+    await Services.Auth.changeImage(email, formData);
+    await setUser(Services.Auth.fetchProfile(email));
+    await setIsUploading(false);
   };
 
   //feat/#108 프로필 사진 삭제 요청하기

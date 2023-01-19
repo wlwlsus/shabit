@@ -1,21 +1,21 @@
-const AUTH_ENVS = [
-  'Register',
-  'FetchProfile',
-  'ChangeImage',
-  'DeleteImage',
-  'Login',
-  'RefreshLogin',
-  'Logout',
-  'ConfirmEmail',
-  'CheckEmail',
-  'ResetPassword',
-  'ChangeTheme',
-  'ChangeNickname',
-] as const;
-type AUTH_PROP_TYPES = typeof AUTH_ENVS[number]; // "Home" , "About"useInterval
+import { checkEmail, confirmEmail, fetchProfile } from './get/index';
+import { register, login, refreshLogin, logout } from './post/index';
+import { changeImage, resetPassword, changeTheme, changeNickname } from './put';
+import { deleteImage } from './delete';
 
-const auth = (type: AUTH_PROP_TYPES) => {
-  return;
+const Auth = {
+  register,
+  fetchProfile,
+  changeImage,
+  deleteImage,
+  login,
+  refreshLogin,
+  logout,
+  confirmEmail,
+  checkEmail,
+  resetPassword,
+  changeTheme,
+  changeNickname,
 };
 
-export default auth;
+export default Auth;

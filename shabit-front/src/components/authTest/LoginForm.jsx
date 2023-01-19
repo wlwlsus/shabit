@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import Services from '../../services';
+import apiRequest from '../../utils/apiRequest';
 
 const LoginForm = () => {
   const [inputs, setInputs] = useState({
@@ -19,12 +21,16 @@ const LoginForm = () => {
     setIsResetPassword(!isResetPassword);
   };
 
-  const onReset = (e) => {
+  const onReset = async (e) => {
     e.preventDefault();
-    api.put(`/user/${email}`).then(() => {
-      setMessage('비밀번호가 초기화되었습니다');
-      setIsResetPassword(false);
-    });
+    if (await Services.Auth.resetPassword(email)) {
+      await setMessage('비밀번호가 초기화되었습니다');
+    }
+    await setIsResetPassword(false);
+    // api.put(`/user/${email}`).then(() => {
+    //   setMessage('비밀번호가 초기화되었습니다');
+    //   setIsResetPassword(false);
+    // });
   };
 
   // const [autoLogin, setAutoLogin] = useState(false)
@@ -44,37 +50,10 @@ const LoginForm = () => {
       [name]: value,
     });
   };
-  const api = {
-    post() {
-      return Promise.resolve({ msg: '가짜api 성공' });
-    },
-    get() {
-      return Promise.resolve({
-        msg: '로그인 성공',
-        accessToken: '엑세스토큰',
-        refreshToken: '리프레시토큰',
-        user: {
-          email: 'ssafy@ssafy.com',
-          nickname: 'ssafy',
-          color: 'default',
-          image: 'default',
-        },
-      });
-    },
-    patch() {
-      return Promise.resolve({ msg: '가짜API 성공' });
-    },
-    put() {
-      return Promise.resolve({ msg: '가짜api 성공' });
-    },
-    delete() {
-      return Promise.resolve({ msg: '가짜api성공' });
-    },
-  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    api
+    apiRequest
       .get('/user', { email, password })
       .then((res) => {
         setMessage(res.msg || res.data.msg);

@@ -10,6 +10,7 @@ const RegisterForm = ({ setIsLogginIn }) => {
     password2: '',
     emailCheck: '',
   });
+
   //전체: 회원가입 폼의 인풋 태그를 관리합니다.
   const { email, nickname, password, password2, emailCheck } = inputs;
 
