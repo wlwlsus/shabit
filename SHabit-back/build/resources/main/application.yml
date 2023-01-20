@@ -1,0 +1,58 @@
+# jpa Setting
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # jpa DB table update
+    generate-ddl: false # db 초기화 설정 끔
+    show-sql: true # 사용된 sql 보임
+#     h2 설정
+#    properties:
+#        hibernate:
+#          dialect: org.hibernate.dialect.H2Dialect
+#    datasource:
+#      # test h2db setting
+#      driver-class-name: org.h2.Driver
+#      url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+#      username: h2test
+#      password: h2test
+    # mariaDB Setting
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/shabit
+    username: root
+    password: 1234
+
+  # Mail Sending
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: dnzma13
+    password: guswls6824^*@$
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Hibernate loggin
+logging:
+  level:
+    org:
+      Hibernate: info
+
+  # 추가 내용
+  profiles:
+    include:
+      - aws
+# 기존 내용
+cloud:
+  aws:
+    s3:
+      bucket: {버킷 이름}
+    region:
+      static: ap-northeast-2 #Asia Pacific -> seoul
+    stack:
+      auto: false
+    credentials:
+      instancePofile: true

@@ -4,11 +4,6 @@
     <facet type="web" name="Web">
       <configuration>
         <webroots />
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/../../src/main/java" />
-          <root url="file://$MODULE_DIR$/../../src/main/resources" />
-          <root url="file://$MODULE_DIR$/../../src/main/generated" />
-        </sourceRoots>
       </configuration>
     </facet>
     <facet type="jpa" name="JPA">
@@ -16,6 +11,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="SHabit.main" />
           <factory-entry name="entityManagerFactory" />
         </datasource-mapping>
         <naming-strategy-map />
@@ -40,11 +36,14 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-validation:3.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-redis:3.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: jakarta.annotation:jakarta.annotation-api:2.1.1" level="project" />
     <orderEntry type="library" name="Gradle: jakarta.persistence:jakarta.persistence-api:3.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.9.0" level="project" />
     <orderEntry type="library" name="Gradle: com.querydsl:querydsl-jpa:jakarta:5.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.jsonwebtoken:jjwt-api:0.11.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.querydsl:querydsl-codegen:5.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-jpa:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:3.0.1" level="project" />
@@ -58,6 +57,11 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:6.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:10.1.4" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate.validator:hibernate-validator:8.0.0.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-redis:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.lettuce:lettuce-core:6.2.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:6.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:6.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:6.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.querydsl:querydsl-core:5.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.webjars:swagger-ui:4.15.5" level="project" />
@@ -66,7 +70,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.querydsl:codegen-utils:5.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-context:6.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:6.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-orm:6.0.3" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-commons:3.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-tx:6.0.3" level="project" />
@@ -92,6 +95,14 @@
     <orderEntry type="library" name="Gradle: jakarta.validation:jakarta.validation-api:3.0.2" level="project" />
     <orderEntry type="library" name="Gradle: org.jboss.logging:jboss-logging:3.5.0.Final" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml:classmate:1.5.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.data:spring-data-keyvalue:3.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:6.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-oxm:6.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-handler:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-transport:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-common:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: io.projectreactor:reactor-core:3.5.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.mysema.commons:mysema-commons-lang:0.2.4" level="project" />
     <orderEntry type="library" name="Gradle: org.springdoc:springdoc-openapi-starter-common:2.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.eclipse.jdt:ecj:3.26.0" level="project" />
@@ -102,6 +113,12 @@
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.19.0" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:2.0.6" level="project" />
     <orderEntry type="library" name="Gradle: io.micrometer:micrometer-commons:1.10.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-transport-native-unix-common:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-codec:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-resolver:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-buffer:4.1.86.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-crypto:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: io.swagger.core.v3:swagger-core-jakarta:2.2.7" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.4.5" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.19.0" level="project" />
@@ -112,6 +129,8 @@
     <orderEntry type="library" name="Gradle: jakarta.xml.bind:jakarta.xml.bind-api:4.0.0" level="project" />
     <orderEntry type="library" name="Gradle: jakarta.activation:jakarta.activation-api:2.1.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.springframework.boot:spring-boot-devtools:3.0.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: io.jsonwebtoken:jjwt-jackson:0.11.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: io.jsonwebtoken:jjwt-impl:0.11.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.mariadb.jdbc:mariadb-java-client:3.0.9" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.h2database:h2:2.1.214" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.hibernate.common:hibernate-commons-annotations:6.0.2.Final" level="project" />

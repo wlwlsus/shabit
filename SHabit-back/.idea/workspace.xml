@@ -4,17 +4,58 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="">
+    <list default="true" id="fc0266d4-30e4-4631-87bb-7893c57b83b8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/SHabit_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build/resources/main/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/config/RedisRepositoryConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/jwt/JwtAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/jwt/JwtTokenProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/security/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/enums/Authority.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/CustomUserDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/value.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/user/repository/UsersRepositoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/ezpz/shabit/user/service/UsersServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/controller/InfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/info/controller/InfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/SHabitApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/SHabitApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/dto/req/UserTestReqDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/dto/req/UserTestReqDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/dto/res/UserTestResDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/dto/res/UserTestResDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/service/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/ezpz/shabit/user/service/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/SHabitApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/SHabitApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/dto/req/UserTestReqDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/dto/req/UserTestReqDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/dto/res/UserTestResDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/dto/res/UserTestResDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/entity/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="CodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -52,142 +93,72 @@
       </state>
     </system>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/.." value="feat/#107" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="workspaceImportEnabled" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="ProjectId" id="2KAkaRfms9rTiyVCPQRA4qnLkOS" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelOrder2": "2",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
-    "RequestMappingsPanelWidth2": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/SHabit/shabit/SHabit-back",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "spring.configuration.checksum": "40afe834c62cd35eef4c47ababa0e521",
-    "vue.rearranger.settings.migration": "true"
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\SSAFY\Documents\Project\shabit\SHabit-back\src\main\java\com\ezpz\shabit\vod\service" />
-      <recent name="C:\Users\SSAFY\IdeaProjects\SHabit\src\main\java\com\ezpz\shabit\vod" />
-      <recent name="C:\Users\SSAFY\IdeaProjects\SHabit\src\main\java\com\ezpz\shabit\user" />
-      <recent name="C:\Users\SSAFY\IdeaProjects\SHabit\src\main\java\com\ezpz\shabit" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.ezpz.shabit.info.entity" />
-      <recent name="com.ezpz.shabit.vod.service" />
-      <recent name="com.ezpz.shabit.vod.controller" />
-      <recent name="com.ezpz.shabit.vod.repository" />
-      <recent name="com.ezpz.shabit.vod.dto.res" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\SHabit\shabit\SHabit-back\src\main\resources" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.SHabitApplication">
-    <configuration name="InfoServiceTest.getVodListMethodAPITest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.info.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit.info" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.info.InfoServiceTest" />
-      <option name="METHOD_NAME" value="getVodListMethodAPITest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="SHabit-back [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
-    <configuration name="InfoServiceTest.getVodListMethodSuccessFailTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.info.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit.info" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.info.InfoServiceTest" />
-      <option name="METHOD_NAME" value="getVodListMethodSuccessFailTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InfoServiceTest.getVodListMethodSuccessTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="SHabit.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.ezpz.shabit.info.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.ezpz.shabit.info" />
-      <option name="MAIN_CLASS_NAME" value="com.ezpz.shabit.info.InfoServiceTest" />
-      <option name="METHOD_NAME" value="getVodListMethodSuccessTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="SHabit" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="SHabit" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="SHabit-back [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="SHabitApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="SHabit.main" />
@@ -198,33 +169,12 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.InfoServiceTest.getVodListMethodSuccessFailTest" />
-        <item itemvalue="JUnit.InfoServiceTest.getVodListMethodSuccessTest" />
-        <item itemvalue="JUnit.InfoServiceTest.getVodListMethodAPITest" />
+        <item itemvalue="Gradle.SHabit-back [build]" />
+        <item itemvalue="Gradle.SHabit-back [clean]" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="d57e77de-ba16-469a-90a3-57bc907be377" name="Changes" comment="" />
-      <created>1673424838220</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1673424838220</updated>
-      <workItem from="1673424839706" duration="763000" />
-      <workItem from="1673425617174" duration="1680000" />
-      <workItem from="1673488079986" duration="5506000" />
-      <workItem from="1673569203580" duration="3884000" />
-      <workItem from="1674180066168" duration="4673000" />
-    </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
