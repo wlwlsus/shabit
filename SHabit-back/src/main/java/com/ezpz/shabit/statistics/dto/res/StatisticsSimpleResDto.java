@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatisticsSimpleResDto {
-    private String posture;
+    private Long postureId;
     private int time; // 분
     private LocalDate date;
 }
