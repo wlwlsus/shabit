@@ -1,5 +1,6 @@
 package com.ezpz.shabit.user.controller;
 
+import com.ezpz.shabit.user.dto.req.UserReqDto;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.service.UserService;
@@ -15,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.ezpz.shabit.user.dto.req.UserReqDto;
 import org.springframework.http.HttpStatus;
 
 import java.util.NoSuchElementException;
@@ -43,6 +43,23 @@ public class UserController {
     }
 
     return userService.signUp(signUp);
+  }
+
+  @DeleteMapping("profile/{email}")
+  public ResponseEntity<?> deleteProfile(@PathVariable String email) {
+    log.info("input email : {}", email);
+    try {
+      userService.deleteProfile(email);
+      log.info("profile delete successfully");
+      return Response.makeResponse(HttpStatus.OK, "프로필 사진 삭제 성공");
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.noContent("존재하지 않는 이메일");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.badRequest("프로필 사진 삭제 실패");
+    }
+
   }
 
   @Operation(description = "로그인 API", responses = {

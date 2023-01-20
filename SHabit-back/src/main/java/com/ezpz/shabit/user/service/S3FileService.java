@@ -7,4 +7,5 @@ import java.io.IOException;
 
 public interface S3FileService {
 
+  void delete(String fileUrl);
 }

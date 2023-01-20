@@ -23,6 +23,9 @@ import org.springframework.util.ObjectUtils;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -37,6 +40,8 @@ public class UserServiceImpl implements UserService {
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
   private final RedisTemplate redisTemplate;
+
+  private final S3FileService s3FileService;
 
   @Override
   public ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp) {
@@ -54,7 +59,26 @@ public class UserServiceImpl implements UserService {
     userRepository.save(users);
 
     return Response.ok("회원가입에 성공하였습니다.");
+  }
 
+  @Value("${user.profile}")
+  String defaultUrl;
+
+  @Override
+  @Transactional
+  public void deleteProfile(String email) throws Exception {
+    // 회원 정보 가져오기
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("user nickname : {}", user.getNickname());
+    // 프로필 사진 url 가져오기
+    String fileUrl = user.getProfile();
+    log.info("fileUrl in S3: {}", fileUrl);
+    // S3에서 삭제하기
+    s3FileService.delete(fileUrl);
+    log.info("file deletion success in userService");
+    // DB 프로필 사진 삭제하기
+    user.setProfile(defaultUrl);
+    userRepository.save(user);
   }
 
   @Override

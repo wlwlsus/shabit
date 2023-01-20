@@ -25,6 +25,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class S3FileServiceImpl implements S3FileService {
 
+  @Override
+  public void delete(String fileUrl) {
 
+  }
 }
 

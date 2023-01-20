@@ -15,4 +15,6 @@ public interface UserService {
   ResponseEntity<?> getUserInfo(String email);
 
   void updateNickname(String email, String nickname) throws Exception;
+
+  void deleteProfile(String email) throws Exception;
 }
