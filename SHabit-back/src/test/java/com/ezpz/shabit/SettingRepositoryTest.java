@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest // JPA Repository들에 대한 빈들을 등록하여 단위 테스트의 작성을 용이하게 함
@@ -17,19 +19,22 @@ public class SettingRepositoryTest {
     private SettingRepository settingRepository;
 
     @Test
-    public void 세팅_수정_성공(){
+    public void 세팅_조회_성공(){
         // given
         Setting setting = Setting.builder()
+                .settingId(1L)
                 .alertTime(5)
                 .stretchingTime(50)
                 .build();
+        settingRepository.save(setting);
 
         // when
-        Setting savedSetting = settingRepository.save(setting);
+        Optional<Setting> savedSetting = settingRepository.findById(1L);
 
         //then
-        assertThat(setting.getAlertTime()).isEqualTo(setting.getAlertTime());
-        assertThat(setting.getStretchingTime()).isEqualTo(setting.getStretchingTime());
+        assertThat(savedSetting.isPresent()).isEqualTo(true);
+        assertThat(savedSetting.get().getAlertTime()).isEqualTo(5);
+        assertThat(savedSetting.get().getStretchingTime()).isEqualTo(50);
     }
 
 }

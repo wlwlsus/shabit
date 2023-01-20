@@ -2,6 +2,7 @@ package com.ezpz.shabit.admin.controller;
 
 import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import com.ezpz.shabit.admin.service.youtube.YouTubeServiceImpl;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
@@ -21,6 +22,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -113,7 +117,21 @@ public class AdminController {
         if(res == 0) return Response.badRequest("세팅 수정에 실패하였습니다.");
         return Response.ok("세팅 수정에 성공하였습니다.");
     }
+    @GetMapping("/alarm")
+    ResponseEntity<?> getSetting() {
+        SettingResDto res = null;
+        try{
+            res = adminService.getSetting();
+        } catch(NullPointerException e){
+            log.info(e.getMessage());
+            return Response.notFound("초기 세팅이 되어있지 않습니다.");
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
 
+        if(res == null) return Response.badRequest("세팅 조회에 실패하였습니다.");
+        return Response.makeResponse(HttpStatus.OK, "세팅 조회에 성공했습니다.", 1, res);
+    }
 
 
 }

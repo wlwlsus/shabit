@@ -8,6 +8,7 @@ import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.entity.Setting;
 import com.ezpz.shabit.admin.repository.SettingRepository;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
@@ -73,46 +74,6 @@ public class AdminServiceTest {
         return vodIdList;
     }
 
-    @Test
-    public void 초기_세팅_안돼있음(){
-        // given
-        SettingReqDto setting = SettingReqDto.builder()
-                .alertTime(5)
-                .stretchingTime(50)
-                .build();
-        doReturn(Optional.empty())
-                .when(settingRepository)
-                .findById(any(Long.class));
-
-        // when
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> target.editSetting(setting));
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("초기 세팅이 되어있지 않습니다.");
-    }
-
-    @Test
-    public void 세팅_수정_성공(){
-        // given
-        SettingReqDto setting = SettingReqDto.builder()
-                .alertTime(5)
-                .stretchingTime(50)
-                .build();
-        doReturn(null)
-                .when(settingRepository)
-                .save(any(Setting.class));
-        doReturn(Optional.of(Setting.builder()
-                .alertTime(setting.getAlertTime())
-                .stretchingTime(setting.getStretchingTime()).build()))
-                .when(settingRepository)
-                .findById(any(Long.class));
-
-        // when
-        int cnt = target.editSetting(setting);
-
-        // then
-        assertThat(cnt).isEqualTo(1);
-    }
 
     @Test
     public void 영상_입력된_이름_목록_조회_성공(){
@@ -253,6 +214,64 @@ public class AdminServiceTest {
         // then
         assertThat(cnt).isEqualTo(1);
         assertThat(vod.getLength()).isEqualTo(5);
+    }
+    @Test
+    public void 초기_세팅_안돼있음(){
+        // given
+        SettingReqDto setting = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doReturn(Optional.empty())
+                .when(settingRepository)
+                .findById(any(Long.class));
+
+        // when
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> target.editSetting(setting));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("초기 세팅이 되어있지 않습니다.");
+    }
+
+    @Test
+    public void 세팅_수정_성공(){
+        // given
+        SettingReqDto setting = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doReturn(null)
+                .when(settingRepository)
+                .save(any(Setting.class));
+        doReturn(Optional.of(Setting.builder()
+                .alertTime(setting.getAlertTime())
+                .stretchingTime(setting.getStretchingTime()).build()))
+                .when(settingRepository)
+                .findById(any(Long.class));
+
+        // when
+        int cnt = target.editSetting(setting);
+
+        // then
+        assertThat(cnt).isEqualTo(1);
+    }
+    @Test
+    public void 세팅_조회_성공(){
+        // given
+        Optional<Setting> setting = Optional.ofNullable(Setting.builder()
+                .settingId(1L)
+                .alertTime(5)
+                .stretchingTime(50)
+                .build());
+        doReturn(setting)
+                .when(settingRepository)
+                .findById(any(Long.class));
+
+        // when
+        SettingResDto res = target.getSetting();
+
+        // then
+        assertThat(res).isNotNull();
     }
 
 

@@ -7,6 +7,7 @@ import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.entity.Setting;
 import com.ezpz.shabit.admin.repository.SettingRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,20 +38,19 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int editSetting(SettingReqDto req) {
-        int res = 0;
+    public SettingResDto getSetting() {
+        SettingResDto res = null;
         Setting setting = settingRepository.findById(1L).orElse(null);
         if(setting == null){
             throw new NullPointerException("초기 세팅이 되어있지 않습니다.");
         }else {
-            setting.setStretchingTime(req.getStretchingTime());
-            setting.setAlertTime(req.getAlertTime());
-            settingRepository.save(setting);
-            res = 1;
+             res = SettingResDto.builder()
+                    .stretchingTime(setting.getStretchingTime())
+                    .alertTime(setting.getAlertTime())
+                    .build();
         }
         return res;
     }
-
 
     @Override
     public List<Vod> getVodList(String search, String query) {
@@ -95,6 +95,20 @@ public class AdminServiceImpl implements AdminService{
 
         vodRepository.save(vod);
         return 1;
+    }
+    @Override
+    public int editSetting(SettingReqDto req) {
+        int res = 0;
+        Setting setting = settingRepository.findById(1L).orElse(null);
+        if(setting == null){
+            throw new NullPointerException("초기 세팅이 되어있지 않습니다.");
+        }else {
+            setting.setStretchingTime(req.getStretchingTime());
+            setting.setAlertTime(req.getAlertTime());
+            settingRepository.save(setting);
+            res = 1;
+        }
+        return res;
     }
 
 
