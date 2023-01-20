@@ -26,14 +26,15 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<Daily> getTodayData(String email) {
-        Users user = userRepository.findByEmail(email).get();
+        Users user = userRepository.findByEmail(email).orElse(null);
 
         return dailyRepository.findByUserEmailOrderByStartTimeAsc(user.getEmail());
     }
 
     @Override
     public List<Statistics> getWeeklyData(String email, int page) {
-        Users user = userRepository.findByEmail(email).get();
+        Users user = userRepository.findByEmail(email).orElse(null);
+        if(user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
 
         LocalDate today = now();
         LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
@@ -42,6 +43,18 @@ public class StatisticsServiceImpl implements StatisticsService {
         return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), weekStart, weekEnd);
     }
 
+    @Override
+    public List<Statistics> getMonthlyData(String email, int page) {
+        Users user = userRepository.findByEmail(email).orElse(null);
+
+        LocalDate today = now();
+        LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
+        monthStart = monthStart.minusMonths((-1)*page);
+
+        LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
+
+        return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), monthStart, monthEnd);
+    }
 
 
 }

@@ -3,6 +3,7 @@ package com.ezpz.shabit.statistics.controller;
 import com.ezpz.shabit.statistics.dto.res.DailyResDto;
 import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Daily;
+import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.util.Response;
@@ -53,7 +54,6 @@ public class StatisticsController {
             log.info(e.getMessage());
         }
 
-
         if(data == null) return Response.notFound("주간 데이터 가져오기 실패");
 
         List<StatisticsSimpleResDto> resData = new ArrayList<>();
@@ -63,5 +63,26 @@ public class StatisticsController {
                 .postureId(d.getPosture().getPostureId()).build()));
         return Response.makeResponse(HttpStatus.OK, "주간 데이터 가져오기 성공", resData.size(), resData);
     }
+
+
+    @GetMapping("/monthly/{email}")
+    ResponseEntity<?> getMonthlyData(@PathVariable String email, @RequestParam("page") int page) {
+        List<Statistics> data = null;
+        try{
+            data = statisticsService.getMonthlyData(email, page);
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(data == null) return Response.notFound("월간 데이터 가져오기 실패");
+
+        List<StatisticsSimpleResDto> resData = new ArrayList<>();
+        data.forEach(d -> resData.add(StatisticsSimpleResDto.builder()
+                .date(d.getDate())
+                .time(d.getTime())
+                .postureId(d.getPosture().getPostureId()).build()));
+        return Response.makeResponse(HttpStatus.OK, "월간 데이터 가져오기 성공", resData.size(), resData);
+    }
+
 
 }

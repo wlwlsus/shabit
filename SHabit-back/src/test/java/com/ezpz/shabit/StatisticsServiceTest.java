@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,13 +66,13 @@ public class StatisticsServiceTest {
         final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getTodayData("kosy1782"));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"com.ezpz.shabit.user.entity.Users.getEmail()\" because \"user\" is null");
+        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"java.util.Optional.orElse(Object)\" because the return value of \"com.ezpz.shabit.user.repository.UserRepository.findByEmail(String)\" is null");
     }
 
     @Test
     public void 오늘_데이터_가져오기_성공(){
         // given
-        doReturn(Users.builder().email(email).build()).when(userRepository)
+        doReturn(Optional.of(Users.builder().email(email).build())).when(userRepository)
                 .findByEmail(email);
         doReturn(dailyList()).when(dailyRepository)
                 .findByUserEmailOrderByStartTimeAsc(email);
@@ -114,7 +115,7 @@ public class StatisticsServiceTest {
         final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getWeeklyData("kosy1782", page));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"com.ezpz.shabit.user.entity.Users.getEmail()\" because \"user\" is null");
+        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"java.util.Optional.orElse(Object)\" because the return value of \"com.ezpz.shabit.user.repository.UserRepository.findByEmail(String)\" is null");
     }
 
     @Test
@@ -125,9 +126,9 @@ public class StatisticsServiceTest {
         LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusWeeks(page*(-1));
 
         // given
-        doReturn(Users.builder().email(email).build()).when(userRepository)
+        doReturn(Optional.of(Users.builder().email(email).build())).when(userRepository)
                 .findByEmail(email);
-        doReturn(statisticsList()).when(statisticsRepository)
+        doReturn(statisticsList1()).when(statisticsRepository)
                 .findByUserEmailAndDateBetweenOrderByDateAsc(email, weekStart, weekEnd);
 
         // when
@@ -137,13 +138,66 @@ public class StatisticsServiceTest {
         assertThat(data.size()).isEqualTo(3);
     }
 
-    private List<Statistics> statisticsList() {
+    private List<Statistics> statisticsList1() {
         List<Statistics> statisticsList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
         }
         return statisticsList;
     }
+
+    @Test
+    public void 월간_데이터_일치하는_이메일_없음(){
+        int page = -1;
+
+        LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
+        monthStart = monthStart.minusMonths((-1)*page);
+
+        LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
+
+        // given
+        doReturn(null).when(userRepository)
+                .findByEmail("kosy1782");
+
+        // when
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getMonthlyData("kosy1782", page));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"java.util.Optional.orElse(Object)\" because the return value of \"com.ezpz.shabit.user.repository.UserRepository.findByEmail(String)\" is null");
+    }
+
+    @Test
+    public void 월간_데이터_가져오기_성공(){
+        int page = -1;
+
+        LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
+        monthStart = monthStart.minusMonths((-1)*page);
+
+        LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
+
+
+        // given
+        doReturn(Optional.of(Users.builder().email(email).build())).when(userRepository)
+                .findByEmail(email);
+        doReturn(statisticsList2()).when(statisticsRepository)
+                .findByUserEmailAndDateBetweenOrderByDateAsc(email, monthStart, monthEnd);
+
+        // when
+        final List<Statistics> data = target.getMonthlyData(email, page);
+
+        // then
+        assertThat(data.size()).isEqualTo(30-now().getDayOfMonth());
+    }
+
+    private List<Statistics> statisticsList2() {
+        List<Statistics> statisticsList = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            if(now().minusDays(i).getMonthValue() != 12) continue;
+            statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
+        }
+        return statisticsList;
+    }
+
 
 
 }

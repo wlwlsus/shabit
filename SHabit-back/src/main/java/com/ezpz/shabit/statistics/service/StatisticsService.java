@@ -8,5 +8,5 @@ import java.util.List;
 public interface StatisticsService {
     List<Daily> getTodayData(String email);
     List<Statistics> getWeeklyData(String email, int page);
-
+    List<Statistics> getMonthlyData(String email, int page);
 }

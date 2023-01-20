@@ -20,11 +20,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.LocalDate.now;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -114,4 +116,104 @@ public class StatisticsControllerTest {
         }
         return dailyList;
     }
+    @Test
+    public void 주간_데이터_일치하는_이메일_없음() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/weekly/{email}";
+        // StatisticsService getWeeklyData에 대한 stub필요
+        doThrow(new NullPointerException()).when(statisticsService)
+                .getWeeklyData("kosy1782", -1);
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url, "kosy1782")
+                        .queryParam("page", "-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 NotFound인지 확인
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void 주간_데이터_가져오기_성공() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/weekly/{email}";
+        // StatisticsService getWeeklyData에 대한 stub필요
+        doReturn(statisticsList1()).when(statisticsService)
+                .getWeeklyData(email, -1);
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url, email)
+                        .queryParam("page", "-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    private List<Statistics> statisticsList1() {
+        List<Statistics> statisticsList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
+        }
+        return statisticsList;
+    }
+
+    @Test
+    public void 월간_데이터_일치하는_이메일_없음() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/monthly/{email}";
+        // StatisticsService getMonthlyData에 대한 stub필요
+        doThrow(new NullPointerException()).when(statisticsService)
+                .getMonthlyData("kosy1782", -1);
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url, "kosy1782")
+                        .queryParam("page", "-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 NotFound인지 확인
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void 월간_데이터_가져오기_성공() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/monthly/{email}";
+        // StatisticsService getMonthlyData에 대한 stub필요
+        doReturn(statisticsList2()).when(statisticsService)
+                .getMonthlyData(email, -1);
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url, email)
+                        .queryParam("page", "-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    private List<Statistics> statisticsList2() {
+        List<Statistics> statisticsList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            if(now().minusDays(i).getMonthValue() != 12) continue;
+            statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
+        }
+        return statisticsList;
+    }
+
+
 }
