@@ -26,14 +26,14 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<Daily> getTodayData(String email) {
-        Users user = userRepository.findByEmail(email);
+        Users user = userRepository.findByEmail(email).get();
 
         return dailyRepository.findByUserEmailOrderByStartTimeAsc(user.getEmail());
     }
 
     @Override
     public List<Statistics> getWeeklyData(String email, int page) {
-        Users user = userRepository.findByEmail(email);
+        Users user = userRepository.findByEmail(email).get();
 
         LocalDate today = now();
         LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));

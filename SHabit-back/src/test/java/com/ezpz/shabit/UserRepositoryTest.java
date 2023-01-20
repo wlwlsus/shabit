@@ -29,7 +29,7 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         // when
-        Users foundUser = userRepository.findByEmail(user.getEmail());
+        Users foundUser = userRepository.findByEmail(user.getEmail()).get();
 
         //then
         assertThat(foundUser.getEmail()).isEqualTo(user.getEmail());
