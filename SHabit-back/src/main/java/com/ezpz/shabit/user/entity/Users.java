@@ -12,7 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name="users")
 public class Users extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id", nullable = false)
