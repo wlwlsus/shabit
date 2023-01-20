@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { theme } from '../../styles/GlobalStyles';
 
 import Button from '../atoms/Button';
 import Label from '../atoms/Label';
@@ -68,6 +69,10 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  & > button:hover {
+    color: ${theme.color.primary};
+  }
 `;
 
 export default LandingSidebar;

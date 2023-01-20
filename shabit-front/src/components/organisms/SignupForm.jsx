@@ -9,20 +9,23 @@ import CheckIcon from '../molecules/CheckIcon';
 const SignupForm = () => {
   return (
     <FormWrapper>
-      <Label text={'이미 존재합니다'} size={'xs'} color={'red'} />
+      <Label text={'에러 메세지 출력'} size={'xs'} color={'red'} />
+
       <InputWrapper>
         <Input placeholder={'이메일 아이디'} shadow={'shadow'} />
         <CheckIcon color={'primary'} />
       </InputWrapper>
-      <Label text={'이미 존재합니다'} size={'xs'} color={'red'} />
+
       <InputWrapper>
         <Input placeholder={'닉네임'} shadow={'shadow'} />
         <CheckIcon color={'primary'} />
       </InputWrapper>
+
       <InputWrapper>
         <Input placeholder={'비밀번호'} shadow={'shadow'} color={'red'} />
+        <CheckIcon color={'primary'} />
       </InputWrapper>
-      <Label text={'일치하지 않습니다'} size={'xs'} color={'red'} />
+
       <InputWrapper>
         <Input placeholder={'비밀번호 확인'} shadow={'shadow'} />
         <CheckIcon color={'primary'} />
@@ -30,7 +33,7 @@ const SignupForm = () => {
       <Button
         text={'가입하기'}
         bg={'primary'}
-        color={'secondary'}
+        color={'white'}
         shadow={'shadow'}
         p={1}
       />
@@ -47,6 +50,10 @@ const FormWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  & > div:nth-child(1) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const InputWrapper = styled.div`

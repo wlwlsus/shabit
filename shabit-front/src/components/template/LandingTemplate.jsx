@@ -6,7 +6,7 @@ import LandingSidebar from '../organisms/LandingSidebar';
 import LandingContent from '../organisms/LandingContent';
 import LandingForm from '../organisms/LandingForm';
 
-import LandingIntroContent from '../organisms/LandingIntroContent';
+import LandingIntro from '../organisms/LandingIntro';
 import Social from '../molecules/Social';
 
 import StartForm from '../organisms/StartForm';
@@ -21,7 +21,7 @@ const LandingTemplate = () => {
           path="/"
           element={
             <>
-              <LandingContent children1={<LandingIntroContent />} />
+              <LandingContent children1={<LandingIntro />} />
               <LandingForm children={<StartForm />} />
             </>
           }

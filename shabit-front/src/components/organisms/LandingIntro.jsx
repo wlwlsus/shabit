@@ -7,7 +7,7 @@ import Logo from '../molecules/Logo';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
-const LandingIntroContent = () => {
+const LandingIntro = () => {
   return (
     <ContentWrapper>
       <TextWrapper>
@@ -20,7 +20,7 @@ const LandingIntroContent = () => {
       </TextWrapper>
       <ImgWrapper>
         <Img assets={true} size={'lg'} src={'/assets/posture-bad.png'} />
-        <Label size={'lg'} icon={<TbArrowBigRightLine />} />
+        <Label icon={<TbArrowBigRightLine />} size={'lg'} color={'white'} />
         <Img assets={true} size={'lg'} src={'/assets/posture-good.png'} />
       </ImgWrapper>
     </ContentWrapper>
@@ -48,4 +48,4 @@ const ImgWrapper = styled.div`
   justify-content: center;
 `;
 
-export default LandingIntroContent;
+export default LandingIntro;

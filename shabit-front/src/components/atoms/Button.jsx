@@ -69,18 +69,36 @@ const bigger = keyframes`
     scale:1
   }
   to {
-    scale:1.2
+    scale:1.1
   }
+`;
+
+const clicked = keyframes`
+0%{
+  transform: translateY(0);    
+}
+
+50% {
+  transform: translateY(0.5rem);
+}
+100% {
+  transform: translateY(0);
+}
 `;
 
 const ButtonWrapper = styled.button`
   display: inline-flex;
   background-color: transparent;
   border-radius: 0.3rem;
+  font-weight: bold;
 
   &:hover {
     animation: ${bigger} 0.3s ease-in-out;
     animation-fill-mode: forwards;
+  }
+
+  &:active {
+    animation: ${clicked} 2s ease infinite;
   }
 
   &.primary {

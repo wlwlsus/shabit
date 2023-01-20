@@ -36,21 +36,22 @@ const LoginForm = () => {
 };
 
 const FormWrapper = styled.div`
-  width: 115%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-left: 2rem;
 
   & > div:nth-child(1) {
-    width: 30%;
+    width: 34%;
     margin: 1rem auto;
   }
 `;
 
 const Wrapper = styled.div`
-  width: 50%;
+  width: 55%;
   display: flex;
   padding-left: 2rem;
   justify-content: space-between;
@@ -63,9 +64,8 @@ const Checkbox = styled.div`
 `;
 
 const Signup = styled.div`
-  width: 50%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 `;
 
 export default LoginForm;
