@@ -7,6 +7,7 @@ import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.dto.res.GrassResDto;
 import com.ezpz.shabit.statistics.entity.Grass;
+import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -65,6 +69,21 @@ public class StatisticsController {
         return Response.makeResponse(HttpStatus.OK, "잔디 가져오기 성공", resData.size(), resData);
     }
 
+    @PostMapping("/{email}")
+    ResponseEntity<?> insertTodayData(@PathVariable String email, @RequestBody List<DailyReqDto> data) {
+        int res = 0;
+        try{
+            res = statisticsService.insertTodayData(data, email);
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(res == 0) return Response.notFound("트래킹 데이터 삽입 실패");
+
+        return Response.ok("트래킹 데이터 삽입 완료");
+    }
+
+
     @GetMapping("/weekly/{email}")
     ResponseEntity<?> getWeeklyData(@PathVariable String email, @RequestParam("page") int page) {
         List<Statistics> data = null;
@@ -104,6 +123,5 @@ public class StatisticsController {
                 .postureId(d.getPosture().getPostureId()).build()));
         return Response.makeResponse(HttpStatus.OK, "월간 데이터 가져오기 성공", resData.size(), resData);
     }
-
 
 }

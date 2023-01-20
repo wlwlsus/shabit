@@ -4,6 +4,8 @@ import com.ezpz.shabit.statistics.controller.StatisticsController;
 import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.entity.Statistics;
+import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
+import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.user.entity.Users;
 import com.google.gson.Gson;
@@ -27,6 +29,12 @@ import java.util.List;
 
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -116,7 +124,6 @@ public class StatisticsControllerTest {
         }
         return grassList;
     }
-
     @Test
     public void 주간_데이터_일치하는_이메일_없음() throws Exception {
         // given
@@ -164,6 +171,64 @@ public class StatisticsControllerTest {
             statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
         }
         return statisticsList;
+    }
+
+    @Test
+    public void 데이터_삽입_일치하는_이메일_없음() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/{email}";
+        List<DailyReqDto> req = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            req.add(DailyReqDto.builder()
+                    .postureId(1L)
+                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .build());
+        }
+        // StatisticsService getTodayData에 대한 stub필요
+        doThrow(new NullPointerException()).when(statisticsService)
+                .insertTodayData(req, "kosy1782");
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url, "kosy1782")
+                        .content(new Gson().toJson(req))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 NotFound인지 확인
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void 트래킹데이터_저장_성공() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/{email}";
+        List<DailyReqDto> req = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            req.add(DailyReqDto.builder()
+                    .postureId(1L)
+                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .build());
+        }
+
+        // StatisticsService insertTodayData에 대한 stub필요
+        doReturn(req.size()).when(statisticsService)
+                .insertTodayData(any(), any());
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post(url, email)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(req))
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
@@ -215,5 +280,4 @@ public class StatisticsControllerTest {
         }
         return statisticsList;
     }
-
 }

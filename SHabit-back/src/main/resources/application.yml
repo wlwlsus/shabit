@@ -28,3 +28,5 @@ logging:
     org:
       Hibernate: info
 
+jwt:
+  secret: UDVaY0VRREoyaEl2d2JlWXFFN2haOWF3ekRxbFBzTnpscEFFaE5mdDBSZw==

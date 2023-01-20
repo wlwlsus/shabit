@@ -6,6 +6,10 @@ import com.ezpz.shabit.statistics.repository.DailyRepository;
 import com.ezpz.shabit.statistics.repository.StatisticsRepository;
 import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.repository.GrassRepository;
+import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
+import com.ezpz.shabit.statistics.entity.Daily;
+import com.ezpz.shabit.statistics.repository.DailyRepository;
+import com.ezpz.shabit.statistics.repository.PostureRepository;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,11 @@ import java.util.List;
 
 import static java.time.LocalDate.now;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -26,11 +35,13 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final StatisticsRepository statisticsRepository;
     private final DailyRepository dailyRepository;
     private final GrassRepository grassRepository;
+    private final PostureRepository postureRepository;
 
 
     @Override
     public List<Daily> getTodayData(String email) {
         Users user = userRepository.findByEmail(email).orElse(null);
+        if(user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
 
         return dailyRepository.findByUserEmailOrderByStartTimeAsc(user.getEmail());
     }
@@ -38,6 +49,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public List<Grass> getGrassData(String email) {
         Users user = userRepository.findByEmail(email).orElse(null);
+        if(user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
 
         return grassRepository.findByUserEmailOrderByDateAsc(user.getEmail());
     }
@@ -57,6 +69,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public List<Statistics> getMonthlyData(String email, int page) {
         Users user = userRepository.findByEmail(email).orElse(null);
+        if(user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
 
         LocalDate today = now();
         LocalDate monthStart = today.minusDays(today.getDayOfMonth()-1); // 오늘 기준 month start
@@ -67,5 +80,26 @@ public class StatisticsServiceImpl implements StatisticsService {
         return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), monthStart, monthEnd);
     }
 
+    @Override
+    public int insertTodayData(List<DailyReqDto> reqDto, String email) {
+        Users user = userRepository.findByEmail(email).orElse(null);
+        if(user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
+
+        List<Daily> data = new ArrayList<>();
+        reqDto.forEach(req ->
+                data.add(
+                        Daily.builder()
+                                .startTime(LocalDateTime.parse(req.getStartTime(),
+                                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                .endTime(LocalDateTime.parse(req.getEndTime(),
+                                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                                .user(userRepository.findByEmail(user.getEmail()).orElse(null))
+                                .posture(postureRepository.findById(req.getPostureId()).orElse(null))
+                                .build()
+                ));
+
+        dailyRepository.saveAll(data);
+        return data.size();
+    }
 
 }

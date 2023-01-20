@@ -7,11 +7,19 @@ import com.ezpz.shabit.statistics.repository.StatisticsRepository;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
+import com.ezpz.shabit.statistics.entity.Daily;
+import com.ezpz.shabit.statistics.entity.Posture;
+import com.ezpz.shabit.statistics.repository.DailyRepository;
+import com.ezpz.shabit.statistics.repository.PostureRepository;
+import com.ezpz.shabit.user.entity.Users;
+import com.ezpz.shabit.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.time.LocalDate.now;
@@ -22,11 +30,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class StatisticsRepositoryTest {
 
     @Autowired
-    private StatisticsRepository statisticsRepository;
+    private DailyRepository dailyRepository;
     @Autowired
     private PostureRepository postureRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private StatisticsRepository statisticsRepository;
 
     final Posture posture = Posture.builder()
             .name("바른 자세")
@@ -93,6 +103,30 @@ public class StatisticsRepositoryTest {
 
         assertThat(data2.size()).isEqualTo(today.getDayOfMonth());
         assertThat(data2.get(0).getDate()).isEqualTo(monthStart);
+    }
+
+    @Test
+    public void 트래킹데이터_저장_성공() {
+        // given
+        userRepository.save(user);
+        postureRepository.save(posture);
+        Daily today = Daily.builder()
+                .startTime(LocalDateTime.parse("2023-01-18 00:12",
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .endTime(LocalDateTime.parse("2023-01-18 02:12",
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .posture(posture)
+                .user(user)
+                .build();
+
+        // when
+        Daily savedToday = dailyRepository.save(today);
+
+        //then
+        assertThat(savedToday.getStartTime()).isEqualTo(LocalDateTime.parse("2023-01-18 00:12",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        assertThat(savedToday.getEndTime()).isEqualTo(LocalDateTime.parse("2023-01-18 02:12",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
 }

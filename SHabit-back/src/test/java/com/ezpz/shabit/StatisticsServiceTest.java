@@ -1,12 +1,13 @@
 package com.ezpz.shabit;
 
-import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
 import com.ezpz.shabit.statistics.repository.StatisticsRepository;
 import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.repository.GrassRepository;
+import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
+import com.ezpz.shabit.statistics.repository.PostureRepository;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
@@ -25,6 +26,9 @@ import java.util.Optional;
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.time.format.DateTimeFormatter;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +40,10 @@ public class StatisticsServiceTest {
     private GrassRepository grassRepository;
     @Mock
     private StatisticsRepository statisticsRepository;
+    @Mock
+    private DailyRepository dailyRepository;
+    @Mock
+    private PostureRepository postureRepository;
     @Mock
     private UserRepository userRepository;
 
@@ -112,14 +120,14 @@ public class StatisticsServiceTest {
         System.out.println(weekEnd);
 
         // given
-        doReturn(null).when(userRepository)
+        doReturn(Optional.empty()).when(userRepository)
                 .findByEmail("kosy1782");
 
         // when
         final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getWeeklyData("kosy1782", page));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"java.util.Optional.orElse(Object)\" because the return value of \"com.ezpz.shabit.user.repository.UserRepository.findByEmail(String)\" is null");
+        assertThat(exception.getMessage()).isEqualTo("일치하는 유저가 존재하지 않습니다.");
     }
 
     @Test
@@ -148,6 +156,54 @@ public class StatisticsServiceTest {
             statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
         }
         return statisticsList;
+    }
+    @Test
+    public void 트래킹_데이터_입력_일치하는_이메일_없음(){
+        // given
+        List<DailyReqDto> req = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            req.add(DailyReqDto.builder()
+                    .postureId(1L)
+                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .build());
+        }
+
+        doReturn(Optional.empty()).when(userRepository)
+                .findByEmail("kosy1782");
+
+        // when
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.insertTodayData(req, "kosy1782"));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("일치하는 유저가 존재하지 않습니다.");
+    }
+
+
+    @Test
+    public void 트래킹데이터_저장_성공(){
+        // given
+        List<DailyReqDto> req = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            req.add(DailyReqDto.builder()
+                    .postureId(Integer.toUnsignedLong(i+1))
+                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .build());
+        }
+
+        doReturn(Optional.of(user))
+                .when(userRepository)
+                .findByEmail(user.getEmail());
+        doReturn(null)
+                .when(dailyRepository)
+                .saveAll(any());
+
+        // when
+        int cnt = target.insertTodayData(req, "kosy1782@gmail.com");
+
+        // then
+        assertThat(cnt).isEqualTo(req.size());
     }
 
     @Test
@@ -201,7 +257,5 @@ public class StatisticsServiceTest {
         }
         return statisticsList;
     }
-
-
 
 }
