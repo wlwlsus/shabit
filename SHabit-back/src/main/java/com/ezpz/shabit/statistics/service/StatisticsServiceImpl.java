@@ -9,6 +9,7 @@ import com.ezpz.shabit.statistics.repository.GrassRepository;
 import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
 import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
+import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.repository.PostureRepository;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
@@ -36,7 +37,6 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final DailyRepository dailyRepository;
     private final GrassRepository grassRepository;
     private final PostureRepository postureRepository;
-
 
     @Override
     public List<Daily> getTodayData(String email) {
@@ -83,7 +83,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public int insertTodayData(List<DailyReqDto> reqDto, String email) {
         Users user = userRepository.findByEmail(email).orElse(null);
-        if(user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
+        if (user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
 
         List<Daily> data = new ArrayList<>();
         reqDto.forEach(req ->
@@ -100,6 +100,11 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         dailyRepository.saveAll(data);
         return data.size();
+    }
+
+    @Override
+    public List<Posture> getPostureList() {
+        return postureRepository.findAll();
     }
 
 }

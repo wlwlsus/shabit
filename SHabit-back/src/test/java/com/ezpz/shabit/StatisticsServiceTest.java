@@ -1,5 +1,9 @@
 package com.ezpz.shabit;
 
+import com.ezpz.shabit.admin.service.AdminServiceImpl;
+import com.ezpz.shabit.info.entity.Phrases;
+import com.ezpz.shabit.info.repository.PhrasesRepository;
+import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
@@ -157,54 +161,6 @@ public class StatisticsServiceTest {
         }
         return statisticsList;
     }
-    @Test
-    public void 트래킹_데이터_입력_일치하는_이메일_없음(){
-        // given
-        List<DailyReqDto> req = new ArrayList<>();
-        for(int i=0; i<5; i++){
-            req.add(DailyReqDto.builder()
-                    .postureId(1L)
-                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .build());
-        }
-
-        doReturn(Optional.empty()).when(userRepository)
-                .findByEmail("kosy1782");
-
-        // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.insertTodayData(req, "kosy1782"));
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("일치하는 유저가 존재하지 않습니다.");
-    }
-
-
-    @Test
-    public void 트래킹데이터_저장_성공(){
-        // given
-        List<DailyReqDto> req = new ArrayList<>();
-        for(int i=0; i<5; i++){
-            req.add(DailyReqDto.builder()
-                    .postureId(Integer.toUnsignedLong(i+1))
-                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
-                    .build());
-        }
-
-        doReturn(Optional.of(user))
-                .when(userRepository)
-                .findByEmail(user.getEmail());
-        doReturn(null)
-                .when(dailyRepository)
-                .saveAll(any());
-
-        // when
-        int cnt = target.insertTodayData(req, "kosy1782@gmail.com");
-
-        // then
-        assertThat(cnt).isEqualTo(req.size());
-    }
 
     @Test
     public void 월간_데이터_일치하는_이메일_없음(){
@@ -257,5 +213,80 @@ public class StatisticsServiceTest {
         }
         return statisticsList;
     }
+
+    @Test
+    public void 트래킹_데이터_입력_일치하는_이메일_없음(){
+        // given
+        List<DailyReqDto> req = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            req.add(DailyReqDto.builder()
+                    .postureId(1L)
+                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                    .build());
+        }
+
+        doReturn(Optional.empty()).when(userRepository)
+                .findByEmail("kosy1782");
+
+        // when
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.insertTodayData(req, "kosy1782"));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("일치하는 유저가 존재하지 않습니다.");
+    }
+
+
+    @Test
+    public void 트래킹데이터_저장_성공(){
+        // given
+        List<DailyReqDto> req = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            req.add(DailyReqDto.builder()
+                    .postureId(Integer.toUnsignedLong(i+1))
+                    .startTime(LocalDateTime.now().minusHours(i+2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .endTime(LocalDateTime.now().minusHours(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .build());
+        }
+
+        doReturn(Optional.of(user))
+                .when(userRepository)
+                .findByEmail(user.getEmail());
+        doReturn(null)
+                .when(dailyRepository)
+                .saveAll(any());
+
+        // when
+        int cnt = target.insertTodayData(req, "kosy1782@gmail.com");
+
+        // then
+        assertThat(cnt).isEqualTo(req.size());
+    }
+
+    @Test
+    public void 건강_문구_목록_조회_성공(){
+        // given
+        doReturn(postureList())
+                .when(postureRepository)
+                .findAll();
+
+        // when
+        List<Posture> postureList = target.getPostureList();
+
+        // then
+        assertThat(postureList.size()).isEqualTo(2);
+    }
+
+    private List<Posture> postureList() {
+        List<Posture> postureList = new ArrayList<>();
+        postureList.add(Posture.builder()
+                .name("바른 자세")
+                .build());
+        postureList.add(Posture.builder()
+                .name("거북목")
+                .build());
+        return postureList;
+    }
+
 
 }

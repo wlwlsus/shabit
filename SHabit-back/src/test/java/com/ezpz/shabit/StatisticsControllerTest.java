@@ -1,5 +1,6 @@
 package com.ezpz.shabit;
 
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.statistics.controller.StatisticsController;
 import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.entity.Posture;
@@ -55,6 +56,7 @@ public class StatisticsControllerTest {
                 .build();
     }
 
+    final String email = "kosy1782@gmail.com";
     final Posture posture = Posture.builder()
             .name("바른 자세")
             .build();
@@ -72,7 +74,6 @@ public class StatisticsControllerTest {
 
     @Mock
     private StatisticsServiceImpl statisticsService;
-    String email = "kosy1782@gmail.com";
 
     @Test
     public void 잔디_데이터_일치하는_이메일_없음() throws Exception {
@@ -174,6 +175,75 @@ public class StatisticsControllerTest {
     }
 
     @Test
+    public void 월간_데이터_일치하는_이메일_없음() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/monthly/{email}";
+        // StatisticsService getMonthlyData에 대한 stub필요
+        doThrow(new NullPointerException()).when(statisticsService)
+                .getMonthlyData("kosy1782", -1);
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url, "kosy1782")
+                        .queryParam("page", "-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 NotFound인지 확인
+        resultActions.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void 월간_데이터_가져오기_성공() throws Exception {
+        // given
+        final String url = "/api/v1/statistics/monthly/{email}";
+        // StatisticsService getMonthlyData에 대한 stub필요
+        doReturn(statisticsList2()).when(statisticsService)
+                .getMonthlyData(email, -1);
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get(url, email)
+                        .queryParam("page", "-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    private List<Statistics> statisticsList2() {
+        List<Statistics> statisticsList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            if(now().minusDays(i).getMonthValue() != 12) continue;
+            statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
+        }
+        return statisticsList;
+    }
+    @Test
+    void 자세_목록_조회_성공() throws Exception{
+        // given
+        // findAll에 대한 stub필요
+        doReturn(postureList()).when(statisticsService)
+                .getPostureList();
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/statistics/posture")
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+
+        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
+        System.out.println(mvcResult.getResponse().getContentAsString());
+    }
+
+    @Test
     public void 데이터_삽입_일치하는_이메일_없음() throws Exception {
         // given
         final String url = "/api/v1/statistics/{email}";
@@ -231,53 +301,16 @@ public class StatisticsControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    @Test
-    public void 월간_데이터_일치하는_이메일_없음() throws Exception {
-        // given
-        final String url = "/api/v1/statistics/monthly/{email}";
-        // StatisticsService getMonthlyData에 대한 stub필요
-        doThrow(new NullPointerException()).when(statisticsService)
-                .getMonthlyData("kosy1782", -1);
 
-        // when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get(url, "kosy1782")
-                        .queryParam("page", "-1")
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        // HTTP Status가 NotFound인지 확인
-        resultActions.andExpect(status().isNotFound());
+    private List<Posture> postureList() {
+        List<Posture> postureList = new ArrayList<>();
+        postureList.add(Posture.builder()
+                .name("바른 자세")
+                .build());
+        postureList.add(Posture.builder()
+                .name("거북목")
+                .build());
+        return postureList;
     }
 
-    @Test
-    public void 월간_데이터_가져오기_성공() throws Exception {
-        // given
-        final String url = "/api/v1/statistics/monthly/{email}";
-        // StatisticsService getMonthlyData에 대한 stub필요
-        doReturn(statisticsList2()).when(statisticsService)
-                .getMonthlyData(email, -1);
-
-        // when
-        final ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get(url, email)
-                        .queryParam("page", "-1")
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        // HTTP Status가 OK인지 확인
-        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
-    }
-
-    private List<Statistics> statisticsList2() {
-        List<Statistics> statisticsList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            if(now().minusDays(i).getMonthValue() != 12) continue;
-            statisticsList.add(Statistics.builder().posture(posture).user(user).date(now().minusDays(i)).time(i*10).build());
-        }
-        return statisticsList;
-    }
 }
