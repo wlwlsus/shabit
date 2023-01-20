@@ -7,5 +7,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
-    List<Statistics> findByUserEmailAndDateBetweenOrderByDateAsc(String email, LocalDate start, LocalDate end);
+    List<Statistics> findByUserEmailAndDateBetweenOrderByDateAsc(String email, LocalDate startDate, LocalDate endDate);
 }

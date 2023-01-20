@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface GrassRepository extends JpaRepository<Grass, Long> {
     List<Grass> findByUserEmailOrderByDateAsc(String kosy1782);
+
 }
