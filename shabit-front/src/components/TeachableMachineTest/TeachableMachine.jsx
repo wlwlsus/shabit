@@ -35,6 +35,7 @@ const TeachableMachine = ({
   const [travelTime, setTravelTime] = useState(0);
   const [remainTime, setRemainTime] = useState(3000000);
   const [strechingCount, setStrechingCount] = useState(1);
+
   const displayHours =
     Math.floor((travelTime / (1000 * 60 * 60)) % 24) > 0
       ? String(Math.floor((travelTime / (1000 * 60 * 60)) % 24)).padStart(
@@ -54,11 +55,15 @@ const TeachableMachine = ({
     String(Math.floor((remainTime / 1000) % 60)).padStart(2, '0');
 
   useEffect(() => {
-    setRemainTime(990 + 3000000 * strechingCount - travelTime);
+    const fiftyMinutes = 3000000;
+    const offset = 990; // math.floor로 해도 작동 되도록
+    setRemainTime(offset + fiftyMinutes * strechingCount - travelTime);
   }, [travelTime, strechingCount]);
 
   useEffect(() => {
-    if (remainTime <= 0) setStrechingCount(strechingCount + 1);
+    if (remainTime <= 0) {
+      setStrechingCount(strechingCount + 1);
+    }
   }, [remainTime]);
 
   // TM: 정지 버튼을 눌렀을 때에 intervalID를 기준으로 loop함수를 중단합니다.
