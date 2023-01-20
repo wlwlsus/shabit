@@ -239,7 +239,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.AdminControllerTest" />
-        <item itemvalue="JUnit.AdminControllerTest.세팅_조회_성공" />
         <item itemvalue="JUnit.AdminServiceTest.세팅_조회_성공" />
         <item itemvalue="JUnit.SettingRepositoryTest.세팅_조회_성공" />
         <item itemvalue="JUnit.AdminControllerTest.초기_세팅_안돼있음" />
