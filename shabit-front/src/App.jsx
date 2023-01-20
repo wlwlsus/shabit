@@ -2,7 +2,9 @@ import React from 'react';
 import { GlobalStyle, theme } from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 
-import LandingPage from './pages/LandingPage';
+// import LandingPage from './pages/LandingPage';
+
+import StartBtn from './components/molecules/StartBtn';
 
 function App() {
   return (
@@ -15,7 +17,8 @@ function App() {
           height: '100%',
         }}
       >
-        <LandingPage />
+        {/* <LandingPage /> */}
+        <StartBtn />
       </div>
     </ThemeProvider>
   );

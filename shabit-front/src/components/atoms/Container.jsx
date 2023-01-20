@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
-const Container = ({ size, bg, border, shadow, onClick, children }) => {
+const Container = ({ size, bg, border, shadow, edge, onClick, children }) => {
   const bgClass = `bg-${bg}`;
+  const edgeClass = `edge-${edge}`;
 
   return (
     <ContainerWrapper
-      className={` ${size} ${bgClass} ${border} ${shadow}`}
+      className={` ${size} ${bgClass} ${border} ${shadow} ${edgeClass}`}
       onClick={onClick}
     >
       {children}
@@ -17,10 +18,11 @@ const Container = ({ size, bg, border, shadow, onClick, children }) => {
 };
 
 Container.propTypes = {
-  size: PropTypes.oneOf(['md', 'square']).isRequired,
+  size: PropTypes.oneOf(['md', 'square', 'smsquare']).isRequired,
   bg: PropTypes.oneOf(['primary', 'secondary']),
   border: PropTypes.oneOf(['rounded']),
   shadow: PropTypes.oneOf(['shadow']),
+  edge: PropTypes.oneOf(['secondary']),
   onClick: PropTypes.func,
   children: PropTypes.element,
 };
@@ -31,6 +33,7 @@ Container.defaultProps = {
   border: undefined,
   shadow: undefined,
   onClick: undefined,
+  edge: undefined,
   children: undefined,
 };
 
@@ -52,9 +55,12 @@ const ContainerWrapper = styled.div`
   &.shadow {
     box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
   }
-}
 
-  &.md{
+  &.edge-secondary {
+    border: 0.2rem solid ${theme.color.secondary};
+  }
+
+  &.md {
     width: 28rem;
     height: 25rem;
   }
@@ -62,6 +68,11 @@ const ContainerWrapper = styled.div`
   &.square {
     width: 27rem;
     height: 27rem;
+  }
+
+  &.smsquare {
+    width: 7.5rem;
+    height: 7.5rem;
   }
 `;
 
