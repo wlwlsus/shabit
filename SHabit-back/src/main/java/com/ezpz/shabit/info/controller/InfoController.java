@@ -38,4 +38,5 @@ public class InfoController {
       return Response.notFound("영상 가져오기 실패");
     }
   }
+
 }

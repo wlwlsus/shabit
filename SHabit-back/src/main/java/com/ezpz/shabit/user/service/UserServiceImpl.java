@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -44,11 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     Users users = Users.builder()
-        .email(signUp.getEmail())
-        .nickname(signUp.getNickname())
-        .password(passwordEncoder.encode(signUp.getPassword()))
-        .roles(Collections.singletonList(Authority.ROLE_USER.name()))
-        .build();
+                          .email(signUp.getEmail())
+                          .nickname(signUp.getNickname())
+                          .password(passwordEncoder.encode(signUp.getPassword()))
+                          .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+                          .build();
 
     userRepository.save(users);
 
@@ -73,18 +74,18 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(login.getEmail());
 
     UserTestResDto.LoginUserRes loginUserRes =
-        UserTestResDto.LoginUserRes.builder()
-            .email(users.getEmail())
-            .nickname(users.getNickname())
-            .theme(users.getTheme())
-            .profile(users.getProfile())
-            .build();
+            UserTestResDto.LoginUserRes.builder()
+                    .email(users.getEmail())
+                    .nickname(users.getNickname())
+                    .theme(users.getTheme())
+                    .profile(users.getProfile())
+                    .build();
 
     userInfo.setToken(tokenInfo);
     userInfo.setUser(loginUserRes);
 
     redisTemplate.opsForValue()
-        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
   }
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
     // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
     Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
     redisTemplate.opsForValue()
-        .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+            .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
     return Response.ok("로그아웃 되었습니다.");
   }
@@ -137,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
     // 5. RefreshToken Redis 업데이트
     redisTemplate.opsForValue()
-        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "토큰 재발급을 성공하였습니다.", 0, tokenInfo);
   }
@@ -151,13 +152,23 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(email);
 
     UserTestResDto.LoginUserRes loginUserRes =
-        UserTestResDto.LoginUserRes.builder()
-            .email(users.getEmail())
-            .nickname(users.getNickname())
-            .theme(users.getTheme())
-            .profile(users.getProfile())
-            .build();
+            UserTestResDto.LoginUserRes.builder()
+                    .email(users.getEmail())
+                    .nickname(users.getNickname())
+                    .theme(users.getTheme())
+                    .profile(users.getProfile())
+                    .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
+  }
+
+  @Override
+  public void updateNickname(String email, String nickname) throws Exception {
+    log.info("email : {}, nickname : {}", email, nickname);
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("before update user : {}", user);
+    user.setNickname(nickname);
+    userRepository.save(user);
+    log.info("after update user : {}", user);
   }
 }

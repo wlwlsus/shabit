@@ -56,3 +56,11 @@ cloud:
       auto: false
     credentials:
       instancePofile: true
+
+# default prof
+user:
+  profile: https://i.ibb.co/5xZJZn9/image.png
+
+# jwt token
+jwt:
+  secret: UDVaY0VRREoyaEl2d2JlWXFFN2haOWF3ekRxbFBzTnpscEFFaE5mdDBSZw==
