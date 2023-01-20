@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
+import Services from '../../services';
 
 const RegisterForm = ({ setIsLogginIn }) => {
   //전체: 회원가입 폼의 인풋 태그를 관리합니다.
@@ -58,16 +59,20 @@ const RegisterForm = ({ setIsLogginIn }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (password === password2) {
-      api
-        .post('/user', { email, nickname, password })
-        .then((res) => {
-          setMessage((res.msg || res.data.msg) + '회원가입');
-          setIsLogginIn(true);
-        })
-        .catch((err) => {
-          console.log(err);
-          setMessage((err.msg || err.data.msg) + '에러회원가입');
-        });
+      Services.Auth.register(email, nickname, password).then((bool) =>
+        console.log(bool),
+      );
+
+      // api
+      //   .post('/user', { email, nickname, password })
+      //   .then((res) => {
+      //     setMessage((res.msg || res.data.msg) + '회원가입');
+      //     setIsLogginIn(true);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     setMessage((err.msg || err.data.msg) + '에러회원가입');
+      //   });
     } else {
       setMessage('비밀번호가 일치하지 않습니다');
     }

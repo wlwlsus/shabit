@@ -1,4 +1,3 @@
-import Services from '../..';
 import apiRequest from '../../../utils/apiRequest';
 
 export const changeImage = (
@@ -18,6 +17,7 @@ export const changeImage = (
       },
     })
     .then((res) => {
+      alert('이미지가 변경되었습니다.');
       return res.result.url;
     })
     .catch((err) => {
@@ -29,20 +29,22 @@ export const changeImage = (
   return;
 };
 
-export const resetPassword = (email: string): boolean => {
-  apiRequest
+export const resetPassword = async (email: string): Promise<boolean> => {
+  return await apiRequest
     .put(`/user/${email}`)
-    .then(() => true)
+    .then(() => {
+      alert('패스워드가 초기화 되었습니다.');
+      return true;
+    })
     .catch(() => false);
-  return false;
 };
 
-export const changeTheme = (thema: number, email: string) => {
-  return true;
+export const changeTheme = (thema: number, email: string): Promise<boolean> => {
+  return Promise.resolve(true);
 };
 
-export const changeNickname = (email: string): boolean => {
-  return true;
+export const changeNickname = (email: string): Promise<boolean> => {
+  return Promise.resolve(true);
 };
 
 export default { changeImage, resetPassword, changeTheme, changeNickname };

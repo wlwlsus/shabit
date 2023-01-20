@@ -6,6 +6,6 @@ export const confirmEmail = (email: string): object => {
   return {};
 };
 
-export const checkEmail = (email: string): boolean => {
-  return true;
+export const checkEmail = (email: string): Promise<boolean> => {
+  return Promise.resolve(true);
 };

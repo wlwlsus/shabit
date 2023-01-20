@@ -53,24 +53,7 @@ const LoginForm = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    apiRequest
-      .get('/user', { email, password })
-      .then((res) => {
-        setMessage(res.msg || res.data.msg);
-        localStorage.setItem(
-          'accessToken',
-          res.accessToken || res.data.accessToken,
-        );
-        localStorage.setItem(
-          'refreshToken',
-          res.refreshToken || res.data.refreshToken,
-        );
-        localStorage.setItem('user', JSON.stringify(res.user || res.data.user));
-      })
-      .catch((err) => {
-        console.log(err.status || err.data.status);
-        setMessage(err.msg || err.data.msg);
-      });
+    Services.Auth.login(email, password);
   };
 
   return (
