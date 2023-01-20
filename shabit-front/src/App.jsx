@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 // import LandingPage from './pages/LandingPage';
 
-import StartBtn from './components/molecules/StartBtn';
+import HeatmapBox from './components/organisms/HeatmapBox';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         }}
       >
         {/* <LandingPage /> */}
-        <StartBtn />
+        <HeatmapBox />
       </div>
     </ThemeProvider>
   );

@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
+import { theme } from '../../styles/GlobalStyles';
 
-const HeatMap = () => {
-  //히트맵 데이터에 들어갈 내용입니다.
+const Heatmap = () => {
+  //  Heatmap Data
   const [values, setValues] = useState([]);
+  const [today] = useState(new Date());
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
-  //최초에 오늘 날짜를 마지막 날짜로 설정합니다.
-  const [endDate, setEndDate] = useState(() => {
-    const now = new Date();
-    const today = now
-      .toLocaleDateString()
-      .split(' ')
-      .map((e) => {
-        return e.replace('.', '').padStart(2, '0');
-      })
-      .join('-');
-    return today;
-  });
+  //  기간 설정 (1년 전 ~ today)
+  useEffect(() => {
+    if (today) {
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
 
-  //마운트 됐을 때 json데이터를 가져옵니다. 배열에 날짜와 퍼센트, 그리고 클래스(색깔)을 저장합니다.
+      month = month.toString().padStart(2, '0');
+      day = day.toString().padStart(2, '0');
+
+      setStartDate(`${year - 1}-${month}-${day}`);
+      setEndDate(`${year}-${month}-${day}`);
+    }
+  }, [today]);
+
+  //  마운트 됐을 때 데이터 가져옴.
+  //  배열에 날짜, 퍼센트, 클래스(색) 저장
   useEffect(() => {
     fetch(`/testData/heatMapData.json`)
       .then((res) => res.json())
@@ -39,39 +46,26 @@ const HeatMap = () => {
       });
   }, []);
 
-  // const values = [
-  //   { date: '2023-01-18', count: 4 },
-  //   { date: '2023-01-15', count: 1 },
-  //   { date: '2023-01-10', count: 3 },
-  // { date: new Date(2016, 0, 4) },
-  // ];
-  // How many days should be shown
-  // const numDays = 365;
-
-  const onClick = (e) => console.log(e);
-
   return (
-    <StyledContainer style={{ width: 700 }}>
+    <StyledContainer style={{ width: 1000 }}>
       <CalendarHeatmap
         endDate={endDate}
-        // startDate={startDate}
-        // numDays={numDays}
+        startDate={startDate}
         values={values}
-        onClick={onClick}
         showWeekdayLabels={true}
         //classForValue로 색깔이 될 클래스를 지정합니다.
         classForValue={(value) => {
           if (!value) {
             return 'color-empty';
           }
-          return `color-gitlab-${value.classValue}`;
+          return `color-scale-${value.classValue}`;
         }}
       />
     </StyledContainer>
   );
 };
 
-export default HeatMap;
+export default Heatmap;
 
 const StyledContainer = styled.div`
   /*
@@ -83,13 +77,14 @@ const StyledContainer = styled.div`
  */
 
   .react-calendar-heatmap text {
-    font-size: 10px;
+    font-size: 0.5rem;
     fill: #aaa;
   }
 
   .react-calendar-heatmap rect:hover {
     stroke: #555;
     stroke-width: 1px;
+    cursor: pointer;
   }
 
   /*
@@ -145,16 +140,20 @@ const StyledContainer = styled.div`
   }
 
   /* 색깔은 여기에서 바꾸세여 */
+  .react-calendar-heatmap .color-scale-0 {
+    fill: ${theme.heatMap.scale0};
+  }
+
   .react-calendar-heatmap .color-scale-1 {
-    fill: #d6e685;
+    fill: ${theme.heatMap.scale1};
   }
   .react-calendar-heatmap .color-scale-2 {
-    fill: #8cc665;
+    fill: ${theme.heatMap.scale2};
   }
   .react-calendar-heatmap .color-scale-3 {
-    fill: #44a340;
+    fill: ${theme.heatMap.scale3};
   }
   .react-calendar-heatmap .color-scale-4 {
-    fill: #1e6823;
+    fill: ${theme.heatMap.scale4};
   }
 `;
