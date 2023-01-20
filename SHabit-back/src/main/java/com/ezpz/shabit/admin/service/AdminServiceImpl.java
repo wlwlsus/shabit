@@ -132,5 +132,9 @@ public class AdminServiceImpl implements AdminService{
         return res;
     }
 
+    @Override
+    public List<Phrases> getPhrasesList() {
+        return phrasesRepository.findAll();
+    }
 
 }

@@ -8,6 +8,7 @@ import com.ezpz.shabit.admin.service.youtube.YouTubeServiceImpl;
 import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,21 @@ public class AdminController {
 
         if(res == 0) return Response.notFound("문구 등록을 실패하였습니다.");
         return Response.ok("문구 등록을 성공하였습니다.");
+    }
+    @GetMapping("/phrase")
+    ResponseEntity<?> getPhrasesList() {
+        List<Phrases> data = null;
+        try{
+            data = adminService.getPhrasesList();
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(data == null) return Response.notFound("문구 리스트 조회를 실패하였습니다");
+
+        List<String> resData = new ArrayList<>();
+        data.forEach(d -> resData.add(d.getContent()));
+        return Response.makeResponse(HttpStatus.OK, "문구 리스트 조회를 성공하였습니다", resData.size(), resData);
     }
 
     @GetMapping("/vods")
@@ -132,6 +148,7 @@ public class AdminController {
         if(res == 0) return Response.badRequest("세팅 수정에 실패하였습니다.");
         return Response.ok("세팅 수정에 성공하였습니다.");
     }
+
     @GetMapping("/alarm")
     ResponseEntity<?> getSetting() {
         SettingResDto res = null;
