@@ -5,9 +5,7 @@ import Label from '../atoms/Label';
 import Button from '../atoms/Button';
 
 import { FcGoogle } from 'react-icons/fc';
-import { SiKakaotalk } from 'react-icons/si';
-import { FaGithubSquare } from 'react-icons/fa';
-import { GrFacebook } from 'react-icons/gr';
+import { SiKakaotalk, SiNaver } from 'react-icons/si';
 
 const Social = () => {
   return (
@@ -19,9 +17,13 @@ const Social = () => {
       />
       <IconWrapper>
         <Button icon={<FcGoogle />} size={'md'} />
-        <Button icon={<SiKakaotalk />} size={'md'} color={'yellow'} />
-        <Button icon={<FaGithubSquare />} size={'md'} />
-        <Button icon={<GrFacebook />} size={'md'} bg={'white'} color={'blue'} />
+        <Button
+          icon={<SiKakaotalk />}
+          size={'md'}
+          color={'yellow'}
+          bg={'black'}
+        />
+        <Button icon={<SiNaver />} size={'md'} color={'green'} bg={'white'} />
       </IconWrapper>
     </Wrapper>
   );
@@ -37,7 +39,7 @@ const Wrapper = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  width: 60%;
+  width: 50%;
   margin-top: 0.5rem;
   display: flex;
   justify-content: space-evenly;

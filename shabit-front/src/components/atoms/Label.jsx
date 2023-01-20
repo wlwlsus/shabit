@@ -43,6 +43,10 @@ const LabelWrapper = styled.div`
   background-color: 'none';
   font-weight: 600;
 
+  &:hover {
+    cursor: default;
+  }
+
   &.primary {
     color: ${theme.color.primary};
   }

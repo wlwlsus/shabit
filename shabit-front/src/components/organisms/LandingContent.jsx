@@ -6,10 +6,17 @@ import WelcomeSign from '../molecules/WelcomeSign';
 
 const LandingContent = ({ children1, children2 }) => {
   return (
-    <Container bg={'primary'} size={'square'} shadow={'shadow'}>
-      {children1}
-      {children2}
-    </Container>
+    <Container
+      bg={'primary'}
+      size={'square'}
+      shadow={'shadow'}
+      children={
+        <>
+          {children1}
+          {children2}
+        </>
+      }
+    ></Container>
   );
 };
 

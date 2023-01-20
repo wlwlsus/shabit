@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 import { theme } from '../../styles/GlobalStyles';
 
@@ -32,11 +32,19 @@ const Button = ({
 };
 
 Button.propTypes = {
-  bg: PropTypes.oneOf(['primary', 'secondary']),
+  bg: PropTypes.oneOf(['primary', 'secondary', 'white', 'black']),
   role: PropTypes.oneOf(['button', 'submit']),
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
   text: PropTypes.string,
-  color: PropTypes.oneOf(['primary', 'secondary', 'white', 'blue', 'yellow']),
+  color: PropTypes.oneOf([
+    'primary',
+    'secondary',
+    'white',
+    'blue',
+    'yellow',
+    'green',
+    'gray',
+  ]),
   icon: PropTypes.element,
   shadow: PropTypes.oneOf(['shadow']),
   padding: PropTypes.number,
@@ -56,10 +64,24 @@ Button.defaultProps = {
   children: undefined,
 };
 
+const bigger = keyframes`
+  from {
+    scale:1
+  }
+  to {
+    scale:1.2
+  }
+`;
+
 const ButtonWrapper = styled.button`
   display: inline-flex;
   background-color: transparent;
   border-radius: 0.3rem;
+
+  &:hover {
+    animation: ${bigger} 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+  }
 
   &.primary {
     color: ${theme.color.primary};
@@ -85,6 +107,10 @@ const ButtonWrapper = styled.button`
     color: ${theme.color.yellowColor};
   }
 
+  &.green {
+    color: ${theme.color.greenColor};
+  }
+
   &.bg-primary {
     background-color: ${theme.color.primary};
   }
@@ -95,6 +121,10 @@ const ButtonWrapper = styled.button`
 
   &.bg-white {
     background-color: ${theme.color.whiteColor};
+  }
+
+  &.bg-black {
+    background-color: ${theme.color.blackColor};
   }
 
   &.xs {

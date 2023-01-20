@@ -8,10 +8,17 @@ import SidebarBtn from '../molecules/SidebarBtn';
 const LandingSidebar = () => {
   return (
     <SidebarWrapper>
-      <Container shadow={'shadow'} border={'rounded'} size={'md'}>
-        <Logo color={'pink'} size={'sm'} />
-        <SidebarBtn />
-      </Container>
+      <Container
+        shadow={'shadow'}
+        border={'rounded'}
+        size={'md'}
+        children={
+          <>
+            <Logo color={'pink'} size={'sm'} />
+            <SidebarBtn />
+          </>
+        }
+      ></Container>
     </SidebarWrapper>
   );
 };
