@@ -34,7 +34,7 @@ public class InfoController {
       log.error(e.getMessage());
       return Response.noContent("영상 정보 부족");
     } catch (Exception e) {
-      log.info("error : {}", e.getClass());
+      log.error("error : {}", e.getClass());
       return Response.notFound("영상 가져오기 실패");
     }
   }
