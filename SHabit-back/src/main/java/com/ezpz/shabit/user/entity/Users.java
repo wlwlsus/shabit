@@ -13,15 +13,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
 public class Users extends BaseTimeEntity implements UserDetails {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id", nullable = false)

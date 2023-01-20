@@ -50,7 +50,7 @@ public class UserServiceTests {
     // given
     String email = "dnzma13@gmail.com";
     // when
-    userService.changeThema(email, 1);
+    userService.changeTheme(email, 1);
     // then
     final Optional<Users> user = userRepository.findByEmail(email);
     assertThat(user.isPresent()).isTrue();

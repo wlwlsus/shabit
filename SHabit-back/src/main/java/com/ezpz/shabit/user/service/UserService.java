@@ -4,7 +4,6 @@ import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-
   ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
   ResponseEntity<?> login(UserTestReqDto.Login login);
@@ -15,5 +14,8 @@ public interface UserService {
 
   ResponseEntity<?> getUserInfo(String email);
 
-  void changeThema(String email, int thema) throws Exception;
+  void changeTheme(String email, int thema) throws Exception;
+  void updateNickname(String email, String nickname) throws Exception;
+
+  void deleteProfile(String email) throws Exception;
 }

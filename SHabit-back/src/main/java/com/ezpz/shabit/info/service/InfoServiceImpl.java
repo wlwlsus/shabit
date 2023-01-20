@@ -11,6 +11,7 @@ import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
 import com.ezpz.shabit.statistics.repository.PostureRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -9,6 +9,7 @@ import com.ezpz.shabit.user.repository.UserRepository;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
@@ -38,6 +41,8 @@ public class UserServiceImpl implements UserService {
 
   private final RedisTemplate redisTemplate;
 
+  private final S3FileService s3FileService;
+
   @Override
   public ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp) {
     if (userRepository.existsByEmail(signUp.getEmail())) {
@@ -54,7 +59,26 @@ public class UserServiceImpl implements UserService {
     userRepository.save(users);
 
     return Response.ok("회원가입에 성공하였습니다.");
+  }
 
+  @Value("${user.profile}")
+  String defaultUrl;
+
+  @Override
+  @Transactional
+  public void deleteProfile(String email) throws Exception {
+    // 회원 정보 가져오기
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("user nickname : {}", user.getNickname());
+    // 프로필 사진 url 가져오기
+    String fileUrl = user.getProfile();
+    log.info("fileUrl in S3: {}", fileUrl);
+    // S3에서 삭제하기
+    s3FileService.delete(fileUrl);
+    log.info("file deletion success in userService");
+    // DB 프로필 사진 삭제하기
+    user.setProfile(defaultUrl);
+    userRepository.save(user);
   }
 
   @Override
@@ -163,9 +187,18 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void changeThema(String email, int theme) throws Exception {
+  public void changeTheme(String email, int theme) throws Exception {
     Users user = userRepository.findByEmail(email).orElseThrow();
     user.setTheme(theme);
     userRepository.save(user);
+  }
+
+  public void updateNickname(String email, String nickname) throws Exception {
+    log.info("email : {}, nickname : {}", email, nickname);
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("before update user : {}", user);
+    user.setNickname(nickname);
+    userRepository.save(user);
+    log.info("after update user : {}", user);
   }
 }

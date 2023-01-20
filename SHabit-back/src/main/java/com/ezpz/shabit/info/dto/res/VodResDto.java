@@ -25,4 +25,5 @@ public class VodResDto {
     this.videoId = vod.getVideoId();
     this.length = vod.getLength();
   }
+
 }

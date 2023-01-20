@@ -30,7 +30,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="SHabit.main" />
+    <orderEntry type="module" module-name="com.ezpz.SHabit.main" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.9.0" level="project" />
@@ -41,6 +41,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-redis:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: io.jsonwebtoken:jjwt-api:0.11.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.amazonaws:aws-java-sdk-s3:1.12.385" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.20.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-test:6.0.1" level="project" />
@@ -68,6 +69,9 @@
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-aop:6.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.amazonaws:aws-java-sdk-kms:1.12.385" level="project" />
+    <orderEntry type="library" name="Gradle: com.amazonaws:aws-java-sdk-core:1.12.385" level="project" />
+    <orderEntry type="library" name="Gradle: com.amazonaws:jmespath-java:1.12.385" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test-autoconfigure:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.jayway.jsonpath:json-path:2.7.0" level="project" />
@@ -117,6 +121,12 @@
     <orderEntry type="library" name="Gradle: io.netty:netty-transport:4.1.86.Final" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-common:4.1.86.Final" level="project" />
     <orderEntry type="library" name="Gradle: io.projectreactor:reactor-core:3.5.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.14.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.14" level="project" />
+    <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
+    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.15" level="project" />
+    <orderEntry type="library" name="Gradle: software.amazon.ion:ion-java:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: joda-time:joda-time:2.8.1" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:json-smart:2.4.8" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.9.1" level="project" />
@@ -137,6 +147,7 @@
     <orderEntry type="library" name="Gradle: io.netty:netty-resolver:4.1.86.Final" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-buffer:4.1.86.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.16" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:accessors-smart:2.4.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.platform:junit-platform-commons:1.9.1" level="project" />
