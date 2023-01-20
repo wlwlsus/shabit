@@ -13,6 +13,13 @@ const theme = {
     yellowColor: '#FFCD34',
     blueColor: '#4267B2',
   },
+  heatMap: {
+    scale0: '#FFE7EA',
+    scale1: '#F0C4CA',
+    scale2: '#E5949F',
+    scale3: '#C77882',
+    scale4: '#AB4653',
+  },
   fontSize: {},
 };
 
