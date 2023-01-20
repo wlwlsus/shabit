@@ -3,6 +3,7 @@ package com.ezpz.shabit.admin.service;
 import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 import com.ezpz.shabit.admin.dto.res.SettingResDto;
+import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.entity.Vod;
 
@@ -14,4 +15,5 @@ public interface AdminService {
     int insertVod(YouTubeDto youtube, Long categoryId);
     int editSetting(SettingReqDto setting);
     SettingResDto getSetting();
+    int insertPhrases(PhrasesReqDto req);
 }

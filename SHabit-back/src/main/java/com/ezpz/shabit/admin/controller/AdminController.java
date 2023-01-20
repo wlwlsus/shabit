@@ -5,6 +5,7 @@ import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import com.ezpz.shabit.admin.service.youtube.YouTubeServiceImpl;
+import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
 import com.ezpz.shabit.info.entity.Vod;
@@ -39,6 +40,22 @@ public class AdminController {
     private final AdminServiceImpl adminService;
     private final YouTubeServiceImpl youtubeService;
 
+    @PostMapping("/phrase")
+    ResponseEntity<?> insertPhrases(@RequestBody PhrasesReqDto req) {
+        int res = 0;
+        try{
+            res = adminService.insertPhrases(req);
+        } catch(DataIntegrityViolationException e){
+            log.info(e.getMessage());
+            return Response.badRequest("이미 존재하는 문구입니다.");
+        } catch(Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(res == 0) return Response.notFound("문구 등록을 실패하였습니다.");
+        return Response.ok("문구 등록을 성공하였습니다.");
+    }
+
     @GetMapping("/vods")
     ResponseEntity<?> getVodList(@RequestParam String search, @RequestParam String query) {
         List<Vod> data = null;
@@ -64,8 +81,6 @@ public class AdminController {
                 .build()));
         return Response.makeResponse(HttpStatus.OK, "영상 리스트 조회를 성공하였습니다", resData.size(), resData);
     }
-
-
 
     @DeleteMapping("/vods")
     ResponseEntity<?> deleteVod(@RequestBody List<Integer> vodIdList) {
