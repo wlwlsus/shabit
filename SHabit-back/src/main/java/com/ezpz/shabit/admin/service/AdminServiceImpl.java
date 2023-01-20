@@ -6,6 +6,9 @@ import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
+import com.ezpz.shabit.admin.dto.req.SettingReqDto;
+import com.ezpz.shabit.admin.entity.Setting;
+import com.ezpz.shabit.admin.repository.SettingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,6 +23,8 @@ public class AdminServiceImpl implements AdminService{
 
     private final VodRepository vodRepository;
     private final CategoryRepository categoryRepository;
+    private final SettingRepository settingRepository;
+
 
     @Override
     public int deleteVod(List<Integer> vodIdList) {
@@ -31,6 +36,20 @@ public class AdminServiceImpl implements AdminService{
         return vodIdList.size();
     }
 
+    @Override
+    public int editSetting(SettingReqDto req) {
+        int res = 0;
+        Setting setting = settingRepository.findById(1L).orElse(null);
+        if(setting == null){
+            throw new NullPointerException("초기 세팅이 되어있지 않습니다.");
+        }else {
+            setting.setStretchingTime(req.getStretchingTime());
+            setting.setAlertTime(req.getAlertTime());
+            settingRepository.save(setting);
+            res = 1;
+        }
+        return res;
+    }
 
 
     @Override

@@ -1,6 +1,7 @@
 package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.controller.AdminController;
+import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
@@ -21,7 +22,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class) // @WebMVCTest를 이용할 수도 있지만 속도가 느리다
@@ -45,7 +48,7 @@ public class AdminControllerTest {
     @Test
     public void 없는_영상_삭제_실패() throws Exception {
         // given
-        List<Integer> list = vodIdList();
+        List<Integer> list = vodIdList1();
         doReturn(0).when(adminService)
                 .deleteVod(list);
 
@@ -67,7 +70,7 @@ public class AdminControllerTest {
     @Test
     void 영상_삭제_성공() throws Exception{
         // given
-        List<Integer> list = vodIdList();
+        List<Integer> list = vodIdList1();
         doReturn(3).when(adminService)
                 .deleteVod(list);
 
@@ -86,13 +89,14 @@ public class AdminControllerTest {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
-    private List<Integer> vodIdList() {
+    private List<Integer> vodIdList1() {
         List<Integer> vodIdList = new ArrayList<>();
         for(int i=0; i<3; i++){
             vodIdList.add(i+1);
         }
         return vodIdList;
     }
+
 
 
     @Test
@@ -175,6 +179,53 @@ public class AdminControllerTest {
                     .build());
         }
         return vodList;
+    }
+
+    @Test
+    public void 초기_세팅_안돼있음() throws Exception {
+        // given
+        final String url = "/api/v1/admin/alarm";
+        SettingReqDto req = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doThrow(new NullPointerException("초기 세팅이 되어있지 않습니다."))
+                .when(adminService)
+                .editSetting(any(SettingReqDto.class));
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(req))
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
+    }
+
+    @Test
+    public void 세팅_수정_성공() throws Exception {
+        // given
+        final String url = "/api/v1/admin/alarm";
+        SettingReqDto req = SettingReqDto.builder()
+                .alertTime(5)
+                .stretchingTime(50)
+                .build();
+        doReturn(1).when(adminService)
+                .editSetting(any(SettingReqDto.class));
+
+        // when
+        final ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.put(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Gson().toJson(req))
+        );
+
+        // then
+        // HTTP Status가 OK인지 확인
+        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
     }
 
 }
