@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -49,6 +46,20 @@ public class AdminController {
                 .originalLength(d.getOriginalLength())
                 .build()));
         return Response.makeResponse(HttpStatus.OK, "영상 리스트 조회를 성공하였습니다", resData.size(), resData);
+    }
+
+
+    @DeleteMapping("/vods")
+    ResponseEntity<?> deleteVod(@RequestBody List<Integer> vodIdList) {
+        int res = 0;
+        try{
+            res = adminService.deleteVod(vodIdList);
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(res == 0) return Response.notFound("영상 삭제에 실패하였습니다.");
+        return Response.ok("영상 삭제에 성공하였습니다.");
     }
 
 

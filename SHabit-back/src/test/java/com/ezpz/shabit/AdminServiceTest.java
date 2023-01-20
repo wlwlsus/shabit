@@ -12,8 +12,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,9 +28,42 @@ public class AdminServiceTest {
     private VodRepository vodRepository;
 
     @Test
+    public void 없는_영상_삭제_실패(){
+        // given
+        doReturn(Optional.empty()).when(vodRepository).findById(any());
+
+        // when
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deleteVod(vodIdList1()));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("영상이 없습니다.");
+    }
+
+    @Test
+    public void 영상_삭제_성공(){
+        // given
+        Optional<Vod> vod = Optional.ofNullable(Vod.builder().build());
+        doReturn(vod).when(vodRepository).findById(any());
+
+        // when
+        int res = target.deleteVod(vodIdList1());
+
+        // then
+        assertThat(res).isEqualTo(3);
+    }
+
+    private List<Integer> vodIdList1() {
+        List<Integer> vodIdList = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            vodIdList.add(i+1);
+        }
+        return vodIdList;
+    }
+
+    @Test
     public void 영상_입력된_이름_목록_조회_성공(){
         // given
-        doReturn(vodList()).when(vodRepository).findByTitleIsLike("%title%");
+        doReturn(vodList2()).when(vodRepository).findByTitleIsLike("%title%");
 
         // when
         List<Vod> vodList = target.getVodList("title", "title");
@@ -39,7 +75,7 @@ public class AdminServiceTest {
     @Test
     public void 영상_입력된_길이로_목록_조회_성공(){
         // given
-        doReturn(vodList())
+        doReturn(vodList2())
                 .when(vodRepository)
                 .findByLength(3);
 
@@ -53,7 +89,7 @@ public class AdminServiceTest {
     @Test
     public void 영상_입력된_카테고리_목록_조회_성공(){
         // given
-        doReturn(vodList())
+        doReturn(vodList2())
                 .when(vodRepository)
                 .findByCategoryName("거북");
 
@@ -67,7 +103,7 @@ public class AdminServiceTest {
     @Test
     public void 영상_전체_목록_조회_성공(){
         // given
-        doReturn(vodList())
+        doReturn(vodList2())
                 .when(vodRepository)
                 .findAll();
 
@@ -78,7 +114,7 @@ public class AdminServiceTest {
         assertThat(vodList.size()).isEqualTo(3);
     }
 
-    private List<Vod> vodList() {
+    private List<Vod> vodList2() {
         List<Vod> vodList = new ArrayList<>();
         for(int i=0; i<3; i++){
             vodList.add(Vod.builder()

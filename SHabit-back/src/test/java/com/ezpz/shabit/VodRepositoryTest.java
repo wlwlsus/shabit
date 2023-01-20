@@ -22,6 +22,10 @@ public class VodRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    final Category category = Category.builder()
+            .name("거북")
+            .build();
+
     @Test
     public void 영상_입력된_이름_목록_조회_성공(){
         // given

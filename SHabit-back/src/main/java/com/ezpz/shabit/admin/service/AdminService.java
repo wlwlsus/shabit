@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AdminService {
     List<Vod> getVodList(String search, String query);
+    int deleteVod(List<Integer> vodIdList);
 }
