@@ -19,28 +19,27 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
-public class User extends BaseTimeEntity implements UserDetails {
+public class Users extends BaseTimeEntity implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_id", nullable = false)
   private Long userId;
 
-  @Column(name = "email", nullable = false)
+  @Column(name = "email", length = 63, nullable = false)
   private String email;
 
-  @Column(name = "nickname", nullable = false)
+  @Column(name = "nickname", length = 15, nullable = false)
   private String nickname;
 
   @Column(name = "password", nullable = false)
   private String password;
 
-  @Column(name = "theme")
+  @Column(name = "theme", columnDefinition = "integer default 0")
   private int theme;
 
-  @OneToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private Image image;
+  @Column(name = "profile")
+  private String profile;
 
   @Column(name = "roles")
   @ElementCollection(fetch = FetchType.EAGER)

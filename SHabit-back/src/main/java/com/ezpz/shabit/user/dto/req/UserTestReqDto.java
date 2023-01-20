@@ -16,7 +16,7 @@ public class UserTestReqDto {
 	public static class SignUp {
 
 		@NotEmpty(message = "이메일은 필수 입력값입니다.")
-		@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
+		@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$", message = "이메일 형식에 맞지 않습니다.")
 		@Schema(description = "이메일", example = "ssafy123@gmail.com")
 		private String email;
 

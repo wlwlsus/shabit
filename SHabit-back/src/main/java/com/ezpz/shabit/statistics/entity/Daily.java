@@ -1,10 +1,10 @@
 package com.ezpz.shabit.statistics.entity;
 
-import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,15 +21,15 @@ public class Daily {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "posture_id", nullable = false)
     private Posture posture;
 
     @Column(name = "start_time", nullable = false)
-    private Date startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private Date endTime;
+    private LocalDateTime endTime;
 }

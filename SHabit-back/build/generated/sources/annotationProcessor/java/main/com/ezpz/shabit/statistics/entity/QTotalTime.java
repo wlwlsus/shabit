@@ -28,7 +28,7 @@ public class QTotalTime extends EntityPathBase<TotalTime> {
 
     public final NumberPath<Long> totalTimeId = createNumber("totalTimeId", Long.class);
 
-    public final com.ezpz.shabit.user.entity.QUser user;
+    public final com.ezpz.shabit.user.entity.QUsers user;
 
     public final NumberPath<Integer> weekly = createNumber("weekly", Integer.class);
 
@@ -50,7 +50,7 @@ public class QTotalTime extends EntityPathBase<TotalTime> {
 
     public QTotalTime(Class<? extends TotalTime> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUser(forProperty("user"), inits.get("user")) : null;
+        this.user = inits.isInitialized("user") ? new com.ezpz.shabit.user.entity.QUsers(forProperty("user")) : null;
     }
 
 }

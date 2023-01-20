@@ -1,7 +1,7 @@
 package com.ezpz.shabit.user.repository;
 
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
-import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @Transactional
-class UserRepositoryTest {
+class UsersRepositoryTest {
 
   @Autowired
   UserRepository userRepository;
@@ -37,10 +37,10 @@ class UserRepositoryTest {
 
     // when
     String email = "ssafy123@gmail.com";
-    User user = userRepository.findUserByEmail(email);
+    Users users = userRepository.findUserByEmail(email);
 
     // then
-    assertThat(user.getNickname()).isEqualTo("ssafy");
+    assertThat(users.getNickname()).isEqualTo("ssafy");
   }
 
   @Test
@@ -50,7 +50,7 @@ class UserRepositoryTest {
     String email = "zzz@gmail.com";
 
     // when
-    Optional<User> user = userRepository.findByEmail(email);
+    Optional<Users> user = userRepository.findByEmail(email);
 
     // then
     assertThat(user).isEqualTo(Optional.empty());

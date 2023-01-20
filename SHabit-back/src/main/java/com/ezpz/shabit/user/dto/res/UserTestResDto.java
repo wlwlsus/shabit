@@ -1,6 +1,5 @@
 package com.ezpz.shabit.user.dto.res;
 
-import com.ezpz.shabit.user.entity.Image;
 import lombok.*;
 
 public class UserTestResDto {
@@ -45,7 +44,7 @@ public class UserTestResDto {
 
     private int theme;
 
-    private Image image;
+    private String profile;
 
   }
 }

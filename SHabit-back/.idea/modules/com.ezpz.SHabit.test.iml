@@ -11,10 +11,7 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping>
-          <factory-entry name="SHabit.test" />
-          <factory-entry name="entityManagerFactory" />
-        </datasource-mapping>
+        <datasource-mapping />
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -22,7 +19,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
     <output-test url="file://$MODULE_DIR$/../../build/classes/java/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../src/test">
@@ -30,7 +27,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="SHabit.main" />
+    <orderEntry type="module" module-name="com.ezpz.SHabit.main" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-data-jpa:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.9.0" level="project" />
@@ -41,8 +38,8 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: io.jsonwebtoken:jjwt-api:0.11.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:3.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-test:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.20.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-test:6.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jdbc:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate.orm:hibernate-core:6.1.6.Final" level="project" />

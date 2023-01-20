@@ -3,7 +3,7 @@ package com.ezpz.shabit.user.service;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
-import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;
 import com.ezpz.shabit.user.repository.UserRepository;
 import com.ezpz.shabit.util.Response;
@@ -43,14 +43,14 @@ public class UserServiceImpl implements UserService {
       return Response.badRequest("이미 회원가입된 이메일입니다.");
     }
 
-    User user = User.builder()
+    Users users = Users.builder()
         .email(signUp.getEmail())
         .nickname(signUp.getNickname())
         .password(passwordEncoder.encode(signUp.getPassword()))
         .roles(Collections.singletonList(Authority.ROLE_USER.name()))
         .build();
 
-    userRepository.save(user);
+    userRepository.save(users);
 
     return Response.ok("회원가입에 성공하였습니다.");
 
@@ -70,14 +70,15 @@ public class UserServiceImpl implements UserService {
     UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
     UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
 
-    User user = userRepository.findUserByEmail(login.getEmail());
+    Users users = userRepository.findUserByEmail(login.getEmail());
 
     UserTestResDto.LoginUserRes loginUserRes =
         UserTestResDto.LoginUserRes.builder()
-            .email(user.getEmail())
-            .nickname(user.getNickname())
-            .theme(user.getTheme())
-            .image(user.getImage()).build();
+            .email(users.getEmail())
+            .nickname(users.getNickname())
+            .theme(users.getTheme())
+            .profile(users.getProfile())
+            .build();
 
     userInfo.setToken(tokenInfo);
     userInfo.setUser(loginUserRes);
@@ -147,14 +148,15 @@ public class UserServiceImpl implements UserService {
     if (userRepository.findByEmail(email).orElse(null) == null)
       return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
 
-    User user = userRepository.findUserByEmail(email);
+    Users users = userRepository.findUserByEmail(email);
 
     UserTestResDto.LoginUserRes loginUserRes =
         UserTestResDto.LoginUserRes.builder()
-            .email(user.getEmail())
-            .nickname(user.getNickname())
-            .theme(user.getTheme())
-            .image(user.getImage()).build();
+            .email(users.getEmail())
+            .nickname(users.getNickname())
+            .theme(users.getTheme())
+            .profile(users.getProfile())
+            .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
   }
