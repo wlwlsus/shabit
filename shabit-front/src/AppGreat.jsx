@@ -10,7 +10,7 @@ import RangeBarDaily from './components/UiTest/RangeBarDaily';
 
 // import UpdateDonutWeekly from './components/UiTest/UpdateDonutWeekly2';
 
-function App() {
+function AppGreat() {
   const [isStarting, setIsStarting] = useState(false);
   const savedIntevalId = useRef();
   const timerIntervalId = useRef();
@@ -42,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppGreat;

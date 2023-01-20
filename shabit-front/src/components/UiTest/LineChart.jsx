@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import Services from '../../services';
 import UpadtingDonut from './UpadtingDonut';
 
 const LineChart = () => {
@@ -43,6 +44,23 @@ const LineChart = () => {
         setJsonData(res.data);
       });
   }, []);
+
+  // 서버 연결되면 json파일 대신 아래 구문으로 불러오기.
+  // useEffect(() => {
+  //   if (mode === 'weeklyData') {
+  //     Services.Stat.fetchWeekly(
+  //       JSON.parse(localStorage.getItem('user')).email,
+  //     ).then((res) => {
+  //       setValues(res);
+  //     });
+  //   } else if (mode === 'monthlyData') {
+  //     Services.Stat.fetchMonthly(
+  //       JSON.parse(localStorage.getItem('user')).email,
+  //     ).then((res) => {
+  //       setValues(res);
+  //     });
+  //   }
+  // }, [mode]);
 
   //json데이터가 업데이트 될 때마다 실행됩니다.
   useEffect(() => {

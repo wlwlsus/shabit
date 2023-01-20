@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
+import Services from '../../services';
 
 //출처 https://apexcharts.com/react-chart-demos/timeline-charts/multiple-series-group-rows/
 
@@ -15,6 +16,10 @@ const RangeBarDaily = () => {
    * 만들어진 배열을 series로 만듭니다.
    **/
   useEffect(() => {
+    //서버 연결되면 json대신 아래걸로 데이터 받기
+    // Services.Stat.fetchDaily(JSON.parse(localStorage.getItem("user")).email).then(
+    //   (res)=>{}
+    // )
     const fetchData = () => {
       fetch('/testData/dailyData.json')
         .then((res) => res.json())

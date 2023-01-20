@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
+import Services from '../../services';
 
 const HeatMap = () => {
   //히트맵 데이터에 들어갈 내용입니다.
@@ -37,16 +38,10 @@ const HeatMap = () => {
         }
         setValues(newArray);
       });
+    // 서버 연결되면 json파일 대신 아래 구문으로 불러오기.
+    // Services.Stat.fetchHeatmap(JSON.parse(localStorage.getItem("user")).email)
+    // .then((res)=>{setValues(newArray)})
   }, []);
-
-  // const values = [
-  //   { date: '2023-01-18', count: 4 },
-  //   { date: '2023-01-15', count: 1 },
-  //   { date: '2023-01-10', count: 3 },
-  // { date: new Date(2016, 0, 4) },
-  // ];
-  // How many days should be shown
-  // const numDays = 365;
 
   const onClick = (e) => console.log(e);
 

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 // import * as tf from '@tensorflow/tfjs';
 import * as tmPose from '@teachablemachine/pose';
 import Loading from '../Loading';
+import Services from '../../services';
+import YoutubeFrame from '../organisms/YoutubeFrame';
 // import useInterval from './useInterval';
 // setTravelTime;
 const TeachableMachine = ({
@@ -32,6 +34,7 @@ const TeachableMachine = ({
   const [maxClassState, setMaxClassState] = useState(''); // 비율이 가장 높은 자세
   const [maxPredictionState, setMaxPredictionState] = useState(''); // 가장 높은 자세의 비율
   const [logArray, setLogArray] = useState([]); // 로그를 배열로 기록함.
+  const [logLastIndex, setLogLastIndex] = useState(0);
   const [travelTime, setTravelTime] = useState(0);
   const [remainTime, setRemainTime] = useState(3000000);
   const [strechingCount, setStrechingCount] = useState(1);
@@ -63,6 +66,14 @@ const TeachableMachine = ({
   useEffect(() => {
     if (remainTime <= 0) {
       setStrechingCount(strechingCount + 1);
+      const lastIndex = logArray.length - 1;
+      const data = logArray.slice(logLastIndex, lastIndex);
+      setLogLastIndex(lastIndex);
+
+      Services.Stat.postData(
+        JSON.parse(localStorage.getItem('user')).email,
+        data,
+      );
     }
   }, [remainTime]);
 
@@ -234,6 +245,7 @@ const TeachableMachine = ({
 
   return (
     <div>
+      <YoutubeFrame></YoutubeFrame>
       {isLoading ? <Loading /> : <div></div>}
       <div>Teachable Machine Pose Model</div>
       {/* <button type="button" onClick={init}>
