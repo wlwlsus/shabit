@@ -5,6 +5,8 @@ import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Statistics;
+import com.ezpz.shabit.statistics.dto.res.GrassResDto;
+import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,24 @@ public class StatisticsController {
         return Response.makeResponse(HttpStatus.OK, "일일 데이터 가져오기 성공", resData.size(), resData);
     }
 
+    @GetMapping("/grass/{email}")
+    ResponseEntity<?> getGrassData(@PathVariable String email) {
+        List<Grass> data = null;
+        try{
+            data = statisticsService.getGrassData(email);
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(data == null) return Response.notFound("잔디 가져오기 실패");
+
+        List<GrassResDto> resData = new ArrayList<>();
+        data.forEach(d -> resData.add(GrassResDto.builder()
+                .date(d.getDate())
+                .percentage(d.getPercentage()).build()));
+        return Response.makeResponse(HttpStatus.OK, "잔디 가져오기 성공", resData.size(), resData);
+    }
+
     @GetMapping("/weekly/{email}")
     ResponseEntity<?> getWeeklyData(@PathVariable String email, @RequestParam("page") int page) {
         List<Statistics> data = null;
@@ -63,6 +83,7 @@ public class StatisticsController {
                 .postureId(d.getPosture().getPostureId()).build()));
         return Response.makeResponse(HttpStatus.OK, "주간 데이터 가져오기 성공", resData.size(), resData);
     }
+
 
 
     @GetMapping("/monthly/{email}")

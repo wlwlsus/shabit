@@ -4,6 +4,8 @@ import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
 import com.ezpz.shabit.statistics.repository.StatisticsRepository;
+import com.ezpz.shabit.statistics.entity.Grass;
+import com.ezpz.shabit.statistics.repository.GrassRepository;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +25,21 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final UserRepository userRepository;
     private final StatisticsRepository statisticsRepository;
     private final DailyRepository dailyRepository;
+    private final GrassRepository grassRepository;
+
 
     @Override
     public List<Daily> getTodayData(String email) {
         Users user = userRepository.findByEmail(email).orElse(null);
 
         return dailyRepository.findByUserEmailOrderByStartTimeAsc(user.getEmail());
+    }
+
+    @Override
+    public List<Grass> getGrassData(String email) {
+        Users user = userRepository.findByEmail(email).orElse(null);
+
+        return grassRepository.findByUserEmailOrderByDateAsc(user.getEmail());
     }
 
     @Override

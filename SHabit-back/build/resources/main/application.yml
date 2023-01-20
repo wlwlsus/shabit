@@ -7,12 +7,16 @@ spring:
     show-sql: true # 사용된 sql 보임
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c93d18de233e54201711ac36e57217eec8438383
+=======
+>>>>>>> 782a6457f6a9f1a7ff7749604e47847179325ff1
     # h2 설정
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+<<<<<<< HEAD
 <<<<<<< HEAD
   datasource:
     # test h2db setting
@@ -38,6 +42,9 @@ jwt:
 >>>>>>> de000c3a7bdf91dfbcfd26eddc2859664fa50445
 =======
   datasource:
+=======
+  datasource:
+>>>>>>> 782a6457f6a9f1a7ff7749604e47847179325ff1
     # test h2db setting
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
@@ -48,12 +55,16 @@ jwt:
 #    url: jdbc:mariadb://localhost:3306/ssafy
 #    username: easypeasy
 #    password: lemon
+<<<<<<< HEAD
 >>>>>>> c93d18de233e54201711ac36e57217eec8438383
+=======
+>>>>>>> 782a6457f6a9f1a7ff7749604e47847179325ff1
 
 # Hibernate loggin
 logging:
   level:
     org:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       Hibernate: info
@@ -65,3 +76,7 @@ logging:
       Hibernate: info
 
 >>>>>>> c93d18de233e54201711ac36e57217eec8438383
+=======
+      Hibernate: info
+
+>>>>>>> 782a6457f6a9f1a7ff7749604e47847179325ff1

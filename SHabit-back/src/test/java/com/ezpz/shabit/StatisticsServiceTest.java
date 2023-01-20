@@ -5,6 +5,8 @@ import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
 import com.ezpz.shabit.statistics.repository.StatisticsRepository;
+import com.ezpz.shabit.statistics.entity.Grass;
+import com.ezpz.shabit.statistics.repository.GrassRepository;
 import com.ezpz.shabit.statistics.service.StatisticsServiceImpl;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
@@ -31,7 +33,7 @@ public class StatisticsServiceTest {
     @InjectMocks
     private StatisticsServiceImpl target;
     @Mock
-    private DailyRepository dailyRepository;
+    private GrassRepository grassRepository;
     @Mock
     private StatisticsRepository statisticsRepository;
     @Mock
@@ -44,6 +46,7 @@ public class StatisticsServiceTest {
     final Posture posture = Posture.builder()
             .name("바른 자세")
             .build();
+
     final Users user = Users.builder()
             .email("kosy1782@gmail.com")
             .nickname("고수")
@@ -57,44 +60,45 @@ public class StatisticsServiceTest {
             .build();
 
     @Test
-    public void 오늘_데이터_일치하는_이메일_없음(){
+    public void 잔디_데이터_일치하는_이메일_없음(){
         // given
         doReturn(null).when(userRepository)
                 .findByEmail("kosy1782");
 
         // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getTodayData("kosy1782"));
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.getGrassData("kosy1782"));
 
         // then
         assertThat(exception.getMessage()).isEqualTo("Cannot invoke \"java.util.Optional.orElse(Object)\" because the return value of \"com.ezpz.shabit.user.repository.UserRepository.findByEmail(String)\" is null");
     }
 
     @Test
-    public void 오늘_데이터_가져오기_성공(){
+    public void 잔디_데이터_가져오기_성공(){
         // given
         doReturn(Optional.of(Users.builder().email(email).build())).when(userRepository)
                 .findByEmail(email);
-        doReturn(dailyList()).when(dailyRepository)
-                .findByUserEmailOrderByStartTimeAsc(email);
+        doReturn(grassList()).when(grassRepository)
+                .findByUserEmailOrderByDateAsc(email);
 
         // when
-        final List<Daily> data = target.getTodayData(email);
+        final List<Grass> data = target.getGrassData(email);
 
         // then
-        assertThat(data.size()).isEqualTo(5);
+        System.out.println(data);
+        assertThat(data.size()).isEqualTo(30);
+        assertThat(data.get(0).getDate()).isEqualTo(now().minusDays(29));
     }
 
-    private List<Daily> dailyList() {
-        List<Daily> dailyList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            dailyList.add(Daily.builder()
+    private List<Grass> grassList() {
+        List<Grass> grassList = new ArrayList<>();
+        for(int i=29; i>=0; i--){
+            grassList.add(Grass.builder()
                     .user(user)
-                    .posture(posture)
-                    .startTime(LocalDateTime.now().minusHours(i+2))
-                    .endTime(LocalDateTime.now().minusHours(i))
+                    .date(now().minusDays(i))
+                    .percentage(i*10)
                     .build());
         }
-        return dailyList;
+        return grassList;
     }
 
     @Test
