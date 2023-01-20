@@ -1,6 +1,6 @@
 package com.ezpz.shabit.statistics.entity;
 
-import com.ezpz.shabit.user.entity.User;
+import com.ezpz.shabit.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +19,7 @@ public class TotalTime {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @Column(name = "today", nullable = false)
     private int today; // 오늘 총 시간

@@ -1,6 +1,5 @@
 package com.ezpz.shabit.user;
 
-import com.ezpz.shabit.user.entity.User;
 import com.ezpz.shabit.user.repository.UserRepository;
 import com.ezpz.shabit.user.service.UserService;
 import jakarta.transaction.Transactional;

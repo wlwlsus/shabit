@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.querydsl.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.querydsl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.test.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.test.iml" />
     </modules>
   </component>
