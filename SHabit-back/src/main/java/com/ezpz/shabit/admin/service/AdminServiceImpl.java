@@ -137,4 +137,14 @@ public class AdminServiceImpl implements AdminService{
         return phrasesRepository.findAll();
     }
 
+    @Override
+    public int deletePhrases(List<Integer> phrasesIdList) {
+        phrasesIdList.forEach(i -> {
+            if(phrasesRepository.findById(Integer.toUnsignedLong(i)).isEmpty()){
+                throw new NullPointerException("없는 문구 입니다.");
+            }
+            phrasesRepository.deleteById(Integer.toUnsignedLong(i));});
+        return phrasesIdList.size();
+    }
+
 }

@@ -18,4 +18,5 @@ public interface AdminService {
     SettingResDto getSetting();
     int insertPhrases(PhrasesReqDto req);
     List<Phrases> getPhrasesList();
+    int deletePhrases(List<Integer> phrasesIdList);
 }

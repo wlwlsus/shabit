@@ -164,6 +164,18 @@ public class AdminController {
         if(res == null) return Response.badRequest("세팅 조회에 실패하였습니다.");
         return Response.makeResponse(HttpStatus.OK, "세팅 조회에 성공했습니다.", 1, res);
     }
+    @DeleteMapping("/phrase")
+    ResponseEntity<?> deletePhrases(@RequestBody List<Integer> phrasesIdList) {
+        int res = 0;
+        try{
+            res = adminService.deletePhrases(phrasesIdList);
+        } catch (Exception e){
+            log.info(e.getMessage());
+        }
+
+        if(res == 0) return Response.notFound("문구 삭제를 실패하였습니다.");
+        return Response.ok("문구 삭제를 성공하였습니다.");
+    }
 
 
 }
