@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -89,7 +90,7 @@ public class VodRepositoryTest {
         List<Vod> vodList = vodRepository.findByLength(3);
 
         //then
-        assertThat(vodList.size()).isEqualTo(1);
+        assertThat(vodList.size()).isEqualTo(2);
     }
 
     @Test
@@ -146,6 +147,96 @@ public class VodRepositoryTest {
 
         //then
         assertThat(vodList.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void 없는_영상_삭제_실패(){
+        // given
+        Vod vod = Vod.builder()
+                .vodId(1L)
+                .videoId("test url")
+                .length(3)
+                .title("test title")
+                .thumbnail("thumbnail")
+                .category(category)
+                .originalLength("12:21")
+                .build();
+
+        // when
+        Optional<Vod> data = vodRepository.findById(vod.getVodId());
+
+        //then
+        assertThat(data).isEmpty();
+    }
+
+    @Test
+    public void 영상_삭제_성공(){
+        // given
+        categoryRepository.save(category);
+        Vod vod = Vod.builder()
+                .videoId("test url")
+                .length(3)
+                .title("test title")
+                .thumbnail("thumbnail")
+                .category(category)
+                .originalLength("12:21")
+                .build();
+        vodRepository.save(vod);
+
+        // when
+        vodRepository.deleteById(vod.getVodId());
+
+        //then
+        assertThat(vodRepository.findById(vod.getVodId())).isEmpty();
+    }
+    @Test
+    public void 영상_중복(){
+        //given
+        Category category = Category.builder().name("거북").build();
+        categoryRepository.save(category);
+        Vod vod = Vod.builder()
+                .vodId(1L)
+                .videoId("test url")
+                .length(7)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
+                .category(category)
+                .build();
+        vodRepository.save(vod);
+
+        //when
+        Vod foundVod = vodRepository.findByVideoId(vod.getVideoId());
+
+        //then
+        assertThat(foundVod).isNotNull();
+    }
+
+    @Test
+    public void 영상_추가_성공(){
+        // given
+        Category category = Category.builder().name("거북").build();
+        categoryRepository.save(category);
+        Vod vod = Vod.builder()
+                .vodId(1L)
+                .videoId("test url")
+                .length(7)
+                .originalLength("string length")
+                .thumbnail("image")
+                .title("test title")
+                .category(category)
+                .build();
+
+        // when
+        Vod savedVod = vodRepository.save(vod);
+
+        //then
+        assertThat(savedVod.getCategory()).isEqualTo(vod.getCategory());
+        assertThat(savedVod.getVideoId()).isEqualTo(vod.getVideoId());
+        assertThat(savedVod.getThumbnail()).isEqualTo(vod.getThumbnail());
+        assertThat(savedVod.getOriginalLength()).isEqualTo(vod.getOriginalLength());
+        assertThat(savedVod.getTitle()).isEqualTo(vod.getTitle());
+        assertThat(savedVod.getLength()).isEqualTo(7);
     }
 
 }

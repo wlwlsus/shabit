@@ -9,4 +9,5 @@ public interface VodRepository extends JpaRepository<Vod, Long> {
     List<Vod> findByTitleIsLike(String name);
     List<Vod> findByLength(int length);
     List<Vod> findByCategoryName(String categoryName);
+    Vod findByVideoId(String videoId);
 }

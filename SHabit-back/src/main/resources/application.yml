@@ -2,8 +2,8 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop # jpa DB table update
-#      ddl-auto: update
+#      ddl-auto: create-drop # jpa DB table update
+      ddl-auto: update
     generate-ddl: false # db 초기화 설정 끔
     show-sql: true # 사용된 sql 보임
     # h2 설정
@@ -30,3 +30,7 @@ logging:
 
 jwt:
   secret: UDVaY0VRREoyaEl2d2JlWXFFN2haOWF3ekRxbFBzTnpscEFFaE5mdDBSZw==
+
+# key
+key:
+  youtube: AIzaSyCgGyrOibFVCbL9Bvkqt0A8MWEYEZPwwJc
