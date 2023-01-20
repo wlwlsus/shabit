@@ -53,7 +53,14 @@ export const logout = async (
   accessToken: string,
   refreshToken: string,
 ): Promise<boolean> => {
-  return Promise.resolve(true);
+  return await apiRequest
+    .post('/user/logout', { accessToken, refreshToken })
+    .then(() => {
+      localStorage.clear();
+      alert('로그아웃 되었습니다.');
+      return Promise.resolve(true);
+    })
+    .catch(() => Promise.reject(false));
 };
 
 export default { register, login, refreshLogin, logout };

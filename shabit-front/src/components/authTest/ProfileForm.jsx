@@ -66,24 +66,20 @@ const ProfileForm = () => {
   const [isUploading, setIsUploading] = useState(false);
   const onUpload = async (e) => {
     e.preventDefault();
+    await setIsUploading(true);
     await Services.Auth.changeImage(email, formData);
-    await setUser(Services.Auth.fetchProfile(email));
+    await Services.Auth.fetchProfile(email).then((data) => setUser(data));
     await setIsUploading(false);
   };
 
   //feat/#108 프로필 사진 삭제 요청하기
-  const onDeleteProfile = () => {
-    api.delete(`user/profile/${email}`).then(() => {
-      alert('프로필이 삭제되었습니다.');
-      api
-        .get(`user/${email}`)
-        .then((res) => {
-          localStorage.setItem('user', res.data.result);
-        })
-        .then(setIsUploading(!isUploading))
-        .catch((err) => alert(err.msg));
-    });
+  const onDeleteProfile = async () => {
+    await setIsUploading(true);
+    await Services.Auth.deleteImage(email);
+    await Services.Auth.fetchProfile(email).then((data) => setUser(data));
+    await setIsUploading(false);
   };
+
   return (
     <div>
       <div>{nickname}</div>

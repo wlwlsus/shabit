@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useDebounce from '../../hooks/useDebounce';
 import Services from '../../services';
+import apiRequest from '../../utils/apiRequest';
 
 const RegisterForm = ({ setIsLogginIn }) => {
   //전체: 회원가입 폼의 인풋 태그를 관리합니다.
@@ -33,46 +34,12 @@ const RegisterForm = ({ setIsLogginIn }) => {
     }, 2000);
   };
 
-  //전체: 목업 API입니다.
-  const api = {
-    post() {
-      return Promise.resolve({ msg: '가짜api 성공' });
-    },
-    get() {
-      return Promise.resolve({
-        msg: '가짜api 성공',
-        data: { result: { code: '1234' } },
-      });
-    },
-    patch() {
-      return Promise.resolve({ msg: '가짜API 성공' });
-    },
-    put() {
-      return Promise.resolve({ msg: '가짜api 성공' });
-    },
-    delete() {
-      return Promise.resolve({ msg: '가짜api성공' });
-    },
-  };
-  // ##################################################
+  // #################################################
   //feat/#51 : 회원가입을 요청합니다.
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if (password === password2) {
-      Services.Auth.register(email, nickname, password).then((bool) =>
-        console.log(bool),
-      );
-
-      // api
-      //   .post('/user', { email, nickname, password })
-      //   .then((res) => {
-      //     setMessage((res.msg || res.data.msg) + '회원가입');
-      //     setIsLogginIn(true);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     setMessage((err.msg || err.data.msg) + '에러회원가입');
-      //   });
+      Services.Auth.register(email, nickname, password);
     } else {
       setMessage('비밀번호가 일치하지 않습니다');
     }
@@ -91,7 +58,7 @@ const RegisterForm = ({ setIsLogginIn }) => {
   //feat/#28 : 이메일 중복 여부를 체크합니다.
   const debouncedEmailTerm = useDebounce(email, 300);
   const checkDuplicated = (email) => {
-    api
+    apiRequest
       .get(`/user/${email}`)
       .then((res) => {
         setMessage('사용가능한 아이디입니다.');
@@ -118,7 +85,7 @@ const RegisterForm = ({ setIsLogginIn }) => {
   //feat/#26 : API에 요청하여 이메일 인증코드를 받습니다.
   const onCheckCode = (e) => {
     e.preventDefault();
-    api.get(`/email/${email}`, { email }).then((res) => {
+    apiRequest.get(`/email/${email}`, { email }).then((res) => {
       setEmailCode(res.data.result.code);
     });
   };

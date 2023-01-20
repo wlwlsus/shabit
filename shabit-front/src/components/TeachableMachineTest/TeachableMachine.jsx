@@ -3,11 +3,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 import Loading from '../Loading';
 // import useInterval from './useInterval';
-
+// setTravelTime;
 const TeachableMachine = ({
   isStarting,
   setIsStarting,
   savedIntevalId,
+  timerIntervalId,
   // webcamObject,
 }) => {
   // More API functions here:
@@ -16,6 +17,7 @@ const TeachableMachine = ({
   // const URL = "./my_model/";
   let model, webcam, ctx, labelContainer, maxPredictions;
   const canvasREF = useRef();
+  let fisrtTime;
 
   //이전 데이터를 저장할 전역변수를 만듭니다.
   let prevMaxClass = '';
@@ -30,6 +32,34 @@ const TeachableMachine = ({
   const [maxClassState, setMaxClassState] = useState(''); // 비율이 가장 높은 자세
   const [maxPredictionState, setMaxPredictionState] = useState(''); // 가장 높은 자세의 비율
   const [logArray, setLogArray] = useState([]); // 로그를 배열로 기록함.
+  const [travelTime, setTravelTime] = useState(0);
+  const [remainTime, setRemainTime] = useState(3000000);
+  const [strechingCount, setStrechingCount] = useState(1);
+  const displayHours =
+    Math.floor((travelTime / (1000 * 60 * 60)) % 24) > 0
+      ? String(Math.floor((travelTime / (1000 * 60 * 60)) % 24)).padStart(
+          2,
+          '0',
+        ) + ':'
+      : '';
+  const displayTime =
+    displayHours +
+    String(Math.floor((travelTime / (1000 * 60)) % 60)).padStart(2, '0') +
+    ':' +
+    String(Math.floor((travelTime / 1000) % 60)).padStart(2, '0');
+
+  const displayRemainTime =
+    String(Math.floor((remainTime / (1000 * 60)) % 60)).padStart(2, '0') +
+    ':' +
+    String(Math.floor((remainTime / 1000) % 60)).padStart(2, '0');
+
+  useEffect(() => {
+    setRemainTime(990 + 3000000 * strechingCount - travelTime);
+  }, [travelTime, strechingCount]);
+
+  useEffect(() => {
+    if (remainTime <= 0) setStrechingCount(strechingCount + 1);
+  }, [remainTime]);
 
   // TM: 정지 버튼을 눌렀을 때에 intervalID를 기준으로 loop함수를 중단합니다.
   async function onStop() {
@@ -37,6 +67,7 @@ const TeachableMachine = ({
     isRunning = false;
     await localStorage.setItem('data', jsonData);
     await clearInterval(savedIntevalId.current);
+    await clearInterval(timerIntervalId.current);
     // await webcamObject.current.stop();
     // await webcamStop();
     await setIsStarting(false);
@@ -71,7 +102,12 @@ const TeachableMachine = ({
     setIsLoading(false);
     // window.requestAnimationFrame(loop);
     // setTimeout(loop, 16);
+    fisrtTime = new Date();
     savedIntevalId.current = setInterval(loop, 16);
+    timerIntervalId.current = setInterval(() => {
+      const now = new Date();
+      setTravelTime(now - fisrtTime);
+    }, 495);
 
     // append/get elements to the DOM
     // const canvas = document.getElementById("canvas");
@@ -198,6 +234,8 @@ const TeachableMachine = ({
       {/* <button type="button" onClick={init}>
         Start
       </button> */}
+      <div>{displayTime} 총 이용 시간</div>
+      <div>{displayRemainTime} 스트레칭까지 남은 시간</div>
       <button type="button" onClick={onStop}>
         Stop
       </button>
