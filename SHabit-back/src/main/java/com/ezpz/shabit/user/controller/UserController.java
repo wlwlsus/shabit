@@ -15,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Tag(name = "user", description = "회원 API")
@@ -27,8 +30,8 @@ public class UserController {
 
 
   @Operation(description = "회원가입 API", responses = {
-      @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-      @ApiResponse(responseCode = "400", description = "회원가입 실패"),
+          @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+          @ApiResponse(responseCode = "400", description = "회원가입 실패"),
   })
   @PostMapping("")
   public ResponseEntity<?> signUp(@RequestBody @Validated UserTestReqDto.SignUp signUp, Errors errors) {
@@ -42,9 +45,9 @@ public class UserController {
   }
 
   @Operation(description = "로그인 API", responses = {
-      @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
-      @Schema(implementation = UserTestResDto.UserInfo.class))),
-      @ApiResponse(responseCode = "400", description = "로그인 실패"),
+          @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
+          @Schema(implementation = UserTestResDto.UserInfo.class))),
+          @ApiResponse(responseCode = "400", description = "로그인 실패"),
   })
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody @Validated UserTestReqDto.Login login, Errors errors) {
@@ -58,8 +61,8 @@ public class UserController {
   }
 
   @Operation(description = "로그아웃 API", responses = {
-      @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
-      @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
+          @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+          @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
   })
   @PostMapping("/logout")
   public ResponseEntity<?> logout(@RequestBody @Validated UserTestReqDto.Logout logout, Errors errors) {
@@ -70,9 +73,9 @@ public class UserController {
   }
 
   @Operation(description = "토큰 재발급 API", responses = {
-      @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
-      @Schema(implementation = UserTestResDto.TokenInfo.class))),
-      @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
+          @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
+          @Schema(implementation = UserTestResDto.TokenInfo.class))),
+          @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
   })
   @PostMapping("/token")
   public ResponseEntity<?> reissue(@RequestBody @Validated UserTestReqDto.Reissue reissue, Errors errors) {
@@ -84,12 +87,28 @@ public class UserController {
   }
 
   @Operation(description = "회원 정보 API", responses = {
-      @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
-      @Schema(implementation = UserTestResDto.LoginUserRes.class))),
-      @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
+          @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
+          @Schema(implementation = UserTestResDto.LoginUserRes.class))),
+          @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
   })
   @GetMapping("/{email}")
   public ResponseEntity<?> userInfo(@PathVariable String email) {
     return userService.getUserInfo(email);
   }
+
+  @PutMapping("/color/{thema}/{email}")
+  public ResponseEntity<?> changeThema(@PathVariable String email, @PathVariable int thema) {
+    log.info("email : {}, thema : {}", email, thema);
+    try {
+      userService.changeThema(email, thema);
+      return Response.makeResponse(HttpStatus.OK, "테마 변경을 성공하였습니다.");
+    } catch (NoSuchElementException s) {
+      log.info(s.getMessage());
+      return Response.noContent("존재하지 않는 이메일입니다.");
+    } catch (Exception e) {
+      log.info(e.getMessage());
+      return Response.notFound("테마 변경을 실패하였습니다.");
+    }
+  }
+
 }

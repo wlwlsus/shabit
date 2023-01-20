@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
+@Setter
 @Getter
 @Builder
 @ToString
@@ -51,7 +52,6 @@ public class Users extends BaseTimeEntity implements UserDetails {
     return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
   }
 
-
   @Override
   public String getUsername() {
     return email;
@@ -76,4 +76,5 @@ public class Users extends BaseTimeEntity implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
 }

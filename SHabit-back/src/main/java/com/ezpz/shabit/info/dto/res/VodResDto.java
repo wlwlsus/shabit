@@ -3,6 +3,7 @@ package com.ezpz.shabit.info.dto.res;
 import com.ezpz.shabit.info.entity.Vod;
 import lombok.*;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,5 +25,4 @@ public class VodResDto {
     this.videoId = vod.getVideoId();
     this.length = vod.getLength();
   }
-
 }

@@ -15,4 +15,5 @@ public interface UserService {
 
   ResponseEntity<?> getUserInfo(String email);
 
+  void changeThema(String email, int thema) throws Exception;
 }

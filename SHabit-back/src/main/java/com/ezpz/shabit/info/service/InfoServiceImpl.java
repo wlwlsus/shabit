@@ -1,8 +1,11 @@
 package com.ezpz.shabit.info.service;
 
+import com.ezpz.shabit.info.dto.res.CategoryResDto;
 import com.ezpz.shabit.info.dto.res.DailyCalcDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Posture;
@@ -15,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +29,7 @@ public class InfoServiceImpl implements InfoService {
   private final VodRepository vodRepository;
   private final DailyRepository dailyRepository;
   private final PostureRepository postureRepository;
+  private final CategoryRepository categoryRepository;
 
   @Override
   @Transactional
@@ -85,5 +93,13 @@ public class InfoServiceImpl implements InfoService {
     } catch (Exception e) {
       throw new IllegalArgumentException();
     }
+  }
+
+  @Override
+  public List<CategoryResDto> getCategoryList() throws Exception {
+    List<Category> list = categoryRepository.findAll();
+    log.info("list in service : {}", list);
+    List<CategoryResDto> result = list.stream().map((CategoryResDto::new)).toList();
+    return result;
   }
 }
