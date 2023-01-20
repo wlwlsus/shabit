@@ -39,6 +39,7 @@ public class InfoController {
       return Response.notFound("영상 가져오기 실패");
     }
   }
+  // 카테고리 목록 가져오기 API
   @GetMapping("/category")
   public ResponseEntity<?> getCategoryList() {
     try {

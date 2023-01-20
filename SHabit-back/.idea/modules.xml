@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SHabit.test.iml" filepath="$PROJECT_DIR$/.idea/modules/SHabit.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.ezpz.SHabit.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.ezpz.SHabit.main.iml" />
     </modules>

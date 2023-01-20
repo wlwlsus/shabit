@@ -115,6 +115,7 @@ public class UserController {
     return userService.getUserInfo(email);
   }
 
+  // 테마 변경 API
   @PutMapping("/color/{thema}/{email}")
   public ResponseEntity<?> changeThema(@PathVariable String email, @PathVariable int thema) {
     log.info("email : {}, thema : {}", email, thema);
@@ -130,6 +131,7 @@ public class UserController {
     }
   }
 
+  // 닉네임 변경 API
   @PutMapping("nickname/{email}")
   public ResponseEntity<?> updateNickname(@PathVariable String email, @RequestBody UserReqDto user) {
     String nickname = user.getNickname();
