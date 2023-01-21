@@ -40,10 +40,14 @@
     <orderEntry type="library" name="Gradle: com.amazonaws:aws-java-sdk-s3:1.12.385" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:3.0.1" level="project" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.23.1" level="project" />
 =======
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.20.2" level="project" />
 >>>>>>> ac11af571ea61d860fd01bd1f533293d6e1170c0
+=======
+    <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.20.2" level="project" />
+>>>>>>> bab6140c73b6b9139577ce7ca6ab9aea8b90cb3c
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jdbc:3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate.orm:hibernate-core:6.1.6.Final" level="project" />
@@ -120,7 +124,10 @@
 <<<<<<< HEAD
 =======
     <orderEntry type="library" name="Gradle: jakarta.activation:jakarta.activation-api:2.1.0" level="project" />
+<<<<<<< HEAD
 >>>>>>> ac11af571ea61d860fd01bd1f533293d6e1170c0
+=======
+>>>>>>> bab6140c73b6b9139577ce7ca6ab9aea8b90cb3c
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-params:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.9.1" level="project" />
     <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy:1.12.20" level="project" />
