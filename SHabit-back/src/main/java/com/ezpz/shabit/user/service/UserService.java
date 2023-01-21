@@ -4,6 +4,7 @@ import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
+
   boolean checkEmail(String email) throws Exception;
 
   ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
@@ -17,4 +18,6 @@ public interface UserService {
   ResponseEntity<?> getUserInfo(String email);
 
   void updatePassword(String email, String password) throws Exception;
+
+  void updateNickname(String email, String nickname) throws Exception;
 }

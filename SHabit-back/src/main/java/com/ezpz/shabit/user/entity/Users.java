@@ -50,7 +50,6 @@ public class Users extends BaseTimeEntity implements UserDetails {
     return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
   }
 
-
   @Override
   public String getUsername() {
     return email;
@@ -78,5 +77,9 @@ public class Users extends BaseTimeEntity implements UserDetails {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
   }
 }

@@ -2,6 +2,7 @@ package com.ezpz.shabit.user.controller;
 
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.service.EmailService;
+import com.ezpz.shabit.user.dto.req.UserReqDto;
 import com.ezpz.shabit.user.service.UserService;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -151,8 +152,27 @@ public class UserController {
     @Schema(implementation = UserTestResDto.LoginUserRes.class))),
     @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
   })
+
   @GetMapping("/{email}")
   public ResponseEntity<?> userInfo(@PathVariable String email) {
     return userService.getUserInfo(email);
+  }
+
+  // 닉네임 변경 API
+  @PutMapping("nickname/{email}")
+  public ResponseEntity<?> updateNickname(@PathVariable String email, @RequestBody UserReqDto user) {
+    String nickname = user.getNickname();
+    log.info("input email : {}, nickname : {}", email, nickname);
+    try {
+      userService.updateNickname(email, nickname);
+      log.info("change nickname successfully");
+      return Response.makeResponse(HttpStatus.OK, "닉네임 변경 성공");
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.noContent("존재하지 않는 이메일");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.badRequest("닉네임 변경 실패");
+    }
   }
 }

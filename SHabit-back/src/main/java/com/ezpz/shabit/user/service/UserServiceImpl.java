@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
+
   private final PasswordEncoder passwordEncoder;
   private final JwtTokenProvider jwtTokenProvider;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -174,5 +176,15 @@ public class UserServiceImpl implements UserService {
     user.setPassword(password);
     userRepository.save(user);
     log.info("after user : {}", user);
+  }
+
+  @Override
+  public void updateNickname(String email, String nickname) throws Exception {
+    log.info("email : {}, nickname : {}", email, nickname);
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("before update user : {}", user);
+    user.setNickname(nickname);
+    userRepository.save(user);
+    log.info("after update user : {}", user);
   }
 }
