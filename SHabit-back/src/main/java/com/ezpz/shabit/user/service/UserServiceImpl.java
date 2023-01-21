@@ -1,6 +1,7 @@
 package com.ezpz.shabit.user.service;
 
 import com.ezpz.shabit.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
@@ -161,5 +162,17 @@ public class UserServiceImpl implements UserService {
         .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
+  }
+
+  @Override
+  @Transactional
+  public void updatePassword(String email, String password) throws Exception {
+    log.info("email : {}, password : {}", email, password);
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("before user : {}", user);
+
+    user.setPassword(password);
+    userRepository.save(user);
+    log.info("after user : {}", user);
   }
 }

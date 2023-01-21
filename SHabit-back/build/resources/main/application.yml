@@ -22,6 +22,19 @@ spring:
     username: root
     password: 1234
 
+  # Mail Sending
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: dnzma13
+    password: guswls6824^*@$
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 # Hibernate loggin
 logging:
   level:

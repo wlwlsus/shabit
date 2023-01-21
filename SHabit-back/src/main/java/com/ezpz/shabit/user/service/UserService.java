@@ -16,4 +16,5 @@ public interface UserService {
 
   ResponseEntity<?> getUserInfo(String email);
 
+  void updatePassword(String email, String password) throws Exception;
 }

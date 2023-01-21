@@ -1,9 +1,10 @@
-package com.ezpz.shabit.user.service;
+package com.ezpz.shabit.user;
 
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
+import com.ezpz.shabit.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

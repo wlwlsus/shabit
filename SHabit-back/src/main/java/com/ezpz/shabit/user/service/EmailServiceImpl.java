@@ -5,7 +5,6 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +12,49 @@ import java.util.Random;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-  JavaMailSender emailSender;
-  public static final int CODE_LENGTH = 10;
-  public static final String CODE = createdCode(CODE_LENGTH);
+  private final JavaMailSender mailSender;
+  private final int CODE_LENGTH = 8;
+  private String CODE;
 
-  @Autowired
-  public EmailServiceImpl(JavaMailSender emailSender) {
-    this.emailSender = emailSender;
+  @Override
+  public String sendFindPasswordEmail(String email) throws Exception {
+    MimeMessage message = mailSender.createMimeMessage();
+
+    message.setFrom("dnzma13@naver.com");
+    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+    message.setSubject("SHabit 임시 비밀번호 발급 메일");
+    message.setText(createFindPasswordEmail(), "UTF-8", "html");
+    try {
+      mailSender.send(message);
+    } catch (Exception e) {
+      return "";
+    }
+    return CODE;
+  }
+
+  private String createFindPasswordEmail() {
+    StringBuilder message = new StringBuilder();
+    CODE = createdCode(CODE_LENGTH);
+    message.append("<div style='margin:20px;'>")
+      .append("<p>안녕하세요. SHabit 임시 비밀번호 발급 메일입니다.</p>")
+      .append("<p>임시 비밀번호로 로그인 해주세요.</p>")
+      .append("<p>감사합니다.</p>")
+      .append("<br>")
+      .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
+      .append("<div style='font-size:130%'>")
+      .append("CODE : <strong>" + CODE + "</strong>")
+      .append("<div>")
+      .append("</div>");
+
+    return message.toString();
   }
 
   @Override
   public String sendCertificationEmail(String email) throws Exception {
-    MimeMessage message = emailSender.createMimeMessage();
+    MimeMessage message = mailSender.createMimeMessage();
 
     message.setFrom("dnzma13@naver.com");
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
@@ -34,7 +62,7 @@ public class EmailServiceImpl implements EmailService {
     message.setText(createCertificationEmail(), "UTF-8", "html");
     log.info("CODE : {}", CODE);
 
-    emailSender.send(message);
+    mailSender.send(message);
 
     return CODE;
   }
@@ -43,18 +71,19 @@ public class EmailServiceImpl implements EmailService {
     StringBuilder message = new StringBuilder();
 
     message.append("<div style='margin:20px;'>")
-            .append("<p>안녕하세요. SHabit 회원가입 인증 메일입니다.</p>")
-            .append("<p>아래 코드를 복사해 입력해주세요.</p>")
-            .append("<p>감사합니다.</p>")
-            .append("<br>")
-            .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
-            .append("<div style='font-size:130%'>")
-            .append("CODE : <strong>" + CODE + "</strong>")
-            .append("<div>")
-            .append("</div>");
+      .append("<p>안녕하세요. SHabit 회원가입 인증 메일입니다.</p>")
+      .append("<p>아래 코드를 복사해 입력해주세요.</p>")
+      .append("<p>감사합니다.</p>")
+      .append("<br>")
+      .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
+      .append("<div style='font-size:130%'>")
+      .append("CODE : <strong>" + CODE + "</strong>")
+      .append("<div>")
+      .append("</div>");
 
     return message.toString();
   }
+
 
   static private String createdCode(int length) {
     StringBuilder key = new StringBuilder();
@@ -78,4 +107,5 @@ public class EmailServiceImpl implements EmailService {
     return key.toString();
 
   }
+
 }
