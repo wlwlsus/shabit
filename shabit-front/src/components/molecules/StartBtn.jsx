@@ -14,13 +14,12 @@ export default function StartBtn() {
       border={'rounded'}
       shadow={'shadow'}
       edge={'secondary'}
-      children={
-        <ButtonWrapper>
-          <Button icon={<BsFillPlayBtnFill />} color={'primary'} size={'lg'} />
-          <Label text={'자세교정 시작하기'} color={'primary'} size={'xs'} />
-        </ButtonWrapper>
-      }
-    />
+    >
+      <ButtonWrapper>
+        <Button icon={<BsFillPlayBtnFill />} color={'primary'} size={'lg'} />
+        <Label text={'자세교정 시작하기'} color={'primary'} size={'xs'} />
+      </ButtonWrapper>
+    </Container>
   );
 }
 

@@ -36,24 +36,22 @@ const LoginForm = () => {
 };
 
 const FormWrapper = styled.div`
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 2rem;
 
-  & > div:nth-child(1) {
+  & > div:first-child {
     width: 34%;
     margin: 1rem auto;
   }
 `;
 
 const Wrapper = styled.div`
-  width: 55%;
+  width: 53%;
   display: flex;
-  padding-left: 2rem;
+  padding-left: 1.5rem;
   justify-content: space-between;
   align-items: flex-start;
 `;
@@ -64,8 +62,10 @@ const Checkbox = styled.div`
 `;
 
 const Signup = styled.div`
+  width: 60%;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-evenly;
 `;
 
 export default LoginForm;

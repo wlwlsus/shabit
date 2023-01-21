@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import Img from '../atoms/Img';
 import Label from '../atoms/Label';
-import Logo from '../molecules/Logo';
+import Logo from '../atoms/Logo';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
-const LandingIntro = () => {
+const Introduction = () => {
   return (
     <ContentWrapper>
       <TextWrapper>
@@ -48,4 +48,4 @@ const ImgWrapper = styled.div`
   justify-content: center;
 `;
 
-export default LandingIntro;
+export default Introduction;

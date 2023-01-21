@@ -18,7 +18,7 @@ const Container = ({ size, bg, border, shadow, edge, onClick, children }) => {
 };
 
 Container.propTypes = {
-  size: PropTypes.oneOf(['md', 'square', 'smsquare', 'fit']).isRequired,
+  size: PropTypes.oneOf(['md', 'square']).isRequired,
   bg: PropTypes.oneOf(['primary', 'secondary']),
   border: PropTypes.oneOf(['rounded']),
   shadow: PropTypes.oneOf(['shadow']),
@@ -68,15 +68,6 @@ const ContainerWrapper = styled.div`
   &.square {
     width: 27rem;
     height: 27rem;
-  }
-
-  &.smsquare {
-    width: 7.5rem;
-    height: 7.5rem;
-  }
-
-  &.fit {
-    width: fit-content;
   }
 `;
 

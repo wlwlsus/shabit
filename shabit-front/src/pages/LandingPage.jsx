@@ -1,22 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LandingTemplate from '../components/template/LandingTemplate';
+import Container from '../components/atoms/Container';
 
-const LandingPage = () => {
+export default function LandingPage({ children }) {
+  const [nav, content, form] = children;
+
   return (
     <PageWrapper>
-      <LandingTemplate />
+      <TemplateWrapper>
+        <Container shadow={'shadow'} border={'rounded'} size={'md'}>
+          {nav}
+        </Container>
+        <Container bg={'primary'} size={'square'} shadow={'shadow'}>
+          {content}
+        </Container>
+        <Container shadow={'shadow'} border={'rounded'} size={'md'}>
+          {form}
+        </Container>
+      </TemplateWrapper>
     </PageWrapper>
   );
-};
+}
+
+const TemplateWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  & > div:first-child {
+    padding: 3.5rem 1rem;
+  }
+
+  & > div:nth-child(2) {
+    position: absolute;
+    left: 12%;
+  }
+  & > div:last-child {
+    margin-left: 2.5rem;
+  }
+`;
 
 const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
-export default LandingPage;

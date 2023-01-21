@@ -8,7 +8,7 @@ import Label from '../atoms/Label';
 
 import { RiUser3Line, RiUserAddLine, RiBookmark2Line } from 'react-icons/ri';
 
-const LandingSidebar = () => {
+const SideNavContent = () => {
   const navigate = useNavigate();
 
   const toIntro = () => {
@@ -75,4 +75,4 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-export default LandingSidebar;
+export default SideNavContent;
