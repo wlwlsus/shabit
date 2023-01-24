@@ -1,4 +1,4 @@
-package com.ezpz.shabit.info.dto;
+package com.ezpz.shabit.info.dto.res;
 
 import com.ezpz.shabit.info.entity.Category;
 import lombok.Getter;

@@ -16,16 +16,26 @@ public class Vod {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long vodId;
 
-  @Column(name = "name", nullable = false)
-  private String name; // 유튜브 제목
+  @Column(name = "title", nullable = false)
+  private String title; // 유튜브 제목
 
-  @Column(name = "url", nullable = false)
-  private String url;
-
-  @Column(name = "length", nullable = false)
-  private int length;
   @ManyToOne(optional = false)
   @JoinColumn(name = "category_id", nullable = false)
   private Category category;
 
+  @Column(name = "video_id", nullable = false)
+  private String videoId;
+
+  @Column(name = "length", nullable = false)
+  private int length;
+
+  @Column(name = "original_length", nullable = false)
+  private String originalLength;
+
+  @Column(name = "thumbnail", nullable = false)
+  private String thumbnail;
+
+  public void setLength(int length) {
+    this.length = length;
+  }
 }

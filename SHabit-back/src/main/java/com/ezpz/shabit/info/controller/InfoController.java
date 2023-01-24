@@ -1,7 +1,6 @@
 package com.ezpz.shabit.info.controller;
 
-import com.ezpz.shabit.info.dto.CategoryResDto;
-import com.ezpz.shabit.info.entity.Category;
+import com.ezpz.shabit.info.dto.res.CategoryResDto;
 import com.ezpz.shabit.info.service.InfoService;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -9,14 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/api/v1/info/")
 @Slf4j
 @RequiredArgsConstructor
 public class InfoController {

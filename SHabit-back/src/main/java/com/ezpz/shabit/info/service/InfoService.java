@@ -1,7 +1,6 @@
 package com.ezpz.shabit.info.service;
 
-import com.ezpz.shabit.info.dto.CategoryResDto;
-import org.springframework.stereotype.Service;
+import com.ezpz.shabit.info.dto.res.CategoryResDto;
 
 import java.util.List;
 

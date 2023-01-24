@@ -20,4 +20,12 @@ public class Setting {
 
     @Column(name = "alert_time", columnDefinition = "integer default 3", nullable = false)
     private int alertTime;
+
+    public void setStretchingTime(int stretchingTime) {
+        this.stretchingTime = stretchingTime;
+    }
+
+    public void setAlertTime(int alertTime) {
+        this.alertTime = alertTime;
+    }
 }
