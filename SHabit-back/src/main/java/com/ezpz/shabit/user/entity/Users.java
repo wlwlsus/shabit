@@ -82,4 +82,8 @@ public class Users extends BaseTimeEntity implements UserDetails {
   public void setNickname(String nickname) {
     this.nickname = nickname;
   }
+
+  public void setTheme(int theme) {
+    this.theme = theme;
+  }
 }

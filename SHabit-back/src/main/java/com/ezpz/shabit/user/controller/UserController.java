@@ -31,8 +31,8 @@ import java.util.NoSuchElementException;
 @Tag(name = "user", description = "회원 API")
 @RequiredArgsConstructor
 public class UserController {
-  private final EmailService emailService;
   private final UserService userService;
+  private final EmailService emailService;
 
   // 이메일 중복체크 API
   @GetMapping("/email-check/{email}")
@@ -86,6 +86,22 @@ public class UserController {
     } catch (Exception e) {
       log.info(e.getMessage());
       return Response.makeResponse(HttpStatus.NOT_FOUND, "잘못된 데이터입니다.");
+    }
+  }
+
+  // 테마변경 API
+  @PutMapping("user/color/{thema}/{email}")
+  public ResponseEntity<?> changeThema(@PathVariable String email, @PathVariable int thema) {
+    log.info("email : {}, thema : {}", email, thema);
+    try {
+      userService.changeThema(email, thema);
+      return Response.makeResponse(HttpStatus.OK, "테마 변경을 성공하였습니다.");
+    } catch (NoSuchElementException s) {
+      log.info(s.getMessage());
+      return Response.noContent("존재하지 않는 이메일입니다.");
+    } catch (Exception e) {
+      log.info(e.getMessage());
+      return Response.notFound("테마 변경을 실패하였습니다.");
     }
   }
 

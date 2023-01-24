@@ -178,6 +178,14 @@ public class UserServiceImpl implements UserService {
     log.info("after user : {}", user);
   }
 
+
+  @Override
+  public void changeThema(String email, int thema) throws Exception {
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    user.setTheme(thema);
+    userRepository.save(user);
+  }
+
   @Override
   public void updateNickname(String email, String nickname) throws Exception {
     log.info("email : {}, nickname : {}", email, nickname);

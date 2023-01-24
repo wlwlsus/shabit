@@ -20,4 +20,6 @@ public interface UserService {
   void updatePassword(String email, String password) throws Exception;
 
   void updateNickname(String email, String nickname) throws Exception;
+
+  void changeThema(String email, int thema) throws Exception;
 }
