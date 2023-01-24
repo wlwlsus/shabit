@@ -7,7 +7,10 @@ import com.ezpz.shabit.info.dto.res.VodResDto;
 import java.util.List;
 
 public interface InfoService {
-  public List<VodResDto> getVodList() throws Exception;
+
   List<CategoryResDto> getCategoryList() throws Exception;
+
   public PhrasesResDto getPhrase() throws Exception;
+
+  List<VodResDto> getVodList(String email) throws Exception;
 }

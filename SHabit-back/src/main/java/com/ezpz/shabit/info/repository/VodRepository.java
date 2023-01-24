@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.sql.SQLException;
 import java.util.List;
 
-
 public interface VodRepository extends JpaRepository<Vod, Long> {
 
   List<Vod> findByTitleIsLike(String name);
@@ -17,4 +16,5 @@ public interface VodRepository extends JpaRepository<Vod, Long> {
 
   Vod findByVideoId(String videoId);
 
+  List<Vod> findByLengthAndCategoryCategoryId(int length, long category) throws SQLException;
 }
