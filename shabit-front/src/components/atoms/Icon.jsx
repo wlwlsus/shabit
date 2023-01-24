@@ -3,36 +3,19 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { theme } from '../../styles/GlobalStyles';
 
-const Button = ({
-  bg,
-  role,
-  size,
-  text,
-  color,
-  shadow,
-  border,
-  onClick,
-  children,
-}) => {
+const Button = ({ bg, size, color, icon, onClick }) => {
   const bgClass = `bg-${bg}`;
 
   return (
-    <ButtonWrapper
-      type={role}
-      className={`${bgClass} ${size} ${shadow} ${border} ${color}`}
-      onClick={onClick}
-    >
-      <Text>{text}</Text>
-      {children}
+    <ButtonWrapper className={`${bgClass} ${size} ${color}`} onClick={onClick}>
+      {icon && <Icon>{icon}</Icon>}
     </ButtonWrapper>
   );
 };
 
 Button.propTypes = {
   bg: PropTypes.oneOf(['primary', 'secondary', 'white', 'black']),
-  role: PropTypes.oneOf(['button', 'submit']),
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
-  text: PropTypes.string,
   color: PropTypes.oneOf([
     'primary',
     'secondary',
@@ -42,28 +25,22 @@ Button.propTypes = {
     'green',
     'gray',
   ]),
+  icon: PropTypes.element,
   shadow: PropTypes.oneOf(['shadow']),
-  border: PropTypes.oneOf(['rounded', 'main', 'tab']),
   onClick: PropTypes.func,
-  children: PropTypes.element,
 };
 
 Button.defaultProps = {
   bg: undefined,
-  role: 'button',
   size: 'sm',
   text: '',
+  icon: null,
   shadow: undefined,
-  border: undefined,
-  onClick: undefined,
-  children: undefined,
 };
 
 const ButtonWrapper = styled.button`
-  background-color: ${theme.color.whiteColor};
-  border-radius: 0.3rem;
-  padding: 0.7rem;
-  font-weight: bold;
+  display: inline-flex;
+  background-color: transparent;
 
   &.primary {
     color: ${theme.color.primary};
@@ -113,6 +90,10 @@ const ButtonWrapper = styled.button`
     font-size: 0.7rem;
   }
 
+  &.sm {
+    font-size: 1rem;
+  }
+
   &.md {
     font-size: 1.5rem;
   }
@@ -120,18 +101,12 @@ const ButtonWrapper = styled.button`
   &.lg {
     font-size: 3rem;
   }
-
-  &.shadow {
-    box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
-  }
-
-  &.tab {
-    border-radius: 1.5rem 1.5rem 0 0;
-  }
 `;
 
-const Text = styled.span`
-  text-align: center;
+const Icon = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Button;

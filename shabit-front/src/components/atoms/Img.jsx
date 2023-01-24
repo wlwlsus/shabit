@@ -22,6 +22,9 @@ Img.defaultProps = {
 
 const ImgWrapper = styled.img`
   display: inline-block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 
   &.sm {
     width: 5rem;

@@ -8,7 +8,6 @@ export default function HeatmapBox() {
   return (
     <HeatmapWrapper>
       <Container
-        size={'fit'}
         border={'rounded'}
         shadow={'shadow'}
         edge={'secondary'}
@@ -22,7 +21,8 @@ const HeatmapWrapper = styled.div`
   width: 100%;
   & > div {
     & > div {
-      margin: 1.5rem 3rem 0 1rem;
+      margin: 1rem auto;
+      margin-bottom: 0;
     }
   }
 `;

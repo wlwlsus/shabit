@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Label from '../atoms/Label';
-import Button from '../atoms/Button';
+import Text from '../atoms/Text';
+import Icon from '../atoms/Icon';
 
 import { FcGoogle } from 'react-icons/fc';
 import { SiKakaotalk, SiNaver } from 'react-icons/si';
@@ -10,20 +10,16 @@ import { SiKakaotalk, SiNaver } from 'react-icons/si';
 const Social = () => {
   return (
     <Wrapper>
-      <Label
-        text={'다른 계정으로 로그인하기'}
-        size={'xs'}
-        color={'secondary'}
-      />
+      <Text text={'다른 계정으로 로그인하기'} color={'secondary'} />
       <IconWrapper>
-        <Button icon={<FcGoogle />} size={'md'} />
-        <Button
+        <Icon icon={<FcGoogle />} size={'md'} />
+        <Icon
           icon={<SiKakaotalk />}
           size={'md'}
           color={'yellow'}
           bg={'black'}
         />
-        <Button icon={<SiNaver />} size={'md'} color={'green'} bg={'white'} />
+        <Icon icon={<SiNaver />} size={'md'} color={'green'} bg={'white'} />
       </IconWrapper>
     </Wrapper>
   );

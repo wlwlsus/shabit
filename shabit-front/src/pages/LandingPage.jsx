@@ -8,7 +8,7 @@ export default function LandingPage({ children }) {
 
   return (
     <PageWrapper>
-      <TemplateWrapper>
+      <ContainerWrapper>
         <Container shadow={'shadow'} border={'rounded'} size={'md'}>
           {nav}
         </Container>
@@ -18,12 +18,12 @@ export default function LandingPage({ children }) {
         <Container shadow={'shadow'} border={'rounded'} size={'md'}>
           {form}
         </Container>
-      </TemplateWrapper>
+      </ContainerWrapper>
     </PageWrapper>
   );
 }
 
-const TemplateWrapper = styled.div`
+const ContainerWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +37,7 @@ const TemplateWrapper = styled.div`
     position: absolute;
     left: 12%;
   }
+
   & > div:last-child {
     margin-left: 2.5rem;
   }

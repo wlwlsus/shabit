@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import Label from '../atoms/Label';
 import Input from '../atoms/Input';
 import Button from '../atoms/Button';
-import ArrowBtn from '../molecules/ArrowBtn';
+import CheckBox from '../molecules/CheckBox';
+import ArrowIcon from '../molecules/ArrowIcon';
 
 const LoginForm = () => {
   return (
@@ -18,14 +19,11 @@ const LoginForm = () => {
       <Input placeholder={'비밀번호'} shadow={'shadow'} />
 
       <Wrapper>
-        <Checkbox>
-          <Input role={'checkbox'} />
-          <Label text={'자동로그인'} size={'xs'} color={'primary'} />
-        </Checkbox>
+        <CheckBox text={'자동로그인'} color={'primary'} />
         <Button text={'비밀번호를 잊으셨나요?'} size={'xs'} color={'primary'} />
       </Wrapper>
 
-      <ArrowBtn size={'lg'} color={'primary'} />
+      <ArrowIcon size={'lg'} color={'primary'} />
 
       <Signup>
         <Label text={'아직 계정이 없으신가요?'} color={'gray'} />
@@ -53,12 +51,7 @@ const Wrapper = styled.div`
   display: flex;
   padding-left: 1.5rem;
   justify-content: space-between;
-  align-items: flex-start;
-`;
-
-const Checkbox = styled.div`
-  display: flex;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const Signup = styled.div`

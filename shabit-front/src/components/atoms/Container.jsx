@@ -18,13 +18,17 @@ const Container = ({ size, bg, border, shadow, edge, onClick, children }) => {
 };
 
 Container.propTypes = {
-  size: PropTypes.oneOf(['md', 'square']).isRequired,
+  size: PropTypes.oneOf(['md', 'lg', 'square', 'circle']),
   bg: PropTypes.oneOf(['primary', 'secondary']),
-  border: PropTypes.oneOf(['rounded']),
+  border: PropTypes.oneOf(['rounded', 'main']),
   shadow: PropTypes.oneOf(['shadow']),
   edge: PropTypes.oneOf(['secondary']),
   onClick: PropTypes.func,
-  children: PropTypes.element,
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.object,
+  ]),
 };
 
 Container.defaultProps = {
@@ -52,6 +56,10 @@ const ContainerWrapper = styled.div`
     border-radius: 1.5rem;
   }
 
+  &.main {
+    border-radius: 0 1.5rem 1.5rem;
+  }
+
   &.shadow {
     box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
   }
@@ -60,14 +68,25 @@ const ContainerWrapper = styled.div`
     border: 0.2rem solid ${theme.color.secondary};
   }
 
+  &.square {
+    width: 27rem;
+    height: 27rem;
+  }
+
+  &.circle {
+    width: 8.5rem;
+    height: 8.5rem;
+    border-radius: 50%;
+  }
+
   &.md {
     width: 28rem;
     height: 25rem;
   }
 
-  &.square {
-    width: 27rem;
-    height: 27rem;
+  &.lg {
+    width: 70rem;
+    height: 37rem;
   }
 `;
 

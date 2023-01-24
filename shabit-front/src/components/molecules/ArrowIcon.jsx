@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '../atoms/Button';
+import Icon from '../atoms/Icon';
 
 import { HiArrowRightCircle } from 'react-icons/hi2';
 
 const ArrowBtn = ({ size, color }) => {
   return (
-    <ButtonWrapper>
-      <Button icon={<HiArrowRightCircle />} size={size} color={color} />
-    </ButtonWrapper>
+    <IconWrapper>
+      <Icon icon={<HiArrowRightCircle />} size={size} color={color} />
+    </IconWrapper>
   );
 };
 
-const ButtonWrapper = styled.div`
+const IconWrapper = styled.div`
   margin: 1rem;
 `;
 

@@ -1,11 +1,10 @@
 import React from 'react';
 
-import Label from '../atoms/Label';
-
+import Icon from '../atoms/Icon';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 
-const CheckIcon = ({ color }) => {
-  return <Label icon={<BsFillCheckCircleFill />} color={color} />;
+const CheckIcon = () => {
+  return <Icon icon={<BsFillCheckCircleFill />} color={'primary'} />;
 };
 
 export default CheckIcon;

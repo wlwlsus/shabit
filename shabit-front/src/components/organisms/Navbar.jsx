@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Logo from '../atoms/Logo';
-import SideNavContent from '../molecules/SideNavContent';
+import NavContent from '../molecules/NavContent';
 
-const SideNav = () => {
+const Navbar = () => {
   return (
     <Wrapper>
       <Logo color={'pink'} size={'sm'} />
-      <SideNavContent />
+      <NavContent />
     </Wrapper>
   );
 };
@@ -23,4 +23,4 @@ const Wrapper = styled.div`
   }
 `;
 
-export default SideNav;
+export default Navbar;

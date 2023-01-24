@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Label from '../atoms/Label';
+import Text from '../atoms/Text';
 import Img from '../atoms/Img';
 
 const WelcomeSign = () => {
   return (
     <Wrapper>
-      <Label text={'Welcome to'} size={'lg'} color={'white'} />
+      <Text text={'Welcome to'} color={'white'} />
       <Img assets={true} size={'lg'} src={'/assets/logo-white.png'} />
     </Wrapper>
   );

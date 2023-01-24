@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
-import SideNav from './components/organisms/SideNav';
+import Navbar from './components/organisms/Navbar';
 import Introduction from './components/organisms/Introduction';
 import LandingContent from './components/organisms/LandingContent';
 import StartForm from './components/organisms/StartForm';
@@ -12,6 +12,9 @@ import SignupForm from './components/organisms/SignupForm';
 import LoginForm from './components/organisms/LoginForm';
 
 import MainPage from './pages/MainPage';
+import UserInfo from './components/organisms/UserInfo';
+import MainInfo from './components/organisms/MainInfo';
+import HeatmapBox from './components/organisms/HeatmapBox';
 
 function App() {
   return (
@@ -22,7 +25,7 @@ function App() {
           path="/"
           element={
             <LandingPage
-              children={[<SideNav />, <Introduction />, <StartForm />]}
+              children={[<Navbar />, <Introduction />, <StartForm />]}
             />
           }
         />
@@ -30,7 +33,7 @@ function App() {
           path="login"
           element={
             <LandingPage
-              children={[<SideNav />, <LandingContent />, <LoginForm />]}
+              children={[<Navbar />, <LandingContent />, <LoginForm />]}
             />
           }
         />
@@ -38,11 +41,22 @@ function App() {
           path="signup"
           element={
             <LandingPage
-              children={[<SideNav />, <LandingContent />, <SignupForm />]}
+              children={[<Navbar />, <LandingContent />, <SignupForm />]}
             />
           }
         />
-        <Route path="main" element={<MainPage />} />
+        <Route path="/main" element={<MainPage />}>
+          <Route
+            path=""
+            element={
+              <>
+                <UserInfo />
+                <MainInfo />
+                <HeatmapBox />
+              </>
+            }
+          />
+        </Route>
       </Routes>
     </ThemeProvider>
   );

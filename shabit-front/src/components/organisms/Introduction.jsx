@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Img from '../atoms/Img';
-import Label from '../atoms/Label';
+import Icon from '../atoms/Icon';
 import Logo from '../atoms/Logo';
+import Text from '../atoms/Text';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
@@ -11,16 +12,12 @@ const Introduction = () => {
   return (
     <ContentWrapper>
       <TextWrapper>
-        <Label
-          text={'자세 교정을 위한 맞춤형 솔루션'}
-          size={'md'}
-          color={'white'}
-        />
+        <Text text={'자세 교정을 위한 맞춤형 솔루션'} color={'white'} />
         <Logo size={'lg'} />
       </TextWrapper>
       <ImgWrapper>
         <Img assets={true} size={'lg'} src={'/assets/posture-bad.png'} />
-        <Label icon={<TbArrowBigRightLine />} size={'lg'} color={'white'} />
+        <Icon icon={<TbArrowBigRightLine />} size={'lg'} color={'white'} />
         <Img assets={true} size={'lg'} src={'/assets/posture-good.png'} />
       </ImgWrapper>
     </ContentWrapper>
