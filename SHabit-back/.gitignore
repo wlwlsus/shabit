@@ -55,6 +55,13 @@ cmake-build-*/
 
 # IntelliJ
 out/
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
