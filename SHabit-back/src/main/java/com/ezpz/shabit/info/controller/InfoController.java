@@ -23,6 +23,7 @@ public class InfoController {
 
   private final InfoService infoService;
 
+  // 카테고리 리스트 조회 API
   @GetMapping("/category")
   public ResponseEntity<?> getCategoryList() {
     try {
