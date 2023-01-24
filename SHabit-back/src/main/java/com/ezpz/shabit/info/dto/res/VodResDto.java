@@ -1,25 +1,25 @@
 package com.ezpz.shabit.info.dto.res;
 
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
 import lombok.*;
 
-@Builder
 @Getter
-@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class VodResDto {
-  private String name;
-  private String category;
-  private String url;
+  private String title;
+  private Category category;
+  private String videoId;
   private int length;
+  private String originalLength;
+  private String thumbnail;
 
   public VodResDto(Vod vod) {
-    this.name = vod.getName();
+    this.title = vod.getTitle();
     this.category = vod.getCategory();
-    this.url = vod.getUrl();
+    this.videoId = vod.getVideoId();
     this.length = vod.getLength();
   }
-
 }

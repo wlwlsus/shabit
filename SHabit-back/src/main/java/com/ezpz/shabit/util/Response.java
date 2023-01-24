@@ -34,6 +34,7 @@ public class Response {
         return makeResponse(httpStatus, message, 0, null);
     }
 
+
     // 200
     public static ResponseEntity<?> ok(String message) {
         return makeResponse(HttpStatus.OK, message, 0, null);

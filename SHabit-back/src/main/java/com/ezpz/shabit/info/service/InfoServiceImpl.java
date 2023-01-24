@@ -1,9 +1,12 @@
 package com.ezpz.shabit.info.service;
 
+import com.ezpz.shabit.info.dto.res.CategoryResDto;
 import com.ezpz.shabit.info.dto.res.PhrasesResDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
+import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
+import com.ezpz.shabit.info.repository.CategoryRepository;
 import com.ezpz.shabit.info.repository.PhrasesRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +21,10 @@ import java.util.Random;
 @Slf4j
 @RequiredArgsConstructor
 public class InfoServiceImpl implements InfoService {
+  private final CategoryRepository categoryRepository;
   private final PhrasesRepository phrasesRepository;
   private final VodRepository vodRepository;
+
 
   @Override
   public List<VodResDto> getVodList() throws Exception {
@@ -71,4 +76,14 @@ public class InfoServiceImpl implements InfoService {
 
     return new PhrasesResDto(list.get(index));
   }
+
+
+  @Override
+  public List<CategoryResDto> getCategoryList() throws Exception {
+    List<Category> list = categoryRepository.findAll();
+    log.info("list in service : {}", list);
+    List<CategoryResDto> result = list.stream().map((CategoryResDto::new)).toList();
+    return result;
+  }
+
 }
