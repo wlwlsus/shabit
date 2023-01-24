@@ -1,14 +1,15 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;
-import com.ezpz.shabit.user.repository.UserRepository;
 import com.ezpz.shabit.util.Response;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,26 +17,30 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+@Service
 @Slf4j
 @RequiredArgsConstructor
-@Service
 public class UserServiceImpl implements UserService {
-
   private final UserRepository userRepository;
 
   private final PasswordEncoder passwordEncoder;
-
   private final JwtTokenProvider jwtTokenProvider;
-
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
   private final RedisTemplate redisTemplate;
+
+  @Override
+  public boolean checkEmail(String email) throws Exception {
+    log.info("check email : {}", email);
+
+    return userRepository.findByEmail(email).isPresent();
+  }
 
   @Override
   public ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp) {
@@ -44,11 +49,11 @@ public class UserServiceImpl implements UserService {
     }
 
     Users users = Users.builder()
-        .email(signUp.getEmail())
-        .nickname(signUp.getNickname())
-        .password(passwordEncoder.encode(signUp.getPassword()))
-        .roles(Collections.singletonList(Authority.ROLE_USER.name()))
-        .build();
+      .email(signUp.getEmail())
+      .nickname(signUp.getNickname())
+      .password(passwordEncoder.encode(signUp.getPassword()))
+      .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+      .build();
 
     userRepository.save(users);
 
@@ -73,18 +78,18 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(login.getEmail());
 
     UserTestResDto.LoginUserRes loginUserRes =
-        UserTestResDto.LoginUserRes.builder()
-            .email(users.getEmail())
-            .nickname(users.getNickname())
-            .theme(users.getTheme())
-            .profile(users.getProfile())
-            .build();
+      UserTestResDto.LoginUserRes.builder()
+        .email(users.getEmail())
+        .nickname(users.getNickname())
+        .theme(users.getTheme())
+        .profile(users.getProfile())
+        .build();
 
     userInfo.setToken(tokenInfo);
     userInfo.setUser(loginUserRes);
 
     redisTemplate.opsForValue()
-        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+      .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
   }
@@ -107,7 +112,7 @@ public class UserServiceImpl implements UserService {
     // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
     Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
     redisTemplate.opsForValue()
-        .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+      .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
     return Response.ok("로그아웃 되었습니다.");
   }
@@ -137,7 +142,7 @@ public class UserServiceImpl implements UserService {
 
     // 5. RefreshToken Redis 업데이트
     redisTemplate.opsForValue()
-        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+      .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "토큰 재발급을 성공하였습니다.", 0, tokenInfo);
   }
@@ -151,13 +156,43 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(email);
 
     UserTestResDto.LoginUserRes loginUserRes =
-        UserTestResDto.LoginUserRes.builder()
-            .email(users.getEmail())
-            .nickname(users.getNickname())
-            .theme(users.getTheme())
-            .profile(users.getProfile())
-            .build();
+      UserTestResDto.LoginUserRes.builder()
+        .email(users.getEmail())
+        .nickname(users.getNickname())
+        .theme(users.getTheme())
+        .profile(users.getProfile())
+        .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
+  }
+
+  @Override
+  @Transactional
+  public void updatePassword(String email, String password) throws Exception {
+    log.info("email : {}, password : {}", email, password);
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("before user : {}", user);
+
+    user.setPassword(password);
+    userRepository.save(user);
+    log.info("after user : {}", user);
+  }
+
+
+  @Override
+  public void changeThema(String email, int thema) throws Exception {
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    user.setTheme(thema);
+    userRepository.save(user);
+  }
+
+  @Override
+  public void updateNickname(String email, String nickname) throws Exception {
+    log.info("email : {}, nickname : {}", email, nickname);
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("before update user : {}", user);
+    user.setNickname(nickname);
+    userRepository.save(user);
+    log.info("after update user : {}", user);
   }
 }

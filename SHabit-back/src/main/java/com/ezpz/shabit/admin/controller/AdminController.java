@@ -88,7 +88,7 @@ public class AdminController {
 
         List<VodResDto> resData = new ArrayList<>();
         data.forEach(d -> resData.add(VodResDto.builder()
-                .categoryId(d.getCategory().getCategoryId())
+                .category(d.getCategory())
                 .length(d.getLength())
                 .title(d.getTitle())
                 .videoId(d.getVideoId())

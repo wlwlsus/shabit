@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
+  boolean checkEmail(String email) throws Exception;
+
   ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
   ResponseEntity<?> login(UserTestReqDto.Login login);
@@ -15,4 +17,9 @@ public interface UserService {
 
   ResponseEntity<?> getUserInfo(String email);
 
+  void updatePassword(String email, String password) throws Exception;
+
+  void updateNickname(String email, String nickname) throws Exception;
+
+  void changeThema(String email, int thema) throws Exception;
 }
