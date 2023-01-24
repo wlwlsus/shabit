@@ -16,8 +16,8 @@ public class SwaggerConfig {
 
         Info info = new Info()
                 .version("v1.0.0")
-                .title("🦉 API 명세서")
-                .description("OWL API 명세서");
+                .title("🏋️‍♀️🏋️‍♂️ Shabit API 명세서")
+                .description("Shabit API 명세서");
 
         // SecuritySecheme명
         String jwtSchemeName = "jwtAuth";
