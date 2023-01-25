@@ -66,11 +66,13 @@ dependencies {
     // google
     compileOnly 'com.google.api-client:google-api-client:1.30.9'
     compileOnly 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-    compileOnly 'com.google.apis:google-api-services-youtube:v3-rev222-1.25.0'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev222-1.25.0'
+// https://mvnrepository.com/artifact/com.google.http-client/google-http-client-jackson2
+    implementation 'com.google.http-client:google-http-client-jackson2:1.42.3'
+
     // AWS S3
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.385'
-
 }
 
 tasks.named('test') {
