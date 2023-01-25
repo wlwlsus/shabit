@@ -5,6 +5,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +20,21 @@ public class EmailServiceImpl implements EmailService {
   private final int CODE_LENGTH = 8;
   private String CODE;
 
+  @Value("{mail.setFrom}")
+  String fromEmail;
+
   @Override
   public String sendFindPasswordEmail(String email) throws Exception {
     MimeMessage message = mailSender.createMimeMessage();
 
-    message.setFrom("dnzma13@naver.com");
+    message.setFrom(fromEmail);
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
     message.setSubject("SHabit 임시 비밀번호 발급 메일");
     message.setText(createFindPasswordEmail(), "UTF-8", "html");
     try {
       mailSender.send(message);
     } catch (Exception e) {
+      log.error(e.getMessage());
       return "";
     }
     return CODE;
@@ -56,7 +61,7 @@ public class EmailServiceImpl implements EmailService {
   public String sendCertificationEmail(String email) throws Exception {
     MimeMessage message = mailSender.createMimeMessage();
 
-    message.setFrom("dnzma13@naver.com");
+    message.setFrom(fromEmail);
     message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
     message.setSubject("SHabit 회원가입 인증 메일");
     message.setText(createCertificationEmail(), "UTF-8", "html");
