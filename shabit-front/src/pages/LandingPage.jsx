@@ -1,51 +1,55 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/GlobalStyles';
 
-import Container from '../components/atoms/Container';
+import Navbar from '../components/Landing/Navbar';
 
 export default function LandingPage({ children }) {
-  const [nav, content, form] = children;
+  const [content, form] = children;
 
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Container shadow={'shadow'} border={'rounded'} size={'md'}>
-          {nav}
-        </Container>
-        <Container bg={'primary'} size={'square'} shadow={'shadow'}>
-          {content}
-        </Container>
-        <Container shadow={'shadow'} border={'rounded'} size={'md'}>
-          {form}
-        </Container>
+        <NavContainer>
+          <Navbar />
+        </NavContainer>
+        <ContentContainer>{content}</ContentContainer>
+        <FormContainer>{form}</FormContainer>
       </ContainerWrapper>
     </PageWrapper>
   );
 }
-
-const ContainerWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-
-  & > div:first-child {
-    padding: 3.5rem 1rem;
-  }
-
-  & > div:nth-child(2) {
-    position: absolute;
-    left: 12%;
-  }
-
-  & > div:last-child {
-    margin-left: 2.5rem;
-  }
-`;
 
 const PageWrapper = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ContainerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
+const NavContainer = styled.div`
+  width: 28rem;
+  height: 25rem;
+  background-color: ${theme.color.whiteColor};
+  border-radius: 1.5rem;
+`;
+
+const ContentContainer = styled.div`
+  width: 27rem;
+  height: 27rem;
+  background-color: ${theme.color.primary};
+
+  position: absolute;
+  left: 12%;
+`;
+
+const FormContainer = styled(NavContainer)`
+  margin-left: 2.5rem;
 `;

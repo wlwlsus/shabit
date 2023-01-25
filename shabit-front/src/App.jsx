@@ -4,15 +4,14 @@ import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 
 import LandingPage from './pages/LandingPage';
-import Navbar from './components/organisms/Navbar';
-import Introduction from './components/organisms/Introduction';
-import LandingContent from './components/organisms/LandingContent';
-import StartForm from './components/organisms/StartForm';
-import SignupForm from './components/organisms/SignupForm';
-import LoginForm from './components/organisms/LoginForm';
+import Introduction from './components/Landing/Introduction';
+import LandingContent from './components/Landing/LandingContent';
+import StartForm from './components/Landing/StartForm';
+import SignupForm from './components/Landing/SignupForm';
+import LoginForm from './components/Landing/LoginForm';
 
 import MainPage from './pages/MainPage';
-import MainContent from './components/organisms/MainContent';
+import MainContent from './components/Main/MainContent';
 
 function App() {
   return (
@@ -21,26 +20,18 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <LandingPage
-              children={[<Navbar />, <Introduction />, <StartForm />]}
-            />
-          }
+          element={<LandingPage children={[<Introduction />, <StartForm />]} />}
         />
         <Route
           path="login"
           element={
-            <LandingPage
-              children={[<Navbar />, <LandingContent />, <LoginForm />]}
-            />
+            <LandingPage children={[<LandingContent />, <LoginForm />]} />
           }
         />
         <Route
           path="signup"
           element={
-            <LandingPage
-              children={[<Navbar />, <LandingContent />, <SignupForm />]}
-            />
+            <LandingPage children={[<LandingContent />, <SignupForm />]} />
           }
         />
         <Route path="/main" element={<MainPage />}>

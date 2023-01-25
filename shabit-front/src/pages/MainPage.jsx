@@ -1,23 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
-
-import Container from '../components/atoms/Container';
-import Tab from '../components/molecules/Tab';
+import { theme } from '../styles/GlobalStyles';
 
 export default function MainPage() {
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab text={'Shabit'} size={'md'} />
-        <Tab text={'자세 기록'} size={'md'} />
-        <Container size={'lg'} shadow={'shadow'} border={'main'}>
+        <Tab>SHabit</Tab>
+        <Tab>자세기록</Tab>
+
+        <Container>
           <Outlet />
         </Container>
       </ContainerWrapper>
     </PageWrapper>
   );
 }
+
+const PageWrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const ContainerWrapper = styled.div`
   display: flex;
@@ -38,13 +44,23 @@ const ContainerWrapper = styled.div`
   }
 
   & > div:last-child {
-    z-index: 0;
   }
 `;
 
-const PageWrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const Container = styled.div`
+  background-color: ${theme.color.whiteColor};
+  border-radius: 0 1.5rem 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
+
+  z-index: 0;
+`;
+
+const Tab = styled.button`
+  background-color: ${theme.color.whiteColor};
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 1.2rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
 `;

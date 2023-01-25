@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Img from '../atoms/Img';
-import Icon from '../atoms/Icon';
-import Logo from '../atoms/Logo';
-import Text from '../atoms/Text';
+import Logo from '../common/Logo';
+import Icon from '../common/Icon';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
@@ -12,13 +10,13 @@ const Introduction = () => {
   return (
     <ContentWrapper>
       <TextWrapper>
-        <Text text={'자세 교정을 위한 맞춤형 솔루션'} color={'white'} />
+        <span>자세 교정을 위한 맞춤형 솔루션</span>
         <Logo size={'lg'} />
       </TextWrapper>
       <ImgWrapper>
-        <Img assets={true} size={'lg'} src={'/assets/posture-bad.png'} />
-        <Icon icon={<TbArrowBigRightLine />} size={'lg'} color={'white'} />
-        <Img assets={true} size={'lg'} src={'/assets/posture-good.png'} />
+        <Img src={'/assets/posture-bad.png'} alt="" />
+        <Icon icon={<TbArrowBigRightLine />} color={'white'} size={'lg'} />
+        <Img src={'/assets/posture-good.png'} alt="" />
       </ImgWrapper>
     </ContentWrapper>
   );
@@ -45,4 +43,8 @@ const ImgWrapper = styled.div`
   justify-content: center;
 `;
 
+const Img = styled.img`
+  width: 9rem;
+  margin: 0 1rem;
+`;
 export default Introduction;

@@ -1,33 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Label from '../atoms/Label';
-import Input from '../atoms/Input';
-import Button from '../atoms/Button';
-import CheckBox from '../molecules/CheckBox';
-import ArrowIcon from '../molecules/ArrowIcon';
+import Input from '../common/Input';
+import ArrowIcon from '../common/ArrowIcon';
 
 const LoginForm = () => {
   return (
     <FormWrapper>
-      <Label
-        text={'SHabit에 로그인하고 서비스를 이용해보세요'}
-        color={'gray'}
-      />
+      <div>SHabit에 로그인하고 서비스를 이용해보세요</div>
 
       <Input placeholder={'아이디'} shadow={'shadow'} />
       <Input placeholder={'비밀번호'} shadow={'shadow'} />
 
       <Wrapper>
-        <CheckBox text={'자동로그인'} color={'primary'} />
-        <Button text={'비밀번호를 잊으셨나요?'} size={'xs'} color={'primary'} />
+        <input type="checkbox" />
+        <span>자동 로그인</span>
+        <span>비밀번호를 잊으셨나요?</span>
       </Wrapper>
 
       <ArrowIcon size={'lg'} color={'primary'} />
 
       <Signup>
-        <Label text={'아직 계정이 없으신가요?'} color={'gray'} />
-        <Button text={'회원가입'} color={'primary'} />
+        <span>아직 계정이 없으신가요?</span>
+        <span>회원가입</span>
       </Signup>
     </FormWrapper>
   );

@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Text from '../atoms/Text';
-import ArrowIcon from '../molecules/ArrowIcon';
+import ArrowBtn from '../common/ArrowIcon';
 
 const StartForm = () => {
   return (
     <Wrapper>
-      <Text text={'지금 바로 시작하기'} color={'primary'} />
-      <ArrowIcon size={'lg'} color={'primary'} />
+      <span>지금 바로 시작하기</span>
+      <ArrowBtn />
     </Wrapper>
   );
 };
