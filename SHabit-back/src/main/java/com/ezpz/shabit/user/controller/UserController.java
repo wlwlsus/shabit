@@ -23,6 +23,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -54,7 +55,7 @@ public class UserController {
   }
 
   // 이메일 인증 API
-  @GetMapping("email/{email}")
+  @GetMapping("/email-valid/{email}")
   public ResponseEntity<?> certifyEmail(@PathVariable String email) {
     log.info("send email : {}", email);
     try {
@@ -69,7 +70,7 @@ public class UserController {
   }
 
   // 비밀번호 찾기 API
-  @PutMapping("user/{email}")
+  @PutMapping("/password-find/{email}")
   public ResponseEntity<?> findPassword(@PathVariable String email) {
     log.info("input email : {}", email);
     try {
@@ -89,12 +90,38 @@ public class UserController {
     }
   }
 
-  // 테마변경 API
-  @PutMapping("user/color/{thema}/{email}")
-  public ResponseEntity<?> changeThema(@PathVariable String email, @PathVariable int thema) {
-    log.info("email : {}, thema : {}", email, thema);
+  // 비밀번호 변경 API
+  @PutMapping("/password-change/{email}")
+  public ResponseEntity<?> changePassword(@PathVariable String email, @RequestBody Map<String, String> req) {
+    log.info("input email : {}", email);
+    String curPassword = req.get("curPassword");
+    String changePassword = req.get("changePassword");
+    log.info("curPassword : {}, changePassword : {}", curPassword, changePassword);
     try {
-      userService.changeThema(email, thema);
+      boolean success = userService.changePassword(email, curPassword, changePassword);
+      // curPassword와 현재 비밀번호가 다르다면
+      if (!success) {
+        // 비밀번호 변경 불가 -> badRequest 리턴
+        log.info("UserController: 비밀번호 변경 불가");
+        return Response.badRequest("현재 비밀번호와 불일치합니다.");
+      }
+      log.info("UserController: 비밀번호 변경 완료");
+      return Response.makeResponse(HttpStatus.OK, "비밀번호 변경 완료");
+    } catch (NoSuchElementException s) {
+      log.error("in changePassword API " + s.getMessage());
+      return Response.noContent("존재하지 않는 이메일 입니다.");
+    } catch (Exception e) {
+      log.error("in changePassword API " + e.getMessage());
+      return Response.makeResponse(HttpStatus.NOT_FOUND, "비밀번호 변경 실패");
+    }
+  }
+
+  // 테마변경 API
+  @PutMapping("/color/{theme}/{email}")
+  public ResponseEntity<?> changeTheme(@PathVariable String email, @PathVariable int theme) {
+    log.info("email : {}, theme : {}", email, theme);
+    try {
+      userService.changeThema(email, theme);
       return Response.makeResponse(HttpStatus.OK, "테마 변경을 성공하였습니다.");
     } catch (NoSuchElementException s) {
       log.info(s.getMessage());
@@ -107,8 +134,8 @@ public class UserController {
 
 
   @Operation(description = "회원가입 API", responses = {
-    @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-    @ApiResponse(responseCode = "400", description = "회원가입 실패"),
+          @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+          @ApiResponse(responseCode = "400", description = "회원가입 실패"),
   })
   @PostMapping("")
   public ResponseEntity<?> signUp(@RequestBody @Validated UserTestReqDto.SignUp signUp, Errors errors) {
@@ -122,9 +149,9 @@ public class UserController {
   }
 
   @Operation(description = "로그인 API", responses = {
-    @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
-    @Schema(implementation = UserTestResDto.UserInfo.class))),
-    @ApiResponse(responseCode = "400", description = "로그인 실패"),
+          @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
+          @Schema(implementation = UserTestResDto.UserInfo.class))),
+          @ApiResponse(responseCode = "400", description = "로그인 실패"),
   })
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody @Validated UserTestReqDto.Login login, Errors errors) {
@@ -138,8 +165,8 @@ public class UserController {
   }
 
   @Operation(description = "로그아웃 API", responses = {
-    @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
-    @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
+          @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+          @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
   })
   @PostMapping("/logout")
   public ResponseEntity<?> logout(@RequestBody @Validated UserTestReqDto.Logout logout, Errors errors) {
@@ -150,9 +177,9 @@ public class UserController {
   }
 
   @Operation(description = "토큰 재발급 API", responses = {
-    @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
-    @Schema(implementation = UserTestResDto.TokenInfo.class))),
-    @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
+          @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
+          @Schema(implementation = UserTestResDto.TokenInfo.class))),
+          @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
   })
   @PostMapping("/token")
   public ResponseEntity<?> reissue(@RequestBody @Validated UserTestReqDto.Reissue reissue, Errors errors) {
@@ -164,9 +191,9 @@ public class UserController {
   }
 
   @Operation(description = "회원 정보 API", responses = {
-    @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
-    @Schema(implementation = UserTestResDto.LoginUserRes.class))),
-    @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
+          @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
+          @Schema(implementation = UserTestResDto.LoginUserRes.class))),
+          @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
   })
 
   @GetMapping("/{email}")
@@ -175,7 +202,7 @@ public class UserController {
   }
 
   // 닉네임 변경 API
-  @PutMapping("nickname/{email}")
+  @PutMapping("/nickname/{email}")
   public ResponseEntity<?> updateNickname(@PathVariable String email, @RequestBody UserReqDto user) {
     String nickname = user.getNickname();
     log.info("input email : {}, nickname : {}", email, nickname);

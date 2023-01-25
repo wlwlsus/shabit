@@ -39,7 +39,7 @@ import java.util.InputMismatchException;
 public class AdminController {
 
     private final AdminServiceImpl adminService;
-    private final YouTubeServiceImpl youtubeService;
+//    private final YouTubeServiceImpl youtubeService;
 
     @PostMapping("/phrase")
     ResponseEntity<?> insertPhrases(@RequestBody PhrasesReqDto req) {
@@ -112,26 +112,26 @@ public class AdminController {
     }
 
 
-    @PostMapping("/vods")
-    ResponseEntity<?> insertVod(@RequestBody VodReqDto req) {
-        int res = 0;
-        try{
-            YouTubeDto youtube = youtubeService.get(req.getUrl());
-
-            res = adminService.insertVod(youtube, req.getCategoryId());
-        } catch(DataIntegrityViolationException e){
-            log.info(e.getMessage());
-            return Response.badRequest("이미 존재하는 영상입니다.");
-        } catch(InputMismatchException e){
-            log.info(e.getMessage());
-            return Response.badRequest("영상 길이가 13분 이상입니다.");
-        }catch(Exception e){
-            log.info(e.getMessage());
-        }
-
-        if(res == 0) return Response.notFound("영상 등록에 실패하였습니다.");
-        return Response.ok("영상 등록에 성공하였습니다.");
-    }
+//    @PostMapping("/vods")
+//    ResponseEntity<?> insertVod(@RequestBody VodReqDto req) {
+//        int res = 0;
+//        try{
+//            YouTubeDto youtube = youtubeService.get(req.getUrl());
+//
+//            res = adminService.insertVod(youtube, req.getCategoryId());
+//        } catch(DataIntegrityViolationException e){
+//            log.info(e.getMessage());
+//            return Response.badRequest("이미 존재하는 영상입니다.");
+//        } catch(InputMismatchException e){
+//            log.info(e.getMessage());
+//            return Response.badRequest("영상 길이가 13분 이상입니다.");
+//        }catch(Exception e){
+//            log.info(e.getMessage());
+//        }
+//
+//        if(res == 0) return Response.notFound("영상 등록에 실패하였습니다.");
+//        return Response.ok("영상 등록에 성공하였습니다.");
+//    }
 
     @PutMapping("/alarm")
     ResponseEntity<?> editSetting(@RequestBody SettingReqDto req) {

@@ -38,7 +38,7 @@ public class InfoController {
   }
 
   // 건강 문구 랜덤 조회 API
-  @GetMapping("phrases")
+  @GetMapping("/phrases")
   public ResponseEntity<?> getPhrases() {
     try {
       PhrasesResDto phrase = infoService.getPhrase();
@@ -51,7 +51,7 @@ public class InfoController {
   }
 
   // 랜덤 영상 내보내기
-  @GetMapping("vods/{email}")
+  @GetMapping("/vods/{email}")
   public ResponseEntity<?> getVodList(@PathVariable String email) {
     log.info("input email : {}", email);
     try {
