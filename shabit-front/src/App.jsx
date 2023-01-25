@@ -12,9 +12,7 @@ import SignupForm from './components/organisms/SignupForm';
 import LoginForm from './components/organisms/LoginForm';
 
 import MainPage from './pages/MainPage';
-import UserInfo from './components/organisms/UserInfo';
-import MainInfo from './components/organisms/MainInfo';
-import HeatmapBox from './components/organisms/HeatmapBox';
+import MainContent from './components/organisms/MainContent';
 
 function App() {
   return (
@@ -46,16 +44,7 @@ function App() {
           }
         />
         <Route path="/main" element={<MainPage />}>
-          <Route
-            path=""
-            element={
-              <>
-                <UserInfo />
-                <MainInfo />
-                <HeatmapBox />
-              </>
-            }
-          />
+          <Route path="" element={<MainContent />} />
         </Route>
       </Routes>
     </ThemeProvider>

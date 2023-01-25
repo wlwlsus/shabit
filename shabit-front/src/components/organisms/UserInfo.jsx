@@ -25,7 +25,11 @@ export default function UserInfo() {
 }
 
 const Wrapper = styled.div`
-  width: 35%;
+  position: relative;
+
+  & > div:first-child {
+    position: absolute;
+  }
 `;
 
 const UserName = styled.div``;

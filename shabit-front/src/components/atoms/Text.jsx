@@ -22,6 +22,7 @@ Text.defaultProps = {
 };
 
 const TextWrapper = styled.span`
+  display: inline-block;
   background-color: transparent;
 
   &:hover {
