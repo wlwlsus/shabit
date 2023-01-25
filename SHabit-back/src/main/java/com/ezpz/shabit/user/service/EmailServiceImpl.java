@@ -39,15 +39,15 @@ public class EmailServiceImpl implements EmailService {
     StringBuilder message = new StringBuilder();
     CODE = createdCode(CODE_LENGTH);
     message.append("<div style='margin:20px;'>")
-      .append("<p>안녕하세요. SHabit 임시 비밀번호 발급 메일입니다.</p>")
-      .append("<p>임시 비밀번호로 로그인 해주세요.</p>")
-      .append("<p>감사합니다.</p>")
-      .append("<br>")
-      .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
-      .append("<div style='font-size:130%'>")
-      .append("CODE : <strong>" + CODE + "</strong>")
-      .append("<div>")
-      .append("</div>");
+            .append("<p>안녕하세요. SHabit 임시 비밀번호 발급 메일입니다.</p>")
+            .append("<p>임시 비밀번호로 로그인 해주세요.</p>")
+            .append("<p>감사합니다.</p>")
+            .append("<br>")
+            .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
+            .append("<div style='font-size:130%'>")
+            .append("CODE : <strong>" + CODE + "</strong>")
+            .append("<div>")
+            .append("</div>");
 
     return message.toString();
   }
@@ -69,17 +69,17 @@ public class EmailServiceImpl implements EmailService {
 
   private String createCertificationEmail() {
     StringBuilder message = new StringBuilder();
-
+    CODE = createdCode(CODE_LENGTH);
     message.append("<div style='margin:20px;'>")
-      .append("<p>안녕하세요. SHabit 회원가입 인증 메일입니다.</p>")
-      .append("<p>아래 코드를 복사해 입력해주세요.</p>")
-      .append("<p>감사합니다.</p>")
-      .append("<br>")
-      .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
-      .append("<div style='font-size:130%'>")
-      .append("CODE : <strong>" + CODE + "</strong>")
-      .append("<div>")
-      .append("</div>");
+            .append("<p>안녕하세요. SHabit 회원가입 인증 메일입니다.</p>")
+            .append("<p>아래 코드를 복사해 입력해주세요.</p>")
+            .append("<p>감사합니다.</p>")
+            .append("<br>")
+            .append("<div align='center' style='border:1px solid black; font-family:verdana';>")
+            .append("<div style='font-size:130%'>")
+            .append("CODE : <strong>" + CODE + "</strong>")
+            .append("<div>")
+            .append("</div>");
 
     return message.toString();
   }

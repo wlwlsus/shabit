@@ -49,11 +49,11 @@ public class UserServiceImpl implements UserService {
     }
 
     Users users = Users.builder()
-      .email(signUp.getEmail())
-      .nickname(signUp.getNickname())
-      .password(passwordEncoder.encode(signUp.getPassword()))
-      .roles(Collections.singletonList(Authority.ROLE_USER.name()))
-      .build();
+                          .email(signUp.getEmail())
+                          .nickname(signUp.getNickname())
+                          .password(passwordEncoder.encode(signUp.getPassword()))
+                          .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+                          .build();
 
     userRepository.save(users);
 
@@ -78,18 +78,18 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(login.getEmail());
 
     UserTestResDto.LoginUserRes loginUserRes =
-      UserTestResDto.LoginUserRes.builder()
-        .email(users.getEmail())
-        .nickname(users.getNickname())
-        .theme(users.getTheme())
-        .profile(users.getProfile())
-        .build();
+            UserTestResDto.LoginUserRes.builder()
+                    .email(users.getEmail())
+                    .nickname(users.getNickname())
+                    .theme(users.getTheme())
+                    .profile(users.getProfile())
+                    .build();
 
     userInfo.setToken(tokenInfo);
     userInfo.setUser(loginUserRes);
 
     redisTemplate.opsForValue()
-      .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
   }
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
     // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
     Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
     redisTemplate.opsForValue()
-      .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+            .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
     return Response.ok("로그아웃 되었습니다.");
   }
@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
 
     // 5. RefreshToken Redis 업데이트
     redisTemplate.opsForValue()
-      .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "토큰 재발급을 성공하였습니다.", 0, tokenInfo);
   }
@@ -156,12 +156,12 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(email);
 
     UserTestResDto.LoginUserRes loginUserRes =
-      UserTestResDto.LoginUserRes.builder()
-        .email(users.getEmail())
-        .nickname(users.getNickname())
-        .theme(users.getTheme())
-        .profile(users.getProfile())
-        .build();
+            UserTestResDto.LoginUserRes.builder()
+                    .email(users.getEmail())
+                    .nickname(users.getNickname())
+                    .theme(users.getTheme())
+                    .profile(users.getProfile())
+                    .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
   }
@@ -173,11 +173,31 @@ public class UserServiceImpl implements UserService {
     Users user = userRepository.findByEmail(email).orElseThrow();
     log.info("before user : {}", user);
 
-    user.setPassword(password);
+    user.setPassword(passwordEncoder.encode(password));
     userRepository.save(user);
     log.info("after user : {}", user);
   }
 
+  @Override
+  @Transactional
+  public boolean changePassword(String email, String curPassword, String changePassword) throws Exception {
+    // 현재 비밀번호와 다른지 확인
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    // 입력으로 들어온 비밀번호와 현재 비밀번호가 같다면
+    if (passwordEncoder.matches(curPassword, user.getPassword())) {
+      // 비밀번호 변경
+      user.setPassword(passwordEncoder.encode(changePassword));
+      userRepository.save(user);
+      log.info("userService: 비밀번호 변경 성공");
+      return true;
+    }
+    // 현재 비밀번호와 다르다면
+    else {
+      // 비밀번호 변경 불가
+      log.info("userService: 현재 비밀번호와 불일치");
+      return false;
+    }
+  }
 
   @Override
   public void changeThema(String email, int thema) throws Exception {
