@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Logo = ({ color, size }) => {
   const imgSrc = `${process.env.PUBLIC_URL}/assets/logo-${color}.png`;
 
-  return <LogoWrapper src={imgSrc} className={size}></LogoWrapper>;
+  return <LogoWrapper src={imgSrc} className={size} />;
 };
 
 Logo.propTypes = {

@@ -4,13 +4,13 @@ import LogoutButton from './components/authTest/LogoutButton';
 import NotiTriggerTest from './components/authTest/NotiTriggerTest';
 import ProfileForm from './components/authTest/ProfileForm';
 import TeachableMachine from './components/TeachableMachineTest/TeachableMachine';
-import HeatMap from './components/UiTest/HeatMap';
+import HeatMap from './components/molecules/HeatMap';
 import LineChart from './components/UiTest/LineChart';
 import RangeBarDaily from './components/UiTest/RangeBarDaily';
 
 // import UpdateDonutWeekly from './components/UiTest/UpdateDonutWeekly2';
 
-function App() {
+function AppGreat() {
   const [isStarting, setIsStarting] = useState(false);
   const savedIntevalId = useRef();
   const timerIntervalId = useRef();
@@ -42,4 +42,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppGreat;

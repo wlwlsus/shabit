@@ -1,27 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Img from '../atoms/Img';
-import Label from '../atoms/Label';
-import Logo from '../molecules/Logo';
+import Logo from '../common/Logo';
+import Icon from '../common/Icon';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
-const LandingIntro = () => {
+const Introduction = () => {
   return (
     <ContentWrapper>
       <TextWrapper>
-        <Label
-          text={'자세 교정을 위한 맞춤형 솔루션'}
-          size={'md'}
-          color={'white'}
-        />
+        <span>자세 교정을 위한 맞춤형 솔루션</span>
         <Logo size={'lg'} />
       </TextWrapper>
       <ImgWrapper>
-        <Img assets={true} size={'lg'} src={'/assets/posture-bad.png'} />
-        <Label icon={<TbArrowBigRightLine />} size={'lg'} color={'white'} />
-        <Img assets={true} size={'lg'} src={'/assets/posture-good.png'} />
+        <Img src={'/assets/posture-bad.png'} alt="" />
+        <Icon icon={<TbArrowBigRightLine />} color={'white'} size={'lg'} />
+        <Img src={'/assets/posture-good.png'} alt="" />
       </ImgWrapper>
     </ContentWrapper>
   );
@@ -48,4 +43,8 @@ const ImgWrapper = styled.div`
   justify-content: center;
 `;
 
-export default LandingIntro;
+const Img = styled.img`
+  width: 9rem;
+  margin: 0 1rem;
+`;
+export default Introduction;
