@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '../../styles/GlobalStyles';
 
 import Logo from '../common/Logo';
 import Icon from '../common/Icon';
@@ -35,6 +36,11 @@ const TextWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 2rem;
+
+  color: ${theme.color.whiteColor};
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 2.2rem;
 `;
 
 const ImgWrapper = styled.div`

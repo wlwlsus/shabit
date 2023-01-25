@@ -1,33 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
+import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 
-import { BsFillCheckCircleFill } from 'react-icons/bs';
+// import { BsFillCheckCircleFill } from 'react-icons/bs';
+
+//
+{
+  /* <BsFillCheckCircleFill /> */
+}
 
 const SignupForm = () => {
   return (
     <FormWrapper>
-      <BsFillCheckCircleFill />
       <div>에러 메세지 출력</div>
 
       <InputWrapper>
         <Input placeholder={'이메일 아이디'} />
-      </InputWrapper>
-
-      <InputWrapper>
         <Input placeholder={'닉네임'} />
-      </InputWrapper>
-
-      <InputWrapper>
         <Input placeholder={'비밀번호'} />
-      </InputWrapper>
-
-      <InputWrapper>
         <Input placeholder={'비밀번호 확인'} />
       </InputWrapper>
 
-      <Button>가입하기</Button>
+      <button>가입하기</button>
     </FormWrapper>
   );
 };
@@ -40,11 +36,27 @@ const FormWrapper = styled.div`
   align-items: center;
 
   & > div:first-child {
-    margin-bottom: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: ${theme.color.redColor};
+  }
+
+  & > button {
+    background-color: ${theme.color.primary};
+    color: ${theme.color.whiteColor};
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
   }
 `;
 
-const InputWrapper = styled.div``;
+const InputWrapper = styled.div`
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 1rem 0;
+`;
 
-const Button = styled.button``;
 export default SignupForm;
