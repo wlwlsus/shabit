@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,10 @@ public class UserServiceImpl implements UserService {
   private final JwtTokenProvider jwtTokenProvider;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
   private final RedisTemplate redisTemplate;
+
+  private final S3File s3File;
+
+  final String dirName = "profile";
 
   @Override
   public boolean checkEmail(String email) throws Exception {
@@ -200,9 +205,47 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void changeThema(String email, int thema) throws Exception {
+  @Transactional
+  public String updateProfile(String email, MultipartFile profile) throws Exception {
     Users user = userRepository.findByEmail(email).orElseThrow();
-    user.setTheme(thema);
+    // 등록되어있는 프로필 사진이 있다면 삭제
+    String profileUrl = user.getProfile();
+    if (profileUrl != null) {
+      s3File.delete(profileUrl);
+    }
+
+    String url = s3File.upload(profile, dirName, email);
+    log.info("profile image uploaded successfully");
+    user.setProfile(url);
+    userRepository.save(user);
+    log.info("user info changed successfully");
+
+    return url;
+  }
+
+  @Override
+  @Transactional
+  public void deleteProfile(String email) throws Exception {
+    // 회원 정보 가져오기
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("user nickname : {}", user.getNickname());
+    // 프로필 사진 url 가져오기
+    String fileUrl = user.getProfile();
+    log.info("fileUrl in S3: {}", fileUrl);
+    // S3에서 삭제하기
+    s3File.delete(fileUrl);
+    log.info("file deletion success in userService");
+    // DB 프로필 사진 삭제하기
+    user.setProfile(null);
+    userRepository.save(user);
+
+  }
+
+
+  @Override
+  public void changeThema(String email, int theme) throws Exception {
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    user.setTheme(theme);
     userRepository.save(user);
   }
 

@@ -86,4 +86,8 @@ public class Users extends BaseTimeEntity implements UserDetails {
   public void setTheme(int theme) {
     this.theme = theme;
   }
+
+  public void setProfile(String profile) {
+    this.profile = profile;
+  }
 }

@@ -2,6 +2,7 @@ package com.ezpz.shabit.user.service;
 
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 
@@ -24,4 +25,9 @@ public interface UserService {
   void changeThema(String email, int thema) throws Exception;
 
   boolean changePassword(String email, String curPassword, String changePassword) throws Exception;
+
+  String updateProfile(String email, MultipartFile profile) throws Exception;
+
+  void deleteProfile(String email) throws Exception;
+
 }
