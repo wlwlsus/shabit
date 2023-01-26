@@ -4,12 +4,15 @@ import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 import ArrowIcon from '../common/ArrowIcon';
-import { onLogin } from '../../store/authSlice';
+import { setUserState, setTokenState } from '../../store/authSlice';
 import { useDispatch } from 'react-redux';
+import Auth from '../../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   //onChange 핸들링입니다.
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -30,6 +33,20 @@ const LoginForm = () => {
   };
   const { email, password, autoLogin } = inputs;
   // ###############################
+
+  const onLogin = () => {
+    Auth.login(email, password)
+      .then(async ({ user, accessToken }) => {
+        dispatch(setUserState(user));
+        dispatch(setTokenState(accessToken));
+        await localStorage.setItem('accessToken', accessToken);
+        await localStorage.setItem('user', user);
+        navigate('/main');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <FormWrapper>
@@ -64,12 +81,7 @@ const LoginForm = () => {
         <span>비밀번호를 잊으셨나요?</span>
       </Wrapper>
 
-      <div
-        onClick={() => {
-          dispatch(onLogin({ email, password, autoLogin }));
-          console.log('클릭됨');
-        }}
-      >
+      <div onClick={onLogin}>
         <ArrowIcon size={'lg'} color={'primary'} />
       </div>
 
