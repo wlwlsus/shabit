@@ -10,7 +10,7 @@ export const changeImage = (
   }
 
   apiRequest
-    .put(`/user/profile/${email}`, formData, {
+    .put(`/api/v1/user/profile/${email}`, formData, {
       headers: {
         'Content-type': 'multipart/form-data',
         // Authorization: `Token ${this.$store.state.token}`,
@@ -31,7 +31,7 @@ export const changeImage = (
 
 export const resetPassword = async (email: string): Promise<boolean> => {
   return await apiRequest
-    .put(`/user/${email}`)
+    .put(`/api/v1/user/${email}`)
     .then(() => {
       alert('패스워드가 초기화 되었습니다.');
       return true;

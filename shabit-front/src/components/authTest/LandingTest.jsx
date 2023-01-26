@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoginForm from './LoginForm';
+import LoginForm from './LoginFormTest';
 import RegisterForm from './RegisterForm';
 
 const LandingTest = () => {

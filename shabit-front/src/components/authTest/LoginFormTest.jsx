@@ -1,8 +1,9 @@
+import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import Services from '../../services';
 import apiRequest from '../../utils/apiRequest';
 
-const LoginForm = () => {
+const LoginFormTest = () => {
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -110,4 +111,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginFormTest;

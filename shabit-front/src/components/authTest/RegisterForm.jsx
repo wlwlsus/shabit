@@ -58,14 +58,16 @@ const RegisterForm = ({ setIsLogginIn }) => {
   //feat/#28 : 이메일 중복 여부를 체크합니다.
   const debouncedEmailTerm = useDebounce(email, 300);
   const checkDuplicated = (email) => {
-    apiRequest
-      .get(`/user/${email}`)
-      .then((res) => {
-        setMessage('사용가능한 아이디입니다.');
-      })
-      .catch((err) => {
-        setMessage('중복된 아이디입니다.');
-      });
+    Services.Auth.checkEmail(email);
+    // apiRequest
+    //   .get(`/user/email-check/${email}`)
+    //   .then((res) => {
+    //     setMessage('사용가능한 아이디입니다.');
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setMessage('중복된 아이디입니다.');
+    //   });
   };
   useEffect(() => {
     if (debouncedEmailTerm.includes('@') && debouncedEmailTerm.includes('.')) {

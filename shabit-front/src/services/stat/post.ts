@@ -5,7 +5,7 @@ export const postData = async (
   data: Array<string>,
 ): Promise<boolean> => {
   return await apiRequest
-    .post(`/statistics/${email}`, [...data])
+    .post(`/api/v1/statistics/${email}`, [...data])
     .then(() => Promise.resolve(true))
     .catch(() => Promise.reject(false));
 };

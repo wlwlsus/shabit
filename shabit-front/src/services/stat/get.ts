@@ -1,7 +1,7 @@
 import apiRequest from '../../utils/apiRequest';
 export const fetchDaily = async (email: string): Promise<object> => {
   return await apiRequest
-    .get(`/statistics/today/${email}`)
+    .get(`/api/v1/statistics/today/${email}`)
     .then((res) => {
       localStorage.setItem('dailyData', res.data.result);
       return Promise.resolve(res.data.result);
@@ -14,7 +14,7 @@ export const fetchWeekly = async (
   page: number,
 ): Promise<object> => {
   return await apiRequest
-    .get(`/statistics/weekly/${email}?page=${~~page}`)
+    .get(`/api/v1/statistics/weekly/${email}?page=${~~page}`)
     .then((res) => {
       localStorage.setItem('weeklyData', res.data.result);
       return Promise.resolve(res.data.result);
@@ -27,7 +27,7 @@ export const fetchMonthly = async (
   page: number,
 ): Promise<object> => {
   return await apiRequest
-    .get(`/statistics/monthly/${email}?page=${~~page}`)
+    .get(`/api/v1/statistics/monthly/${email}?page=${~~page}`)
     .then((res) => {
       localStorage.setItem('monthlyData', res.data.result);
       return Promise.resolve(res.data.result);
@@ -37,7 +37,7 @@ export const fetchMonthly = async (
 
 export const fetchHeatmap = async (email: string): Promise<object> => {
   return await apiRequest
-    .get(`/statistics/grass/${email}`)
+    .get(`/api/v1/statistics/grass/${email}`)
     .then((res) => {
       localStorage.setItem('heatMapData', res.data.result);
       const jsonData = res.data.result;
