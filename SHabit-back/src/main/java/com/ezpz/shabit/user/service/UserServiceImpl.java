@@ -10,6 +10,7 @@ import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;
 import com.ezpz.shabit.util.Response;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,11 @@ public class UserServiceImpl implements UserService {
   private final JwtTokenProvider jwtTokenProvider;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
   private final RedisTemplate redisTemplate;
+
+  private final S3File s3File;
+
+  @Value("{}")
+  String dirName;
 
   @Override
   public boolean checkEmail(String email) throws Exception {
@@ -200,10 +207,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void updateProfile(String email, String url) throws Exception {
+  @Transactional
+  public String updateProfile(String email, MultipartFile profile) throws Exception {
+    String url = s3File.upload(profile, dirName);
+    log.info("profile image uploaded successfully");
     Users user = userRepository.findByEmail(email).orElseThrow();
     user.setProfile(url);
     userRepository.save(user);
+    log.info("user info changed successfully");
+
+    return url;
   }
 
 

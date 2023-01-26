@@ -3,7 +3,7 @@ package com.ezpz.shabit.user.controller;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.dto.req.UserReqDto;
-import com.ezpz.shabit.user.service.S3FileService;
+import com.ezpz.shabit.user.service.S3File;
 import com.ezpz.shabit.user.service.UserService;
 import com.ezpz.shabit.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -38,15 +38,13 @@ public class UserController {
   private final UserService userService;
   private final EmailService emailService;
 
-  private final S3FileService s3FileService;
-
   // 프로필 사진 변경 API
   @PutMapping("/profile/{email}")
   public ResponseEntity<?> updateProfile(@RequestPart("profile") MultipartFile profile, @PathVariable String email) {
     try {
       Map<String, String> result = new HashMap<>();
-      String url = s3FileService.upload(profile, "profile");
-      userService.updateProfile(email, url);
+      String url = userService.updateProfile(email, profile);
+      log.info("update user profile successfully");
       result.put("url", url);
 
       return Response.makeResponse(HttpStatus.OK, "프로필 이미지 변경 성공", result.size(), result);
