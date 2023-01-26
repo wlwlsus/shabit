@@ -1,14 +1,17 @@
 package com.ezpz.shabit.user.controller;
 
+import com.ezpz.shabit.user.dto.req.UserPassReqDto;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.dto.req.UserReqDto;
 import com.ezpz.shabit.user.service.S3File;
 import com.ezpz.shabit.user.service.UserService;
 import com.ezpz.shabit.util.Response;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,8 +42,12 @@ public class UserController {
   private final EmailService emailService;
 
   // 프로필 사진 변경 API
-  @PutMapping("/profile/{email}")
-  public ResponseEntity<?> updateProfile(@RequestBody MultipartFile profile, @PathVariable String email) {
+  @Operation(summary = "프로필 사진 변경 API")
+  @PutMapping(value = "/profile/{email}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<?> updateProfile(@Parameter(description = "변경할 프로필 사진", required = true)
+                                         @RequestBody MultipartFile profile,
+                                         @Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                         @PathVariable String email) {
     try {
       Map<String, String> result = new HashMap<>();
       String url = userService.updateProfile(email, profile);
@@ -57,8 +64,11 @@ public class UserController {
     }
   }
 
+  // 프로필 사진 삭제 API
+  @Operation(summary = "프로필 사진 삭제 API")
   @DeleteMapping("profile/{email}")
-  public ResponseEntity<?> deleteProfile(@PathVariable String email) {
+  public ResponseEntity<?> deleteProfile(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                         @PathVariable String email) {
     log.info("input email : {}", email);
     try {
       userService.deleteProfile(email);
@@ -71,13 +81,13 @@ public class UserController {
       log.error(e.getMessage());
       return Response.badRequest("프로필 사진 삭제 실패");
     }
-
   }
 
-
   // 이메일 중복체크 API
+  @Operation(summary = "이메일 중복체크 API")
   @GetMapping("/email-check/{email}")
-  public ResponseEntity<?> CheckEmail(@PathVariable String email) {
+  public ResponseEntity<?> CheckEmail(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                      @PathVariable String email) {
     log.info("input email : {}", email);
     try {
       boolean isPresent = userService.checkEmail(email);
@@ -95,8 +105,10 @@ public class UserController {
   }
 
   // 이메일 인증 API
+  @Operation(summary = "이메일 인증 API")
   @GetMapping("/email-valid/{email}")
-  public ResponseEntity<?> certifyEmail(@PathVariable String email) {
+  public ResponseEntity<?> certifyEmail(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                        @PathVariable String email) {
     log.info("send email : {}", email);
     try {
       String code = emailService.sendCertificationEmail(email);
@@ -110,8 +122,10 @@ public class UserController {
   }
 
   // 비밀번호 찾기 API
+  @Operation(summary = "비밀번호 찾기 API")
   @PutMapping("/password-find/{email}")
-  public ResponseEntity<?> findPassword(@PathVariable String email) {
+  public ResponseEntity<?> findPassword(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                        @PathVariable String email) {
     log.info("input email : {}", email);
     try {
       String password = emailService.sendFindPasswordEmail(email);
@@ -131,11 +145,15 @@ public class UserController {
   }
 
   // 비밀번호 변경 API
+  @Operation(summary = "비밀번호 변경 API")
   @PutMapping("/password-change/{email}")
-  public ResponseEntity<?> changePassword(@PathVariable String email, @RequestBody Map<String, String> req) {
+  public ResponseEntity<?> changePassword(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                          @PathVariable String email,
+                                          @Parameter(description = "현재 비밀번호 & 변경할 비밀번호", required = true)
+                                          @RequestBody UserPassReqDto req) {
     log.info("input email : {}", email);
-    String curPassword = req.get("curPassword");
-    String changePassword = req.get("changePassword");
+    String curPassword = req.getCurPassword();
+    String changePassword = req.getChangePassword();
     log.info("curPassword : {}, changePassword : {}", curPassword, changePassword);
     try {
       boolean success = userService.changePassword(email, curPassword, changePassword);
@@ -157,8 +175,12 @@ public class UserController {
   }
 
   // 테마변경 API
+  @Operation(summary = "테마변경 API")
   @PutMapping("/color/{theme}/{email}")
-  public ResponseEntity<?> changeTheme(@PathVariable String email, @PathVariable int theme) {
+  public ResponseEntity<?> changeTheme(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                       @PathVariable String email,
+                                       @Parameter(description = "변경하려는 테마 번호", required = true, example = "1")
+                                       @PathVariable int theme) {
     log.info("email : {}, theme : {}", email, theme);
     try {
       userService.changeThema(email, theme);
@@ -173,7 +195,7 @@ public class UserController {
   }
 
 
-  @Operation(description = "회원가입 API", responses = {
+  @Operation(summary = "회원가입 API", responses = {
           @ApiResponse(responseCode = "200", description = "회원가입 성공"),
           @ApiResponse(responseCode = "400", description = "회원가입 실패"),
   })
@@ -188,7 +210,7 @@ public class UserController {
     return userService.signUp(signUp);
   }
 
-  @Operation(description = "로그인 API", responses = {
+  @Operation(summary = "로그인 API", responses = {
           @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
           @Schema(implementation = UserTestResDto.UserInfo.class))),
           @ApiResponse(responseCode = "400", description = "로그인 실패"),
@@ -204,7 +226,7 @@ public class UserController {
     return userService.login(login);
   }
 
-  @Operation(description = "로그아웃 API", responses = {
+  @Operation(summary = "로그아웃 API", responses = {
           @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
           @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
   })
@@ -216,7 +238,7 @@ public class UserController {
     return userService.logout(logout);
   }
 
-  @Operation(description = "토큰 재발급 API", responses = {
+  @Operation(summary = "토큰 재발급 API", responses = {
           @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
           @Schema(implementation = UserTestResDto.TokenInfo.class))),
           @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
@@ -230,7 +252,7 @@ public class UserController {
     return userService.reissue(reissue);
   }
 
-  @Operation(description = "회원 정보 API", responses = {
+  @Operation(summary = "회원 정보 API", responses = {
           @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
           @Schema(implementation = UserTestResDto.LoginUserRes.class))),
           @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
@@ -242,8 +264,10 @@ public class UserController {
   }
 
   // 닉네임 변경 API
+  @Operation(summary = "닉네임 변경 API")
   @PutMapping("/nickname/{email}")
-  public ResponseEntity<?> updateNickname(@PathVariable String email, @RequestBody UserReqDto user) {
+  public ResponseEntity<?> updateNickname(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                          @PathVariable String email, @RequestBody UserReqDto user) {
     String nickname = user.getNickname();
     log.info("input email : {}, nickname : {}", email, nickname);
     try {

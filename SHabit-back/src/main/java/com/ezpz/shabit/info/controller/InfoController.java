@@ -5,6 +5,8 @@ import com.ezpz.shabit.info.dto.res.PhrasesResDto;
 import com.ezpz.shabit.info.dto.res.VodResDto;
 import com.ezpz.shabit.info.service.InfoService;
 import com.ezpz.shabit.util.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,7 @@ public class InfoController {
   private final InfoService infoService;
 
   // 카테고리 리스트 조회 API
+  @Operation(summary = "카테고리 리스트 조회 API")
   @GetMapping("/category")
   public ResponseEntity<?> getCategoryList() {
     try {
@@ -38,6 +41,7 @@ public class InfoController {
   }
 
   // 건강 문구 랜덤 조회 API
+  @Operation(summary = "건강 문구 랜덤 조회 API")
   @GetMapping("/phrases")
   public ResponseEntity<?> getPhrases() {
     try {
@@ -51,8 +55,10 @@ public class InfoController {
   }
 
   // 랜덤 영상 내보내기
+  @Operation(summary = "랜덤 영상 내보내기 API")
   @GetMapping("/vods/{email}")
-  public ResponseEntity<?> getVodList(@PathVariable String email) {
+  public ResponseEntity<?> getVodList(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                      @PathVariable String email) {
     log.info("input email : {}", email);
     try {
       List<VodResDto> result = infoService.getVodList(email);
