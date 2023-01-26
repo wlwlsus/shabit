@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../styles/GlobalStyles';
 
 import Navbar from '../components/Landing/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage({ children }) {
   const [content, form] = children;
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!!accessToken) {
+      alert('로그인 되었습니다.');
+      navigate('/main');
+    }
+  }, []);
   return (
     <PageWrapper>
       <ContainerWrapper>

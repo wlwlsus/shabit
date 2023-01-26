@@ -1,7 +1,9 @@
 import apiRequest from '../../../utils/apiRequest';
 
+const accessToken = localStorage.getItem('accessToken');
+console.log(accessToken);
 const header = {
-  Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}`,
+  Authorization: `Bearer ${accessToken ? accessToken : ''}`,
 };
 
 export const fetchProfile = async (email: string): Promise<object> => {
@@ -17,7 +19,7 @@ export const confirmEmail = (email: string): object => {
   return {};
 };
 
-//임시 해더
+//수정할거: 임시 해더
 export const checkEmail = async (email: string): Promise<boolean> => {
   console.log(header);
   return await apiRequest
