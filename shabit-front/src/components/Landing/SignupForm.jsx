@@ -1,26 +1,84 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
+import useDebounce from '../../utils/useDebounce';
 
 import Input from '../common/Input';
 
-// import { BsFillCheckCircleFill } from 'react-icons/bs';
-
-//
-{
-  /* <BsFillCheckCircleFill /> */
-}
-
 const SignupForm = () => {
+  const [inputs, setInputs] = useState({
+    email: '',
+    nickname: '',
+    password: '',
+    password2: '',
+    emailCheck: '',
+  });
+
+  //전체: 회원가입 폼의 인풋 태그를 관리합니다.
+  const { email, nickname, password, password2, emailCheck } = inputs;
+
+  const onChangeHandler = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  //전체: API 통신 내용 혹은 메시지를 관리합니다.
+  const [message, setCurrentMessage] = useState('');
+  //전체: 메시지을 2초 후 초기화합니다.
+  const setMessage = (str) => {
+    setCurrentMessage(str);
+    setTimeout(() => {
+      setCurrentMessage('');
+    }, 2000);
+  };
+
+  //비밀번호 일치 여부를 검증합니다.
+  const debouncedPasswordConfirm = useDebounce(password2, 300);
+  useEffect(() => {
+    if (debouncedPasswordConfirm) {
+      if (password !== password2) {
+        setMessage('비밀번호가 일치하지 않습니다');
+      }
+    }
+  }, [debouncedPasswordConfirm]);
+  // #################################################
+
   return (
     <FormWrapper>
-      <div>에러 메세지 출력</div>
+      {!message ? <div></div> : <div>{message}</div>}
 
       <InputWrapper>
-        <Input placeholder={'이메일 아이디'} />
-        <Input placeholder={'닉네임'} />
-        <Input placeholder={'비밀번호'} />
-        <Input placeholder={'비밀번호 확인'} />
+        <Input
+          placeholder={'이메일 아이디'}
+          type="email"
+          name="email"
+          value={email}
+          onChange={onChangeHandler}
+        />
+        <Input
+          placeholder={'닉네임'}
+          type="text"
+          name="nickname"
+          value={nickname}
+          onChange={onChangeHandler}
+        />
+        <Input
+          placeholder={'비밀번호'}
+          type="password"
+          name="password"
+          value={password}
+          onChange={onChangeHandler}
+        />
+        <Input
+          placeholder={'비밀번호 확인'}
+          type="password"
+          name="password2"
+          value={password2}
+          onChange={onChangeHandler}
+        />
       </InputWrapper>
 
       <button>가입하기</button>

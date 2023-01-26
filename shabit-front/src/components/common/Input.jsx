@@ -2,8 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
-export default function Input({ placeholder }) {
-  return <InputWrapper placeholder={placeholder} />;
+export default function Input({ type, placeholder, name, value, onChange }) {
+  return (
+    <InputWrapper
+      type={type}
+      placeholder={placeholder}
+      name={name}
+      value={value}
+      onChange={onChange}
+    />
+  );
 }
 
 const InputWrapper = styled.input`

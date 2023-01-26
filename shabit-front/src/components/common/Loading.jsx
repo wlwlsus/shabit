@@ -1,16 +1,17 @@
-// import React from 'react';
-// import Spinner from './spinner.gif';
 import styled from 'styled-components';
+import React from 'react';
 
-//https://anerim.tistory.com/221
-export default function Loading() => {
+const Loading = () => {
   return (
     <Background>
       <LoadingText>잠시만 기다려 주세요.</LoadingText>
-      <img src={Spinner} alt="로딩중" width="5%" />
+      <img src="/assets/spinner.gif" alt="로딩중" width="5%" />
     </Background>
   );
 };
+
+export default Loading;
+//https://anerim.tistory.com/221
 
 const Background = styled.div`
   position: absolute;
