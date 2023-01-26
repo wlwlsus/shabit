@@ -1,10 +1,10 @@
 package com.ezpz.shabit.user.controller;
 
 import com.ezpz.shabit.user.dto.req.UserPassReqDto;
+import com.ezpz.shabit.user.dto.req.UserReqDto;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.service.EmailService;
-import com.ezpz.shabit.user.dto.req.UserReqDto;
-import com.ezpz.shabit.user.service.S3File;
+import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.service.UserService;
 import com.ezpz.shabit.util.Response;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,17 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -210,6 +209,7 @@ public class UserController {
     return userService.signUp(signUp);
   }
 
+
   @Operation(summary = "로그인 API", responses = {
           @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
           @Schema(implementation = UserTestResDto.UserInfo.class))),
@@ -226,6 +226,7 @@ public class UserController {
     return userService.login(login);
   }
 
+
   @Operation(summary = "로그아웃 API", responses = {
           @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
           @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
@@ -237,6 +238,7 @@ public class UserController {
     }
     return userService.logout(logout);
   }
+
 
   @Operation(summary = "토큰 재발급 API", responses = {
           @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =

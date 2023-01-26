@@ -97,7 +97,7 @@ public class S3FileImpl implements S3File {
 
   // multipartFile -> File 형식으로 변환 및 로컬에 저장
   private Optional<File> convertToFile(MultipartFile file) throws IOException {
-    File convertFile = new File(System.getProperty("user.dir") + "/src/main/resources/image/" + Objects.requireNonNull(file.getOriginalFilename()));
+    File convertFile = new File(System.getProperty("user.dir") + "/src/main/resources/" + Objects.requireNonNull(file.getOriginalFilename()));
     file.transferTo(convertFile);
     return Optional.of(convertFile);
   }
