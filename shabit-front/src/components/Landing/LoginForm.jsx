@@ -4,9 +4,12 @@ import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 import ArrowIcon from '../common/ArrowIcon';
+import { onLogin } from '../../store/authSlice';
+import { useDispatch } from 'react-redux';
 
 const LoginForm = () => {
   //onChange 핸들링입니다.
+  const dispatch = useDispatch();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -54,14 +57,21 @@ const LoginForm = () => {
             type="checkbox"
             name="autoLogin"
             checked={autoLogin}
-            onClick={onChecked}
+            onChange={onChecked}
           />
           <span>자동 로그인</span>
         </Checkbox>
         <span>비밀번호를 잊으셨나요?</span>
       </Wrapper>
 
-      <ArrowIcon size={'lg'} color={'primary'} />
+      <div
+        onClick={() => {
+          dispatch(onLogin({ email, password, autoLogin }));
+          console.log('클릭됨');
+        }}
+      >
+        <ArrowIcon size={'lg'} color={'primary'} />
+      </div>
 
       <Signup>
         <span>아직 계정이 없으신가요?</span>

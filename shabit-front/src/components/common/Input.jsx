@@ -4,13 +4,15 @@ import { theme } from '../../styles/GlobalStyles';
 
 export default function Input({ type, placeholder, name, value, onChange }) {
   return (
-    <InputWrapper
-      type={type}
-      placeholder={placeholder}
-      name={name}
-      value={value}
-      onChange={onChange}
-    />
+    <div>
+      <InputWrapper
+        type={type}
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+    </div>
   );
 }
 

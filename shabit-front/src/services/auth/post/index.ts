@@ -23,10 +23,7 @@ export const register = async (
     });
 };
 
-export const login = async (
-  email: string,
-  password: string,
-): Promise<boolean> => {
+export const login = async (email: string, password: string) => {
   return await apiRequest
     .post('/api/v1/user/login', { email, password })
     .then((res) => {
@@ -45,10 +42,10 @@ export const login = async (
       // alert('로그인이 완료되었습니다.');
       const accessToken = res.data.result.token.accessToken;
       const user = res.data.result.user;
-      return Promise.resolve(true);
+      return Promise.resolve({ user, accessToken });
     })
-    .catch(() => {
-      return Promise.reject(false);
+    .catch((err) => {
+      return Promise.reject(err);
     });
 };
 

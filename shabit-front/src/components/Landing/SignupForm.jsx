@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import useDebounce from '../../utils/useDebounce';
-
+import Services from '../../services';
 import Input from '../common/Input';
 
 const SignupForm = () => {
@@ -13,6 +13,7 @@ const SignupForm = () => {
     password2: '',
     emailCheck: '',
   });
+  const [needCheck, setNeedCheck] = useState(false);
 
   //전체: 회원가입 폼의 인풋 태그를 관리합니다.
   const { email, nickname, password, password2, emailCheck } = inputs;
@@ -44,6 +45,23 @@ const SignupForm = () => {
       }
     }
   }, [debouncedPasswordConfirm]);
+
+  //이메일 인증 로직입니다.
+  const debouncedEmailTerm = useDebounce(email, 300);
+  useEffect(() => {
+    if (debouncedEmailTerm.includes('@') && debouncedEmailTerm.includes('.')) {
+      Services.Auth.checkEmail(debouncedEmailTerm)
+        .then(() => {
+          setNeedCheck(true);
+        })
+        .catch((err) => {
+          if (err === false) {
+            setMessage('중복된 닉네임입니다.');
+          }
+        });
+    }
+  }, [debouncedEmailTerm]);
+
   // #################################################
 
   return (
@@ -58,6 +76,9 @@ const SignupForm = () => {
           value={email}
           onChange={onChangeHandler}
         />
+        <RightTag>
+          {needCheck ? <button>이메일 인증하기</button> : <></>}
+        </RightTag>
         <Input
           placeholder={'닉네임'}
           type="text"
@@ -115,6 +136,21 @@ const InputWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   margin: 1rem 0;
+`;
+
+const RightTag = styled.div`
+  position: absolute;
+  top: 5.3rem;
+  left: 51.3rem;
+  & > button {
+    background-color: ${theme.color.greenColor};
+    color: ${theme.color.whiteColor};
+    font-size: 0.7rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  }
 `;
 
 export default SignupForm;
