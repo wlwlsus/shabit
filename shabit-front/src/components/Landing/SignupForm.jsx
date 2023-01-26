@@ -47,18 +47,20 @@ const SignupForm = () => {
   }, [debouncedPasswordConfirm]);
 
   //이메일 인증 로직입니다.
-  const debouncedEmailTerm = useDebounce(email, 300);
+  const debouncedEmailTerm = useDebounce(email, 700);
   useEffect(() => {
     if (debouncedEmailTerm.includes('@') && debouncedEmailTerm.includes('.')) {
       Services.Auth.checkEmail(debouncedEmailTerm)
-        .then(() => {
+        .then((res) => {
+          setMessage('');
           setNeedCheck(true);
         })
         .catch((err) => {
-          if (err === false) {
-            setMessage('중복된 닉네임입니다.');
-          }
+          setMessage(err.message);
+          setNeedCheck(false);
         });
+    } else {
+      setNeedCheck(false);
     }
   }, [debouncedEmailTerm]);
 
@@ -67,7 +69,6 @@ const SignupForm = () => {
   return (
     <FormWrapper>
       {!message ? <div></div> : <div>{message}</div>}
-
       <InputWrapper>
         <Input
           placeholder={'이메일 아이디'}

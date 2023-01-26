@@ -39,9 +39,10 @@ const LoginForm = () => {
       .then(async ({ user, accessToken }) => {
         dispatch(setUserState(user));
         dispatch(setTokenState(accessToken));
-        await localStorage.setItem('accessToken', accessToken);
-        await localStorage.setItem('user', user);
-        navigate('/main');
+        await console.log(user, accessToken);
+        await localStorage.setItem('accessToken', JSON.stringify(accessToken));
+        await localStorage.setItem('user', JSON.stringify(user));
+        await navigate('/main');
       })
       .catch((err) => {
         console.log(err);
