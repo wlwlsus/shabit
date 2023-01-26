@@ -1,0 +1,29 @@
+{
+  "msg": "영상 가져오기 성공",
+  "result": [
+    {
+      "title": "20 min Full Body STRETCH/YOGA for STRESS &amp; ANXIETY Relief",
+      "thumbnail": "https://i.ytimg.com/vi/sTANio_2E0Q/default.jpg",
+      "originalLength": "5",
+      "categoryId": 0,
+      "videoId": "sTANio_2E0Q",
+      "length": 3
+    },
+    {
+      "title": "Fix your posture and reduce backpain  | 10 Minute Daily Stretch Routine",
+      "thumbnail": "https://i.ytimg.com/vi/BPlCatqZRPI/default.jpg",
+      "originalLength": "5",
+      "categoryId": 0,
+      "videoId": "BPlCatqZRPI",
+      "length": 5
+    },
+    {
+      "title": "Back Pain Relief Stretches |  10 min. Yoga for Relaxation &amp; Recovery",
+      "thumbnail": "https://i.ytimg.com/vi/2eA2Koq6pTI/default.jpg",
+      "originalLength": "5",
+      "categoryId": 0,
+      "videoId": "2eA2Koq6pTI",
+      "length": 10
+    }
+  ]
+}

@@ -13,6 +13,8 @@ import LoginForm from './components/Landing/LoginForm';
 import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 
+import PosturePage from './pages/PosturePage';
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -37,6 +39,7 @@ function App() {
         <Route path="/main" element={<MainPage />}>
           <Route path="" element={<MainContent />} />
         </Route>
+        <Route path="/posture" element={<PosturePage />} />
       </Routes>
     </ThemeProvider>
   );
