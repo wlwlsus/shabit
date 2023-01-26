@@ -15,6 +15,8 @@ import MainContent from './components/Main/MainContent';
 import { Provider } from 'react-redux';
 import store from './store';
 
+import PosturePage from './pages/PosturePage';
+
 function App() {
   return (
     <Provider store={store}>
