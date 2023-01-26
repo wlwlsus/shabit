@@ -10,7 +10,6 @@ import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;
 import com.ezpz.shabit.util.Response;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -225,6 +221,24 @@ public class UserServiceImpl implements UserService {
     log.info("user info changed successfully");
 
     return url;
+  }
+
+  @Override
+  @Transactional
+  public void deleteProfile(String email) throws Exception {
+    // 회원 정보 가져오기
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    log.info("user nickname : {}", user.getNickname());
+    // 프로필 사진 url 가져오기
+    String fileUrl = user.getProfile();
+    log.info("fileUrl in S3: {}", fileUrl);
+    // S3에서 삭제하기
+    s3File.delete(fileUrl);
+    log.info("file deletion success in userService");
+    // DB 프로필 사진 삭제하기
+    user.setProfile(null);
+    userRepository.save(user);
+
   }
 
 

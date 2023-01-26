@@ -27,4 +27,7 @@ public interface UserService {
   boolean changePassword(String email, String curPassword, String changePassword) throws Exception;
 
   String updateProfile(String email, MultipartFile profile) throws Exception;
+
+  void deleteProfile(String email) throws Exception;
+
 }
