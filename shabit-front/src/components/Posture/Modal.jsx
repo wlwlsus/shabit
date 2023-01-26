@@ -1,49 +1,105 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setVideoURL } from '../../store/videoSlice';
+import { theme } from '../../styles/GlobalStyles';
 
-export default function Modal({ setVideoURL }) {
-  const [videoList, setVideoList] = useState(); // 비디오 리스트
-  const [selected, setSelected] = useState(); // 유저가 선택한 비디오
+import Icon from '../common/Icon';
+import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
-  // 렌더링 후 비디오 리스트 가져옴
-  useEffect(() => {
-    axios({
-      method: 'get',
-      url: `/testData/videoData.json`,
-    })
-      .then((res) => {
-        setVideoList(res.data.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+import VideoList from './VideoList';
 
-  // 비디오 URL 할당 => 재생
+export default function Modal({ setModal }) {
+  const selected = useSelector((state) => {
+    return state.video.selected;
+  });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   const playVideo = () => {
-    setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`);
+    dispatch(setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`));
+    setModal(false);
+    navigate('/posture/stretch');
   };
 
-  if (videoList) {
-    return (
-      <>
-        {videoList.map((video, idx) => {
-          return (
-            <div
-              key={idx}
-              onClick={() => {
-                setSelected(videoList[idx]);
-              }}
-            >
-              <h4>{video.length}분</h4>
-              <h3>{video.title}</h3>
-              <img src={video.thumbnail} alt="thumbnail" />
-            </div>
-          );
-        })}
-
-        <button onClick={playVideo}>이거 선택할랭</button>
-      </>
-    );
-  }
+  return (
+    <ContainerWrapper>
+      <ContainerHeader>
+        <Icon
+          icon={<BsFillXCircleFill />}
+          color={'primary'}
+          size={'md'}
+          onClick={() => {
+            setModal(false);
+          }}
+        />
+      </ContainerHeader>
+      <Container>
+        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
+        <VideoList />
+        <IconWrapper>
+          <Icon icon={<BsPlayCircleFill />} size={'md'} onClick={playVideo} />
+          시작하기
+        </IconWrapper>
+      </Container>
+    </ContainerWrapper>
+  );
 }
+
+const ContainerWrapper = styled.div`
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 998;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const ContainerHeader = styled.div`
+  z-index: 999;
+  width: 55rem;
+  height: 4rem;
+  background-color: ${theme.color.secondary};
+  border-radius: 1.5rem 1.5rem 0 0;
+  padding: 0 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const Container = styled.div`
+  z-index: 999;
+  background-color: ${theme.color.whiteColor};
+  width: 55rem;
+  height: 25rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const Title = styled.div`
+  color: ${theme.color.primary};
+  font-weight: bold;
+  font-size: 1.3rem;
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-end;
+  margin: 0 2rem;
+  color: ${theme.color.primary};
+  font-weight: bold;
+`;

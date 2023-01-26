@@ -16,6 +16,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import PosturePage from './pages/PosturePage';
+import StretchContent from './components/Posture/StretchContent';
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
           />
           <Route path="/main" element={<MainPage />}>
             <Route path="" element={<MainContent />} />
+          </Route>
+          <Route path="/posture" element={<PosturePage />}>
+            <Route path="stretch" element={<StretchContent />} />
           </Route>
         </Routes>
       </ThemeProvider>

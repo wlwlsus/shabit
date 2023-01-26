@@ -95,7 +95,7 @@ const ButtonWrapper = styled.button`
   }
 
   &.md {
-    font-size: 1.5rem;
+    font-size: 2.5rem;
   }
 
   &.lg {
