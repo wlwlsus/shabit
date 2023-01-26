@@ -6,9 +6,15 @@ export const register = async (
   nickname: string,
   password: string,
 ): Promise<boolean> => {
+  console.log('회원가입실행');
   return await apiRequest
-    .post('/user', { email, nickname, password })
-    .then(() => {
+    .post('/api/v1/user', {
+      email,
+      nickname,
+      password,
+    })
+    .then((res) => {
+      console.log(res.data);
       alert('회원가입이 완료되었습니다');
       return Promise.resolve(true);
     })
@@ -17,28 +23,29 @@ export const register = async (
     });
 };
 
-export const login = async (
-  email: string,
-  password: string,
-): Promise<boolean> => {
+export const login = async (email: string, password: string) => {
   return await apiRequest
-    .get('/user', { email, password })
+    .post('/api/v1/user/login', { email, password })
     .then((res) => {
-      console.log(res.accessToken);
-      localStorage.setItem(
-        'accessToken',
-        res.accessToken || res.data.accessToken,
-      );
-      localStorage.setItem(
-        'refreshToken',
-        res.refreshToken || res.data.refreshToken,
-      );
-      localStorage.setItem('user', JSON.stringify(res.user || res.data.user));
-      alert('로그인이 완료되었습니다.');
-      return Promise.resolve(true);
+      // res.data.result;
+      // console.log(res.accessToken);
+      // localStorage.setItem(
+      //   'accessToken',
+      //   res.accessToken || res.data.accessToken,
+      // );
+      // localStorage.setItem(
+      //   'refreshToken',
+      //   res.refreshToken || res.data.refreshToken,
+      // );
+      // console.log(res);
+      // localStorage.setItem('user', JSON.stringify(res.user || res.data.user));
+      // alert('로그인이 완료되었습니다.');
+      const accessToken = res.data.result.token.accessToken;
+      const user = res.data.result.user;
+      return Promise.resolve({ user, accessToken });
     })
-    .catch(() => {
-      return Promise.reject(false);
+    .catch((err) => {
+      return Promise.reject(err);
     });
 };
 
@@ -54,7 +61,7 @@ export const logout = async (
   refreshToken: string,
 ): Promise<boolean> => {
   return await apiRequest
-    .post('/user/logout', { accessToken, refreshToken })
+    .post('/api/v1/user/logout', { accessToken, refreshToken })
     .then(() => {
       localStorage.clear();
       alert('로그아웃 되었습니다.');

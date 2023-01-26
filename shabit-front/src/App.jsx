@@ -12,36 +12,41 @@ import LoginForm from './components/Landing/LoginForm';
 
 import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import PosturePage from './pages/PosturePage';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Routes>
-        <Route
-          path="/"
-          element={<LandingPage children={[<Introduction />, <StartForm />]} />}
-        />
-        <Route
-          path="login"
-          element={
-            <LandingPage children={[<LandingContent />, <LoginForm />]} />
-          }
-        />
-        <Route
-          path="signup"
-          element={
-            <LandingPage children={[<LandingContent />, <SignupForm />]} />
-          }
-        />
-        <Route path="/main" element={<MainPage />}>
-          <Route path="" element={<MainContent />} />
-        </Route>
-        <Route path="/posture" element={<PosturePage />} />
-      </Routes>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <LandingPage children={[<Introduction />, <StartForm />]} />
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <LandingPage children={[<LandingContent />, <LoginForm />]} />
+            }
+          />
+          <Route
+            path="signup"
+            element={
+              <LandingPage children={[<LandingContent />, <SignupForm />]} />
+            }
+          />
+          <Route path="/main" element={<MainPage />}>
+            <Route path="" element={<MainContent />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
