@@ -200,6 +200,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public void updateProfile(String email, String url) throws Exception {
+    Users user = userRepository.findByEmail(email).orElseThrow();
+    user.setProfile(url);
+    userRepository.save(user);
+  }
+
+
+  @Override
   public void changeThema(String email, int thema) throws Exception {
     Users user = userRepository.findByEmail(email).orElseThrow();
     user.setTheme(thema);

@@ -7,4 +7,5 @@ import java.io.IOException;
 
 public interface S3FileService {
 
+  String upload(MultipartFile profile, String profile1) throws Exception;
 }
