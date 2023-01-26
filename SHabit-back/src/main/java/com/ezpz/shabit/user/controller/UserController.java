@@ -40,7 +40,7 @@ public class UserController {
 
   // 프로필 사진 변경 API
   @PutMapping("/profile/{email}")
-  public ResponseEntity<?> updateProfile(@RequestPart("profile") MultipartFile profile, @PathVariable String email) {
+  public ResponseEntity<?> updateProfile(@RequestBody MultipartFile profile, @PathVariable String email) {
     try {
       Map<String, String> result = new HashMap<>();
       String url = userService.updateProfile(email, profile);

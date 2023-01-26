@@ -23,8 +23,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -39,8 +42,7 @@ public class UserServiceImpl implements UserService {
 
   private final S3File s3File;
 
-  @Value("{}")
-  String dirName;
+  final String dirName = "profile";
 
   @Override
   public boolean checkEmail(String email) throws Exception {
@@ -209,9 +211,15 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public String updateProfile(String email, MultipartFile profile) throws Exception {
-    String url = s3File.upload(profile, dirName);
-    log.info("profile image uploaded successfully");
     Users user = userRepository.findByEmail(email).orElseThrow();
+    // 등록되어있는 프로필 사진이 있다면 삭제
+    String profileUrl = user.getProfile();
+    if (profileUrl != null) {
+      s3File.delete(profileUrl);
+    }
+
+    String url = s3File.upload(profile, dirName, email);
+    log.info("profile image uploaded successfully");
     user.setProfile(url);
     userRepository.save(user);
     log.info("user info changed successfully");
@@ -221,9 +229,9 @@ public class UserServiceImpl implements UserService {
 
 
   @Override
-  public void changeThema(String email, int thema) throws Exception {
+  public void changeThema(String email, int theme) throws Exception {
     Users user = userRepository.findByEmail(email).orElseThrow();
-    user.setTheme(thema);
+    user.setTheme(theme);
     userRepository.save(user);
   }
 

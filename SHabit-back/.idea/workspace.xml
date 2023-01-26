@@ -5,13 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00a8aca2-5b09-45ec-a79f-ddc1955879c2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/SHabit.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3FileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3File.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3FileImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3File.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3File.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3FileImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/S3FileImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ezpz/shabit/user/service/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,6 +94,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\SHabit\shabit\SHabit-back\src\main\resources\image" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.SHabitApplication">
     <configuration name="SHabit-back [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
