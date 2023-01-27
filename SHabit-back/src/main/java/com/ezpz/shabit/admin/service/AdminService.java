@@ -18,6 +18,6 @@ public interface AdminService {
     int editSetting(SettingReqDto setting);
     SettingResDto getSetting();
     int insertPhrases(PhrasesReqDto req);
-    List<Phrases> getPhrasesList();
+    List<Phrases> getPhrasesList(Pageable pageable);
     int deletePhrases(List<Integer> phrasesIdList);
 }

@@ -69,10 +69,10 @@ public class AdminController {
   // 건강 문구 리스트 조회 API
   @Operation(summary = "건강 문구 리스트 조회 API")
   @GetMapping("/phrase")
-  ResponseEntity<?> getPhrasesList(Pageable pageable) {
+  ResponseEntity<?> getPhrasesList(@PageableDefault(size=10, page=0, sort="phrasesId", direction= Sort.Direction.DESC) Pageable pageable) {
     List<Phrases> data = null;
     try {
-      data = adminService.getPhrasesList();
+      data = adminService.getPhrasesList(pageable);
     } catch (Exception e) {
       log.info(e.getMessage());
     }

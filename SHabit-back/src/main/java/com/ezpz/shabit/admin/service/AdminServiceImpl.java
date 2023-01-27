@@ -132,8 +132,8 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public List<Phrases> getPhrasesList() {
-        return phrasesRepository.findAll();
+    public List<Phrases> getPhrasesList(Pageable pageable) {
+        return phrasesRepository.findAll(pageable).getContent();
     }
 
     @Override
