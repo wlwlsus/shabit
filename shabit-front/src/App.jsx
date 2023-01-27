@@ -2,6 +2,8 @@ import React from 'react';
 import { GlobalStyle, theme } from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import LandingPage from './pages/LandingPage';
 import Introduction from './components/Landing/Introduction';
@@ -12,8 +14,7 @@ import LoginForm from './components/Landing/LoginForm';
 
 import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
-import { Provider } from 'react-redux';
-import store from './store';
+import HistoryContent from './components/Main/HistoryContent';
 
 import PosturePage from './pages/PosturePage';
 import StretchContent from './components/Posture/StretchContent';
@@ -44,6 +45,7 @@ function App() {
           />
           <Route path="/main" element={<MainPage />}>
             <Route path="" element={<MainContent />} />
+            <Route path="history" element={<HistoryContent />} />
           </Route>
           <Route path="/posture" element={<PosturePage />}>
             <Route path="stretch" element={<StretchContent />} />
