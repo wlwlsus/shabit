@@ -10,6 +10,8 @@ import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [message, setMessage] = useState('');
   //onChange 핸들링입니다.
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +41,6 @@ const LoginForm = () => {
       .then(async ({ user, accessToken }) => {
         dispatch(setUserState(user));
         dispatch(setTokenState(accessToken));
-        await console.log(user, accessToken);
         await localStorage.setItem('accessToken', JSON.stringify(accessToken));
         await localStorage.setItem('user', JSON.stringify(user));
         await navigate('/main');
@@ -49,9 +50,31 @@ const LoginForm = () => {
       });
   };
 
+  const onReset = () => {
+    Auth.resetPassword(email)
+      .then((res) => {
+        setMessage('임시 비밀번호를 발송하였습니다');
+        setTimeout(() => {
+          setMessage('');
+          setForgotPassword(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        setMessage('비밀번호가 초기화에 실패하였습니다');
+        setTimeout(() => {
+          setMessage('');
+          setForgotPassword(false);
+        }, 1000);
+      });
+  };
+
   return (
     <FormWrapper>
-      <Title>SHabit에 로그인하고 서비스를 이용해보세요</Title>
+      {!forgotPassword ? (
+        <Title>SHabit에 로그인하고 서비스를 이용해보세요</Title>
+      ) : (
+        <Title>임시 비밀번호를 받을 이메일을 입력해주세요</Title>
+      )}
       <Input
         type="email"
         name="email"
@@ -60,31 +83,42 @@ const LoginForm = () => {
         placeholder={'아이디'}
         shadow={'shadow'}
       />
-      <Input
-        type="password"
-        name="password"
-        value={password}
-        onChange={onChangeHandler}
-        placeholder={'비밀번호'}
-        shadow={'shadow'}
-      />
-
-      <Wrapper>
-        <Checkbox>
-          <input
-            type="checkbox"
-            name="autoLogin"
-            checked={autoLogin}
-            onChange={onChecked}
+      {!forgotPassword ? (
+        <>
+          <Input
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChangeHandler}
+            placeholder={'비밀번호'}
+            shadow={'shadow'}
           />
-          <span>자동 로그인</span>
-        </Checkbox>
-        <span>비밀번호를 잊으셨나요?</span>
-      </Wrapper>
 
-      <div onClick={onLogin}>
-        <ArrowIcon size={'lg'} color={'primary'} />
-      </div>
+          <Wrapper>
+            <Checkbox>
+              <input
+                type="checkbox"
+                name="autoLogin"
+                checked={autoLogin}
+                onChange={onChecked}
+              />
+              <span>자동 로그인</span>
+            </Checkbox>
+            <span onClick={() => setForgotPassword(true)}>
+              비밀번호를 잊으셨나요?
+            </span>
+          </Wrapper>
+
+          <div onClick={onLogin}>
+            <ArrowIcon size={'lg'} color={'primary'} />
+          </div>
+        </>
+      ) : (
+        <>
+          <StyledButton onClick={onReset}>비밀번호 초기화</StyledButton>
+          <Title>{message}</Title>
+        </>
+      )}
 
       <Signup>
         <span>아직 계정이 없으신가요?</span>
@@ -143,4 +177,13 @@ const Signup = styled.div`
   }
 `;
 
+const StyledButton = styled.button`
+  margin-top: 0.5rem;
+  background-color: ${theme.color.primary};
+  color: ${theme.color.whiteColor};
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+`;
 export default LoginForm;

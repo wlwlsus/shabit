@@ -11,7 +11,6 @@ export default function LandingPage({ children }) {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     if (!!accessToken) {
-      alert('로그인 되었습니다.');
       navigate('/main');
     }
   }, []);

@@ -14,7 +14,6 @@ const SignupForm = () => {
     nickname: '',
     password: '',
     password2: '',
-    emailCheck: '',
   });
   const [needCheck, setNeedCheck] = useState(false);
   const [confirmingEmail, setConfirmingEmail] = useState(false);
@@ -22,7 +21,7 @@ const SignupForm = () => {
   const navigate = useNavigate();
 
   //전체: 회원가입 폼의 인풋 태그를 관리합니다.
-  const { email, nickname, password, password2, emailCheck } = inputs;
+  const { email, nickname, password, password2 } = inputs;
 
   const onChangeHandler = (e) => {
     const { value, name } = e.target;
@@ -34,21 +33,23 @@ const SignupForm = () => {
 
   //전체: API 통신 내용 혹은 메시지를 관리합니다.
   const [message, setCurrentMessage] = useState('');
+  const [currentTimeout, setCurrentTimeout] = useState(null);
   //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!!message) {
-      setTimeout(() => {
-        setCurrentMessage('');
-      }, 2000);
-    }
+    if (!str) return;
+    clearTimeout(currentTimeout);
+    const newTimeout = setTimeout(() => {
+      setCurrentMessage('');
+    }, 2000);
+    setCurrentTimeout(newTimeout);
   };
 
   //비밀번호 일치 여부를 검증합니다.
   const debouncedPasswordConfirm = useDebounce(password2, 300);
   useEffect(() => {
     if (debouncedPasswordConfirm) {
-      if (password !== password2) {
+      if (password !== debouncedPasswordConfirm) {
         setMessage('비밀번호가 일치하지 않습니다');
       }
     }
