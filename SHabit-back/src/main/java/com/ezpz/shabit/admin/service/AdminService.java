@@ -7,11 +7,12 @@ import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
 import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface AdminService {
-    List<Vod> getVodList(String search, String query);
+    List<Vod> getVodList(String search, String query, Pageable pageable);
     int deleteVod(List<Integer> vodIdList);
     int insertVod(YouTubeDto youtube, Long categoryId);
     int editSetting(SettingReqDto setting);

@@ -2,7 +2,6 @@ package com.ezpz.shabit.admin.service;
 
 import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
-import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
@@ -15,8 +14,8 @@ import com.ezpz.shabit.admin.entity.Setting;
 import com.ezpz.shabit.admin.repository.SettingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -58,18 +57,18 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public List<Vod> getVodList(String search, String query) {
-        if(search == null) return vodRepository.findAll();
+    public List<Vod> getVodList(String search, String query, Pageable pageable) {
+        if(search == null) return vodRepository.findAll(pageable).getContent();
         List<Integer> lengthList = List.of(3, 5, 10);
         return switch (search) {
-            case ("category") -> vodRepository.findByCategoryName(query);
-            case ("title") -> vodRepository.findByTitleIsLike("%" + query + "%");
+            case ("category") -> vodRepository.findByCategoryCategoryId(Long.parseLong(query), pageable).getContent();
+            case ("title") -> vodRepository.findByTitleIsLike("%" + query + "%", pageable).getContent();
             case ("length") -> {
                 if(!lengthList.contains(Integer.parseInt(query)))
                     throw new InputMismatchException("검색 가능한 영상 길이는 3, 5, 10입니다.");
-                yield vodRepository.findByLength(Integer.parseInt(query));
+                yield vodRepository.findByLength(Integer.parseInt(query), pageable).getContent();
             }
-            default -> vodRepository.findAll();
+            default -> vodRepository.findAll(pageable).getContent();
         };
     }
 

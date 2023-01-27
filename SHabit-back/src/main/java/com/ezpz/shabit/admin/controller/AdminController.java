@@ -17,6 +17,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +69,7 @@ public class AdminController {
   // 건강 문구 리스트 조회 API
   @Operation(summary = "건강 문구 리스트 조회 API")
   @GetMapping("/phrase")
-  ResponseEntity<?> getPhrasesList() {
+  ResponseEntity<?> getPhrasesList(Pageable pageable) {
     List<Phrases> data = null;
     try {
       data = adminService.getPhrasesList();
@@ -87,10 +90,11 @@ public class AdminController {
   ResponseEntity<?> getVodList(@Parameter(description = "검색 분류")
                                @RequestParam String search,
                                @Parameter(description = "검색어")
-                               @RequestParam String query) {
+                               @RequestParam String query,
+                               @PageableDefault(size=10, page=0, sort="vodId", direction= Sort.Direction.DESC) Pageable pageable) {
     List<Vod> data = null;
     try {
-      data = adminService.getVodList(search, query);
+      data = adminService.getVodList(search, query, pageable);
     } catch (InputMismatchException e) {
       log.info(e.getMessage());
       return Response.badRequest(e.getMessage());
