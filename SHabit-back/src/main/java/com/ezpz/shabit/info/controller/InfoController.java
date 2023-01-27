@@ -62,11 +62,13 @@ public class InfoController {
     log.info("input email : {}", email);
     try {
       List<VodResDto> result = infoService.getVodList(email);
-      log.info("vodList : {} ", result);
-      return Response.makeResponse(HttpStatus.OK, "영상 가져오기 성공", result.size(), result);
-    } catch (IllegalArgumentException e) {
-      log.error(e.getMessage());
-      return Response.noContent("영상 정보 부족");
+      if (result != null) {
+        log.info("vodList : {} ", result);
+        return Response.makeResponse(HttpStatus.OK, "영상 가져오기 성공", result.size(), result);
+      } else {
+        log.info("there is no video data");
+        return Response.notFound("영상 정보 부족");
+      }
     } catch (Exception e) {
       log.info("error : {}", e.getClass());
       return Response.notFound("영상 가져오기 실패");
