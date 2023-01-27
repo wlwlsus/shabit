@@ -1,7 +1,7 @@
 package com.ezpz.shabit.user.controller;
 
-import com.ezpz.shabit.user.dto.req.UserPassReqDto;
-import com.ezpz.shabit.user.dto.req.UserReqDto;
+import com.ezpz.shabit.user.dto.req.UserPassChangeReqDto;
+import com.ezpz.shabit.user.dto.req.UserNicknameReqDto;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
@@ -149,10 +149,14 @@ public class UserController {
   public ResponseEntity<?> changePassword(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
                                           @PathVariable String email,
                                           @Parameter(description = "현재 비밀번호 & 변경할 비밀번호", required = true)
-                                          @RequestBody UserPassReqDto req) {
+                                          @RequestBody @Validated UserPassChangeReqDto req,
+                                          Errors errors) {
     log.info("input email : {}", email);
     String curPassword = req.getCurPassword();
     String changePassword = req.getChangePassword();
+    if (errors.hasErrors()) {
+      return Response.badRequest("변경하려는 비밀번호의 형식이 맞지 않습니다.");
+    }
     log.info("curPassword : {}, changePassword : {}", curPassword, changePassword);
     try {
       boolean success = userService.changePassword(email, curPassword, changePassword);
@@ -160,7 +164,7 @@ public class UserController {
       if (!success) {
         // 비밀번호 변경 불가 -> badRequest 리턴
         log.info("UserController: 비밀번호 변경 불가");
-        return Response.badRequest("현재 비밀번호와 불일치합니다.");
+        return Response.makeResponse(HttpStatus.FORBIDDEN, "현재 비밀번호와 불일치합니다.");
       }
       log.info("UserController: 비밀번호 변경 완료");
       return Response.makeResponse(HttpStatus.OK, "비밀번호 변경 완료");
@@ -269,16 +273,20 @@ public class UserController {
   @Operation(summary = "닉네임 변경 API")
   @PutMapping("/nickname/{email}")
   public ResponseEntity<?> updateNickname(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
-                                          @PathVariable String email, @RequestBody UserReqDto user) {
+                                          @PathVariable String email, @RequestBody @Validated UserNicknameReqDto user, Errors errors) {
     String nickname = user.getNickname();
     log.info("input email : {}, nickname : {}", email, nickname);
+    if (errors.hasErrors()) {
+      log.error("error in updateNickname");
+      return Response.badRequest("닉네임 형식이 맞지 않습니다.");
+    }
     try {
       userService.updateNickname(email, nickname);
       log.info("change nickname successfully");
       return Response.makeResponse(HttpStatus.OK, "닉네임 변경 성공");
     } catch (NoSuchElementException e) {
       log.error(e.getMessage());
-      return Response.noContent("존재하지 않는 이메일");
+      return Response.noContent("존재하지 않는 이메일입니다.");
     } catch (Exception e) {
       log.error(e.getMessage());
       return Response.badRequest("닉네임 변경 실패");
