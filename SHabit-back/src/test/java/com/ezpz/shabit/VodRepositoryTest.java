@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,12 +53,23 @@ public class VodRepositoryTest {
                 .category(category2)
                 .originalLength("12:21")
                 .build());
+        vodRepository.save(Vod.builder()
+                .vodId(3L)
+                .videoId("test url3")
+                .length(3)
+                .title("test title3")
+                .thumbnail("thumbnail3")
+                .category(category2)
+                .originalLength("12:21")
+                .build());
 
         // when
-        List<Vod> vodList = vodRepository.findByTitleIsLike("%title%");
+        List<Vod> vodList1 = vodRepository.findByTitleIsLike("%title%", PageRequest.of(0, 2)).getContent();
+        List<Vod> vodList2 = vodRepository.findByTitleIsLike("%title%", PageRequest.of(1, 2)).getContent();
 
         //then
-        assertThat(vodList.size()).isEqualTo(2);
+        assertThat(vodList1.size()).isEqualTo(2);
+        assertThat(vodList2.size()).isEqualTo(1);
     }
 
     @Test
@@ -85,12 +97,30 @@ public class VodRepositoryTest {
                 .category(category2)
                 .originalLength("12:21")
                 .build());
+        vodRepository.save(Vod.builder()
+                .vodId(3L)
+                .videoId("test url2")
+                .length(5)
+                .title("test title2")
+                .thumbnail("thumbnail2")
+                .category(category2)
+                .originalLength("12:21")
+                .build());
+        vodRepository.save(Vod.builder()
+                .vodId(4L)
+                .videoId("test url2")
+                .length(3)
+                .title("test title2")
+                .thumbnail("thumbnail2")
+                .category(category2)
+                .originalLength("12:21")
+                .build());
 
         // when
-        List<Vod> vodList = vodRepository.findByLength(3);
+        List<Vod> vodList = vodRepository.findByLength(3, PageRequest.of(1, 2)).getContent();
 
         //then
-        assertThat(vodList.size()).isEqualTo(2);
+        assertThat(vodList.size()).isEqualTo(1);
     }
 
     @Test
@@ -120,7 +150,7 @@ public class VodRepositoryTest {
                 .build());
 
         // when
-        List<Vod> vodList = vodRepository.findByCategoryName("거북");
+        List<Vod> vodList = vodRepository.findByCategoryCategoryId(1L, PageRequest.of(0, 2)).getContent();
 
         //then
         assertThat(vodList.size()).isEqualTo(1);
@@ -131,22 +161,28 @@ public class VodRepositoryTest {
         // given
         Category category = Category.builder().name("거북").build();
         categoryRepository.save(category);
-        Vod vod = Vod.builder()
-                .vodId(1L)
-                .videoId("test url")
-                .length(3)
-                .title("test title")
-                .thumbnail("thumbnail")
-                .category(category)
-                .originalLength("12:21")
-                .build();
-        vodRepository.save(vod);
+        for(Long i=1L; i<=5L; i++){
+            vodRepository.save(Vod.builder()
+                    .vodId(i)
+                    .videoId("test url")
+                    .length(3)
+                    .title("test title")
+                    .thumbnail("thumbnail")
+                    .category(category)
+                    .originalLength("12:21")
+                    .build()
+            );
+        }
 
         // when
         List<Vod> vodList = vodRepository.findAll();
+        List<Vod> vodList1 = vodRepository.findAll(PageRequest.of(0, 2)).getContent();
+        List<Vod> vodList2 = vodRepository.findAll(PageRequest.of(2, 2)).getContent();
 
         //then
-        assertThat(vodList.size()).isEqualTo(1);
+        assertThat(vodList.size()).isEqualTo(5);
+        assertThat(vodList1.size()).isEqualTo(2);
+        assertThat(vodList2.size()).isEqualTo(1);
     }
 
     @Test

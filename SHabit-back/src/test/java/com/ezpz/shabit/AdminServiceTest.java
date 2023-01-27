@@ -2,7 +2,6 @@ package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
-import com.ezpz.shabit.info.dto.req.VodReqDto;
 import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.CategoryRepository;
@@ -11,13 +10,14 @@ import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 import com.ezpz.shabit.admin.dto.res.SettingResDto;
 import com.ezpz.shabit.admin.entity.Setting;
 import com.ezpz.shabit.admin.repository.SettingRepository;
-import com.ezpz.shabit.admin.service.AdminServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminServiceTest {
@@ -78,60 +77,61 @@ public class AdminServiceTest {
     @Test
     public void 영상_입력된_이름_목록_조회_성공(){
         // given
-        doReturn(vodList2()).when(vodRepository).findByTitleIsLike("%title%");
+        doReturn(new PageImpl<Vod>(vodList2(), PageRequest.of(0, 2), 3))
+                .when(vodRepository).findByTitleIsLike("%title%", PageRequest.of(0, 2));
 
         // when
-        List<Vod> vodList = target.getVodList("title", "title");
+        List<Vod> vodList = target.getVodList("title", "title", PageRequest.of(0, 2));
 
         //then
-        assertThat(vodList.size()).isEqualTo(3);
+        assertThat(vodList.size()).isEqualTo(2);
     }
 
     @Test
     public void 영상_입력된_길이로_목록_조회_성공(){
         // given
-        doReturn(vodList2())
+        doReturn(new PageImpl<Vod>(vodList2(), PageRequest.of(0, 2), 3))
                 .when(vodRepository)
-                .findByLength(3);
+                .findByLength(3, PageRequest.of(0, 2));
 
         // when
-        List<Vod> vodList = target.getVodList("length", "3");
+        List<Vod> vodList = target.getVodList("length", "3", PageRequest.of(0, 2));
 
         //then
-        assertThat(vodList.size()).isEqualTo(3);
+        assertThat(vodList.size()).isEqualTo(2);
     }
 
     @Test
     public void 영상_입력된_카테고리_목록_조회_성공(){
         // given
-        doReturn(vodList2())
+        doReturn(new PageImpl<Vod>(vodList2(), PageRequest.of(0, 2), 3))
                 .when(vodRepository)
-                .findByCategoryName("거북");
+                .findByCategoryCategoryId(1L, PageRequest.of(0, 2));
 
         // when
-        List<Vod> vodList = target.getVodList("category", "거북");
+        List<Vod> vodList = target.getVodList("category", "1", PageRequest.of(0, 2));
 
         //then
-        assertThat(vodList.size()).isEqualTo(3);
+        assertThat(vodList.size()).isEqualTo(2);
     }
 
     @Test
     public void 영상_전체_목록_조회_성공(){
         // given
-        doReturn(vodList2())
+        doReturn(new PageImpl<Vod>(vodList2(), PageRequest.of(0, 2), 3))
                 .when(vodRepository)
-                .findAll();
+                .findAll(PageRequest.of(0, 2));
 
         // when
-        List<Vod> vodList = target.getVodList(null, null);
+        List<Vod> vodList = target.getVodList(null, null, PageRequest.of(0, 2));
 
         // then
-        assertThat(vodList.size()).isEqualTo(3);
+        assertThat(vodList.size()).isEqualTo(2);
     }
 
     private List<Vod> vodList2() {
         List<Vod> vodList = new ArrayList<>();
-        for(int i=0; i<3; i++){
+        for(int i=0; i<2; i++){
             vodList.add(Vod.builder()
                     .vodId(1L)
                     .videoId("test url")
