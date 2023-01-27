@@ -31,12 +31,11 @@ export const changeImage = (
 
 export const resetPassword = async (email: string): Promise<boolean> => {
   return await apiRequest
-    .put(`/api/v1/user/${email}`)
+    .put(`/api/v1/user/password-find/${email}`)
     .then(() => {
-      alert('패스워드가 초기화 되었습니다.');
-      return true;
+      return Promise.resolve(true);
     })
-    .catch(() => false);
+    .catch(() => Promise.reject(false));
 };
 
 export const changeTheme = (thema: number, email: string): Promise<boolean> => {

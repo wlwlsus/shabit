@@ -5,17 +5,19 @@ const apiRequest = axios;
 // apiRequest.defaults.baseURL : 'http://localhost:8080'
 apiRequest.defaults.withCredentials = true;
 
-apiRequest.interceptors.request.use(
-  (config) => {
-    return {
-      ...config,
-      headers: { Authorization: window.localStorage.getItem('userToken') },
-    };
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
+// apiRequest.interceptors.request.use(
+//   (config) => {
+//     return {
+//       ...config,
+//       headers: {
+//         Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+//       },
+//     };
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   },
+// );
 
 apiRequest.interceptors.response.use(
   (response) => {
