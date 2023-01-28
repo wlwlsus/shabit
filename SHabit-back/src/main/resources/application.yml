@@ -34,6 +34,10 @@ spring:
           auth: true
           starttls:
             enable: true
+  data:
+    redis:
+      host: 43.200.219.143
+      port: 6379
 
 # S3 setting
 cloud:
