@@ -124,34 +124,34 @@ public class InfoServiceImpl implements InfoService {
 
   // 해당 카테고리 번호의 스트레칭 영상 랜덤으로 뽑아 내보내기
   private List<VodResDto> getCategoryVods(Long[] data) throws Exception {
-    long categoryId = data[0] - 1;
-    log.info("search category id : {}", categoryId);
-    // 스트레칭 영상 찾기
-    List<Vod> length3, length5, length10;
-    if (categoryId > 0) {
-      length3 = vodRepository.findByLengthAndCategoryCategoryId(3, categoryId - 1);
-      length5 = vodRepository.findByLengthAndCategoryCategoryId(5, categoryId - 1);
-      length10 = vodRepository.findByLengthAndCategoryCategoryId(10, categoryId - 1);
-    } else {
-      length3 = vodRepository.findByLength(3);
-      length5 = vodRepository.findByLength(5);
-      length10 = vodRepository.findByLength(10);
-    }
-
-    log.info("length 3 vodList : {}", length3);
-    log.info("length 5 vodList : {}", length5);
-    log.info("length 10 vodList : {}", length10);
+//    long categoryId = data[0] - 1;
+//    log.info("search category id : {}", categoryId);
+//    // 스트레칭 영상 찾기
+//    List<Vod> length3, length5, length10;
+//    if (categoryId > 0) {
+//      length3 = vodRepository.findByLengthAndCategoryCategoryId(3, categoryId - 1);
+//      length5 = vodRepository.findByLengthAndCategoryCategoryId(5, categoryId - 1);
+//      length10 = vodRepository.findByLengthAndCategoryCategoryId(10, categoryId - 1);
+//    } else {
+//      length3 = vodRepository.findByLength(3);
+//      length5 = vodRepository.findByLength(5);
+//      length10 = vodRepository.findByLength(10);
+//    }
+//
+//    log.info("length 3 vodList : {}", length3);
+//    log.info("length 5 vodList : {}", length5);
+//    log.info("length 10 vodList : {}", length10);
 
     List<VodResDto> result = new ArrayList<>();
 
-    // vod 리스트 길이 확인하기
-    if (length3.size() == 0 || length5.size() == 0 || length10.size() == 0) {
-      return null;
-    } else {
-      result.add(getRandomOne(length3));
-      result.add(getRandomOne(length5));
-      result.add(getRandomOne(length10));
-    }
+//    // vod 리스트 길이 확인하기
+//    if (length3.size() == 0 || length5.size() == 0 || length10.size() == 0) {
+//      return null;
+//    } else {
+//      result.add(getRandomOne(length3));
+//      result.add(getRandomOne(length5));
+//      result.add(getRandomOne(length10));
+//    }
     return result;
   }
 
