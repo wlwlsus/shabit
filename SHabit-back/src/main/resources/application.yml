@@ -3,7 +3,7 @@ spring:
   jpa:
     hibernate:
       #      ddl-auto: create-drop # jpa DB table update
-      ddl-auto: create-drop
+      ddl-auto: update
     generate-ddl: false # db 초기화 설정 끔
     show-sql: true # 사용된 sql 보임
     # h2 설정
@@ -18,7 +18,7 @@ spring:
     #    password: h2test
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://43.200.219.143:3306/ssafy601
+    url: jdbc:mariadb://i8a601.p.ssafy.io:3306/ssafy601
     username: ssafy601
     password: ssafy601
 
@@ -36,7 +36,7 @@ spring:
             enable: true
   data:
     redis:
-      host: 43.200.219.143
+      host: i8a601.p.ssafy.io
       port: 6379
 
 # S3 setting
