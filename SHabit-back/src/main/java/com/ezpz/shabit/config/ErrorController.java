@@ -16,6 +16,6 @@ public class ErrorController {
 
     @GetMapping("token-error")
     ResponseEntity<?> error(){
-        return Response.badRequest("토큰 정보가 일치하지 않습니다.");
+        return Response.notFound("토큰 정보가 일치하지 않습니다.");
     }
 }
