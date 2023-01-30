@@ -105,7 +105,7 @@ const DropDown = styled.ul`
   left: 7.3%;
   top: 41.5%;
   z-index: 1;
-  transition: all 0.1s linear 0.1s;
+  transition: all 0.3s ease-in;
 
   & > li {
     border: 0.1rem solid ${theme.color.primary};

@@ -34,36 +34,41 @@ const LineChart = ({ mode }) => {
 
   //  json데이터 업데이트마다 실행
   useEffect(() => {
-    console.log(jsonData);
     if (jsonData.length) {
-      const sortedData = jsonData
-        // '바른'자세 데이터 오래된순 ~ 최신순 정렬
-        .filter((data) => data.posture === '바른')
-        .sort((a, b) => {
-          const aDate = new Date(a.date);
-          const bDate = new Date(b.date);
-          return aDate - bDate;
-        });
+      // 날짜 중복 제거 & 오래된순 ~ 최신순 정렬
+      let newData = new Set();
+      for (let data of jsonData) {
+        newData.add(data.date);
+      }
 
-      //  x축 : 날짜
-      const newCategories = sortedData.map((e) => e.date);
+      newData = [...newData];
+      const sortedData = newData.sort((a, b) => {
+        return new Date(a).getTime() - new Date(b).getTime();
+      });
 
-      //  날짜 개수만큼의 원소를 가지는 배열 생성 (0으로 초기화)
-      const totalTime = Array.from({ length: newCategories.length }, () => 0);
+      //  x축 데이터(날짜)
+      setCategories(sortedData);
 
-      // json데이터 전체 순회, 날짜별 자세 총합(분) 구하기
+      //  날짜 개수만큼의 0값을 가지는 배열 생성
+      const totalTime = Array.from({ length: sortedData.length }, () => 0);
+      const goodTime = [...totalTime];
+
+      // 날짜별 바른자세 총합, 전체시간 총합(분) 구하기
       for (let element of jsonData) {
-        let index = newCategories.indexOf(element.date);
+        let index = sortedData.indexOf(element.date);
+        if (element.posture === '바른') {
+          goodTime[index] += element.time;
+        }
         totalTime[index] += element.time;
       }
 
-      //  날짜별 '바른' 자세 데이터 나누기 날짜별 '전체 시간' 데이터 (소수점 2째 자리 내림)
-      const newSeriesData = sortedData.map((e, idx) => {
-        return Math.ceil((e.time / totalTime[idx]) * 100) / 100;
+      //  날짜별 바른자세 데이터 나누기 날짜별 전체시간 데이터 (소수점 2째 자리 올림)
+      const newSeriesData = goodTime.map((data, idx) => {
+        return Math.ceil((data / totalTime[idx]) * 100);
       });
 
-      setCategories(newCategories); // X축 데이터
-      setSeriesData(newSeriesData); // 그래프 데이터
+      // y축 데이터
+      setSeriesData(newSeriesData);
     }
   }, [jsonData]);
 
