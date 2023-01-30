@@ -13,6 +13,7 @@ public interface VodRepository extends JpaRepository<Vod, Long> {
   Page<Vod> findByTitleIsLike(String name, Pageable pageable);
 
   Page<Vod> findByLength(int length, Pageable pageable);
+  List<Vod> findByLength(int length);
 
   Page<Vod> findByCategoryCategoryId(Long categoryId, Pageable pageable);
 
