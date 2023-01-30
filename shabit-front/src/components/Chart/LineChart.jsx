@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { theme } from '../../styles/GlobalStyles';
+import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import UpadtingDonut from './UpadtingDonut';
 
@@ -32,7 +33,7 @@ const LineChart = () => {
       });
   }, []);
 
-  //  데이터 업데이트마다 실행
+  //  json데이터 업데이트마다 실행
   useEffect(() => {
     if (jsonData.length) {
       const sortedData = jsonData
@@ -44,36 +45,39 @@ const LineChart = () => {
           return aDate - bDate;
         });
 
-      //  x축 = 날짜
+      //  x축 : 날짜
       const newCategories = sortedData.map((e) => e.date);
-      //  날짜의 갯수만큼 합계를 구할 배열을 0으로 초기화 합니다.
-      //
+
+      //  날짜 개수만큼의 원소를 가지는 배열 생성 (0으로 초기화)
       const totalTime = Array.from({ length: newCategories.length }, () => 0);
 
-      //json 데이터 전체를 순회하며, 일치하는 날짜의 합을 구해 날짜별로 배열에 더합니다.
+      // json데이터 전체 순회, 날짜별 자세 총합(분) 구하기
       for (let element of jsonData) {
         let index = newCategories.indexOf(element.date);
-        totalTime[index] = totalTime[index] + element.time;
+        totalTime[index] += element.time;
       }
 
-      //날짜별로 구한 '바른 자세' 데이터를 날짜별 '전체 시간'의 데이터로 나누어 소숫점 2째 자리에서 내림하여 그래프의 데이터로 반환합니다.
+      //  날짜별 '바른' 자세 데이터 나누기 날짜별 '전체 시간' 데이터 (소수점 2째 자리 내림)
       const newSeriesData = sortedData.map((e, idx) => {
         return Math.ceil((e.time / totalTime[idx]) * 100) / 100;
       });
-      setCategories(newCategories);
-      setSeriesData(newSeriesData);
+
+      setCategories(newCategories); // X축 데이터
+      setSeriesData(newSeriesData); // 그래프 데이터
     }
   }, [jsonData]);
 
-  // ############################################################################# //
-
+  // weekly or monthly
   const onModeToggle = () => {
     setMode(mode === 'weeklyData' ? 'monthlyData' : 'weeklyData');
   };
 
-  // 라벨이 클릭되면 발생할 이벤트 입니다.
+  // stroke 클릭 => donut chart로 데이터 보냄
   const onChartClick = (event, chartContext, config) => {
-    setDay(config.globals.categoryLabels[config.dataPointIndex]);
+    const newDay = config.globals.categoryLabels[config.dataPointIndex];
+    if (newDay) {
+      setDay(newDay);
+    }
   };
 
   const series = [
@@ -82,6 +86,7 @@ const LineChart = () => {
       data: seriesData,
     },
   ];
+
   const options = {
     chart: {
       height: 300,
@@ -107,7 +112,7 @@ const LineChart = () => {
     },
     grid: {
       row: {
-        colors: [theme.color.whiteColor, 'transparent'], // takes an array which will be repeated on columns
+        colors: [theme.color.whiteColor, 'transparent'],
         opacity: 0.5,
       },
     },
@@ -123,20 +128,45 @@ const LineChart = () => {
   };
 
   return (
-    <>
+    <ChartWrapper>
       <div id="chart">
         <ReactApexChart
           options={options}
           series={series}
           type="line"
-          height={350}
-          width={500}
+          height={270}
+          width={450}
+          style={{ fontSize: '0.6rem' }}
         />
       </div>
-      <div>{day}</div>
-      <UpadtingDonut jsonData={jsonData} day={day}></UpadtingDonut>
-    </>
+      <DonutWrapper>
+        <Title>
+          {day?.split('-')[0]}년 {day?.split('-')[1]}월 {day?.split('-')[2]}일
+        </Title>
+        <UpadtingDonut jsonData={jsonData} day={day}></UpadtingDonut>
+      </DonutWrapper>
+    </ChartWrapper>
   );
 };
 
 export default LineChart;
+
+const ChartWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const DonutWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Title = styled.div`
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: ${theme.color.blackColor};
+`;
