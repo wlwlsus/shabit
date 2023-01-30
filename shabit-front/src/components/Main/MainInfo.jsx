@@ -1,16 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
 import { typedUseSeletor } from '../../store';
+import { fetchHeatmap } from '../../services/stat/get';
+import { fetchProfile } from '../../services/auth/get';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setProfileState } from '../../store/authSlice';
 
 export default function MainInfo() {
-  const user = useSelector((state) => {
-    state.authSlice.user;
+  const heatMapData = typedUseSeletor((state) => {
+    return state.chart.heatMapData;
   });
+  const randomQuote = typedUseSeletor((state) => {
+    return state.chart.randomQuote;
+  });
+  const profile = typedUseSeletor((state) => {
+    return state.auth.profile;
+  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let user = profile;
+    if (!profile.email) {
+      user = JSON.parse(localStorage.getItem('user'));
+      dispatch(setProfileState(user));
+      let token = JSON.parse(localStorage.getItem('accessToken'));
+    }
+    if (!user) navigate('/login');
+    fetchProfile(user.email).then((res) => {});
+  }, []);
 
   return (
     <Wrapper>

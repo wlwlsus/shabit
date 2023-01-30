@@ -3,7 +3,7 @@ import authSlice from './authSlice';
 import videoSlice from './videoSlice';
 import {
   TypedUseSelectorHook,
-  useSelector as useReduxSeletor,
+  useSelector as useReduxSelector,
 } from 'react-redux';
 import chartSlice from './chartSlice';
 
@@ -17,4 +17,5 @@ const store = configureStore({
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
-export const typedUseSeletor: TypedUseSelectorHook<RootState> = useReduxSeletor;
+export const typedUseSeletor: TypedUseSelectorHook<RootState> =
+  useReduxSelector;

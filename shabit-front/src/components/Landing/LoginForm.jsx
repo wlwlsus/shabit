@@ -4,7 +4,11 @@ import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 import ArrowIcon from '../common/ArrowIcon';
-import { setUserState, setTokenState } from '../../store/authSlice';
+import {
+  setUserState,
+  setTokenState,
+  setProfileState,
+} from '../../store/authSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
@@ -51,8 +55,9 @@ const LoginForm = () => {
   const onLogin = () => {
     Auth.login(email, password)
       .then(async ({ user, accessToken }) => {
-        dispatch(setUserState(user));
-        dispatch(setTokenState(accessToken));
+        console.log(user);
+        await dispatch(setProfileState(user));
+        await dispatch(setTokenState(accessToken));
         await localStorage.setItem('accessToken', JSON.stringify(accessToken));
         await localStorage.setItem('user', JSON.stringify(user));
         await navigate('/main');
