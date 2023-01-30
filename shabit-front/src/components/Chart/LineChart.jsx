@@ -1,41 +1,30 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { theme } from '../../styles/GlobalStyles';
+import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import UpadtingDonut from './UpadtingDonut';
 
 const LineChart = () => {
-  const [mode, setMode] = useState('weeklyData'); //가져올 파일명
-  const [jsonData, setJsonData] = useState([]); //전체 json 데이터
+  const [mode, setMode] = useState('weeklyData'); //  가져올 파일명
+  const [jsonData, setJsonData] = useState([]); //  전체 데이터
+  const [categories, setCategories] = useState([]); //  x축 데이터
+  const [seriesData, setSeriesData] = useState([]); //  그래프 데이터
 
-  const [categories, setCategories] = useState([]); //x축의 라벨 데이터
-  const [seriesData, setSeriesData] = useState([]); //그래프 데이터
-
-  // const today = useMemo(() => {
-  //   const now = new Date();
-  //   const newDay = now
-  //     .toLocaleDateString()
-  //     .split(' ')
-  //     .map((e) => {
-  //       return e.replace('.', '').padStart(2, '0');
-  //     })
-  //     .join('-');
-  //   return newDay;
-  // }, []);
-
-  //파이차트에 prop으로 넘겨줄 날짜입니다.
-  //lazyInitial함수를 통해 오늘 날짜를 "yyyy-mm-dd" 포맷으로 구한 후, day의 초기값으로 설정합니다.
+  //  파이차트에 넘겨줄 날짜
+  //  day 초기값 설정 : Lazy Initialization (state 정의될 때 한 번만 실행)
   const [day, setDay] = useState(() => {
     const now = new Date();
-    const today = now
-      .toLocaleDateString()
-      .split(' ')
-      .map((e) => {
-        return e.replace('.', '').padStart(2, '0');
-      })
-      .join('-');
-    return today;
+    const year = now.getFullYear();
+    let month = now.getMonth() + 1;
+    let date = now.getDate();
+
+    month = month.toString().padStart(2, '0');
+    date = date.toString().padStart(2, '0');
+
+    return `${year}-${month}-${date}`; // yyyy-mm-dd
   });
 
-  //마운트되면 json데이터를 가져옵니다.
+  //  마운트 됐을 때 데이터 가져옴
   useEffect(() => {
     fetch(`/testData/${mode}.json`)
       .then((res) => res.json())
@@ -44,49 +33,51 @@ const LineChart = () => {
       });
   }, []);
 
-  //json데이터가 업데이트 될 때마다 실행됩니다.
+  //  json데이터 업데이트마다 실행
   useEffect(() => {
-    //jsonData가 존재하면
-    if (!!jsonData.length) {
-      //'바른' 자세에 대한 데이터를 날짜의 오름차순으로 정렬합니다.
-      const newData = jsonData
-        .filter((element) => element.posture === '바른')
+    if (jsonData.length) {
+      const sortedData = jsonData
+        // '바른'자세 데이터 오래된순 ~ 최신순 정렬
+        .filter((data) => data.posture === '바른')
         .sort((a, b) => {
           const aDate = new Date(a.date);
           const bDate = new Date(b.date);
           return aDate - bDate;
         });
 
-      //오름차순 정렬한 날짜 데이터를 x축의 데이터로 설정합니다.
-      const newCategories = newData.map((e) => e.date);
+      //  x축 : 날짜
+      const newCategories = sortedData.map((e) => e.date);
 
-      //날짜의 갯수만큼 합계를 구할 배열을 0으로 초기화 합니다.
+      //  날짜 개수만큼의 원소를 가지는 배열 생성 (0으로 초기화)
       const totalTime = Array.from({ length: newCategories.length }, () => 0);
 
-      //json 데이터 전체를 순회하며, 일치하는 날짜의 합을 구해 날짜별로 배열에 더합니다.
+      // json데이터 전체 순회, 날짜별 자세 총합(분) 구하기
       for (let element of jsonData) {
         let index = newCategories.indexOf(element.date);
-        totalTime[index] = totalTime[index] + element.time;
+        totalTime[index] += element.time;
       }
 
-      //날짜별로 구한 '바른 자세' 데이터를 날짜별 '전체 시간'의 데이터로 나누어 소숫점 2째 자리에서 내림하여 그래프의 데이터로 반환합니다.
-      const newSeriesData = newData.map((e, idx) => {
+      //  날짜별 '바른' 자세 데이터 나누기 날짜별 '전체 시간' 데이터 (소수점 2째 자리 내림)
+      const newSeriesData = sortedData.map((e, idx) => {
         return Math.ceil((e.time / totalTime[idx]) * 100) / 100;
       });
-      setCategories(newCategories);
-      setSeriesData(newSeriesData);
+
+      setCategories(newCategories); // X축 데이터
+      setSeriesData(newSeriesData); // 그래프 데이터
     }
   }, [jsonData]);
 
-  // ############################################################################# //
-
+  // weekly or monthly
   const onModeToggle = () => {
     setMode(mode === 'weeklyData' ? 'monthlyData' : 'weeklyData');
   };
 
-  // 라벨이 클릭되면 발생할 이벤트 입니다.
+  // stroke 클릭 => donut chart로 데이터 보냄
   const onChartClick = (event, chartContext, config) => {
-    setDay(config.globals.categoryLabels[config.dataPointIndex]);
+    const newDay = config.globals.categoryLabels[config.dataPointIndex];
+    if (newDay) {
+      setDay(newDay);
+    }
   };
 
   const series = [
@@ -95,9 +86,10 @@ const LineChart = () => {
       data: seriesData,
     },
   ];
+
   const options = {
     chart: {
-      height: 350,
+      height: 300,
       type: 'line',
       zoom: {
         enabled: false,
@@ -110,38 +102,71 @@ const LineChart = () => {
       enabled: false,
     },
     stroke: {
-      curve: 'straight',
+      width: 3,
+      curve: 'smooth',
+      colors: theme.color.primary,
     },
     title: {
-      text: '단위는 퍼센트라네',
+      text: '단위:퍼센트(%)',
       align: 'left',
     },
     grid: {
       row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+        colors: [theme.color.whiteColor, 'transparent'],
         opacity: 0.5,
       },
     },
 
     xaxis: {
       categories: categories,
+      labels: {
+        style: {
+          colors: theme.color.blackColor,
+        },
+      },
     },
   };
 
   return (
-    <>
+    <ChartWrapper>
       <div id="chart">
         <ReactApexChart
           options={options}
           series={series}
           type="line"
-          height={350}
+          height={270}
+          width={450}
+          style={{ fontSize: '0.6rem' }}
         />
       </div>
-      <div>{day}</div>
-      <UpadtingDonut jsonData={jsonData} day={day}></UpadtingDonut>
-    </>
+      <DonutWrapper>
+        <Title>
+          {day?.split('-')[0]}년 {day?.split('-')[1]}월 {day?.split('-')[2]}일
+        </Title>
+        <UpadtingDonut jsonData={jsonData} day={day}></UpadtingDonut>
+      </DonutWrapper>
+    </ChartWrapper>
   );
 };
 
 export default LineChart;
+
+const ChartWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const DonutWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Title = styled.div`
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: ${theme.color.blackColor};
+`;

@@ -1,14 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 
 export default function MainPage() {
+  const navigate = useNavigate();
+  const toMain = () => {
+    navigate('/main');
+  };
+  const toHistory = () => {
+    navigate('/main/history');
+  };
+
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab>SHabit</Tab>
-        <Tab>자세기록</Tab>
+        <Tab onClick={toMain}>SHabit</Tab>
+        <Tab onClick={toHistory}>자세기록</Tab>
 
         <Container>
           <Outlet />
@@ -48,6 +56,8 @@ const ContainerWrapper = styled.div`
 `;
 
 const Container = styled.div`
+  width: 70rem;
+  height: 36rem;
   background-color: ${theme.color.whiteColor};
   border-radius: 0 1.5rem 1.5rem;
   padding: 2rem;
