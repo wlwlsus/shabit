@@ -6,15 +6,18 @@ import Input from '../common/Input';
 import ArrowIcon from '../common/ArrowIcon';
 import Auth from '../../services/auth';
 
-const ConfirmForm = ({ onConfirmed }) => {
+const ConfirmForm = ({ onConfirmed, confirmCode }) => {
   const [code, setCode] = useState('');
   const [comfirmed, setConfirmed] = useState(false);
+  const [message, setMessage] = useState('인증 번호를 입력하세요');
   const onChangeHandler = (e) => {
     setCode(e.target.value);
   };
 
   const onClick = (e) => {
     //수정할거: 이메일 인증 요청하기
+    if (confirmCode !== code)
+      return setMessage('인증번호가 일치하지 않습니다.');
     setConfirmed(true);
     setTimeout(onConfirmed, 2000);
   };
@@ -26,7 +29,10 @@ const ConfirmForm = ({ onConfirmed }) => {
         <div>인증되었습니다.</div>
       ) : (
         <>
-          <div>인증 번호를 입력하세요</div>
+          <div>{message}</div>
+          <div>
+            인증번호를 발송하였습니다. <br /> 메일함을 확인해주세요.
+          </div>
           <Input
             type="code"
             name="code"
@@ -35,7 +41,6 @@ const ConfirmForm = ({ onConfirmed }) => {
             placeholder={'인증번호'}
             shadow={'shadow'}
           />
-
           <div onClick={onClick}>
             <ArrowIcon size={'lg'} color={'primary'} />
           </div>

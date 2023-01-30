@@ -7,6 +7,8 @@ import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../common/Loading';
+import { confirmEmail } from '../../services/auth/get';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -19,6 +21,8 @@ const SignupForm = () => {
   const [confirmingEmail, setConfirmingEmail] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [confirmCode, setConfirmCode] = useState('');
 
   //전체: 회원가입 폼의 인풋 태그를 관리합니다.
   const { email, nickname, password, password2 } = inputs;
@@ -61,7 +65,7 @@ const SignupForm = () => {
     if (password.length >= 8) {
       if (
         !password.match(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
         )
       ) {
         setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
@@ -95,10 +99,12 @@ const SignupForm = () => {
     if (debouncedEmailTerm.includes('@') && debouncedEmailTerm.includes('.')) {
       Services.Auth.checkEmail(debouncedEmailTerm)
         .then((res) => {
+          console.log(res);
           setMessage('');
           setNeedCheck(true);
         })
         .catch((err) => {
+          console.log(err.message);
           setMessage(err.message);
           setNeedCheck(false);
         });
@@ -106,6 +112,18 @@ const SignupForm = () => {
       setNeedCheck(false);
     }
   }, [debouncedEmailTerm]);
+
+  const onChekingEmail = () => {
+    setIsLoading(true);
+    confirmEmail(email)
+      .then((res) => {
+        setConfirmCode(res);
+      })
+      .then(() => {
+        setIsLoading(false);
+        setConfirmingEmail(true);
+      });
+  };
 
   const onConfirmed = () => {
     setNeedCheck(false);
@@ -127,6 +145,11 @@ const SignupForm = () => {
     <FormWrapper>
       {!message ? <div></div> : <div>{message}</div>}
       <InputWrapper>
+        {isLoading ? (
+          <img src="/assets/spinner.gif" className="Spinner" />
+        ) : (
+          <></>
+        )}
         <Input
           placeholder={'이메일 아이디'}
           type="email"
@@ -136,7 +159,7 @@ const SignupForm = () => {
         />
         <RightTag>
           {needCheck ? (
-            <button type="button" onClick={() => setConfirmingEmail(true)}>
+            <button type="button" onClick={() => onChekingEmail()}>
               이메일 인증하기
             </button>
           ) : (
@@ -144,7 +167,10 @@ const SignupForm = () => {
           )}
           {confirmingEmail ? (
             <ConfirmModal>
-              <ConfirmForm onConfirmed={onConfirmed}></ConfirmForm>
+              <ConfirmForm
+                onConfirmed={onConfirmed}
+                confirmCode={confirmCode}
+              ></ConfirmForm>
             </ConfirmModal>
           ) : (
             <></>
@@ -193,6 +219,9 @@ const FormWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  .Spinner {
+    position: absolute;
+  }
   & > div:first-child {
     font-size: 0.8rem;
     font-weight: bold;

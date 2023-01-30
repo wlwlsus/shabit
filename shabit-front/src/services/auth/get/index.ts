@@ -15,8 +15,15 @@ export const fetchProfile = async (email: string): Promise<object> => {
     .catch((err) => Promise.reject(err));
 };
 
-export const confirmEmail = (email: string): object => {
-  return {};
+export const confirmEmail = async (email: string): Promise<string> => {
+  return await apiRequest
+    .get(`api/v1/user/email-valid/${email}`)
+    .then((res) => {
+      return Promise.resolve(res.data.result);
+    })
+    .catch((err) => {
+      return Promise.resolve(err);
+    });
 };
 
 //수정할거: 임시 해더

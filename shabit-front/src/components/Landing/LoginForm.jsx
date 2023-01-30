@@ -11,7 +11,19 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setCurrentMessage] = useState('');
+  const [currentTimeout, setCurrentTimeout] = useState(null);
+  //전체: 메시지을 2초 후 초기화합니다.
+  const setMessage = (str) => {
+    setCurrentMessage(str);
+    if (!str) return;
+    clearTimeout(currentTimeout);
+    const newTimeout = setTimeout(() => {
+      setCurrentMessage('');
+    }, 2000);
+    setCurrentTimeout(newTimeout);
+  };
+
   //onChange 핸들링입니다.
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,7 +58,8 @@ const LoginForm = () => {
         await navigate('/main');
       })
       .catch((err) => {
-        console.log(err);
+        setMessage(err.message);
+        console.log(err.message);
       });
   };
 
@@ -70,6 +83,16 @@ const LoginForm = () => {
 
   return (
     <FormWrapper>
+      <Title
+        style={{
+          color: 'red',
+          position: 'absolute',
+          left: '640px',
+          top: '20px',
+        }}
+      >
+        {message}
+      </Title>
       {!forgotPassword ? (
         <Title>SHabit에 로그인하고 서비스를 이용해보세요</Title>
       ) : (
@@ -116,7 +139,6 @@ const LoginForm = () => {
       ) : (
         <>
           <StyledButton onClick={onReset}>비밀번호 초기화</StyledButton>
-          <Title>{message}</Title>
         </>
       )}
 
