@@ -31,6 +31,8 @@ public class WebInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
 
+        if(request.getRequestURI().equals("/api/v1/admin/alarm") && request.getMethod().equals("GET")) return true;
+
         if(checkList(adminList, requestURI)) {String authorization = request.getHeader("Authorization");
             Pattern tokenPattern = Pattern.compile("(?<=Bearer\s).*");
 
