@@ -4,14 +4,8 @@ import { theme } from '../../styles/GlobalStyles';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { useSelector } from 'react-redux';
-import { typedUseSeletor } from '../../store';
 
 export default function MainInfo() {
-  const user = useSelector((state) => {
-    state.authSlice.user;
-  });
-
   return (
     <Wrapper>
       <InfoBox>

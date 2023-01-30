@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import RangeBarDaily from '../Chart/RangeBarDaily';
 import LineChart from '../Chart/LineChart';
+import { TiArrowSortedDown } from 'react-icons/ti';
 
 export default function HistoryContent() {
+  const [dropDown, setDropDown] = useState(0);
+  const [mode, setMode] = useState('Weekly');
+
+  const handleDropdown = () => {
+    if (dropDown === 1) {
+      setDropDown(0);
+    } else {
+      setDropDown(1);
+    }
+  };
+
+  const handleMode = (e) => {
+    setMode(e.target.innerText);
+    setDropDown(0);
+  };
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -15,8 +32,17 @@ export default function HistoryContent() {
         </Content>
       </TitleWrapper>
       <RangeBarDaily />
-      <Title>Weekly</Title>
-      <LineChart />
+      <Title onClick={handleDropdown}>
+        <span>
+          {mode}
+          <TiArrowSortedDown />
+        </span>
+      </Title>
+      <DropDown style={{ opacity: dropDown }}>
+        <li onClick={handleMode}>Weekly</li>
+        <li onClick={handleMode}>Monthly</li>
+      </DropDown>
+      <LineChart mode={mode} />
     </Wrapper>
   );
 }
@@ -37,16 +63,26 @@ const TitleWrapper = styled.div`
 
 const Title = styled.div`
   display: flex;
+  align-items: center;
   align-self: start;
   margin-left: 3rem;
   background-color: ${theme.color.secondary};
   color: ${theme.color.primary};
   font-weight: bold;
-  font-size: 0.8rem;
   padding: 0.3rem;
   border-radius: 0.5rem;
   border: 0.1rem solid ${theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+
+  &:hover {
+    cursor: default;
+  }
+
+  & > span {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -58,7 +94,29 @@ const Content = styled.div`
 
 const P = styled.span`
   color: ${theme.color.primary};
-
   font-size: 1.05rem;
   margin: 0 0.3rem;
+  position: relative;
+`;
+
+const DropDown = styled.ul`
+  list-style: none;
+  position: absolute;
+  left: 7.3%;
+  top: 41.5%;
+  z-index: 1;
+  transition: all 0.1s linear 0.1s;
+
+  & > li {
+    border: 0.1rem solid ${theme.color.primary};
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    background-color: ${theme.color.secondary};
+    color: ${theme.color.primary};
+    font-weight: bold;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;

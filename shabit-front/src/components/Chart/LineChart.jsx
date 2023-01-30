@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import UpadtingDonut from './UpadtingDonut';
 
-const LineChart = () => {
-  const [mode, setMode] = useState('weeklyData'); //  가져올 파일명
+const LineChart = ({ mode }) => {
   const [jsonData, setJsonData] = useState([]); //  전체 데이터
   const [categories, setCategories] = useState([]); //  x축 데이터
   const [seriesData, setSeriesData] = useState([]); //  그래프 데이터
@@ -26,15 +25,16 @@ const LineChart = () => {
 
   //  마운트 됐을 때 데이터 가져옴
   useEffect(() => {
-    fetch(`/testData/${mode}.json`)
+    fetch(`/testData/${mode}Data.json`)
       .then((res) => res.json())
       .then((res) => {
         setJsonData(res.data);
       });
-  }, []);
+  }, [mode]);
 
   //  json데이터 업데이트마다 실행
   useEffect(() => {
+    console.log(jsonData);
     if (jsonData.length) {
       const sortedData = jsonData
         // '바른'자세 데이터 오래된순 ~ 최신순 정렬
@@ -66,11 +66,6 @@ const LineChart = () => {
       setSeriesData(newSeriesData); // 그래프 데이터
     }
   }, [jsonData]);
-
-  // weekly or monthly
-  const onModeToggle = () => {
-    setMode(mode === 'weeklyData' ? 'monthlyData' : 'weeklyData');
-  };
 
   // stroke 클릭 => donut chart로 데이터 보냄
   const onChartClick = (event, chartContext, config) => {
