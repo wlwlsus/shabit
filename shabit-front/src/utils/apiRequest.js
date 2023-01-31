@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const apiRequest = axios;
 
-// apiRequest.defaults.baseURL = 'http://i8a601.p.ssafy.io:8081';
-apiRequest.defaults.withCredentials = false;
+apiRequest.defaults.baseURL = 'http://i8a601.p.ssafy.io:8081';
+apiRequest.defaults.withCredentials = true;
 
 // apiRequest.interceptors.request.use(
 //   (config) => {

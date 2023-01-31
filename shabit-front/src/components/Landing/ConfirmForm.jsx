@@ -4,7 +4,6 @@ import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 import ArrowIcon from '../common/ArrowIcon';
-import Auth from '../../services/auth';
 
 const ConfirmForm = ({ onConfirmed, confirmCode }) => {
   const [code, setCode] = useState('');
@@ -64,11 +63,4 @@ const FormWrapper = styled.div`
     margin-bottom: 0.5rem;
     color: ${theme.color.blueColor};
   }
-`;
-
-const Title = styled.div`
-  width: 34%;
-  color: ${theme.color.grayColor};
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
 `;

@@ -20,7 +20,8 @@ export default function MainPage() {
     }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
-  }, [navigate, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     let newUser = user;
@@ -33,6 +34,8 @@ export default function MainPage() {
       }
     };
     _setUser();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

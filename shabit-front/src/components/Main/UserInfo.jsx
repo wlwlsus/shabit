@@ -11,7 +11,14 @@ export default function UserInfo({ user, lastDate }) {
   return (
     <Wrapper>
       <ImgWrapper>
-        {profile ? <img src="profile" /> : <Logo color={'pink'} />}
+        <SubWrapper>
+          {profile ? (
+            <img alt="profile" src="profile" />
+          ) : (
+            <Logo color={'pink'} />
+          )}
+          <text>이미지 변경하기</text>
+        </SubWrapper>
       </ImgWrapper>
 
       <ContentWrapper>
@@ -30,6 +37,27 @@ export default function UserInfo({ user, lastDate }) {
 }
 
 const Wrapper = styled.div``;
+
+const SubWrapper = styled.div`
+  img {
+    width: 100%;
+    vertical-align: middle;
+  }
+  text {
+    visibility: hidden;
+    padding: 5px 10px;
+    text-align: center;
+    position: absolute;
+    min-width: 9rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
+  &:hover text {
+    visibility: visible;
+  }
+`;
 
 const ImgWrapper = styled.div`
   width: 7.5rem;

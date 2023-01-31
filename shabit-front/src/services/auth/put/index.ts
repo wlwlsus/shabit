@@ -47,5 +47,3 @@ export const changeTheme = (thema: number, email: string): Promise<boolean> => {
 export const changeNickname = (email: string): Promise<boolean> => {
   return Promise.resolve(true);
 };
-
-export default { changeImage, resetPassword, changeTheme, changeNickname };

@@ -60,5 +60,3 @@ export const logout = async (
     })
     .catch(() => Promise.reject(false));
 };
-
-export default { register, login, refreshLogin, logout };

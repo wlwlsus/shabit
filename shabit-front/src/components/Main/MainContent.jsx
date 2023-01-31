@@ -8,10 +8,6 @@ import Heatmap from '../Chart/Heatmap';
 
 import { typedUseSeletor } from '../../store';
 
-import { fetchProfile } from '../../services/auth/get';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setUserState } from '../../store/authSlice';
 import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
 
 export default function MainContent() {

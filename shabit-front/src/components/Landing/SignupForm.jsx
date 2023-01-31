@@ -7,7 +7,6 @@ import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../common/Loading';
 import { confirmEmail } from '../../services/auth/get';
 
 const SignupForm = () => {
@@ -146,7 +145,7 @@ const SignupForm = () => {
       {!message ? <div></div> : <div>{message}</div>}
       <InputWrapper>
         {isLoading ? (
-          <img src="/assets/spinner.gif" className="Spinner" />
+          <img alt="Spinner" src="/assets/spinner.gif" className="Spinner" />
         ) : (
           <></>
         )}
