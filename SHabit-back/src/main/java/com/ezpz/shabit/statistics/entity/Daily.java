@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Daily {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "daily_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "daily_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long dailyId;
 
   @ManyToOne(optional = false)

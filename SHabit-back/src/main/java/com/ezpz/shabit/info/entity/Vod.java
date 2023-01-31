@@ -13,7 +13,7 @@ import lombok.*;
 public class Vod {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "vod_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "vod_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long vodId;
 
   @Column(name = "title", nullable = false)

@@ -13,7 +13,7 @@ import lombok.*;
 public class Posture {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "posture_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "posture_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long postureId;
 
   @Column(name = "name", nullable = false)

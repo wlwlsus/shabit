@@ -13,7 +13,7 @@ import lombok.*;
 public class Setting {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "setting_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "setting_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long settingId;
 
   @Column(name = "stretching_time", columnDefinition = "integer default 50", nullable = false)

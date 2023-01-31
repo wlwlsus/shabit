@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class Grass {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "grass_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "grass_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long grassId;
 
   @Column(name = "date", nullable = false)

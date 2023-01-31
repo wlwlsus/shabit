@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class Statistics {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "statistics_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "statistics_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long statisticsId;
 
   @ManyToOne(optional = false)

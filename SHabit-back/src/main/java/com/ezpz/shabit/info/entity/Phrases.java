@@ -13,7 +13,7 @@ import lombok.*;
 public class Phrases {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "phrases_id", nullable = false, columnDefinition = "INT UNSIGNED")
+  @Column(name = "phrases_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long phrasesId;
 
   @Column(name = "content", nullable = false)
