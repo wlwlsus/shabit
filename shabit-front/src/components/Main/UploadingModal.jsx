@@ -25,7 +25,7 @@ const UploadingModal = ({ toggleModal }) => {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      imgRef.current.style.background = `url(${reader.result})`;
+      imgRef.current.style.backgroundImage = `url(${reader.result})`;
     };
     reader.readAsDataURL(files[0]);
     return setHasPreview(!!files.length);
@@ -34,7 +34,6 @@ const UploadingModal = ({ toggleModal }) => {
     const formdata = new FormData();
     if (!files.length) return;
     formdata.append('profile', files[0]);
-
     changeImage(email, formdata).then((res) => console.log(res));
   };
 
@@ -91,6 +90,8 @@ const ImgWrapper = styled.div`
   height: 7.5rem;
   border-radius: 50%;
   background-color: ${theme.color.secondary};
+  background-size: cover;
+  object-fit: cover;
 
   display: flex;
   align-items: center;

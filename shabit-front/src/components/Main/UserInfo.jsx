@@ -43,6 +43,7 @@ const SubWrapper = styled.div`
   img {
     width: 100%;
     vertical-align: middle;
+    object-fit: cover;
   }
   span {
     visibility: hidden;
@@ -65,6 +66,8 @@ const ImgWrapper = styled.div`
   height: 7.5rem;
   border-radius: 50%;
   background-color: ${theme.color.secondary};
+  background-size: cover;
+  object-fit: cover;
 
   display: flex;
   align-items: center;
