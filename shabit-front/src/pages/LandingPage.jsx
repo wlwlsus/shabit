@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
 import { loadEffect } from '../components/common/animation';
 
-
 export default function LandingPage({ children }) {
   const [content, form] = children;
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ export default function LandingPage({ children }) {
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
     if (accessToken && user) {
-      navigate('/main');
+      // navigate('/main'); 로그인 됐을때 이동시키는 로직입니다. 임시 비활성화
     }
   }, [navigate, dispatch]);
   return (

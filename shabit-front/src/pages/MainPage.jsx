@@ -10,7 +10,7 @@ export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [style, setStyle] = useState([clicked, unClicked]);
+
   const user = typedUseSeletor((state) => {
     return state.auth.user;
   });
@@ -22,6 +22,7 @@ export default function MainPage() {
     backgroundColor: theme.color.primary,
     color: theme.color.secondary,
   };
+  const [style, setStyle] = useState([clicked, unClicked]);
 
   const currentUrl = location.pathname;
   useEffect(() => {
