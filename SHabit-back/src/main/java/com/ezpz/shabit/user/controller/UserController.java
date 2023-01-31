@@ -55,11 +55,11 @@ public class UserController {
 
       return Response.makeResponse(HttpStatus.OK, "프로필 이미지 변경 성공", result.size(), result);
     } catch (NoSuchElementException e) {
-      log.info(e.getMessage());
-      return Response.noContent("존재하지 않는 이메일입니다.");
+      log.error(e.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
-      return Response.badRequest("프로필 이미지 변경 실패");
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -75,10 +75,10 @@ public class UserController {
       return Response.makeResponse(HttpStatus.OK, "프로필 사진 삭제 성공");
     } catch (NoSuchElementException e) {
       log.error(e.getMessage());
-      return Response.noContent("존재하지 않는 이메일");
+      return Response.notFound("잘못된 요청입니다.");
     } catch (Exception e) {
       log.error(e.getMessage());
-      return Response.badRequest("프로필 사진 삭제 실패");
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -98,8 +98,8 @@ public class UserController {
         return Response.makeResponse(HttpStatus.OK, "존재하지 않는 Email 입니다.");
       }
     } catch (Exception e) {
-      log.info(e.getMessage());
-      return Response.badRequest("잘못된 요청입니다.");
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -116,7 +116,7 @@ public class UserController {
       return Response.makeResponse(HttpStatus.OK, "이메일 전송 성공", 1, code);
     } catch (Exception e) {
       log.error(e.getMessage());
-      return Response.badRequest("이메일 전송 실패");
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -129,17 +129,17 @@ public class UserController {
     try {
       String password = emailService.sendFindPasswordEmail(email);
       if (password.length() == 0) {
-        return Response.makeResponse(HttpStatus.INTERNAL_SERVER_ERROR, "임시 비밀번호 발급 실패");
+        return Response.serverError("서버 에러");
       } else {
         userService.updatePassword(email, password);
       }
       return Response.makeResponse(HttpStatus.OK, "임시 비밀번호 발급 완료");
     } catch (NoSuchElementException s) {
-      log.info(s.getMessage());
-      return Response.noContent("존재하지 않는 이메일 입니다.");
+      log.error(s.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
-      return Response.makeResponse(HttpStatus.NOT_FOUND, "잘못된 데이터입니다.");
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -189,14 +189,13 @@ public class UserController {
       userService.changeThema(email, theme);
       return Response.makeResponse(HttpStatus.OK, "테마 변경을 성공하였습니다.");
     } catch (NoSuchElementException s) {
-      log.info(s.getMessage());
-      return Response.noContent("존재하지 않는 이메일입니다.");
+      log.error(s.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
-      return Response.notFound("테마 변경을 실패하였습니다.");
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
-
 
   @Operation(summary = "회원가입 API", responses = {
           @ApiResponse(responseCode = "200", description = "회원가입 성공"),
@@ -286,10 +285,10 @@ public class UserController {
       return Response.makeResponse(HttpStatus.OK, "닉네임 변경 성공");
     } catch (NoSuchElementException e) {
       log.error(e.getMessage());
-      return Response.noContent("존재하지 않는 이메일입니다.");
+      return Response.notFound("잘못된 요청입니다.");
     } catch (Exception e) {
       log.error(e.getMessage());
-      return Response.badRequest("닉네임 변경 실패");
+      return Response.serverError("서버 에러");
     }
   }
 }
