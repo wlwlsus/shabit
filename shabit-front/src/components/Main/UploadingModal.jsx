@@ -34,7 +34,7 @@ const UploadingModal = ({ toggleModal }) => {
     const formdata = new FormData();
     if (!files.length) return;
     formdata.append('profile', files[0]);
-    changeImage(email, formdata).then((res) => console.log(res));
+    changeImage(email, formdata).then((res) => toggleModal(false));
   };
 
   return (
@@ -50,16 +50,19 @@ const UploadingModal = ({ toggleModal }) => {
         )}
       </ImgWrapper>
       <input type="file" onChange={onLoadFile}></input>
-      <div onClick={onUpload}>업로드 하기</div>
-      <div
-        onClick={() => {
-          setHasPreview(false);
-          setFiles('');
-          toggleModal();
-        }}
-      >
-        취소
-      </div>
+      <ButtonGroup>
+        {files.length ? <Button onClick={onUpload}>업로드 하기</Button> : ''}
+        <Button
+          onClick={() => {
+            setHasPreview(false);
+            setFiles('');
+            toggleModal();
+          }}
+          style={{ backgroundColor: `${theme.color.grayColor}` }}
+        >
+          취소하기
+        </Button>
+      </ButtonGroup>
     </ModalWrapper>
   );
 };
@@ -98,6 +101,18 @@ const ImgWrapper = styled.div`
   justify-content: center;
 `;
 
+const Button = styled.button`
+  background-color: ${theme.color.primary};
+  color: ${theme.color.whiteColor};
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+`;
+const ButtonGroup = styled.div`
+  display: flex;
+`;
 // import React, { useState } from 'react';
 
 // import Input from '../common/Input';

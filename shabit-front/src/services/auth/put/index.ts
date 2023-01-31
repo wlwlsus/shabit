@@ -1,3 +1,4 @@
+import { fetchProfile } from './../get/index';
 import { header } from '../..';
 import apiRequest from '../../../utils/apiRequest';
 
@@ -13,8 +14,8 @@ export const changeImage = (
         'Content-Type': 'multipart/form-data',
       },
     })
-    .then((res) => {
-      alert('이미지가 변경되었습니다.');
+    .then(async (res) => {
+      await fetchProfile(email);
       return res;
     })
     .catch((err) => {

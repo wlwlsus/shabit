@@ -18,7 +18,7 @@ export default function UserInfo({ user, lastDate, toggleModal }) {
           ) : (
             <Logo color={'pink'} />
           )}
-          <span onClick={() => toggleModal()}>이미지 변경하기</span>
+          <span onClick={() => toggleModal(true)}>이미지 변경하기</span>
         </SubWrapper>
       </ImgWrapper>
 
