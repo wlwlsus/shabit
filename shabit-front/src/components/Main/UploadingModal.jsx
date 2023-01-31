@@ -32,6 +32,7 @@ const UploadingModal = ({ toggleModal }) => {
   };
   const onUpload = (e) => {
     const formdata = new FormData();
+    if (!files.length) return;
     formdata.append('profile', files[0]);
 
     changeImage(email, formdata).then((res) => console.log(res));

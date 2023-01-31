@@ -5,22 +5,17 @@ export const changeImage = (
   email: string,
   formData: FormData,
 ): string | void => {
-  if (!formData || !formData.has('file') || !formData.get('file')) {
-    alert('이미지 파일이 없습니다');
-    return;
-  }
-
   const { Authorization } = header();
   apiRequest
     .put(`/api/v1/user/profile/${email}`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
         Authorization,
+        'Content-Type': 'multipart/form-data',
       },
     })
     .then((res) => {
       alert('이미지가 변경되었습니다.');
-      return res.result.url;
+      return res;
     })
     .catch((err) => {
       if (err.response.status === 401) {
