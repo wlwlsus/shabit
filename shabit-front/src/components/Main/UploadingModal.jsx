@@ -34,7 +34,11 @@ const UploadingModal = ({ toggleModal }) => {
     const formdata = new FormData();
     if (!files.length) return;
     formdata.append('profile', files[0]);
-    changeImage(email, formdata).then((res) => toggleModal(false));
+    changeImage(email, formdata).then(() => {
+      toggleModal(false);
+      hasPreview(false);
+      setFiles('');
+    });
   };
 
   return (
@@ -55,9 +59,9 @@ const UploadingModal = ({ toggleModal }) => {
         {files.length ? <Button onClick={onUpload}>업로드 하기</Button> : ''}
         <Button
           onClick={() => {
-            setHasPreview(false);
+            toggleModal(false);
+            hasPreview(false);
             setFiles('');
-            toggleModal();
           }}
           style={{ backgroundColor: `${theme.color.grayColor}` }}
         >
