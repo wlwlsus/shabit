@@ -14,6 +14,8 @@ import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
 import com.ezpz.shabit.statistics.repository.PostureRepository;
+import com.ezpz.shabit.user.entity.Users;
+import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,6 +44,9 @@ public class InfoServiceImpl implements InfoService {
   public List<VodResDto> getVodList(String email) throws Exception {
     // daily 자세 가져오기
     List<Daily> dList = dailyRepository.findByUserEmailOrderByEndTime(email);
+    if (dList == null || dList.size() == 0) {
+      throw new NoSuchElementException("this email is not in database");
+    }
     List<DailyCalcDto> list = dList.stream().map(DailyCalcDto::new).toList();
     log.info("daily list : {}", dList);
 

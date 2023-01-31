@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/info")
@@ -36,7 +37,8 @@ public class InfoController {
       log.info("get categoryList successfully");
       return Response.makeResponse(HttpStatus.OK, "카테고리 목록 반환 성공", result.size(), result);
     } catch (Exception e) {
-      return Response.badRequest("카테고리 목록 반환 실패");
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -49,8 +51,8 @@ public class InfoController {
       log.info("phrase : {}", phrase);
       return Response.makeResponse(HttpStatus.OK, "구문 가져오기 성공", 1, phrase);
     } catch (Exception e) {
-      log.info("error : {}", e.getClass());
-      return Response.notFound("구문 가져오기 실패");
+      log.error("error : {}", e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
 
@@ -67,11 +69,14 @@ public class InfoController {
         return Response.makeResponse(HttpStatus.OK, "영상 가져오기 성공", result.size(), result);
       } else {
         log.info("there is no video data");
-        return Response.notFound("영상 정보 부족");
+        return Response.makeResponse(HttpStatus.OK, "영상 정보 부족", 0, null);
       }
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
     } catch (Exception e) {
-      log.info("error : {}", e.getClass());
-      return Response.notFound("영상 가져오기 실패");
+      log.error("error : {}", e.getMessage());
+      return Response.serverError("서버 에러");
     }
   }
 }

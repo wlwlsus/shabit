@@ -12,8 +12,8 @@ import lombok.*;
 @Table(name = "vod")
 public class Vod {
   @Id
-  @Column(name = "vod_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "vod_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long vodId;
 
   @Column(name = "title", nullable = false)

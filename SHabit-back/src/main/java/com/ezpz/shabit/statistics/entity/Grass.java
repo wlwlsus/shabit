@@ -12,20 +12,20 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="grass")
+@Table(name = "grass")
 public class Grass {
-    @Id
-    @Column(name = "grass_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long grassId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "grass_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
+  private Long grassId;
 
-    @Column(name = "date", nullable = false)
-    private LocalDate date;
+  @Column(name = "date", nullable = false)
+  private LocalDate date;
 
-    @Column(name = "percentage", nullable = false)
-    private int percentage;
+  @Column(name = "percentage", nullable = false)
+  private int percentage;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "user_id", nullable = false)
+  private Users user;
 }

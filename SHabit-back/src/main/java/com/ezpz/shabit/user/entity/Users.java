@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class Users extends BaseTimeEntity implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id", nullable = false)
+  @Column(name = "user_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
   private Long userId;
 
   @Column(name = "email", length = 63, nullable = false)

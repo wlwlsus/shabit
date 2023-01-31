@@ -9,13 +9,13 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="posture")
+@Table(name = "posture")
 public class Posture {
-    @Id
-    @Column(name = "posture_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postureId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "posture_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
+  private Long postureId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+  @Column(name = "name", nullable = false)
+  private String name;
 }

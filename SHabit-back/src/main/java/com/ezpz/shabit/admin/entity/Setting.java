@@ -9,23 +9,24 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="setting")
+@Table(name = "setting")
 public class Setting {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long settingId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "setting_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
+  private Long settingId;
 
-    @Column(name = "stretching_time", columnDefinition = "integer default 50", nullable = false)
-    private int stretchingTime;
+  @Column(name = "stretching_time", columnDefinition = "integer default 50", nullable = false)
+  private int stretchingTime;
 
-    @Column(name = "alert_time", columnDefinition = "integer default 3", nullable = false)
-    private int alertTime;
+  @Column(name = "alert_time", columnDefinition = "integer default 3", nullable = false)
+  private int alertTime;
 
-    public void setStretchingTime(int stretchingTime) {
-        this.stretchingTime = stretchingTime;
-    }
+  public void setStretchingTime(int stretchingTime) {
+    this.stretchingTime = stretchingTime;
+  }
 
-    public void setAlertTime(int alertTime) {
-        this.alertTime = alertTime;
-    }
+  public void setAlertTime(int alertTime) {
+    this.alertTime = alertTime;
+  }
 }

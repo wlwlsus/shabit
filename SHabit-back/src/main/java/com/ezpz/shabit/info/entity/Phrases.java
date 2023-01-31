@@ -9,12 +9,13 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="phrases")
+@Table(name = "phrases")
 public class Phrases {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long phrasesId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "phrases_id", nullable = false, columnDefinition = "BIGINT UNSIGNED")
+  private Long phrasesId;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+  @Column(name = "content", nullable = false)
+  private String content;
 }
