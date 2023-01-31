@@ -49,7 +49,8 @@ const UploadingModal = ({ toggleModal }) => {
           </ImgWrapper>
         )}
       </ImgWrapper>
-      <input type="file" onChange={onLoadFile}></input>
+      <InputLabel htmlFor="file">파일 선택하기</InputLabel>
+      <Input type="file" onChange={onLoadFile} id="file"></Input>
       <ButtonGroup>
         {files.length ? <Button onClick={onUpload}>업로드 하기</Button> : ''}
         <Button
@@ -110,56 +111,26 @@ const Button = styled.button`
   font-weight: bold;
   box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
 `;
+const Input = styled.input`
+  /* background-color: ${theme.color.primary};
+  color: ${theme.color.whiteColor};
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor}; */
+  display: none;
+`;
+const InputLabel = styled.label`
+  background-color: ${theme.color.secondary};
+  color: ${theme.color.primary};
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  cursor: pointer;
+`;
 const ButtonGroup = styled.div`
   display: flex;
 `;
-// import React, { useState } from 'react';
-
-// import Input from '../common/Input';
-// import ArrowIcon from '../common/ArrowIcon';
-
-// const ConfirmForm = ({ onConfirmed, confirmCode }) => {
-//   const [code, setCode] = useState('');
-//   const [comfirmed, setConfirmed] = useState(false);
-//   const [message, setMessage] = useState('인증 번호를 입력하세요');
-//   const onChangeHandler = (e) => {
-//     setCode(e.target.value);
-//   };
-
-//   const onClick = (e) => {
-//     //수정할거: 이메일 인증 요청하기
-//     if (confirmCode !== code)
-//       return setMessage('인증번호가 일치하지 않습니다.');
-//     setConfirmed(true);
-//     setTimeout(onConfirmed, 2000);
-//   };
-//   // ###############################
-
-//   return (
-//     <FormWrapper>
-//       {comfirmed ? (
-//         <div>인증되었습니다.</div>
-//       ) : (
-//         <>
-//           <div>{message}</div>
-//           <div>
-//             인증번호를 발송하였습니다. <br /> 메일함을 확인해주세요.
-//           </div>
-//           <Input
-//             type="code"
-//             name="code"
-//             value={code}
-//             onChange={onChangeHandler}
-//             placeholder={'인증번호'}
-//             shadow={'shadow'}
-//           />
-//           <div onClick={onClick}>
-//             <ArrowIcon size={'lg'} color={'primary'} />
-//           </div>
-//         </>
-//       )}
-//     </FormWrapper>
-//   );
-// };
-
-// export default ConfirmForm;
