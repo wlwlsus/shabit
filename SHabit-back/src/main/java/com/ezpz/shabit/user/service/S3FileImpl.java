@@ -99,12 +99,12 @@ public class S3FileImpl implements S3File {
 
   // multipartFile -> File 형식으로 변환 및 로컬에 저장
   private Optional<File> convertToFile(MultipartFile file) throws IOException {
-    Path currentPath = Paths.get("");
-    String path = currentPath.toAbsolutePath().toString();
-    File convertFile = new File(path + "/src/main/resources/" + Objects.requireNonNull(file.getOriginalFilename()));
-    log.info("file name : {}", convertFile);
-    file.transferTo(convertFile);
-    return Optional.of(convertFile);
+    File uploadFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+    FileOutputStream fos = new FileOutputStream(uploadFile);
+    fos.write(file.getBytes());
+    fos.close();
+
+    return Optional.of(uploadFile);
   }
 
 }
