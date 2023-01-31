@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { theme } from '../../styles/GlobalStyles';
+import { loadEffect } from '../common/animation';
 import styled from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import UpadtingDonut from './UpadtingDonut';
@@ -129,12 +130,12 @@ const LineChart = ({ mode }) => {
 
   return (
     <ChartWrapper>
-      <div id="chart">
+      <div>
         <ReactApexChart
           options={options}
           series={series}
           type="line"
-          height={270}
+          height={255}
           width={450}
           style={{ fontSize: '0.6rem' }}
         />
@@ -143,7 +144,7 @@ const LineChart = ({ mode }) => {
         <Title>
           {day?.split('-')[0]}년 {day?.split('-')[1]}월 {day?.split('-')[2]}일
         </Title>
-        <UpadtingDonut jsonData={jsonData} day={day}></UpadtingDonut>
+        <UpadtingDonut jsonData={jsonData} day={day} />
       </DonutWrapper>
     </ChartWrapper>
   );
@@ -154,7 +155,20 @@ export default LineChart;
 const ChartWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+
+  animation: 0.8s ease-in ${loadEffect.down};
+
+  & > div:nth-child(1) {
+    padding: 0.5rem;
+    border: 0.2rem solid ${theme.color.secondary};
+    border-radius: 1.5rem;
+    box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const DonutWrapper = styled.div`

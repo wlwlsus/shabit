@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
+import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
 import MainInfo from './MainInfo';
 import Heatmap from '../Chart/Heatmap';
+import HeatmapScale from './HeatmapScale';
 
 export default function MainContent() {
   return (
@@ -15,6 +17,7 @@ export default function MainContent() {
       </InfoWrapper>
       <HeatmapWrapper>
         <Heatmap />
+        <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>
   );
@@ -43,8 +46,19 @@ const HeatmapWrapper = styled.div`
   border-radius: 1.5rem;
   box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
 
-  & > div {
+  display: flex;
+  flex-direction: column;
+
+  animation: 0.8s ease-in ${loadEffect.up};
+  position: relative;
+
+  & > div:nth-child(1) {
     margin: 1rem 1.5rem 0 1rem;
-    margin-bottom: 0;
+  }
+
+  & > div:nth-child(2) {
+    position: absolute;
+    bottom: 9%;
+    left: 80%;
   }
 `;

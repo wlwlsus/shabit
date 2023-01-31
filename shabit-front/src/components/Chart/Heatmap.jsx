@@ -45,7 +45,7 @@ const Heatmap = () => {
   }, []);
 
   return (
-    <StyledContainer style={{ width: 1000 }}>
+    <HeatmapContainer style={{ width: 1000 }}>
       <CalendarHeatmap
         endDate={endDate}
         startDate={startDate}
@@ -59,13 +59,13 @@ const Heatmap = () => {
           return `color-scale-${value.classValue}`;
         }}
       />
-    </StyledContainer>
+    </HeatmapContainer>
   );
 };
 
 export default Heatmap;
 
-const StyledContainer = styled.div`
+const HeatmapContainer = styled.div`
   /*
  * https://ourcodeworld.com/articles/read/563/creating-a-calendar-heatmap-chart-github-contributions-like-in-reactjs
  * react-calendar-heatmap styles
