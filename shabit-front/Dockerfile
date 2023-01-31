@@ -1,21 +1,30 @@
-FROM node:18.13-alpine as build
+FROM node:18.13-alpine
 
 WORKDIR /app
-COPY . /app/
+COPY package.json .
 
-RUN npm install --force
-RUN npm install --slient
-RUN npm install react-scripts@3.0.1 -g --slient
+RUN npm install
+COPY . .
+CMD ["npm", "start"]
 
-RUN npm run build
+# FROM node:18.13-alpine as build
 
-FROM nginx:stable-alpine as production-stage
-COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+# WORKDIR /app
+# COPY . /app/
 
-COPY --from=build /app/build /usr/share/nginx/html
-# RUN rm /etc/nginx/conf.d/default.conf
+# RUN npm install --force
+# RUN npm install --slient
+# RUN npm install react-scripts@3.0.1 -g --slient
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# RUN npm run build
+
+# FROM nginx:stable-alpine as production-stage
+# COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# COPY --from=build /app/build /usr/share/nginx/html
+# # RUN rm /etc/nginx/conf.d/default.conf
+
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
 
 
