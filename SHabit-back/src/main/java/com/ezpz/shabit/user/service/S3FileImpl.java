@@ -13,12 +13,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.nio.file.Paths;
 
 @Component
 @Slf4j
@@ -97,7 +99,10 @@ public class S3FileImpl implements S3File {
 
   // multipartFile -> File 형식으로 변환 및 로컬에 저장
   private Optional<File> convertToFile(MultipartFile file) throws IOException {
-    File convertFile = new File(System.getProperty("user.dir") + "/src/main/resources/" + Objects.requireNonNull(file.getOriginalFilename()));
+    Path currentPath = Paths.get("");
+    String path = currentPath.toAbsolutePath().toString();
+    File convertFile = new File(path + "/src/main/resources/" + Objects.requireNonNull(file.getOriginalFilename()));
+    log.info("file name : {}", convertFile);
     file.transferTo(convertFile);
     return Optional.of(convertFile);
   }
