@@ -25,21 +25,25 @@ const UploadingModal = ({ toggleModal }) => {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      imgRef.current.style.background = `url(${reader.result})`;
+      imgRef.current.style.backgroundImage = `url(${reader.result})`;
     };
     reader.readAsDataURL(files[0]);
     return setHasPreview(!!files.length);
   };
   const onUpload = (e) => {
     const formdata = new FormData();
+    if (!files.length) return;
     formdata.append('profile', files[0]);
-
-    changeImage(email, formdata).then((res) => console.log(res));
+    changeImage(email, formdata).then(() => {
+      toggleModal(false);
+      hasPreview(false);
+      setFiles('');
+    });
   };
 
   return (
     <ModalWrapper>
-      <span>사진을 업로드하세요.</span>
+      {/* <span>사진을 업로드하세요.</span> */}
       <ImgWrapper ref={imgRef}>
         {hasPreview ? (
           <div></div>
@@ -49,17 +53,21 @@ const UploadingModal = ({ toggleModal }) => {
           </ImgWrapper>
         )}
       </ImgWrapper>
-      <input type="file" onChange={onLoadFile}></input>
-      <div onClick={onUpload}>업로드 하기</div>
-      <div
-        onClick={() => {
-          setHasPreview(false);
-          setFiles('');
-          toggleModal();
-        }}
-      >
-        취소
-      </div>
+      <InputLabel htmlFor="file">파일 선택하기</InputLabel>
+      <Input type="file" onChange={onLoadFile} id="file"></Input>
+      <ButtonGroup>
+        {files.length ? <Button onClick={onUpload}>업로드 하기</Button> : ''}
+        <Button
+          onClick={() => {
+            toggleModal(false);
+            hasPreview(false);
+            setFiles('');
+          }}
+          style={{ backgroundColor: `${theme.color.grayColor}` }}
+        >
+          취소하기
+        </Button>
+      </ButtonGroup>
     </ModalWrapper>
   );
 };
@@ -90,59 +98,36 @@ const ImgWrapper = styled.div`
   height: 7.5rem;
   border-radius: 50%;
   background-color: ${theme.color.secondary};
+  background-size: cover;
+  object-fit: cover;
 
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-// import React, { useState } from 'react';
-
-// import Input from '../common/Input';
-// import ArrowIcon from '../common/ArrowIcon';
-
-// const ConfirmForm = ({ onConfirmed, confirmCode }) => {
-//   const [code, setCode] = useState('');
-//   const [comfirmed, setConfirmed] = useState(false);
-//   const [message, setMessage] = useState('인증 번호를 입력하세요');
-//   const onChangeHandler = (e) => {
-//     setCode(e.target.value);
-//   };
-
-//   const onClick = (e) => {
-//     //수정할거: 이메일 인증 요청하기
-//     if (confirmCode !== code)
-//       return setMessage('인증번호가 일치하지 않습니다.');
-//     setConfirmed(true);
-//     setTimeout(onConfirmed, 2000);
-//   };
-//   // ###############################
-
-//   return (
-//     <FormWrapper>
-//       {comfirmed ? (
-//         <div>인증되었습니다.</div>
-//       ) : (
-//         <>
-//           <div>{message}</div>
-//           <div>
-//             인증번호를 발송하였습니다. <br /> 메일함을 확인해주세요.
-//           </div>
-//           <Input
-//             type="code"
-//             name="code"
-//             value={code}
-//             onChange={onChangeHandler}
-//             placeholder={'인증번호'}
-//             shadow={'shadow'}
-//           />
-//           <div onClick={onClick}>
-//             <ArrowIcon size={'lg'} color={'primary'} />
-//           </div>
-//         </>
-//       )}
-//     </FormWrapper>
-//   );
-// };
-
-// export default ConfirmForm;
+const Button = styled.button`
+  background-color: ${theme.color.primary};
+  color: ${theme.color.whiteColor};
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+`;
+const Input = styled.input`
+  display: none;
+`;
+const InputLabel = styled.label`
+  background-color: ${theme.color.secondary};
+  color: ${theme.color.primary};
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  cursor: pointer;
+`;
+const ButtonGroup = styled.div`
+  display: flex;
+`;

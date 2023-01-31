@@ -11,15 +11,11 @@ export default function UserInfo({ user, lastDate, toggleModal }) {
 
   return (
     <Wrapper>
-      <ImgWrapper>
-        <SubWrapper>
-          {profile ? (
-            <img alt="profile" src="profile" />
-          ) : (
-            <Logo color={'pink'} />
-          )}
-          <span onClick={() => toggleModal()}>이미지 변경하기</span>
-        </SubWrapper>
+      <ImgWrapper
+        style={profile?.length ? { backgroundImage: `url(${profile})` } : {}}
+      >
+        {profile ? <div></div> : <Logo color={'pink'} />}
+        <span onClick={() => toggleModal(true)}>이미지 변경하기</span>
       </ImgWrapper>
 
       <ContentWrapper>
@@ -39,11 +35,24 @@ export default function UserInfo({ user, lastDate, toggleModal }) {
 
 const Wrapper = styled.div``;
 
-const SubWrapper = styled.div`
-  img {
-    width: 100%;
-    vertical-align: middle;
-  }
+const ImgWrapper = styled.div`
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  background-color: ${theme.color.secondary};
+  background-size: cover;
+  object-fit: cover;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 4%;
+  left: 7%;
+  animation: 0.8s ease-in ${loadEffect.down};
+  z-index: 1;
   span {
     visibility: hidden;
     padding: 5px 10px;
@@ -53,26 +62,13 @@ const SubWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: ${theme.color.whiteColor};
+    text-shadow: 0px 0px 3px black;
     cursor: pointer;
   }
   &:hover span {
     visibility: visible;
   }
-`;
-
-const ImgWrapper = styled.div`
-  width: 7.5rem;
-  height: 7.5rem;
-  border-radius: 50%;
-  background-color: ${theme.color.secondary};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: absolute;
-  top: 4%;
-  left: 7%;
 `;
 
 const ContentWrapper = styled.div`
