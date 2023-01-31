@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
-import ArrowIcon from '../common/ArrowIcon';
+import { HiArrowRightCircle } from 'react-icons/hi2';
+
 import { setUserState, setTokenState } from '../../store/authSlice';
 import { useDispatch } from 'react-redux';
 import Auth from '../../services/auth';
@@ -133,14 +134,11 @@ const LoginForm = () => {
               />
               <span>자동 로그인</span>
             </Checkbox>
-            <span onClick={() => setForgotPassword(true)}>
+            <Div onClick={() => setForgotPassword(true)}>
               비밀번호를 잊으셨나요?
-            </span>
+            </Div>
           </Wrapper>
-
-          <div onClick={onLogin}>
-            <ArrowIcon size={'lg'} color={'primary'} />
-          </div>
+          <HiArrowRightCircle onClick={onLogin} />
         </>
       ) : (
         <>
@@ -150,7 +148,7 @@ const LoginForm = () => {
 
       <Signup>
         <span>아직 계정이 없으신가요?</span>
-        <button onClick={goSignup}>회원가입</button>
+        <Div onClick={goSignup}>회원가입</Div>
       </Signup>
     </FormWrapper>
   );
@@ -164,6 +162,17 @@ const FormWrapper = styled.div`
   justify-content: center;
 
   animation: 0.8s ease-in ${loadEffect.left};
+
+  & > svg {
+    color: ${theme.color.primary};
+    font-size: 3rem;
+    transition: all 0.3s linear;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
 `;
 
 const Title = styled.div`
@@ -187,6 +196,17 @@ const Wrapper = styled.div`
 const Checkbox = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const Div = styled.div`
+  color: ${theme.color.primary};
+  transition: all 0.2s linear;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;
 
 const Signup = styled.div`

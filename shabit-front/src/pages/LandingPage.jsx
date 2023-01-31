@@ -33,6 +33,10 @@ const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+    cursor: default;
+  }
 `;
 
 const ContainerWrapper = styled.div`

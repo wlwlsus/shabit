@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import Logo from '../common/Logo';
-import Icon from '../common/Icon';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
@@ -18,7 +17,7 @@ const Introduction = () => {
       </WelcomeWrapper>
       <ImgWrapper>
         <Img src={'/assets/posture-bad.png'} alt="" />
-        <Icon icon={<TbArrowBigRightLine />} color={'white'} size={'lg'} />
+        <TbArrowBigRightLine />
         <Img src={'/assets/posture-good.png'} alt="" />
       </ImgWrapper>
     </ContentWrapper>
@@ -48,6 +47,11 @@ const ImgWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  & > svg {
+    color: ${theme.color.whiteColor};
+    font-size: 3rem;
+  }
 `;
 
 const Img = styled.img`
