@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
-import ArrowIcon from '../common/ArrowIcon';
+
+import { HiArrowRightCircle } from 'react-icons/hi2';
+
 
 const ConfirmForm = ({ onConfirmed, confirmCode }) => {
   const [code, setCode] = useState('');
@@ -40,9 +42,7 @@ const ConfirmForm = ({ onConfirmed, confirmCode }) => {
             placeholder={'인증번호'}
             shadow={'shadow'}
           />
-          <div onClick={onClick}>
-            <ArrowIcon size={'lg'} color={'primary'} />
-          </div>
+          <HiArrowRightCircle onClick={onClick} />
         </>
       )}
     </FormWrapper>
@@ -57,10 +57,16 @@ const FormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   & > div:first-child {
-    font-size: 1rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: ${theme.color.blueColor};
   }
+
+
+  & > svg {
+    color: ${theme.color.primary};
+  }
+
 `;

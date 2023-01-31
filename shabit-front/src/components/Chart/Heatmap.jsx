@@ -9,24 +9,23 @@ const Heatmap = ({ heatMapSeries }) => {
   const values: Array = heatMapSeries;
   const [today] = useState(new Date());
   const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
 
   //  기간 설정 (1년 전 ~ today)
-  useEffect(() => {
-    if (today) {
-      const year = today.getFullYear();
-      let month = today.getMonth() + 1;
-      let day = today.getDate();
+  // Lazy Initialization (state 정의될 때 한 번만 실행)
+  const [endDate] = useState(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    let month = now.getMonth() + 1;
+    let day = now.getDate();
 
-      month = month.toString().padStart(2, '0');
-      day = day.toString().padStart(2, '0');
+    month = month.toString().padStart(2, '0');
+    day = day.toString().padStart(2, '0');
 
-      setStartDate(`${year - 1}-${month}-${day}`);
-      setEndDate(`${year}-${month}-${day}`);
-    }
-  }, [today]);
+    setStartDate(`${year - 1}-${month}-${day}`);
+    return `${year}-${month}-${day}`;
+  });
 
-  //  마운트 됐을 때 데이터 가져옴.
+  //  마운트 됐을 때 데이터 가져옴
   //  배열에 날짜, 퍼센트, 클래스(색) 저장
   // useEffect(() => {
   //   fetch(`/testData/heatMapData.json`)
@@ -48,7 +47,7 @@ const Heatmap = ({ heatMapSeries }) => {
   // }, []);
 
   return (
-    <StyledContainer style={{ width: 1000 }}>
+    <HeatmapContainer style={{ width: 1000 }}>
       <CalendarHeatmap
         endDate={endDate}
         startDate={startDate}
@@ -62,13 +61,13 @@ const Heatmap = ({ heatMapSeries }) => {
           return `color-scale-${value.classValue}`;
         }}
       />
-    </StyledContainer>
+    </HeatmapContainer>
   );
 };
 
 export default Heatmap;
 
-const StyledContainer = styled.div`
+const HeatmapContainer = styled.div`
   /*
  * https://ourcodeworld.com/articles/read/563/creating-a-calendar-heatmap-chart-github-contributions-like-in-reactjs
  * react-calendar-heatmap styles

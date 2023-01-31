@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
+import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
 import MainInfo from './MainInfo';
 import Heatmap from '../Chart/Heatmap';
+import HeatmapScale from './HeatmapScale';
 
 import { typedUseSeletor } from '../../store';
 
@@ -50,7 +52,8 @@ export default function MainContent() {
         <MainInfo randomQuote={randomQuote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap heatMapSeries={heatMapSeries} />
+        <Heatmap heatMapSeries={heatMapSeries}/>
+        <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>
   );
@@ -79,8 +82,19 @@ const HeatmapWrapper = styled.div`
   border-radius: 1.5rem;
   box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
 
-  & > div {
+  display: flex;
+  flex-direction: column;
+
+  animation: 0.8s ease-in ${loadEffect.up};
+  position: relative;
+
+  & > div:nth-child(1) {
     margin: 1rem 1.5rem 0 1rem;
-    margin-bottom: 0;
+  }
+
+  & > div:nth-child(2) {
+    position: absolute;
+    bottom: 9%;
+    left: 80%;
   }
 `;

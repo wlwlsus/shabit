@@ -6,6 +6,8 @@ import Navbar from '../components/Landing/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
+import { loadEffect } from '../components/common/animation';
+
 
 export default function LandingPage({ children }) {
   const [content, form] = children;
@@ -38,6 +40,10 @@ const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &:hover {
+    cursor: default;
+  }
 `;
 
 const ContainerWrapper = styled.div`
@@ -48,21 +54,31 @@ const ContainerWrapper = styled.div`
 `;
 
 const NavContainer = styled.div`
-  width: 28rem;
+  width: 7rem;
   height: 25rem;
   background-color: ${theme.color.whiteColor};
-  border-radius: 1.5rem;
+  border-radius: 1.5rem 0 0 1.5rem;
+  margin-right: 19rem;
+
+  animation: 0.8s ease-in-out ${loadEffect.right};
+`;
+
+const FormContainer = styled.div`
+  width: 25rem;
+  height: 25rem;
+  background-color: ${theme.color.whiteColor};
+  border-radius: 0 1.5rem 1.5rem 0;
+  margin-left: 8rem;
+
+  animation: 0.8s ease-in ${loadEffect.left};
 `;
 
 const ContentContainer = styled.div`
   width: 27rem;
   height: 27rem;
   background-color: ${theme.color.primary};
-
   position: absolute;
   left: 12%;
-`;
 
-const FormContainer = styled(NavContainer)`
-  margin-left: 2.5rem;
+  animation: 0.8s ease-in ${loadEffect.down};
 `;

@@ -1,17 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
 import { typedUseSeletor } from '../store';
 
 export default function MainPage() {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [style, setStyle] = useState([clicked, unClicked]);
   const user = typedUseSeletor((state) => {
     return state.auth.user;
   });
+
+  const unClicked = {
+    color: theme.color.grayColor,
+  };
+  const clicked = {
+    backgroundColor: theme.color.primary,
+    color: theme.color.secondary,
+  };
+
+  const currentUrl = location.pathname;
+  useEffect(() => {
+    switch (currentUrl) {
+      case '/main':
+        setStyle([clicked, unClicked]);
+        break;
+      case '/main/history':
+        setStyle([unClicked, clicked]);
+        break;
+      default:
+        setStyle([0, 0]);
+        break;
+    }
+  }, [currentUrl]);
 
   useEffect(() => {
     const accessToken = JSON.parse(localStorage.getItem('accessToken'));
@@ -20,7 +45,6 @@ export default function MainPage() {
     }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -34,16 +58,27 @@ export default function MainPage() {
       }
     };
     _setUser();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab>SHabit</Tab>
-        <Tab>자세기록</Tab>
-
+        <Tab
+          onClick={() => {
+            navigate('/main');
+          }}
+          style={style[0]}
+        >
+          SHabit
+        </Tab>
+        <Tab
+          onClick={() => {
+            navigate('/main/history');
+          }}
+          style={style[1]}
+        >
+          자세기록
+        </Tab>
         <Container>
           <Outlet />
         </Container>
@@ -57,6 +92,10 @@ const PageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    cursor: default;
+  }
 `;
 
 const ContainerWrapper = styled.div`
@@ -82,6 +121,8 @@ const ContainerWrapper = styled.div`
 `;
 
 const Container = styled.div`
+  width: 70rem;
+  height: 36rem;
   background-color: ${theme.color.whiteColor};
   border-radius: 0 1.5rem 1.5rem;
   padding: 2rem;
@@ -94,6 +135,7 @@ const Tab = styled.button`
   background-color: ${theme.color.whiteColor};
   font-size: 1.1rem;
   font-weight: bold;
+  line-height: 0.7rem;
   padding: 1.2rem;
   border-radius: 1.5rem 1.5rem 0 0;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
