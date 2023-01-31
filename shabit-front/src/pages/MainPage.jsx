@@ -4,19 +4,36 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
+import { typedUseSeletor } from '../store';
 
 export default function MainPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = typedUseSeletor((state) => {
+    return state.auth.user;
+  });
+
   useEffect(() => {
     const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!accessToken && !user) {
+    if (!accessToken && !user.email) {
       return navigate('/login');
     }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, [navigate, dispatch]);
+
+  useEffect(() => {
+    let newUser = user;
+    const _setUser = () => {
+      if (newUser.email) return;
+      else {
+        const localUser = JSON.parse(localStorage.getItem('user'));
+        newUser = localUser;
+        dispatch(setUserState(localUser));
+      }
+    };
+    _setUser();
+  }, []);
 
   return (
     <PageWrapper>

@@ -63,6 +63,7 @@ export const fetchHeatmap = async (email: string): Promise<object> => {
         else if (percentage >= 20) classValue = 1;
         newArray.push({ date, percentage, classValue });
       }
+
       dispatch(setHeatMapData(jsonData));
       dispatch(setHeatMapSeries(newArray));
       return Promise.resolve(newArray);

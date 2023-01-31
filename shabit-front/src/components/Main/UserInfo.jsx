@@ -5,19 +5,24 @@ import { theme } from '../../styles/GlobalStyles';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function UserInfo() {
+export default function UserInfo({ user, lastDate }) {
+  const { email, nickname, profile, theme } = user;
+
   return (
     <Wrapper>
       <ImgWrapper>
-        <Logo color={'pink'} />
+        {profile ? <img src="profile" /> : <Logo color={'pink'} />}
       </ImgWrapper>
 
       <ContentWrapper>
         <UserName>
-          <span>USERNAME</span>
-          <span>이메일 :asdfasfsdfasdfaezpz@gmail.com</span>
+          {/* <span>USERNAME</span>
+          <span>이메일 :asdfasfsdfasdfaezpz@gmail.com</span> */}
+          <span>{nickname}</span>
+          <span>이메일 : {email}</span>
         </UserName>
-        <LastLogin>마지막 접속일 : 2022.11.12</LastLogin>
+        {/* <LastLogin>마지막 접속일 : 2022.11.12</LastLogin> */}
+        <LastLogin>마지막 접속일 : {lastDate}</LastLogin>
         <ThemeBox />
       </ContentWrapper>
     </Wrapper>

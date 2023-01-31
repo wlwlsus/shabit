@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
@@ -6,15 +6,44 @@ import UserInfo from './UserInfo';
 import MainInfo from './MainInfo';
 import Heatmap from '../Chart/Heatmap';
 
+import { typedUseSeletor } from '../../store';
+
+import { fetchProfile } from '../../services/auth/get';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUserState } from '../../store/authSlice';
+import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+
 export default function MainContent() {
+  const heatMapSeries = typedUseSeletor((state) => {
+    return state.chart.heatMapSeries;
+  });
+
+  const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+
+  const randomQuote = typedUseSeletor((state) => {
+    return state.chart.randomQuote;
+  });
+  const user = typedUseSeletor((state) => {
+    return state.auth.user;
+  });
+
+  useEffect(() => {
+    Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+  }, [user]);
+
+  useEffect(() => {
+    setLastDate(heatMapSeries.slice(-1)[0]?.date);
+  }, [heatMapSeries]);
+
   return (
     <Wrapper>
       <InfoWrapper>
-        <UserInfo />
-        <MainInfo />
+        <UserInfo user={user} lastDate={lastDate} />
+        <MainInfo randomQuote={randomQuote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap />
+        <Heatmap heatMapSeries={heatMapSeries} />
       </HeatmapWrapper>
     </Wrapper>
   );

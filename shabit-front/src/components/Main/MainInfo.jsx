@@ -1,39 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { typedUseSeletor } from '../../store';
-import { fetchHeatmap } from '../../services/stat/get';
-import { fetchProfile } from '../../services/auth/get';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-export default function MainInfo() {
-  const heatMapData = typedUseSeletor((state) => {
-    return state.chart.heatMapData;
-  });
-  const randomQuote = typedUseSeletor((state) => {
-    return state.chart.randomQuote;
-  });
-  const user = typedUseSeletor((state) => {
-    return state.auth.user;
-  });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (function () {
-      if (user) return;
-      else {
-        const localUser = JSON.parse(localStorage.getItem('user'));
-        console.log(localUser);
-      }
-    })();
-
-    Promise.allSettled();
-  }, []);
-
+export default function MainInfo({ randomQuote }) {
   return (
     <Wrapper>
       <InfoBox>
@@ -42,10 +14,11 @@ export default function MainInfo() {
           알고 계셨나요?
         </InfoTitle>
         <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
+          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
           facere odit ad, at, illum neque soluta optio assumenda reprehenderit
           ullam, accusantium molestiae impedit natus iusto quod fugit asperiores
-          dolorum!
+          dolorum! */}
+          {randomQuote}
         </div>
       </InfoBox>
 
