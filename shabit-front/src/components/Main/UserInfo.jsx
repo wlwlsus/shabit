@@ -6,19 +6,31 @@ import { loadEffect } from '../common/animation';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function UserInfo() {
+export default function UserInfo({ user, lastDate, toggleModal }) {
+  const { email, nickname, profile, theme } = user;
+
   return (
     <Wrapper>
       <ImgWrapper>
-        <Logo color={'pink'} />
+        <SubWrapper>
+          {profile ? (
+            <img alt="profile" src="profile" />
+          ) : (
+            <Logo color={'pink'} />
+          )}
+          <span onClick={() => toggleModal()}>이미지 변경하기</span>
+        </SubWrapper>
       </ImgWrapper>
 
       <ContentWrapper>
         <UserName>
-          <span>USERNAME</span>
-          <span>이메일 :asdfasfsdfasdfaezpz@gmail.com</span>
+          {/* <span>USERNAME</span>
+          <span>이메일 :asdfasfsdfasdfaezpz@gmail.com</span> */}
+          <span>{nickname}</span>
+          <span>이메일 : {email}</span>
         </UserName>
-        <LastLogin>마지막 접속일 : 2022.11.12</LastLogin>
+        {/* <LastLogin>마지막 접속일 : 2022.11.12</LastLogin> */}
+        <LastLogin>마지막 접속일 : {lastDate}</LastLogin>
         <ThemeBox />
       </ContentWrapper>
     </Wrapper>
@@ -26,6 +38,27 @@ export default function UserInfo() {
 }
 
 const Wrapper = styled.div``;
+
+const SubWrapper = styled.div`
+  img {
+    width: 100%;
+    vertical-align: middle;
+  }
+  span {
+    visibility: hidden;
+    padding: 5px 10px;
+    text-align: center;
+    position: absolute;
+    min-width: 9rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
+  &:hover span {
+    visibility: visible;
+  }
+`;
 
 const ImgWrapper = styled.div`
   width: 7.5rem;

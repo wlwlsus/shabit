@@ -6,7 +6,7 @@ import { loadEffect } from '../common/animation';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function MainInfo() {
+export default function MainInfo({ randomQuote }) {
   return (
     <Wrapper>
       <InfoBox>
@@ -15,10 +15,11 @@ export default function MainInfo() {
           알고 계셨나요?
         </InfoTitle>
         <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
+          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
           facere odit ad, at, illum neque soluta optio assumenda reprehenderit
           ullam, accusantium molestiae impedit natus iusto quod fugit asperiores
-          dolorum!
+          dolorum! */}
+          {randomQuote}
         </div>
       </InfoBox>
 

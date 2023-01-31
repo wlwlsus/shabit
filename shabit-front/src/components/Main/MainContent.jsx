@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
@@ -8,15 +8,51 @@ import MainInfo from './MainInfo';
 import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
+import { typedUseSeletor } from '../../store';
+
+import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+import UploadingModal from './UploadingModal';
+
 export default function MainContent() {
+  const heatMapSeries = typedUseSeletor((state) => {
+    return state.chart.heatMapSeries;
+  });
+
+  const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+  const [isUploading, setIsUploading] = useState(false);
+  const randomQuote = typedUseSeletor((state) => {
+    return state.chart.randomQuote;
+  });
+  const user = typedUseSeletor((state) => {
+    return state.auth.user;
+  });
+
+  useEffect(() => {
+    if (user.email) {
+      Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setLastDate(heatMapSeries.slice(-1)[0]?.date);
+  }, [heatMapSeries]);
+
+  const toggleModal = () => {
+    setIsUploading(!isUploading);
+  };
   return (
     <Wrapper>
+      {!isUploading ? (
+        <div></div>
+      ) : (
+        <UploadingModal toggleModal={toggleModal} />
+      )}
       <InfoWrapper>
-        <UserInfo />
-        <MainInfo />
+        <UserInfo user={user} lastDate={lastDate} toggleModal={toggleModal} />
+        <MainInfo randomQuote={randomQuote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap />
+        <Heatmap heatMapSeries={heatMapSeries}/>
         <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>

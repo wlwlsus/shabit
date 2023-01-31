@@ -147,7 +147,7 @@ const SignupForm = () => {
       {!message ? <div></div> : <div>{message}</div>}
       <InputWrapper>
         {isLoading ? (
-          <img src="/assets/spinner.gif" className="Spinner" />
+          <img alt="Spinner" src="/assets/spinner.gif" className="Spinner" />
         ) : (
           <></>
         )}

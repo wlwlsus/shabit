@@ -4,17 +4,24 @@ import { theme } from '../styles/GlobalStyles';
 
 import Navbar from '../components/Landing/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setTokenState, setUserState } from '../store/authSlice';
 import { loadEffect } from '../components/common/animation';
+
 
 export default function LandingPage({ children }) {
   const [content, form] = children;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!!accessToken) {
+    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+    const user = JSON.parse(localStorage.getItem('user'));
+    dispatch(setTokenState(accessToken));
+    dispatch(setUserState(user));
+    if (accessToken && user) {
       navigate('/main');
     }
-  }, []);
+  }, [navigate, dispatch]);
   return (
     <PageWrapper>
       <ContainerWrapper>

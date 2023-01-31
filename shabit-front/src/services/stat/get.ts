@@ -1,9 +1,22 @@
+import { header } from '..';
+import store from '../../store';
+import {
+  setDailyData,
+  setHeatMapData,
+  setHeatMapSeries,
+  setMonthlyData,
+  setRandomQuote,
+  setWeeklyData,
+} from '../../store/chartSlice';
 import apiRequest from '../../utils/apiRequest';
+
+const dispatch = store.dispatch;
+
 export const fetchDaily = async (email: string): Promise<object> => {
   return await apiRequest
     .get(`/api/v1/statistics/today/${email}`)
     .then((res) => {
-      localStorage.setItem('dailyData', res.data.result);
+      dispatch(setDailyData(res.data.result));
       return Promise.resolve(res.data.result);
     })
     .catch((err) => Promise.reject(err.data));
@@ -16,7 +29,7 @@ export const fetchWeekly = async (
   return await apiRequest
     .get(`/api/v1/statistics/weekly/${email}?page=${~~page}`)
     .then((res) => {
-      localStorage.setItem('weeklyData', res.data.result);
+      dispatch(setWeeklyData(res.data.result));
       return Promise.resolve(res.data.result);
     })
     .catch((err) => Promise.reject(err.data));
@@ -29,7 +42,7 @@ export const fetchMonthly = async (
   return await apiRequest
     .get(`/api/v1/statistics/monthly/${email}?page=${~~page}`)
     .then((res) => {
-      localStorage.setItem('monthlyData', res.data.result);
+      dispatch(setMonthlyData(res.data.result));
       return Promise.resolve(res.data.result);
     })
     .catch((err) => Promise.reject(err.data));
@@ -37,9 +50,8 @@ export const fetchMonthly = async (
 
 export const fetchHeatmap = async (email: string): Promise<object> => {
   return await apiRequest
-    .get(`/api/v1/statistics/grass/${email}`)
+    .get(`/api/v1/statistics/grass/${email}`, { headers: header() })
     .then((res) => {
-      localStorage.setItem('heatMapData', res.data.result);
       const jsonData = res.data.result;
       const newArray = [];
       for (let element of jsonData) {
@@ -51,7 +63,19 @@ export const fetchHeatmap = async (email: string): Promise<object> => {
         else if (percentage >= 20) classValue = 1;
         newArray.push({ date, percentage, classValue });
       }
+
+      dispatch(setHeatMapData(jsonData));
+      dispatch(setHeatMapSeries(newArray));
       return Promise.resolve(newArray);
     })
     .catch((err) => err.data);
+};
+
+export const fetchQuote = async (): Promise<object> => {
+  return await apiRequest
+    .get('/api/v1/info/phrases', { headers: header() })
+    .then((res) => {
+      dispatch(setRandomQuote(res.data.result.content));
+      return Promise.resolve(res.data.result.content);
+    });
 };

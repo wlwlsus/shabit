@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
-import Auth from '../../services/auth';
+
 import { HiArrowRightCircle } from 'react-icons/hi2';
+
 
 const ConfirmForm = ({ onConfirmed, confirmCode }) => {
   const [code, setCode] = useState('');
@@ -63,7 +64,9 @@ const FormWrapper = styled.div`
     color: ${theme.color.blueColor};
   }
 
+
   & > svg {
     color: ${theme.color.primary};
   }
+
 `;

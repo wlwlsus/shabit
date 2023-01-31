@@ -1,3 +1,4 @@
+import { header } from '../..';
 import apiRequest from '../../../utils/apiRequest';
 
 export const changeImage = (
@@ -9,11 +10,12 @@ export const changeImage = (
     return;
   }
 
+  const { Authorization } = header();
   apiRequest
     .put(`/api/v1/user/profile/${email}`, formData, {
       headers: {
-        'Content-type': 'multipart/form-data',
-        // Authorization: `Token ${this.$store.state.token}`,
+        'Content-Type': 'multipart/form-data',
+        Authorization,
       },
     })
     .then((res) => {
@@ -45,5 +47,3 @@ export const changeTheme = (thema: number, email: string): Promise<boolean> => {
 export const changeNickname = (email: string): Promise<boolean> => {
   return Promise.resolve(true);
 };
-
-export default { changeImage, resetPassword, changeTheme, changeNickname };

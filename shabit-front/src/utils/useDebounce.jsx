@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function useDebounce(value, delay) {
   //delay 안에 키보드를 치는 경우 return하지 않고 delay를 초기화함.

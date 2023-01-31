@@ -1,25 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
+import { useDispatch } from 'react-redux';
+import { setTokenState, setUserState } from '../store/authSlice';
+import { typedUseSeletor } from '../store';
 
 export default function MainPage() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [style, setStyle] = useState([clicked, unClicked]);
+  const user = typedUseSeletor((state) => {
+    return state.auth.user;
+  });
 
   const unClicked = {
     color: theme.color.grayColor,
   };
-
   const clicked = {
     backgroundColor: theme.color.primary,
     color: theme.color.secondary,
   };
 
-  const [style, setStyle] = useState([clicked, unClicked]);
-
   const currentUrl = location.pathname;
-
   useEffect(() => {
     switch (currentUrl) {
       case '/main':
@@ -33,6 +37,28 @@ export default function MainPage() {
         break;
     }
   }, [currentUrl]);
+
+  useEffect(() => {
+    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+    if (!accessToken && !user.email) {
+      return navigate('/login');
+    }
+    dispatch(setTokenState(accessToken));
+    dispatch(setUserState(user));
+  }, []);
+
+  useEffect(() => {
+    let newUser = user;
+    const _setUser = () => {
+      if (newUser.email) return;
+      else {
+        const localUser = JSON.parse(localStorage.getItem('user'));
+        newUser = localUser;
+        dispatch(setUserState(localUser));
+      }
+    };
+    _setUser();
+  }, []);
 
   return (
     <PageWrapper>

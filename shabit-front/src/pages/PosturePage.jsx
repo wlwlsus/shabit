@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../styles/GlobalStyles';
 
@@ -7,8 +7,21 @@ import Logo from '../components/common/Logo';
 import Modal from '../components/Posture/Modal';
 
 import { AiFillNotification } from 'react-icons/ai';
-
+import { useDispatch } from 'react-redux';
+import { setTokenState, setUserState } from '../store/authSlice';
 export default function PosturePage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!accessToken && !user) {
+      return navigate('/login');
+    }
+    dispatch(setTokenState(accessToken));
+    dispatch(setUserState(user));
+  }, [navigate, dispatch]);
+
   const [modal, setModal] = useState(false);
 
   const OpenModal = () => {
