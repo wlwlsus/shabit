@@ -47,19 +47,19 @@ const Navbar = () => {
 };
 
 const NavWrapper = styled.div`
-  width: 25%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   padding: 2.5rem 0;
 `;
 
 const NavContent = styled.div`
-  height: 100%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 1rem 0;
 `;
 
@@ -69,7 +69,7 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   color: ${theme.color.grayColor};
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   font-weight: bold;
 
   &:hover {

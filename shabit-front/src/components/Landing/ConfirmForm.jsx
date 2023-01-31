@@ -58,17 +58,11 @@ const FormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   & > div:first-child {
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: ${theme.color.blueColor};
   }
-`;
-
-const Title = styled.div`
-  width: 34%;
-  color: ${theme.color.grayColor};
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
 `;

@@ -7,6 +7,8 @@ import Logo from '../common/Logo';
 import { FcGoogle } from 'react-icons/fc';
 import { SiKakaotalk, SiNaver } from 'react-icons/si';
 
+import { loadEffect } from '../common/animation';
+
 const LandingContent = () => {
   return (
     <Container>
@@ -32,6 +34,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const WelcomeWrapper = styled.div`
