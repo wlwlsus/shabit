@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { changeImage } from '../../services/auth/put';
+import { typedUseSeletor } from '../../store';
 import { theme } from '../../styles/GlobalStyles';
 import Logo from '../common/Logo';
 
 const UploadingModal = ({ toggleModal }) => {
   const [hasPreview, setHasPreview] = useState(false);
   const [files, setFiles] = useState('');
+  const email = typedUseSeletor((state) => state.auth.user.email);
   const imgRef = useRef();
   useEffect(() => {
     //https://velog.io/@gay0ung/리액트로-이미지-업로드-미리보기
@@ -27,6 +30,12 @@ const UploadingModal = ({ toggleModal }) => {
     reader.readAsDataURL(files[0]);
     return setHasPreview(!!files.length);
   };
+  const onUpload = (e) => {
+    const formdata = new FormData();
+    formdata.append('profile', files[0]);
+
+    changeImage(email, formdata).then((res) => console.log(res));
+  };
 
   return (
     <ModalWrapper>
@@ -41,12 +50,15 @@ const UploadingModal = ({ toggleModal }) => {
         )}
       </ImgWrapper>
       <input type="file" onChange={onLoadFile}></input>
+      <div onClick={onUpload}>업로드 하기</div>
       <div
         onClick={() => {
+          setHasPreview(false);
+          setFiles('');
           toggleModal();
         }}
       >
-        끄기
+        취소
       </div>
     </ModalWrapper>
   );
