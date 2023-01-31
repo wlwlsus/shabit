@@ -5,7 +5,7 @@ import { theme } from '../../styles/GlobalStyles';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function UserInfo({ user, lastDate }) {
+export default function UserInfo({ user, lastDate, toggleModal }) {
   const { email, nickname, profile, theme } = user;
 
   return (
@@ -17,7 +17,7 @@ export default function UserInfo({ user, lastDate }) {
           ) : (
             <Logo color={'pink'} />
           )}
-          <text>이미지 변경하기</text>
+          <span onClick={() => toggleModal()}>이미지 변경하기</span>
         </SubWrapper>
       </ImgWrapper>
 
@@ -43,7 +43,7 @@ const SubWrapper = styled.div`
     width: 100%;
     vertical-align: middle;
   }
-  text {
+  span {
     visibility: hidden;
     padding: 5px 10px;
     text-align: center;
@@ -54,7 +54,7 @@ const SubWrapper = styled.div`
     transform: translate(-50%, -50%);
     cursor: pointer;
   }
-  &:hover text {
+  &:hover span {
     visibility: visible;
   }
 `;

@@ -9,6 +9,7 @@ import Heatmap from '../Chart/Heatmap';
 import { typedUseSeletor } from '../../store';
 
 import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+import UploadingModal from './UploadingModal';
 
 export default function MainContent() {
   const heatMapSeries = typedUseSeletor((state) => {
@@ -16,7 +17,7 @@ export default function MainContent() {
   });
 
   const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
-
+  const [isUploading, setIsUploading] = useState(false);
   const randomQuote = typedUseSeletor((state) => {
     return state.chart.randomQuote;
   });
@@ -25,17 +26,27 @@ export default function MainContent() {
   });
 
   useEffect(() => {
-    Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+    if (user.email) {
+      Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+    }
   }, [user]);
 
   useEffect(() => {
     setLastDate(heatMapSeries.slice(-1)[0]?.date);
   }, [heatMapSeries]);
 
+  const toggleModal = () => {
+    setIsUploading(!isUploading);
+  };
   return (
     <Wrapper>
+      {!isUploading ? (
+        <div></div>
+      ) : (
+        <UploadingModal toggleModal={toggleModal} />
+      )}
       <InfoWrapper>
-        <UserInfo user={user} lastDate={lastDate} />
+        <UserInfo user={user} lastDate={lastDate} toggleModal={toggleModal} />
         <MainInfo randomQuote={randomQuote} />
       </InfoWrapper>
       <HeatmapWrapper>
