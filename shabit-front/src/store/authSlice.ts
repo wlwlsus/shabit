@@ -4,17 +4,17 @@ const authSlice = createSlice({
   name: 'authSlice',
   initialState: {
     accessToken: '',
-    profile: { email: '', nickname: '', profile: '', theme: 0 },
+    user: { email: '', nickname: '', profile: '', theme: 0 },
   },
   reducers: {
     setTokenState: (state, action) => {
       state.accessToken = action.payload;
     },
-    setProfileState: (state, action) => {
-      state.profile = { ...state.profile, ...action.payload };
+    setUserState: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
     },
   },
 });
 
 export default authSlice;
-export const { setTokenState, setProfileState } = authSlice.actions;
+export const { setTokenState, setUserState } = authSlice.actions;

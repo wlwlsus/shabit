@@ -1,3 +1,5 @@
+import store from '../../../store';
+import { setUserState, setTokenState } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 
 //https://dev.to/ramonak/javascript-how-to-access-the-return-value-of-a-promise-object-1bck
@@ -27,6 +29,10 @@ export const login = async (email: string, password: string) => {
     .then((res) => {
       const accessToken = res.data.result.token.accessToken;
       const user = res.data.result.user;
+      store.dispatch(setTokenState(accessToken));
+      store.dispatch(setUserState(user));
+      localStorage.setItem('accessToken', JSON.stringify(accessToken));
+      localStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve({ user, accessToken });
     })
     .catch((err) => {

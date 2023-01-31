@@ -1,11 +1,16 @@
 import { header } from '../..';
+import store from '../../../store';
+import { setUserState } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 
 export const fetchProfile = async (email: string): Promise<object> => {
   return await apiRequest
     .get(`/api/v1/user/${email}`, { headers: header() })
     .then((res) => {
-      return Promise.resolve(res.data.result);
+      const user = res.data.result;
+      store.dispatch(setUserState(user));
+      localStorage.setItem('user', JSON.stringify(user));
+      return Promise.resolve(user);
     })
     .catch((err) => Promise.reject(err));
 };

@@ -4,12 +4,6 @@ import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 import ArrowIcon from '../common/ArrowIcon';
-import {
-  setUserState,
-  setTokenState,
-  setProfileState,
-} from '../../store/authSlice';
-import { useDispatch } from 'react-redux';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,7 +23,6 @@ const LoginForm = () => {
   };
 
   //onChange 핸들링입니다.
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
@@ -54,17 +47,11 @@ const LoginForm = () => {
 
   const onLogin = () => {
     Auth.login(email, password)
-      .then(async ({ user, accessToken }) => {
-        console.log(user);
-        await dispatch(setProfileState(user));
-        await dispatch(setTokenState(accessToken));
-        await localStorage.setItem('accessToken', JSON.stringify(accessToken));
-        await localStorage.setItem('user', JSON.stringify(user));
-        await navigate('/main');
+      .then(({ user, accessToken }) => {
+        navigate('/main');
       })
       .catch((err) => {
         setMessage(err.message);
-        console.log(err.message);
       });
   };
 

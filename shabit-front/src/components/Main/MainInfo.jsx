@@ -9,7 +9,6 @@ import { fetchHeatmap } from '../../services/stat/get';
 import { fetchProfile } from '../../services/auth/get';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setProfileState } from '../../store/authSlice';
 
 export default function MainInfo() {
   const heatMapData = typedUseSeletor((state) => {
@@ -18,20 +17,21 @@ export default function MainInfo() {
   const randomQuote = typedUseSeletor((state) => {
     return state.chart.randomQuote;
   });
-  const profile = typedUseSeletor((state) => {
-    return state.auth.profile;
+  const user = typedUseSeletor((state) => {
+    return state.auth.user;
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    let user = profile;
-    if (!profile.email) {
-      user = JSON.parse(localStorage.getItem('user'));
-      dispatch(setProfileState(user));
-      let token = JSON.parse(localStorage.getItem('accessToken'));
-    }
-    if (!user) navigate('/login');
-    fetchProfile(user.email).then((res) => {});
+    (function () {
+      if (user) return;
+      else {
+        const localUser = JSON.parse(localStorage.getItem('user'));
+        console.log(localUser);
+      }
+    })();
+
+    Promise.allSettled();
   }, []);
 
   return (
