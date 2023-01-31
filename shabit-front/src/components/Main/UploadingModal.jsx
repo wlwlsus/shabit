@@ -39,7 +39,7 @@ const UploadingModal = ({ toggleModal }) => {
 
   return (
     <ModalWrapper>
-      <span>사진을 업로드하세요.</span>
+      {/* <span>사진을 업로드하세요.</span> */}
       <ImgWrapper ref={imgRef}>
         {hasPreview ? (
           <div></div>
@@ -112,13 +112,6 @@ const Button = styled.button`
   box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
 `;
 const Input = styled.input`
-  /* background-color: ${theme.color.primary};
-  color: ${theme.color.whiteColor};
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  font-weight: bold;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor}; */
   display: none;
 `;
 const InputLabel = styled.label`

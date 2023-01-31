@@ -2,12 +2,9 @@ import { fetchProfile } from './../get/index';
 import { header } from '../..';
 import apiRequest from '../../../utils/apiRequest';
 
-export const changeImage = (
-  email: string,
-  formData: FormData,
-): string | void => {
+export const changeImage = async (email: string, formData: FormData) => {
   const { Authorization } = header();
-  apiRequest
+  return await apiRequest
     .put(`/api/v1/user/profile/${email}`, formData, {
       headers: {
         Authorization,
@@ -16,15 +13,11 @@ export const changeImage = (
     })
     .then(async (res) => {
       await fetchProfile(email);
-      return res;
+      return Promise.resolve(res);
     })
     .catch((err) => {
-      if (err.response.status === 401) {
-        alert('로그인이 필요합니다');
-      }
+      return Promise.reject(err);
     });
-
-  return;
 };
 
 export const resetPassword = async (email: string): Promise<boolean> => {
