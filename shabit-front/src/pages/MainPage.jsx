@@ -1,23 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 
 export default function MainPage() {
   const navigate = useNavigate();
-  const toMain = () => {
-    navigate('/main');
+  const location = useLocation();
+
+  const unClicked = {
+    color: theme.color.grayColor,
   };
-  const toHistory = () => {
-    navigate('/main/history');
+
+  const clicked = {
+    backgroundColor: theme.color.primary,
+    color: theme.color.secondary,
   };
+
+  const [style, setStyle] = useState([clicked, unClicked]);
+
+  const currentUrl = location.pathname;
+
+  useEffect(() => {
+    switch (currentUrl) {
+      case '/main':
+        setStyle([clicked, unClicked]);
+        break;
+      case '/main/history':
+        setStyle([unClicked, clicked]);
+        break;
+      default:
+        setStyle([0, 0]);
+        break;
+    }
+  }, [currentUrl]);
 
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab onClick={toMain}>SHabit</Tab>
-        <Tab onClick={toHistory}>자세기록</Tab>
-
+        <Tab
+          onClick={() => {
+            navigate('/main');
+          }}
+          style={style[0]}
+        >
+          SHabit
+        </Tab>
+        <Tab
+          onClick={() => {
+            navigate('/main/history');
+          }}
+          style={style[1]}
+        >
+          자세기록
+        </Tab>
         <Container>
           <Outlet />
         </Container>
@@ -31,6 +66,10 @@ const PageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    cursor: default;
+  }
 `;
 
 const ContainerWrapper = styled.div`
@@ -70,6 +109,7 @@ const Tab = styled.button`
   background-color: ${theme.color.whiteColor};
   font-size: 1.1rem;
   font-weight: bold;
+  line-height: 0.7rem;
   padding: 1.2rem;
   border-radius: 1.5rem 1.5rem 0 0;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};

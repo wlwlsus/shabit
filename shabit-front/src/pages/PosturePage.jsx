@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../styles/GlobalStyles';
 
-import Icon from '../components/common/Icon';
 import Logo from '../components/common/Logo';
 import Modal from '../components/Posture/Modal';
 
@@ -22,7 +21,7 @@ export default function PosturePage() {
       <Container>
         <Logo color={'pink'} size={'sm'} />
         <InfoBox>
-          <Icon icon={<AiFillNotification />} color={'primary'} size={'sm'} />
+          <AiFillNotification />
           {!modal && <button onClick={OpenModal}>스트레칭 시이작버튼//</button>}
           영상 보고 따라해보셈
         </InfoBox>
@@ -79,4 +78,8 @@ const InfoBox = styled.div`
   padding: 1rem;
   display: flex;
   align-items: center;
+
+  & > svg {
+    color: ${theme.color.primary};
+  }
 `;

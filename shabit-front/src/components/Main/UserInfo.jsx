@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
+import { loadEffect } from '../common/animation';
 
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
@@ -46,6 +47,8 @@ const ContentWrapper = styled.div`
   border-radius: 1.5rem;
   border: 0.2rem solid ${theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const UserName = styled.div`

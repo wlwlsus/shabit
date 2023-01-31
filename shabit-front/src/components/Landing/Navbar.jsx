@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../../styles/GlobalStyles';
 
 import Logo from '../common/Logo';
@@ -8,36 +8,65 @@ import Logo from '../common/Logo';
 import { RiUser3Line, RiUserAddLine, RiBookmark2Line } from 'react-icons/ri';
 
 const Navbar = () => {
+  const [clicked, setClicked] = useState([0, 0, 0]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentUrl = location.pathname;
 
-  const toIntro = () => {
-    navigate('/');
-  };
-
-  const toLogin = () => {
-    navigate('/login');
-  };
-
-  const toSignup = () => {
-    navigate('/signup');
-  };
+  useEffect(() => {
+    switch (currentUrl) {
+      case '/':
+        setClicked([0, 0, 1]);
+        break;
+      case '/login':
+        setClicked([1, 0, 0]);
+        break;
+      case '/signup':
+        setClicked([0, 1, 0]);
+        break;
+      default:
+        setClicked([0, 0, 0]);
+        break;
+    }
+  }, [currentUrl]);
 
   return (
     <NavWrapper>
       <Logo color={'pink'} size={'sm'} />
 
       <NavContent>
-        <IconWrapper onClick={toLogin}>
+        <IconWrapper
+          onClick={() => {
+            navigate('/login');
+          }}
+          style={{
+            color: clicked[0] ? theme.color.primary : theme.color.grayColor,
+          }}
+        >
           <RiUser3Line />
           <div>로그인</div>
         </IconWrapper>
 
-        <IconWrapper onClick={toSignup}>
+        <IconWrapper
+          style={{
+            color: clicked[1] ? theme.color.primary : theme.color.grayColor,
+          }}
+          onClick={() => {
+            navigate('/signup');
+          }}
+        >
           <RiUserAddLine />
           <div>회원가입</div>
         </IconWrapper>
 
-        <IconWrapper onClick={toIntro}>
+        <IconWrapper
+          style={{
+            color: clicked[2] ? theme.color.primary : theme.color.grayColor,
+          }}
+          onClick={() => {
+            navigate('/');
+          }}
+        >
           <RiBookmark2Line />
           <div>앱소개</div>
         </IconWrapper>
@@ -47,19 +76,19 @@ const Navbar = () => {
 };
 
 const NavWrapper = styled.div`
-  width: 25%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   padding: 2.5rem 0;
 `;
 
 const NavContent = styled.div`
-  height: 100%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 1rem 0;
 `;
 
@@ -68,12 +97,15 @@ const IconWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: ${theme.color.grayColor};
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   font-weight: bold;
+
+  transition: all 0.2s linear;
 
   &:hover {
     cursor: pointer;
+    transform: scale(1.11);
+    color: ${theme.color.primary};
   }
 
   & > svg {

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setVideoURL } from '../../store/videoSlice';
 import { theme } from '../../styles/GlobalStyles';
 
-import Icon from '../common/Icon';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
 import VideoList from './VideoList';
@@ -28,10 +27,7 @@ export default function Modal({ setModal }) {
   return (
     <ContainerWrapper>
       <ContainerHeader>
-        <Icon
-          icon={<BsFillXCircleFill />}
-          color={'primary'}
-          size={'md'}
+        <BsFillXCircleFill
           onClick={() => {
             setModal(false);
           }}
@@ -41,7 +37,7 @@ export default function Modal({ setModal }) {
         <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <VideoList />
         <IconWrapper>
-          <Icon icon={<BsPlayCircleFill />} size={'md'} onClick={playVideo} />
+          <BsPlayCircleFill onClick={playVideo} />
           시작하기
         </IconWrapper>
       </Container>
@@ -73,6 +69,11 @@ const ContainerHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  & > svg {
+    color: ${theme.color.primary};
+    font-size: 2.5rem;
+  }
 `;
 
 const Container = styled.div`
@@ -102,4 +103,8 @@ const IconWrapper = styled.div`
   margin: 0 2rem;
   color: ${theme.color.primary};
   font-weight: bold;
+
+  & > svg {
+    font-size: 2.5rem;
+  }
 `;
