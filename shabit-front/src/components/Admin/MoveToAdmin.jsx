@@ -17,13 +17,13 @@ const MoveToAdmin = () => {
     return state.auth.isAdmin;
   });
   const token = sessionStorage.getItem('accessToken');
-  const decodedAuth = jwt_decode(token).auth;
+  const decodedAuth = token && jwt_decode(token).auth;
 
   useEffect(() => {
     setPathName(location.pathname);
   }, [location]);
   useEffect(() => {
-    if (!decodedAuth) return;
+    if (!decodedAuth) return navigate('/main');
     if (decodedAuth !== 'ROLE_ADMIN' && isAdmin === false) navigate('/main');
     else dispatch(setIsAdminState(true));
   }, [isAdmin, decodedAuth]);
