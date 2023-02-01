@@ -1,20 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
+import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
 import MainInfo from './MainInfo';
 import Heatmap from '../Chart/Heatmap';
+import HeatmapScale from './HeatmapScale';
+
+import { typedUseSeletor } from '../../store';
+
+import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+import UploadingModal from './UploadingModal';
 
 export default function MainContent() {
+  const heatMapSeries = typedUseSeletor((state) => {
+    return state.chart.heatMapSeries;
+  });
+
+  const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+  const [isUploading, setIsUploading] = useState(false);
+  const randomQuote = typedUseSeletor((state) => {
+    return state.chart.randomQuote;
+  });
+  const user = typedUseSeletor((state) => {
+    return state.auth.user;
+  });
+
+  useEffect(() => {
+    if (user.email) {
+      Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setLastDate(heatMapSeries.slice(-1)[0]?.date);
+  }, [heatMapSeries]);
+
+  const isModalOpen = (boolean?) => {
+    if (typeof boolean === 'boolean') setIsUploading(boolean);
+    else setIsUploading(!isUploading);
+  };
   return (
     <Wrapper>
+      {!isUploading ? (
+        <div></div>
+      ) : (
+        <UploadingModal isModalOpen={isModalOpen} />
+      )}
       <InfoWrapper>
-        <UserInfo />
-        <MainInfo />
+        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
+        <MainInfo randomQuote={randomQuote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap />
+        <Heatmap heatMapSeries={heatMapSeries} />
+        <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>
   );
@@ -43,8 +83,19 @@ const HeatmapWrapper = styled.div`
   border-radius: 1.5rem;
   box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
 
-  & > div {
+  display: flex;
+  flex-direction: column;
+
+  animation: 0.8s ease-in ${loadEffect.up};
+  position: relative;
+
+  & > div:nth-child(1) {
     margin: 1rem 1.5rem 0 1rem;
-    margin-bottom: 0;
+  }
+
+  & > div:nth-child(2) {
+    position: absolute;
+    bottom: 9%;
+    left: 80%;
   }
 `;

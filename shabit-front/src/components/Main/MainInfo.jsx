@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
+import { loadEffect } from '../common/animation';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function MainInfo() {
+export default function MainInfo({ randomQuote }) {
   return (
     <Wrapper>
       <InfoBox>
@@ -16,10 +17,11 @@ export default function MainInfo() {
 
         
         <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
+          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
           facere odit ad, at, illum neque soluta optio assumenda reprehenderit
           ullam, accusantium molestiae impedit natus iusto quod fugit asperiores
-          dolorum!
+          dolorum! */}
+          {randomQuote}
         </div>
       </InfoBox>
 
@@ -40,6 +42,8 @@ const Wrapper = styled.div`
 
   display: flex;
   justify-content: space-evenly;
+
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const InfoBox = styled.div`
@@ -85,6 +89,12 @@ const Start = styled.div`
   & > svg {
     font-size: 3rem;
     margin-bottom: 1rem;
+    transition: all 0.2s linear;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
   }
 
   & > div {

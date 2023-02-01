@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import { theme } from '../../styles/GlobalStyles';
 
-const Heatmap = () => {
+const Heatmap = ({ heatMapSeries }) => {
   //  Heatmap Data
-  const [values, setValues] = useState([]);
+  // const [values, setValues] = useState(heatMapData);
+  const values: Array = heatMapSeries;
+  const [today] = useState(new Date());
   const [startDate, setStartDate] = useState();
 
   //  기간 설정 (1년 전 ~ today)
@@ -25,27 +27,27 @@ const Heatmap = () => {
 
   //  마운트 됐을 때 데이터 가져옴
   //  배열에 날짜, 퍼센트, 클래스(색) 저장
-  useEffect(() => {
-    fetch(`/testData/heatMapData.json`)
-      .then((res) => res.json())
-      .then((res) => {
-        const jsonData = res.result;
-        const newArray = [];
-        for (let element of jsonData) {
-          const { date, percentage } = element;
-          let classValue = 0;
-          if (percentage >= 80) classValue = 4;
-          else if (percentage >= 60) classValue = 3;
-          else if (percentage >= 40) classValue = 2;
-          else if (percentage >= 20) classValue = 1;
-          newArray.push({ date, percentage, classValue });
-        }
-        setValues(newArray);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`/testData/heatMapData.json`)
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       const jsonData = res.result;
+  //       const newArray = [];
+  //       for (let element of jsonData) {
+  //         const { date, percentage } = element;
+  //         let classValue = 0;
+  //         if (percentage >= 80) classValue = 4;
+  //         else if (percentage >= 60) classValue = 3;
+  //         else if (percentage >= 40) classValue = 2;
+  //         else if (percentage >= 20) classValue = 1;
+  //         newArray.push({ date, percentage, classValue });
+  //       }
+  //       setValues(newArray);
+  //     });
+  // }, []);
 
   return (
-    <StyledContainer style={{ width: 1000 }}>
+    <HeatmapContainer style={{ width: 1000 }}>
       <CalendarHeatmap
         endDate={endDate}
         startDate={startDate}
@@ -59,13 +61,13 @@ const Heatmap = () => {
           return `color-scale-${value.classValue}`;
         }}
       />
-    </StyledContainer>
+    </HeatmapContainer>
   );
 };
 
 export default Heatmap;
 
-const StyledContainer = styled.div`
+const HeatmapContainer = styled.div`
   /*
  * https://ourcodeworld.com/articles/read/563/creating-a-calendar-heatmap-chart-github-contributions-like-in-reactjs
  * react-calendar-heatmap styles

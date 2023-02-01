@@ -7,8 +7,9 @@ import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../common/Loading';
 import { confirmEmail } from '../../services/auth/get';
+
+import { loadEffect } from '../common/animation';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -146,7 +147,7 @@ const SignupForm = () => {
       {!message ? <div></div> : <div>{message}</div>}
       <InputWrapper>
         {isLoading ? (
-          <img src="/assets/spinner.gif" className="Spinner" />
+          <img alt="Spinner" src="/assets/spinner.gif" className="Spinner" />
         ) : (
           <></>
         )}
@@ -160,7 +161,7 @@ const SignupForm = () => {
         <RightTag>
           {needCheck ? (
             <button type="button" onClick={() => onChekingEmail()}>
-              이메일 인증하기
+              인증하기
             </button>
           ) : (
             <></>
@@ -219,6 +220,8 @@ const FormWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  animation: 0.8s ease-in ${loadEffect.left};
+
   .Spinner {
     position: absolute;
   }
@@ -248,8 +251,8 @@ const InputWrapper = styled.div`
 
 const RightTag = styled.div`
   position: absolute;
-  top: 5.3rem;
-  left: 51.3rem;
+  top: 21.5%;
+  right: 3%;
   & > button {
     background-color: ${theme.color.greenColor};
     color: ${theme.color.whiteColor};
@@ -263,11 +266,13 @@ const RightTag = styled.div`
 
 const ConfirmModal = styled.div`
   position: absolute;
-  left: -250px;
-  top: -60px;
-  background-color: white;
-  width: 350px;
-  height: 350px;
+  right: -5%;
+  top: -200%;
+  background-color: ${theme.color.whiteColor};
+  border: 0.3rem solid ${theme.color.secondary};
+  border-radius: 1.5rem;
+  width: 22rem;
+  height: 22rem;
   box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
 `;
 

@@ -1,21 +1,12 @@
-// const AUTH_ENVS = ["Register", "FetchProfile","ChangeImage" , "DeleteImage" , "Login" , "RefreshLogin" , "Logout" , "ConfirmEmail" , "CheckEmail", "ResetPassword" , "ChangeTheme" , "ChangeNickname" ] as const;
-// type AUTH_PROP_TYPES = typeof AUTH_ENVS[number] // "Home" , "About"useInterval
-
-// // const Service = {
-
-// // }
-
-//   const auth= (type:AUTH_PROP_TYPES) =>{
-//     return
-//   }
-//   // const statistics= (type:STATISTICS_PROP_TYPES)
-
-//   const Service = {auth}
-
-// export default Service
 import Auth from './auth';
 import Info from './info';
 import Stat from './stat';
+
+export const header = () => {
+  const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+  const header = { Authorization: `Bearer ${accessToken ? accessToken : ''}` };
+  return header;
+};
 
 const Services = {
   Auth,

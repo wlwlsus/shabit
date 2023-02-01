@@ -1,3 +1,5 @@
+import store from '../../../store';
+import { setUserState, setTokenState } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 
 //https://dev.to/ramonak/javascript-how-to-access-the-return-value-of-a-promise-object-1bck
@@ -6,7 +8,6 @@ export const register = async (
   nickname: string,
   password: string,
 ): Promise<boolean> => {
-  console.log('회원가입실행');
   return await apiRequest
     .post('/api/v1/user', {
       email,
@@ -14,7 +15,6 @@ export const register = async (
       password,
     })
     .then((res) => {
-      console.log(res.data);
       alert('회원가입이 완료되었습니다');
       return Promise.resolve(true);
     })
@@ -27,21 +27,12 @@ export const login = async (email: string, password: string) => {
   return await apiRequest
     .post('/api/v1/user/login', { email, password })
     .then((res) => {
-      // res.data.result;
-      // console.log(res.accessToken);
-      // localStorage.setItem(
-      //   'accessToken',
-      //   res.accessToken || res.data.accessToken,
-      // );
-      // localStorage.setItem(
-      //   'refreshToken',
-      //   res.refreshToken || res.data.refreshToken,
-      // );
-      // console.log(res);
-      // localStorage.setItem('user', JSON.stringify(res.user || res.data.user));
-      // alert('로그인이 완료되었습니다.');
       const accessToken = res.data.result.token.accessToken;
       const user = res.data.result.user;
+      store.dispatch(setTokenState(accessToken));
+      store.dispatch(setUserState(user));
+      localStorage.setItem('accessToken', JSON.stringify(accessToken));
+      localStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve({ user, accessToken });
     })
     .catch((err) => {
@@ -69,5 +60,3 @@ export const logout = async (
     })
     .catch(() => Promise.reject(false));
 };
-
-export default { register, login, refreshLogin, logout };

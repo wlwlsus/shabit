@@ -3,20 +3,21 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import Logo from '../common/Logo';
-import Icon from '../common/Icon';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
+
+import { loadEffect } from '../common/animation';
 
 const Introduction = () => {
   return (
     <ContentWrapper>
-      <TextWrapper>
-        <span>자세 교정을 위한 맞춤형 솔루션</span>
+      <WelcomeWrapper>
+        <span>Welcome to</span>
         <Logo size={'lg'} />
-      </TextWrapper>
+      </WelcomeWrapper>
       <ImgWrapper>
         <Img src={'/assets/posture-bad.png'} alt="" />
-        <Icon icon={<TbArrowBigRightLine />} color={'white'} size={'lg'} />
+        <TbArrowBigRightLine />
         <Img src={'/assets/posture-good.png'} alt="" />
       </ImgWrapper>
     </ContentWrapper>
@@ -29,24 +30,28 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
-const TextWrapper = styled.div`
+const WelcomeWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 0 2rem;
-
-  color: ${theme.color.whiteColor};
-  font-size: 1.5rem;
+  justify-content: space-around;
+  font-size: 2rem;
   font-weight: bold;
-  line-height: 2.2rem;
+  color: ${theme.color.whiteColor};
 `;
 
 const ImgWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  & > svg {
+    color: ${theme.color.whiteColor};
+    font-size: 3rem;
+  }
 `;
 
 const Img = styled.img`

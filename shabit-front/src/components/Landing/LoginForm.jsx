@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
-import ArrowIcon from '../common/ArrowIcon';
-import { setUserState, setTokenState } from '../../store/authSlice';
-import { useDispatch } from 'react-redux';
+import { HiArrowRightCircle } from 'react-icons/hi2';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
+
+import { loadEffect } from '../common/animation';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -25,7 +25,6 @@ const LoginForm = () => {
   };
 
   //onChange 핸들링입니다.
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
@@ -50,16 +49,11 @@ const LoginForm = () => {
 
   const onLogin = () => {
     Auth.login(email, password)
-      .then(async ({ user, accessToken }) => {
-        dispatch(setUserState(user));
-        dispatch(setTokenState(accessToken));
-        await localStorage.setItem('accessToken', JSON.stringify(accessToken));
-        await localStorage.setItem('user', JSON.stringify(user));
-        await navigate('/main');
+      .then(({ user, accessToken }) => {
+        navigate('/main');
       })
       .catch((err) => {
         setMessage(err.message);
-        console.log(err.message);
       });
   };
 
@@ -79,6 +73,10 @@ const LoginForm = () => {
           setForgotPassword(false);
         }, 1000);
       });
+  };
+
+  const goSignup = () => {
+    navigate('/signup');
   };
 
   return (
@@ -127,14 +125,11 @@ const LoginForm = () => {
               />
               <span>자동 로그인</span>
             </Checkbox>
-            <span onClick={() => setForgotPassword(true)}>
+            <Div onClick={() => setForgotPassword(true)}>
               비밀번호를 잊으셨나요?
-            </span>
+            </Div>
           </Wrapper>
-
-          <div onClick={onLogin}>
-            <ArrowIcon size={'lg'} color={'primary'} />
-          </div>
+          <HiArrowRightCircle onClick={onLogin} />
         </>
       ) : (
         <>
@@ -144,7 +139,7 @@ const LoginForm = () => {
 
       <Signup>
         <span>아직 계정이 없으신가요?</span>
-        <button>회원가입</button>
+        <Div onClick={goSignup}>회원가입</Div>
       </Signup>
     </FormWrapper>
   );
@@ -156,17 +151,30 @@ const FormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  animation: 0.8s ease-in ${loadEffect.left};
+
+  & > svg {
+    color: ${theme.color.primary};
+    font-size: 3rem;
+    transition: all 0.3s linear;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+  }
 `;
 
 const Title = styled.div`
-  width: 34%;
+  width: 38%;
   color: ${theme.color.grayColor};
   font-size: 0.9rem;
   margin-bottom: 1rem;
 `;
 
 const Wrapper = styled.div`
-  width: 57%;
+  width: 70%;
   color: ${theme.color.primary};
   font-size: 0.7rem;
   padding-left: 1.5rem;
@@ -181,8 +189,19 @@ const Checkbox = styled.div`
   align-items: center;
 `;
 
+const Div = styled.div`
+  color: ${theme.color.primary};
+  transition: all 0.2s linear;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
+
 const Signup = styled.div`
-  width: 60%;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
