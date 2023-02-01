@@ -3,7 +3,7 @@ import Info from './info';
 import Stat from './stat';
 
 export const header = () => {
-  const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+  const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
   const header = { Authorization: `Bearer ${accessToken ? accessToken : ''}` };
   return header;
 };

@@ -70,7 +70,7 @@ const TeachableMachine = ({
   async function onStop() {
     const jsonData = JSON.stringify(logArray);
     isRunning = false;
-    await localStorage.setItem('data', jsonData);
+    await sessionStorage.setItem('data', jsonData);
     await clearInterval(savedIntevalId.current);
     await clearInterval(timerIntervalId.current);
     // await webcamObject.current.stop();
