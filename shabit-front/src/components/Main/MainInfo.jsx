@@ -14,6 +14,8 @@ export default function MainInfo({ randomQuote }) {
           <FiAlertCircle />
           알고 계셨나요?
         </InfoTitle>
+
+        
         <div>
           {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
           facere odit ad, at, illum neque soluta optio assumenda reprehenderit
