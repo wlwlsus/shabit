@@ -8,9 +8,8 @@ export const fetchProfile = async (email: string): Promise<object> => {
     .get(`/api/v1/user/${email}`, { headers: header() })
     .then((res) => {
       const user = res.data.result;
-      console.log(user);
       store.dispatch(setUserState(user));
-      localStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve(user);
     })
     .catch((err) => Promise.reject(err));

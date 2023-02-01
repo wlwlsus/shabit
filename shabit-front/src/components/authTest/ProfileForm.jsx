@@ -34,7 +34,7 @@ const ProfileForm = () => {
       color: 'default',
       image: 'default',
     };
-    localStorage.setItem('user', JSON.stringify(currentUser));
+    sessionStorage.setItem('user', JSON.stringify(currentUser));
     if (!currentUser) {
       //대충 로그인 창으로 보내는 로직
       // const navigate = useNavigate();

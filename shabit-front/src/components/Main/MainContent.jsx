@@ -11,6 +11,7 @@ import HeatmapScale from './HeatmapScale';
 import { typedUseSelector } from '../../store';
 
 import UploadingModal from './UploadingModal';
+import LogoutButton from './LogoutButton';
 
 export default function MainContent() {
   // const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
@@ -36,6 +37,7 @@ export default function MainContent() {
   };
   return (
     <Wrapper>
+      <LogoutButton></LogoutButton>
       {!isUploading ? (
         <div></div>
       ) : (

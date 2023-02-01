@@ -40,7 +40,7 @@ export default function MainPage() {
   }, [currentUrl]);
 
   useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+    const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
     if (!accessToken && !user.email) {
       return navigate('/login');
     }
@@ -53,7 +53,7 @@ export default function MainPage() {
     const _setUser = () => {
       if (newUser.email) return;
       else {
-        const localUser = JSON.parse(localStorage.getItem('user'));
+        const localUser = JSON.parse(sessionStorage.getItem('user'));
         newUser = localUser;
         dispatch(setUserState(localUser));
       }
