@@ -37,22 +37,23 @@ export default function MainContent() {
     setLastDate(heatMapSeries.slice(-1)[0]?.date);
   }, [heatMapSeries]);
 
-  const toggleModal = () => {
-    setIsUploading(!isUploading);
+  const isModalOpen = (boolean?) => {
+    if (typeof boolean === 'boolean') setIsUploading(boolean);
+    else setIsUploading(!isUploading);
   };
   return (
     <Wrapper>
       {!isUploading ? (
         <div></div>
       ) : (
-        <UploadingModal toggleModal={toggleModal} />
+        <UploadingModal isModalOpen={isModalOpen} />
       )}
       <InfoWrapper>
-        <UserInfo user={user} lastDate={lastDate} toggleModal={toggleModal} />
+        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
         <MainInfo randomQuote={randomQuote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap heatMapSeries={heatMapSeries}/>
+        <Heatmap heatMapSeries={heatMapSeries} />
         <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>

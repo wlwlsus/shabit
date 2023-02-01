@@ -5,7 +5,7 @@ import { typedUseSeletor } from '../../store';
 import { theme } from '../../styles/GlobalStyles';
 import Logo from '../common/Logo';
 
-const UploadingModal = ({ toggleModal }) => {
+const UploadingModal = ({ isModalOpen }) => {
   const [hasPreview, setHasPreview] = useState(false);
   const [files, setFiles] = useState('');
   const email = typedUseSeletor((state) => state.auth.user.email);
@@ -35,7 +35,7 @@ const UploadingModal = ({ toggleModal }) => {
     if (!files.length) return;
     formdata.append('profile', files[0]);
     changeImage(email, formdata).then(() => {
-      toggleModal(false);
+      isModalOpen(false);
       hasPreview(false);
       setFiles('');
     });
@@ -59,7 +59,7 @@ const UploadingModal = ({ toggleModal }) => {
         {files.length ? <Button onClick={onUpload}>업로드 하기</Button> : ''}
         <Button
           onClick={() => {
-            toggleModal(false);
+            isModalOpen(false);
             hasPreview(false);
             setFiles('');
           }}

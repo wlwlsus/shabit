@@ -6,7 +6,7 @@ import { loadEffect } from '../common/animation';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function UserInfo({ user, lastDate, toggleModal }) {
+export default function UserInfo({ user, lastDate, isModalOpen }) {
   const { email, nickname, profile, theme } = user;
 
   return (
@@ -15,7 +15,7 @@ export default function UserInfo({ user, lastDate, toggleModal }) {
         style={profile?.length ? { backgroundImage: `url(${profile})` } : {}}
       >
         {profile ? <div></div> : <Logo color={'pink'} />}
-        <span onClick={() => toggleModal(true)}>이미지 변경하기</span>
+        <span onClick={() => isModalOpen(true)}>이미지 변경하기</span>
       </ImgWrapper>
 
       <ContentWrapper>
