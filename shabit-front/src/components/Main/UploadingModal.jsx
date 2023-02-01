@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { changeImage } from '../../services/auth/put';
-import { typedUseSeletor } from '../../store';
+import { typedUseSelector } from '../../store';
 import { theme } from '../../styles/GlobalStyles';
 import Logo from '../common/Logo';
 
 const UploadingModal = ({ isModalOpen }) => {
   const [hasPreview, setHasPreview] = useState(false);
   const [files, setFiles] = useState('');
-  const email = typedUseSeletor((state) => state.auth.user.email);
+  const email = typedUseSelector((state) => state.auth.user.email);
   const imgRef = useRef();
   useEffect(() => {
     //https://velog.io/@gay0ung/리액트로-이미지-업로드-미리보기

@@ -4,14 +4,14 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import { typedUseSeletor } from '../store';
+import { typedUseSelector } from '../store';
 
 export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = typedUseSeletor((state) => {
+  const user = typedUseSelector((state) => {
     return state.auth.user;
   });
 
