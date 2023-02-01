@@ -1,6 +1,11 @@
 import store from '../../../store';
-import { setUserState, setTokenState } from '../../../store/authSlice';
+import {
+  setUserState,
+  setTokenState,
+  setIsAdminState,
+} from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
+import jwt_decode from 'jwt-decode';
 
 //https://dev.to/ramonak/javascript-how-to-access-the-return-value-of-a-promise-object-1bck
 export const register = async (
@@ -23,6 +28,12 @@ export const register = async (
     });
 };
 
+interface DecodedJWT {
+  sub: string;
+  auth: string;
+  exp: Date;
+}
+
 export const login = async (email: string, password: string) => {
   return await apiRequest
     .post('/api/v1/user/login', { email, password })
@@ -33,6 +44,10 @@ export const login = async (email: string, password: string) => {
       store.dispatch(setUserState(user));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
       sessionStorage.setItem('user', JSON.stringify(user));
+      const decodedToken: DecodedJWT = jwt_decode(accessToken);
+      if (decodedToken.auth === 'ROLE_ADMIN') {
+        store.dispatch(setIsAdminState(true));
+      } else store.dispatch(setIsAdminState(false));
       return Promise.resolve({ user, accessToken });
     })
     .catch((err) => {

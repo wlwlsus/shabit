@@ -36,6 +36,19 @@ const SignupForm = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(
+      '컨펌',
+      isConfirmed,
+      '닉네임',
+      nicknameMatch,
+      '패스워드검증',
+      passwordMatch,
+      '패스워드일치여부',
+      password === password2,
+    );
+  });
+
   //전체: API 통신 내용 혹은 메시지를 관리합니다.
   const [message, setCurrentMessage] = useState('');
   const [currentTimeout, setCurrentTimeout] = useState(null);
@@ -51,11 +64,16 @@ const SignupForm = () => {
   };
 
   //비밀번호 일치 여부를 검증합니다.
-  const debouncedPasswordConfirm = useDebounce(password2, 300);
+  const debouncedPasswordConfirm = useDebounce(password2, 20);
   useEffect(() => {
-    if (debouncedPasswordConfirm) {
+    if (
+      debouncedPasswordConfirm &&
+      debouncedPasswordConfirm.length > password.length - 4
+    ) {
       if (password !== debouncedPasswordConfirm) {
         setMessage('비밀번호가 일치하지 않습니다');
+      } else {
+        setMessage('');
       }
     }
   }, [debouncedPasswordConfirm]);
