@@ -105,7 +105,6 @@ const SignupForm = () => {
     if (debouncedEmailTerm.includes('@') && debouncedEmailTerm.includes('.')) {
       Services.Auth.checkEmail(debouncedEmailTerm)
         .then((res) => {
-          console.log(res);
           setMessage('');
           setNeedCheck(true);
         })
