@@ -189,9 +189,6 @@ const TeachableMachine = ({
       prevMaxPrediction = maxPrediction;
       setMaxClassState(maxClass);
       setMaxPredictionState(maxPrediction);
-      // console.log(newLog);
-      console.log('새시간', endTime);
-      console.log('헌시간', maxTime);
       if (endTime !== maxTime) {
         maxTime = endTime;
         if (!!Object.keys(preparedLog).length) {
@@ -207,7 +204,7 @@ const TeachableMachine = ({
         };
 
         // setLogArray((logArray) => [newLog, ...logArray]);
-        console.log(logArray);
+        // console.log(logArray);
       }
     }
 

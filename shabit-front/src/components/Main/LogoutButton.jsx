@@ -10,7 +10,6 @@ const LogoutButton = () => {
     <ButtonContainer>
       <StyledButton
         onClick={() => {
-          console.log(sessionStorage.getItem('accessToken'));
           sessionStorage.clear();
           navigate('/');
           // Services.Auth.logout(
