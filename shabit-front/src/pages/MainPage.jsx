@@ -4,7 +4,8 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import { typedUseSelector } from '../store';
+import { typedUseSeletor } from '../store';
+import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
   const location = useLocation();
@@ -81,6 +82,7 @@ export default function MainPage() {
           자세기록
         </Tab>
         <Container>
+          <MoveToAdmin />
           <Outlet />
         </Container>
       </ContainerWrapper>

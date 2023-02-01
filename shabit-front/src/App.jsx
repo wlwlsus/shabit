@@ -18,6 +18,7 @@ import HistoryContent from './components/Main/HistoryContent';
 
 import PosturePage from './pages/PosturePage';
 import StretchContent from './components/Posture/StretchContent';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
               <LandingPage children={[<LandingContent />, <SignupForm />]} />
             }
           />
+
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/main" element={<MainPage />}>
             <Route path="" element={<MainContent />} />
             <Route path="history" element={<HistoryContent />} />
