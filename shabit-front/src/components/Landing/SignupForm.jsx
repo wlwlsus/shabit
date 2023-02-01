@@ -51,11 +51,16 @@ const SignupForm = () => {
   };
 
   //비밀번호 일치 여부를 검증합니다.
-  const debouncedPasswordConfirm = useDebounce(password2, 300);
+  const debouncedPasswordConfirm = useDebounce(password2, 20);
   useEffect(() => {
-    if (debouncedPasswordConfirm) {
+    if (
+      debouncedPasswordConfirm &&
+      debouncedPasswordConfirm.length > password.length - 4
+    ) {
       if (password !== debouncedPasswordConfirm) {
         setMessage('비밀번호가 일치하지 않습니다');
+      } else {
+        setMessage('');
       }
     }
   }, [debouncedPasswordConfirm]);

@@ -12,6 +12,7 @@ import { typedUseSeletor } from '../../store';
 
 import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
 import UploadingModal from './UploadingModal';
+import LogoutButton from './LogoutButton';
 
 export default function MainContent() {
   const heatMapSeries = typedUseSeletor((state) => {
@@ -43,6 +44,7 @@ export default function MainContent() {
   };
   return (
     <Wrapper>
+      <LogoutButton></LogoutButton>
       {!isUploading ? (
         <div></div>
       ) : (
