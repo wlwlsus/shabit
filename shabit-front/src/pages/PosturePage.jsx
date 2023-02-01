@@ -5,6 +5,7 @@ import { theme } from '../styles/GlobalStyles';
 
 import Logo from '../components/common/Logo';
 import Modal from '../components/Posture/Modal';
+import { Recording } from '../components/Posture/Recording';
 
 import { AiFillNotification } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
@@ -37,6 +38,7 @@ export default function PosturePage() {
           <AiFillNotification />
           {!modal && <button onClick={OpenModal}>스트레칭 시이작버튼//</button>}
           영상 보고 따라해보셈
+          <Recording/>
         </InfoBox>
         <Outlet />
       </Container>
