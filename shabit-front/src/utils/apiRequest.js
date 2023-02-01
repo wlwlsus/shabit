@@ -10,7 +10,7 @@ apiRequest.defaults.withCredentials = true;
 //     return {
 //       ...config,
 //       headers: {
-//         Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+//         Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
 //       },
 //     };
 //   },

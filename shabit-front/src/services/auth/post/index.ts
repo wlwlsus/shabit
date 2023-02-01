@@ -31,8 +31,8 @@ export const login = async (email: string, password: string) => {
       const user = res.data.result.user;
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
-      localStorage.setItem('accessToken', JSON.stringify(accessToken));
-      localStorage.setItem('user', JSON.stringify(user));
+      sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve({ user, accessToken });
     })
     .catch((err) => {
@@ -54,7 +54,7 @@ export const logout = async (
   return await apiRequest
     .post('/api/v1/user/logout', { accessToken, refreshToken })
     .then(() => {
-      localStorage.clear();
+      sessionStorage.clear();
       alert('로그아웃 되었습니다.');
       return Promise.resolve(true);
     })

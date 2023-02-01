@@ -13,8 +13,8 @@ export default function PosturePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-    const user = JSON.parse(localStorage.getItem('user'));
+    const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
     if (!accessToken && !user) {
       return navigate('/login');
     }
