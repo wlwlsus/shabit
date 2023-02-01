@@ -8,7 +8,7 @@ import { TiArrowSortedDown } from 'react-icons/ti';
 
 import { typedUseSelector } from '../../store';
 export default function HistoryContent() {
-  const [dropDown, setDropDown] = useState('none');
+  const [isShown, setIsShown] = useState(false);
   const [mode, setMode] = useState('Weekly');
   const [item, setItem] = useState('Monthly');
 
@@ -16,18 +16,14 @@ export default function HistoryContent() {
     return state.auth.user;
   });
 
-  const handleDropdown = () => {
-    if (dropDown === '') {
-      setDropDown('none');
-    } else {
-      setDropDown('');
-    }
+  const style = {
+    display: { isShown } ? '' : 'none',
   };
 
   const handleMode = (e) => {
     const selected = e.target.innerText;
     setMode(e.target.innerText);
-    setDropDown('none');
+    setIsShown(!isShown);
 
     switch (selected) {
       case 'Weekly':
@@ -57,11 +53,15 @@ export default function HistoryContent() {
       </p>
 
       <DropDownWrapper>
-        <DropDown onClick={handleDropdown}>
+        <DropDown
+          onClick={() => {
+            setIsShown(!isShown);
+          }}
+        >
           {mode}
           <TiArrowSortedDown />
         </DropDown>
-        <DropDownItem onClick={handleMode} style={{ display: dropDown }}>
+        <DropDownItem onClick={handleMode} style={style}>
           {item}
         </DropDownItem>
       </DropDownWrapper>
@@ -153,7 +153,7 @@ const DropDownItem = styled.div`
   top: 40%;
   z-index: 1;
 
-  &:hover {
+  0.1s ease-in-out ${loadEffect.drop} &:hover {
     cursor: pointer;
   }
 `;

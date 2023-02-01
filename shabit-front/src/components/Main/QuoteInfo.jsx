@@ -22,19 +22,7 @@ export default function MainInfo() {
           <FiAlertCircle />
           알고 계셨나요?
         </InfoTitle>
-<<<<<<< HEAD:shabit-front/src/components/Main/QuoteInfo.jsx
         <div>{quote}</div>
-=======
-
-        
-        <div>
-          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
-          facere odit ad, at, illum neque soluta optio assumenda reprehenderit
-          ullam, accusantium molestiae impedit natus iusto quod fugit asperiores
-          dolorum! */}
-          {randomQuote}
-        </div>
->>>>>>> 1819347256d9815b60d57338c15eb89e14000e41:shabit-front/src/components/Main/MainInfo.jsx
       </InfoBox>
 
       <Start>
