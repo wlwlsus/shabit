@@ -4,29 +4,34 @@ import { theme } from '../../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
-import axios from 'axios';
+import { fetchVideo } from '../../services/video/get';
 
 export default function VideoList() {
   const [videoList, setVideoList] = useState(); // 비디오 리스트
+  const [isClicked, setIsClicked] = useState();
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const dispatch = useDispatch();
 
-  // 렌더링 후 비디오 리스트 가져옴
   useEffect(() => {
-    axios({
-      method: 'get',
-      url: `/testData/videoData.json`,
-    })
-      .then((res) => {
-        setVideoList(res.data.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchVideo(user.email).then((res) => {
+      setVideoList(res);
+    });
   }, []);
 
   // 선택한 비디오 정보 redux로 보냄
-  const dispatch = useDispatch();
   const selectVideo = (idx) => {
     dispatch(setSelected(videoList[idx]));
+    setIsClicked(idx);
+  };
+
+  const style = {
+    box: {
+      border: `0.2rem solid ${theme.color.primary}`,
+    },
+    title: {
+      backgroundColor: theme.color.primary,
+      color: theme.color.secondary,
+    },
   };
 
   if (videoList) {
@@ -36,11 +41,14 @@ export default function VideoList() {
           return (
             <Container
               key={idx}
+              style={isClicked === idx ? style.box : null}
               onClick={() => {
                 selectVideo(idx);
               }}
             >
-              <Minute>{video.length}분</Minute>
+              <Minute style={isClicked === idx ? style.title : null}>
+                {video.length}분
+              </Minute>
               <img src={video.thumbnail} alt="thumbnail" />
             </Container>
           );
@@ -69,8 +77,11 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
 
+  transition: all 0.2s linear;
+
   &:hover {
     cursor: pointer;
+    transform: scale(1.05);
   }
 
   & > img {

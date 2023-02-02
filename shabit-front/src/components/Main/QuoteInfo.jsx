@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
+import { useNavigate } from 'react-router-dom';
 
 import { fetchQuote } from '../../services/stat/get';
 
@@ -10,6 +11,7 @@ import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
 export default function QuoteInfo() {
   const [quote, setQuote] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchQuote().then((res) => setQuote(res));
@@ -26,7 +28,11 @@ export default function QuoteInfo() {
       </InfoBox>
 
       <Start>
-        <BsFillCaretRightSquareFill />
+        <BsFillCaretRightSquareFill
+          onClick={() => {
+            navigate('/posture/live');
+          }}
+        />
         <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>

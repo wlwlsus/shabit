@@ -18,6 +18,7 @@ import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
 
 import PosturePage from './pages/PosturePage';
+import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
 import AdminPage from './pages/AdminPage';
 
@@ -56,7 +57,8 @@ function App() {
             path="/posture"
             element={<PrivateRoute component={<PosturePage />} />}
           >
-            {/* <Route path="stretch" element={<LiveContent />} /> */}
+            <Route path="live" element={<LiveContent />} /> // live content로
+            들어가서 import 해주면 됨!
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/admin" element={<AdminPage />} />
