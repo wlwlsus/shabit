@@ -73,6 +73,10 @@ const ContainerHeader = styled.div`
   & > svg {
     color: ${theme.color.primary};
     font-size: 2.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -106,5 +110,9 @@ const IconWrapper = styled.div`
 
   & > svg {
     font-size: 2.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;

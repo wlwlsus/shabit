@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../styles/GlobalStyles';
-
-import Logo from '../components/common/Logo';
 import Modal from '../components/Posture/Modal';
 
-import { AiFillNotification } from 'react-icons/ai';
+import Logo from '../components/common/Logo';
+
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-
 export default function PosturePage() {
+  const [stretchModal, setStretchModal] = useState(true);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -24,25 +23,14 @@ export default function PosturePage() {
     dispatch(setUserState(user));
   }, [navigate, dispatch]);
 
-  const [modal, setModal] = useState(false);
-
-  const OpenModal = () => {
-    setModal(true);
-  };
-
   return (
     <PageWrapper>
-      {modal && <Modal setModal={setModal} />}
+      {stretchModal && <Modal setModal={setStretchModal} />}
       <Container>
         <Logo color={'pink'} size={'sm'} />
-        <InfoBox>
-          <AiFillNotification />
-          {!modal && <button onClick={OpenModal}>스트레칭 시이작버튼//</button>}
-          영상 보고 따라해보셈
-        </InfoBox>
         <Outlet />
       </Container>
-      <Sidebar></Sidebar>
+      <Sidebar />
     </PageWrapper>
   );
 }
@@ -81,20 +69,4 @@ const Sidebar = styled.div`
   background-color: ${theme.color.primary};
   border-radius: 0 1.5rem 1.5rem 0;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
-`;
-
-const InfoBox = styled.div`
-  width: 75%;
-  height: 8%;
-  background-color: ${theme.color.secondary};
-  border: 0.1rem solid ${theme.color.primary};
-  border-radius: 1rem;
-  font-weight: bold;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-
-  & > svg {
-    color: ${theme.color.primary};
-  }
 `;

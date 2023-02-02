@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
+import { useNavigate } from 'react-router-dom';
 
 import { fetchQuote } from '../../services/stat/get';
 
@@ -29,7 +30,11 @@ export default function QuoteInfo() {
       </InfoBox>
 
       <Start>
-        <BsFillCaretRightSquareFill onClick={()=>navigate('/posture')} />
+        <BsFillCaretRightSquareFill
+          onClick={() => {
+            navigate('/posture/live');
+          }}
+        />
         <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>
