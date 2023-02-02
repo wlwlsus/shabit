@@ -8,7 +8,7 @@ import { fetchQuote } from '../../services/stat/get';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function MainInfo() {
+export default function QuoteInfo() {
   const [quote, setQuote] = useState('');
 
   useEffect(() => {

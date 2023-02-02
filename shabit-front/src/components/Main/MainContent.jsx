@@ -8,7 +8,7 @@ import QuoteInfo from './QuoteInfo';
 import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-import { typedUseSelector } from '../../store';
+// import { typedUseSelector } from '../../store';
 
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
@@ -17,9 +17,11 @@ export default function MainContent() {
   // const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
   const [isUploading, setIsUploading] = useState(false);
 
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  });
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
 
   // useEffect(() => {
   //   if (user.email) {
@@ -37,12 +39,8 @@ export default function MainContent() {
   };
   return (
     <Wrapper>
-      <LogoutButton></LogoutButton>
-      {!isUploading ? (
-        <div></div>
-      ) : (
-        <UploadingModal isModalOpen={isModalOpen} />
-      )}
+      <LogoutButton />
+      {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
       <InfoWrapper>
         <UserInfo user={user} isModalOpen={isModalOpen} />
         <QuoteInfo />
@@ -58,8 +56,8 @@ export default function MainContent() {
 const Wrapper = styled.div``;
 
 const InfoWrapper = styled.div`
-  width: 100%;
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: space-between;
   margin: 4rem 0 2rem 0;
