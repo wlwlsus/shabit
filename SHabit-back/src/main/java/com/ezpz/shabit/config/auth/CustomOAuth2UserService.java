@@ -1,9 +1,7 @@
 package com.ezpz.shabit.config.auth;
 
-import com.cad.book.springboot.config.auth.dto.OAuthAttributes;
-import com.cad.book.springboot.config.auth.dto.SessionUser;
 import com.cad.book.springboot.domain.user.User;
-import com.cad.book.springboot.domain.user.UserRepository;
+import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -73,8 +71,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         attributes.getNameAttributeKey());
   }
 
-  private User saveOrUpdate(OAuthAttributes attributes) {
-    User user = userRepository.findByEmail(attributes.getEmail())
+  private Users saveOrUpdate(OAuthAttributes attributes) {
+    Users user = userRepository.findByEmail(attributes.getEmail())
         .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
         .orElse(attributes.toEntity());
 
