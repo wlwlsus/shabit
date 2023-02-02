@@ -1,4 +1,4 @@
-import React,{useRef,useState,useCallback,useEffect } from "react";
+import React,{useRef,useState,useCallback } from "react";
 import Webcam from "react-webcam";
 
 //10배속 다운로드만 구현하면 됨
