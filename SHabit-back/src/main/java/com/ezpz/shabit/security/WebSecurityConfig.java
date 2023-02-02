@@ -40,9 +40,11 @@ public class WebSecurityConfig {
 						.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 						.and()
 						.authorizeHttpRequests()
-						.requestMatchers("/oauth2/**", "/api/v1/user/password-find/**", "/api/v1/user/email-check/**", "/api/v1/user/email" +
-										"-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
-										"-docs/**").permitAll()
+						.requestMatchers("/oauth2/**", "/api/v1/user/password-find/**", "/api/v1/user/email-check/**",
+										"/api/v1" +
+														"/user/email" +
+														"-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
+														"-docs/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/v1/admin/alarm").permitAll()
 						.requestMatchers("/**").hasRole("USER")
 						.and()
@@ -50,7 +52,7 @@ public class WebSecurityConfig {
 		// JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
 
 		httpSecurity.formLogin().disable()
-						.oauth2Login()
+						.oauth2Login().loginPage("http://i8a601.p.ssafy.io:8090/login")
 						.authorizationEndpoint()
 						.and()
 						.userInfoEndpoint()
