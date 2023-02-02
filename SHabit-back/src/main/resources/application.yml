@@ -12,7 +12,7 @@ spring:
           naver:
             client-id: "7Ok2n8mRGPoSxzGABJRc"
             client-secret: "QeTRN6VlPc"
-            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
             scope:
               - name
@@ -28,7 +28,7 @@ spring:
               - profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             client-authentication-method: POST
 
         provider:

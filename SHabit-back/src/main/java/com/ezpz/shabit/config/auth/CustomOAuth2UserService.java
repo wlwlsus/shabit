@@ -67,7 +67,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 //		httpSession.setAttribute("user", new SessionUser(user));
 //		redisTemplate.opsForValue().set("user", user);
 //		Users data = (Users) redisTemplate.opsForValue().get("user");
-		System.out.println("유저 저장 잘 됐을랑가 :" + user);
 
 		return new DefaultOAuth2User(
 						user.getAuthorities(),

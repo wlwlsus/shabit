@@ -52,7 +52,8 @@ public class WebSecurityConfig {
 		// JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
 
 		httpSecurity.formLogin().disable()
-						.oauth2Login().loginPage("http://i8a601.p.ssafy.io:8090/login")
+						.oauth2Login()
+//						.loginPage("http://i8a601.p.ssafy.io:8090/login")
 						.authorizationEndpoint()
 						.and()
 						.userInfoEndpoint()
