@@ -6,7 +6,7 @@ import { loadEffect } from '../common/animation';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function UserInfo({ user, lastDate, isModalOpen }) {
+export default function UserInfo({ user, isModalOpen }) {
   const { email, nickname, profile, theme } = user;
 
   return (
@@ -20,13 +20,10 @@ export default function UserInfo({ user, lastDate, isModalOpen }) {
 
       <ContentWrapper>
         <UserName>
-          {/* <span>USERNAME</span>
-          <span>이메일 :asdfasfsdfasdfaezpz@gmail.com</span> */}
           <span>{nickname}</span>
           <span>이메일 : {email}</span>
         </UserName>
-        {/* <LastLogin>마지막 접속일 : 2022.11.12</LastLogin> */}
-        <LastLogin>마지막 접속일 : {lastDate}</LastLogin>
+        <LastLogin>마지막 접속일 : </LastLogin>
         <ThemeBox />
       </ContentWrapper>
     </Wrapper>

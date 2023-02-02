@@ -10,15 +10,17 @@ import { Recording } from '../components/Posture/Recording';
 import { AiFillNotification } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
+
 export default function PosturePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!accessToken && !user) {
-      return navigate('/login');
-    }
+    const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    // if (!accessToken && !user) {
+    //   return navigate('/login');
+    // }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, [navigate, dispatch]);

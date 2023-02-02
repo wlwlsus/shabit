@@ -1,59 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
-import MainInfo from './MainInfo';
+import QuoteInfo from './QuoteInfo';
 import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-import { typedUseSeletor } from '../../store';
+import { typedUseSelector } from '../../store';
 
-import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
 import UploadingModal from './UploadingModal';
+import LogoutButton from './LogoutButton';
 
 export default function MainContent() {
-  const heatMapSeries = typedUseSeletor((state) => {
-    return state.chart.heatMapSeries;
-  });
-
-  const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+  // const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
   const [isUploading, setIsUploading] = useState(false);
-  const randomQuote = typedUseSeletor((state) => {
-    return state.chart.randomQuote;
-  });
-  const user = typedUseSeletor((state) => {
+
+  const user = typedUseSelector((state) => {
     return state.auth.user;
   });
 
-  useEffect(() => {
-    if (user.email) {
-      Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user.email) {
+  //     Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+  //   }
+  // }, [user]);
 
-  useEffect(() => {
-    setLastDate(heatMapSeries.slice(-1)[0]?.date);
-  }, [heatMapSeries]);
+  // useEffect(() => {
+  //   setLastDate(heatMapSeries.slice(-1)[0]?.date);
+  // }, [heatMapSeries]);
 
-  const isModalOpen = (boolean?) => {
+  const isModalOpen = (boolean) => {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
     else setIsUploading(!isUploading);
   };
   return (
     <Wrapper>
+      <LogoutButton></LogoutButton>
       {!isUploading ? (
         <div></div>
       ) : (
         <UploadingModal isModalOpen={isModalOpen} />
       )}
       <InfoWrapper>
-        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
-        <MainInfo randomQuote={randomQuote} />
+        <UserInfo user={user} isModalOpen={isModalOpen} />
+        <QuoteInfo />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap heatMapSeries={heatMapSeries} />
+        <Heatmap user={user} />
         <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>

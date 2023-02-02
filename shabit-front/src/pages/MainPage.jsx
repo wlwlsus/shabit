@@ -4,14 +4,15 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import { typedUseSeletor } from '../store';
+import { typedUseSelector } from '../store';
+import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = typedUseSeletor((state) => {
+  const user = typedUseSelector((state) => {
     return state.auth.user;
   });
 
@@ -40,10 +41,10 @@ export default function MainPage() {
   }, [currentUrl]);
 
   useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-    if (!accessToken && !user.email) {
-      return navigate('/login');
-    }
+    const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+    // if (!accessToken && !user.email) {
+    //   return navigate('/login');
+    // }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, []);
@@ -53,7 +54,7 @@ export default function MainPage() {
     const _setUser = () => {
       if (newUser.email) return;
       else {
-        const localUser = JSON.parse(localStorage.getItem('user'));
+        const localUser = JSON.parse(sessionStorage.getItem('user'));
         newUser = localUser;
         dispatch(setUserState(localUser));
       }
@@ -81,6 +82,7 @@ export default function MainPage() {
           자세기록
         </Tab>
         <Container>
+          <MoveToAdmin />
           <Outlet />
         </Container>
       </ContainerWrapper>

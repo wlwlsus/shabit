@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import { theme } from '../../styles/GlobalStyles';
 
-const Heatmap = ({ heatMapSeries }) => {
-  //  Heatmap Data
-  // const [values, setValues] = useState(heatMapData);
-  const values: Array = heatMapSeries;
-  const [today] = useState(new Date());
-  const [startDate, setStartDate] = useState();
+import { fetchHeatmap } from '../../services/stat/get';
+
+const Heatmap = ({ user }) => {
+  const [HeatmapData, setHeatmapData] = useState([]);
+  const [startDate, setStartDate] = useState('');
 
   //  기간 설정 (1년 전 ~ today)
   // Lazy Initialization (state 정의될 때 한 번만 실행)
@@ -25,40 +24,24 @@ const Heatmap = ({ heatMapSeries }) => {
     return `${year}-${month}-${day}`;
   });
 
-  //  마운트 됐을 때 데이터 가져옴
-  //  배열에 날짜, 퍼센트, 클래스(색) 저장
-  // useEffect(() => {
-  //   fetch(`/testData/heatMapData.json`)
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       const jsonData = res.result;
-  //       const newArray = [];
-  //       for (let element of jsonData) {
-  //         const { date, percentage } = element;
-  //         let classValue = 0;
-  //         if (percentage >= 80) classValue = 4;
-  //         else if (percentage >= 60) classValue = 3;
-  //         else if (percentage >= 40) classValue = 2;
-  //         else if (percentage >= 20) classValue = 1;
-  //         newArray.push({ date, percentage, classValue });
-  //       }
-  //       setValues(newArray);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetchHeatmap(user.email).then((res) => {
+      setHeatmapData(res);
+    });
+  }, []);
 
   return (
     <HeatmapContainer style={{ width: 1000 }}>
       <CalendarHeatmap
         endDate={endDate}
         startDate={startDate}
-        values={values}
+        values={HeatmapData}
         showWeekdayLabels={true}
-        //classForValue로 색깔이 될 클래스를 지정합니다.
         classForValue={(value) => {
           if (!value) {
             return 'color-empty';
           }
-          return `color-scale-${value.classValue}`;
+          return `color-scale-${value.classValue}`; //  색 적용할 클래스 지정
         }}
       />
     </HeatmapContainer>
