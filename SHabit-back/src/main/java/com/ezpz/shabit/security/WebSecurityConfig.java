@@ -1,5 +1,6 @@
 package com.ezpz.shabit.security;
 
+import com.ezpz.shabit.config.auth.CustomOAuth2UserService;
 import com.ezpz.shabit.jwt.JwtAuthenticationFilter;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebSecurityConfig {
 
+  private final CustomOAuth2UserService customOAuth2UserService;
+
   private final JwtTokenProvider jwtTokenProvider;
   private final RedisTemplate redisTemplate;
 
@@ -44,6 +47,10 @@ public class WebSecurityConfig {
         .and()
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
     // JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
+
+    httpSecurity.oauth2Login()
+        .userInfoEndpoint()
+        .userService(customOAuth2UserService);
 
     return httpSecurity.build();
   }
