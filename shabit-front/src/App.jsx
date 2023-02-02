@@ -56,6 +56,7 @@ function App() {
             path="/posture"
             element={<PrivateRoute component={<PosturePage />} />}
           >
+            {/* <Route path="stretch" element={<LiveContent />} /> */}
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/admin" element={<AdminPage />} />
