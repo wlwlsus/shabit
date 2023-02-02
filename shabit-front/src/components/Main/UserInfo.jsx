@@ -14,7 +14,7 @@ export default function UserInfo({ user, isModalOpen }) {
       <ImgWrapper
         style={profile?.length ? { backgroundImage: `url(${profile})` } : {}}
       >
-        {profile ? <div></div> : <Logo color={'pink'} />}
+        {profile ? <></> : <Logo color={'pink'} />}
         <span onClick={() => isModalOpen(true)}>이미지 변경하기</span>
       </ImgWrapper>
 
@@ -50,6 +50,7 @@ const ImgWrapper = styled.div`
   left: 7%;
   animation: 0.8s ease-in ${loadEffect.down};
   z-index: 1;
+
   span {
     visibility: hidden;
     padding: 5px 10px;
