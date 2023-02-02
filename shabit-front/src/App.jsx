@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-import PrivateRoute from './utils/PrivateRoute';
+// import PrivateRoute from './utils/PrivateRoute';
 
 import LandingPage from './pages/LandingPage';
 import Introduction from './components/Landing/Introduction';
@@ -47,24 +47,11 @@ function App() {
               <LandingPage content={<LandingContent />} form={<SignupForm />} />
             }
           />
-          <Route
-            path="/main"
-            element={
-              <PrivateRoute authenticated={access} component={<MainPage />} />
-            }
-          >
+          <Route path="/main" element={<MainPage />}>
             <Route path="" element={<MainContent />} />
             <Route path="history" element={<HistoryContent />} />
           </Route>
-          <Route
-            path="/posture"
-            element={
-              <PrivateRoute
-                authenticated={access}
-                component={<PosturePage />}
-              />
-            }
-          >
+          <Route path="/posture" element={<PosturePage />}>
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/admin" element={<AdminPage />} />
