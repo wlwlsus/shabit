@@ -42,9 +42,9 @@ export default function MainPage() {
 
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
-    // if (!accessToken && !user.email) {
-    //   return navigate('/login');
-    // }
+    if (!accessToken && !user.email) {
+      return navigate('/login');
+    }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, []);
