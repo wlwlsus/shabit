@@ -41,6 +41,7 @@ public class WebSecurityConfig {
             "-docs/**").permitAll()
         .requestMatchers(HttpMethod.GET, "/api/v1/admin/alarm").permitAll()
         .requestMatchers("/**").hasRole("USER")
+        .requestMatchers("/**").hasRole("ADMIN")
         .and()
         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
     // JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
