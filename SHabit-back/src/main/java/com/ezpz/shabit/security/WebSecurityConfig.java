@@ -24,56 +24,63 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebSecurityConfig {
 
-  private final CustomOAuth2UserService customOAuth2UserService;
+	private final CustomOAuth2UserService customOAuth2UserService;
 
-  private final JwtTokenProvider jwtTokenProvider;
-  private final RedisTemplate redisTemplate;
+	private final JwtTokenProvider jwtTokenProvider;
+	private final RedisTemplate<String, String> redisTemplate;
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws
-      Exception {
-    httpSecurity.cors().configurationSource(corsConfigurationSource());
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws
+					Exception {
+		httpSecurity.cors().configurationSource(corsConfigurationSource());
 
-    httpSecurity
-        .httpBasic().disable()
-        .csrf().disable()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .authorizeHttpRequests()
-        .requestMatchers("/api/v1/user/password-find/**", "/api/v1/user/email-check/**", "/api/v1/user/email-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
-            "-docs/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/v1/admin/alarm").permitAll()
-        .requestMatchers("/**").hasRole("USER")
-        .and()
-        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
-    // JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
+		httpSecurity
+						.httpBasic().disable()
+						.csrf().disable()
+						.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+						.and()
+						.authorizeHttpRequests()
+						.requestMatchers("/oauth2/**", "/api/v1/user/password-find/**", "/api/v1/user/email-check/**", "/api/v1/user/email" +
+										"-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
+										"-docs/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/v1/admin/alarm").permitAll()
+						.requestMatchers("/**").hasRole("USER")
+						.and()
+						.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
+		// JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
 
-    httpSecurity.oauth2Login()
-        .userInfoEndpoint()
-        .userService(customOAuth2UserService);
+		httpSecurity.formLogin().disable()
+						.oauth2Login()
+						.authorizationEndpoint()
+						.and()
+						.userInfoEndpoint()
+						.userService(customOAuth2UserService);
+//						.and()
+//						.successHandler(authenticationSuccessHandler)
+//						.failureHandler(authenticationFailureHandler);
 
-    return httpSecurity.build();
-  }
+		return httpSecurity.build();
+	}
 
 
-  // 암호화에 필요한 PasswordEncoder Bean 등록
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+	// 암호화에 필요한 PasswordEncoder Bean 등록
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-  // CORS 허용 적용
-  @Bean
-  public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
+	// CORS 허용 적용
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
 
-    configuration.addAllowedOrigin("*");
-    configuration.addAllowedHeader("*");
-    configuration.addAllowedMethod("*");
-    configuration.setAllowCredentials(true);
+		configuration.addAllowedOrigin("*");
+		configuration.addAllowedHeader("*");
+		configuration.addAllowedMethod("*");
+		configuration.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-  }
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 }

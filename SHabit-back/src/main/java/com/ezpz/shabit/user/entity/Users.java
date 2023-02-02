@@ -31,7 +31,7 @@ public class Users extends BaseTimeEntity implements UserDetails {
   @Column(name = "nickname", length = 15, nullable = false)
   private String nickname;
 
-  @Column(name = "password", nullable = false)
+  @Column(name = "password", nullable = true)
   private String password;
 
   @Column(name = "theme", columnDefinition = "integer default 0")
@@ -89,5 +89,11 @@ public class Users extends BaseTimeEntity implements UserDetails {
 
   public void setProfile(String profile) {
     this.profile = profile;
+  }
+
+  public Users update(String nickname, String profile) {
+    this.nickname = nickname;
+    this.profile = profile;
+    return this;
   }
 }
