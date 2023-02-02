@@ -4,7 +4,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import { typedUseSeletor } from '../store';
+import { typedUseSelector } from '../store';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
@@ -42,9 +42,9 @@ export default function MainPage() {
 
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
-    if (!accessToken && !user.email) {
-      return navigate('/login');
-    }
+    // if (!accessToken && !user.email) {
+    //   return navigate('/login');
+    // }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, []);

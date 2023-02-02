@@ -9,15 +9,17 @@ import Modal from '../components/Posture/Modal';
 import { AiFillNotification } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
+
 export default function PosturePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
     const user = JSON.parse(sessionStorage.getItem('user'));
-    if (!accessToken && !user) {
-      return navigate('/login');
-    }
+    // if (!accessToken && !user) {
+    //   return navigate('/login');
+    // }
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, [navigate, dispatch]);

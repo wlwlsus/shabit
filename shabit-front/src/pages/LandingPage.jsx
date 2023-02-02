@@ -8,8 +8,8 @@ import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
 import { loadEffect } from '../components/common/animation';
 
-export default function LandingPage({ children }) {
-  const [content, form] = children;
+export default function LandingPage({ content, form }) {
+  // const [content, form] = children;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {

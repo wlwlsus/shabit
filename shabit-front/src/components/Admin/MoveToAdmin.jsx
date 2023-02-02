@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { typedUseSeletor } from '../../store';
+import { typedUseSelector } from '../../store';
 import { theme } from '../../styles/GlobalStyles';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
@@ -13,7 +13,7 @@ const MoveToAdmin = () => {
   const dispatch = useDispatch();
   const [isDiaplay, setIsDisplay] = useState(false);
   const [pathName, setPathName] = useState('');
-  const isAdmin = typedUseSeletor((state) => {
+  const isAdmin = typedUseSelector((state) => {
     return state.auth.isAdmin;
   });
   const token = sessionStorage.getItem('accessToken');
