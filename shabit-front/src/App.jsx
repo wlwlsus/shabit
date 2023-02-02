@@ -20,6 +20,7 @@ import HistoryContent from './components/Main/HistoryContent';
 import PosturePage from './pages/PosturePage';
 import StretchContent from './components/Posture/StretchContent';
 import AdminPage from './pages/AdminPage';
+import AdminRoute from './utils/AdminRoute';
 
 function App() {
   return (
@@ -59,7 +60,11 @@ function App() {
             {/* <Route path="stretch" element={<LiveContent />} /> */}
             <Route path="stretch" element={<StretchContent />} />
           </Route>
-          <Route path="/admin" element={<AdminPage />} />
+          <Route
+            path="/admin"
+            element={<AdminRoute component={<AdminPage />} />}
+            // element={<AdminPage />}
+          />
         </Routes>
       </ThemeProvider>
     </Provider>
