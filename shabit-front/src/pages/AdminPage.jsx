@@ -14,7 +14,8 @@ const AdminPage = () => {
           <Wrapper>
             <MoveToAdmin />
             <LogoutButton></LogoutButton>
-            <AdminDashboard />
+            {/* <AdminDashboard /> */}
+            <AdminConatainer />
           </Wrapper>
         </Container>
       </ContainerWrapper>

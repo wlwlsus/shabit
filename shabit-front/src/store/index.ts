@@ -6,12 +6,14 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux';
 import chartSlice from './chartSlice';
+import adminSlice from './adminSlice';
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     video: videoSlice.reducer,
     chart: chartSlice.reducer,
+    admin: adminSlice.reducer,
   },
 });
 

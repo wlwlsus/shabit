@@ -63,7 +63,6 @@ function App() {
           <Route
             path="/admin"
             element={<AdminRoute component={<AdminPage />} />}
-            // element={<AdminPage />}
           />
         </Routes>
       </ThemeProvider>

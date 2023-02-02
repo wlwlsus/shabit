@@ -1,3 +1,4 @@
+import Admin from './admin';
 import Auth from './auth';
 import Info from './info';
 import Stat from './stat';
@@ -12,5 +13,6 @@ const Services = {
   Auth,
   Info,
   Stat,
+  Admin,
 };
 export default Services;
