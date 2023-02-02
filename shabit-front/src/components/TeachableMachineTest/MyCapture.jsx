@@ -1,16 +1,19 @@
 import React,{useRef,useState,useCallback } from "react";
 import Webcam from "react-webcam";
+import styled from 'styled-components';
 
 //10배속 다운로드만 구현하면 됨
 const MyCapture = () => {
   const webcamRef = useRef(null);//window
   const mediaRecorderRef = useRef(null);//viewRef
   const recordedVideoRef = useRef(null);//recordedVideo
-  const canvasRef = useRef(null);
 
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
-  // const [id,setId]  = useState();
+  const videoConstraints = {
+    width: 360,
+    height: 360,
+  };
   let resumeId,pauseId;
 
   const handleStartCaptureClick = useCallback(() => {
@@ -25,6 +28,7 @@ const MyCapture = () => {
     mediaRecorderRef.current.start();
     resumeId = setInterval(()=>{
     mediaRecorderRef.current.pause();},1000);
+    //TODO:나중에 1분으로 수정해야됨
     pauseId = setInterval(()=>{mediaRecorderRef.current.resume();},3000);
   }, [webcamRef, setCapturing, mediaRecorderRef]);
 
@@ -80,8 +84,10 @@ const MyCapture = () => {
 
 
   return (
-    <>
-      <Webcam audio={false} ref={webcamRef} />
+    <Wrapper>
+      <InfoWrapper>
+        <Webcam audio={false} ref={webcamRef} videoConstraints={videoConstraints} mirrored={true}/>
+      </InfoWrapper>
       {capturing ? (
         <button onClick={handleStopCaptureClick}>Stop Capture</button>
       ) : (
@@ -97,9 +103,17 @@ const MyCapture = () => {
         </>
       )}
       
-    </>
+    </Wrapper>
   );
 };
+const Wrapper = styled.div``;
+const InfoWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4rem 0 2rem 0;
+`;
 export default MyCapture;
 
 // https://www.npmjs.com/package/react-webcam

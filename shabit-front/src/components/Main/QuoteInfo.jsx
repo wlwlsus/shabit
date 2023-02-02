@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
@@ -9,6 +10,7 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
 export default function MainInfo() {
+  const navigate = useNavigate();
   const [quote, setQuote] = useState('');
 
   useEffect(() => {
@@ -26,7 +28,7 @@ export default function MainInfo() {
       </InfoBox>
 
       <Start>
-        <BsFillCaretRightSquareFill />
+        <BsFillCaretRightSquareFill onClick={()=>navigate('/posture')} />
         <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>

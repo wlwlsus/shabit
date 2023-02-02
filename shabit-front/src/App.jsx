@@ -20,6 +20,7 @@ import HistoryContent from './components/Main/HistoryContent';
 import PosturePage from './pages/PosturePage';
 import StretchContent from './components/Posture/StretchContent';
 import AdminPage from './pages/AdminPage';
+import { Recording } from './components/Posture/Recording';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             path="/posture"
             element={<PrivateRoute component={<PosturePage />} />}
           >
+            <Route path="" element={<Recording />} />
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/admin" element={<AdminPage />} />
