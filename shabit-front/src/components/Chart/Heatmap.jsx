@@ -7,7 +7,7 @@ import { fetchHeatmap } from '../../services/stat/get';
 
 const Heatmap = ({ user }) => {
   const [HeatmapData, setHeatmapData] = useState([]);
-  const [startDate, setStartDate] = useState();
+  const [startDate, setStartDate] = useState('');
 
   //  기간 설정 (1년 전 ~ today)
   // Lazy Initialization (state 정의될 때 한 번만 실행)

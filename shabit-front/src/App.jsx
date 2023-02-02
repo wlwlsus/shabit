@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
-// import PrivateRoute from './utils/PrivateRoute';
+import PrivateRoute from './utils/PrivateRoute';
 
 import LandingPage from './pages/LandingPage';
 import Introduction from './components/Landing/Introduction';
@@ -22,8 +22,6 @@ import StretchContent from './components/Posture/StretchContent';
 import AdminPage from './pages/AdminPage';
 
 function App() {
-  const access = sessionStorage.getItem('accessToken');
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -47,11 +45,17 @@ function App() {
               <LandingPage content={<LandingContent />} form={<SignupForm />} />
             }
           />
-          <Route path="/main" element={<MainPage />}>
+          <Route
+            path="/main"
+            element={<PrivateRoute component={<MainPage />} />}
+          >
             <Route path="" element={<MainContent />} />
             <Route path="history" element={<HistoryContent />} />
           </Route>
-          <Route path="/posture" element={<PosturePage />}>
+          <Route
+            path="/posture"
+            element={<PrivateRoute component={<PosturePage />} />}
+          >
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/admin" element={<AdminPage />} />
