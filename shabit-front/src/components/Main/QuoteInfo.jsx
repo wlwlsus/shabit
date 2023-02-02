@@ -9,9 +9,10 @@ import { fetchQuote } from '../../services/stat/get';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function MainInfo() {
-  const navigate = useNavigate();
+
+export default function QuoteInfo() {
   const [quote, setQuote] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchQuote().then((res) => setQuote(res));

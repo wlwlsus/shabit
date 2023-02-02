@@ -6,15 +6,18 @@ import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
-import { typedUseSelector } from '../../store';
+// import { typedUseSelector } from '../../store';
+
 export default function HistoryContent() {
   const [dropDown, setDropDown] = useState('none');
   const [mode, setMode] = useState('Weekly');
   const [item, setItem] = useState('Monthly');
 
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  });
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
 
   const handleDropdown = () => {
     if (dropDown === '') {
@@ -52,9 +55,9 @@ export default function HistoryContent() {
         </Content>
       </TitleWrapper>
 
-      <p>
+      <ChartWrapper>
         <BarChart user={user} />
-      </p>
+      </ChartWrapper>
 
       <DropDownWrapper>
         <DropDown onClick={handleDropdown}>
@@ -76,10 +79,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+`;
 
-  & > p {
-    animation: 0.8s ease-in ${loadEffect.down};
-  }
+const ChartWrapper = styled.div`
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const TitleWrapper = styled.div`
