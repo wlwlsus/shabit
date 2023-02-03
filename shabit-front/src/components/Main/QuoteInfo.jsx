@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchQuote } from '../../services/stat/get';
-
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function QuoteInfo() {
-  const [quote, setQuote] = useState('');
+export default function QuoteInfo({ quote }) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchQuote().then((res) => setQuote(res));
-  }, []);
 
   return (
     <Wrapper>

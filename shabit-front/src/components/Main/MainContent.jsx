@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
@@ -8,30 +8,37 @@ import QuoteInfo from './QuoteInfo';
 import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-// import { typedUseSelector } from '../../store';
-
+import { typedUseSelector } from '../../store';
+import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+// import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
 
 export default function MainContent() {
-  // const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+  const [lastDate, setLastDate] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   const user = JSON.parse(sessionStorage.getItem('user'));
+  useEffect(() => {
+    if (!user.email) return;
+    Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+  }, [user.email]);
 
   // const user = typedUseSelector((state) => {
   //   return state.auth.user;
   // });
 
-  // useEffect(() => {
-  //   if (user.email) {
-  //     Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
-  //   }
-  // }, [user]);
+  const heatmap = typedUseSelector((state) => {
+    return state.chart.heatmapData;
+  });
 
-  // useEffect(() => {
-  //   setLastDate(heatMapSeries.slice(-1)[0]?.date);
-  // }, [heatMapSeries]);
+  const quote = typedUseSelector((state) => {
+    return state.chart.quote;
+  });
+
+  useEffect(() => {
+    setLastDate(heatmap.slice(-1)[0]?.date);
+  }, [heatmap]);
 
   const isModalOpen = (boolean) => {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
@@ -42,11 +49,11 @@ export default function MainContent() {
       <LogoutButton />
       {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
       <InfoWrapper>
-        <UserInfo user={user} isModalOpen={isModalOpen} />
-        <QuoteInfo />
+        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
+        <QuoteInfo quote={quote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap user={user} />
+        <Heatmap heatmap={heatmap} />
         <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>
