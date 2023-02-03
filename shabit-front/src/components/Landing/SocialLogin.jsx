@@ -27,7 +27,7 @@ const IconWrapper = styled.div`
 
   transition: all 0.2s linear;
 
-  & > a {
+  & > svg {
     cursor: pointer;
     transition: all 0.2s linear;
 
