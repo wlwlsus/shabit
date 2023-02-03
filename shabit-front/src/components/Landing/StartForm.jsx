@@ -2,14 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { HiArrowRightCircle } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 
 import { loadEffect } from '../common/animation';
 
 const StartForm = () => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <span>지금 바로 시작하기</span>
-      <HiArrowRightCircle />
+      <HiArrowRightCircle onClick={() => navigate('/login')} />
     </Wrapper>
   );
 };
