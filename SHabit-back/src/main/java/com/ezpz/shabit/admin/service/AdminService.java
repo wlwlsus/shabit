@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface AdminService {
     List<Vod> getVodList(String search, String query, Pageable pageable);
-    int deleteVod(List<Integer> vodIdList);
+    int deleteVod(List<String> videoIdList);
     int insertVod(YouTubeDto youtube, Long categoryId);
     int editSetting(SettingReqDto setting);
     SettingResDto getSetting();

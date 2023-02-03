@@ -120,10 +120,13 @@ public class AdminController {
   @Operation(summary = "영상 삭제 API")
   @DeleteMapping("/vods")
   ResponseEntity<?> deleteVod(@Parameter(description = "추가할 영상 리스트", required = true)
-                              @RequestBody List<Integer> vodIdList) {
+                              @RequestBody List<String> videoIdList) {
     int res = 0;
     try {
-      res = adminService.deleteVod(vodIdList);
+      res = adminService.deleteVod(videoIdList);
+    } catch(NullPointerException e){
+      log.error(e.getMessage());
+      return Response.badRequest(e.getMessage());
     } catch (Exception e) {
       log.info(e.getMessage());
     }
