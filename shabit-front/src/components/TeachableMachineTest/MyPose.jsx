@@ -178,7 +178,7 @@ const MyPose = ({
   return (
     <div>
       {isLoading ? <Loading /> : <div></div>}
-      <div>Teachable Machine Pose Model</div>
+      {/* <div>Teachable Machine Pose Model</div>
       <button type="button" onClick={init}>
         Start
       </button>
@@ -205,7 +205,7 @@ const MyPose = ({
           ))}
         </div>
       </div>
-      <div id="label-container" />
+      <div id="label-container" /> */}
     </div>
   );
 };

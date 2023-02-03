@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
-import { useNavigate } from 'react-router-dom';
 
 import { fetchQuote } from '../../services/stat/get';
 
