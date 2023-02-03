@@ -2,9 +2,12 @@ package com.ezpz.shabit;
 
 import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.admin.service.AdminServiceImpl;
+import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
 import com.ezpz.shabit.info.entity.Category;
+import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
 import com.ezpz.shabit.info.repository.CategoryRepository;
+import com.ezpz.shabit.info.repository.PhrasesRepository;
 import com.ezpz.shabit.info.repository.VodRepository;
 import com.ezpz.shabit.admin.dto.req.SettingReqDto;
 import com.ezpz.shabit.admin.dto.res.SettingResDto;
@@ -39,6 +42,65 @@ public class AdminServiceTest {
     private CategoryRepository categoryRepository;
     @Mock
     private SettingRepository settingRepository;
+    @Mock
+    private PhrasesRepository phrasesRepository;
+    @Test
+    public void 없는_건강_문구_삭제_실패(){
+        // given
+        doReturn(Phrases.builder().build()).when(phrasesRepository).findByContent(any());
+
+        // when
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deletePhrases(phrasesContentList()));
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo("없는 문구 입니다.");
+    }
+
+    @Test
+    public void 건강_문구_삭제_성공(){
+        // given
+        Phrases phrases = Phrases.builder().content("blah").build();
+        doReturn(phrases).when(phrasesRepository).findByContent(any());
+
+        // when
+        int res = target.deletePhrases(phrasesContentList());
+
+        // then
+        assertThat(res).isEqualTo(3);
+    }
+
+    private List<String> phrasesContentList() {
+        List<String> phrasesContentList = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            phrasesContentList.add(Integer.toString(i+1));
+        }
+        return phrasesContentList;
+    }
+
+//    @Test
+//    public void 건강_문구_목록_조회_성공(){
+//        // given
+//        doReturn(phrasesList())
+//                .when(phrasesRepository)
+//                .findAll();
+//
+//        // when
+//        List<Phrases> phrasesList = target.getPhrasesList(3);
+//
+//        // then
+//        assertThat(phrasesList.size()).isEqualTo(3);
+//    }
+
+    private List<Phrases> phrasesList() {
+        List<Phrases> phrasesList = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            phrasesList.add(Phrases.builder()
+                    .content("허리피세여" + Integer.toString(i))
+                    .build());
+        }
+        return phrasesList;
+    }
+
 
     @Test
     public void 없는_영상_삭제_실패(){
@@ -272,6 +334,38 @@ public class AdminServiceTest {
 
         // then
         assertThat(res).isNotNull();
+    }
+    @Test
+    public void 건강_문구_중복(){
+        // given
+        doReturn(Phrases.builder()
+                .content("허리 피세여")
+                .build())
+                .when(phrasesRepository)
+                .findByContent("허리 피세여");
+
+        // when
+        int cnt = target.insertPhrases(PhrasesReqDto.builder().content("허리 피세여").build());
+
+        // then
+        assertThat(cnt).isEqualTo(0);
+    }
+
+    @Test
+    public void 건강_문구_추가_성공(){
+        // given
+        doReturn(null)
+                .when(phrasesRepository)
+                .findByContent("허리 피세여");
+        doReturn(null)
+                .when(phrasesRepository)
+                .save(any(Phrases.class));
+
+        // when
+        int cnt = target.insertPhrases(PhrasesReqDto.builder().content("허리 피세여").build());
+
+        // then
+        assertThat(cnt).isEqualTo(1);
     }
 
 
