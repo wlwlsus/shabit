@@ -4,7 +4,6 @@ import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.Map;
@@ -35,11 +34,11 @@ public class OAuthAttributes {
 	public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
 		System.out.println("정보 : " + registrationId + " | " + userNameAttributeName + " | " + attributes);
 		if ("naver".equals(registrationId)) {
-			return ofNaver("id", attributes);
+			return ofNaver(attributes);
 		}
 
 		if ("kakao".equals(registrationId)) {
-			return ofKakao("id", attributes);
+			return ofKakao(attributes);
 		}
 
 		return ofGoogle(userNameAttributeName, attributes);
@@ -56,7 +55,7 @@ public class OAuthAttributes {
 						.build();
 	}
 
-	private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+	private static OAuthAttributes ofNaver(Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
 		return OAuthAttributes.builder()
@@ -65,11 +64,11 @@ public class OAuthAttributes {
 						.email((String) response.get("email"))
 						.picture((String) response.get("profile_image"))
 						.attributes(response)
-						.nameAttributeKey(userNameAttributeName)
+						.nameAttributeKey("id")
 						.build();
 	}
 
-	private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+	private static OAuthAttributes ofKakao(Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
 		Map<String, Object> profile = (Map<String, Object>) response.get("profile");
 		return OAuthAttributes.builder()
@@ -78,7 +77,7 @@ public class OAuthAttributes {
 						.nickname((String) profile.get("nickname"))
 						.picture((String) profile.get("profile_image_url"))
 						.attributes(attributes)
-						.nameAttributeKey(userNameAttributeName)
+						.nameAttributeKey("id")
 						.build();
 	}
 

@@ -1,5 +1,6 @@
 package com.ezpz.shabit.user.entity;
 
+import com.ezpz.shabit.config.auth.AuthProvider;
 import com.ezpz.shabit.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -44,6 +45,9 @@ public class Users extends BaseTimeEntity implements UserDetails {
   @ElementCollection(fetch = FetchType.EAGER)
   @Builder.Default
   private List<String> roles = new ArrayList<>();
+
+  @Enumerated(EnumType.STRING)
+  private AuthProvider authProvider;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
