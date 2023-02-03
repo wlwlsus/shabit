@@ -4,7 +4,20 @@ const adminSlice = createSlice({
   name: 'adminSlice',
   initialState: {
     videoList: [],
-    videoCategories: [],
+    videoCategories: [
+      {
+        categoryId: 1,
+        name: '목 스트레칭',
+      },
+      {
+        categoryId: 2,
+        name: '허리 스트레칭',
+      },
+      {
+        categoryId: 3,
+        name: '전신 스트레칭',
+      },
+    ],
     quetesList: [],
     stretchingTime: 50 * 60 * 1000,
     alertTime: 3 * 60 * 1000,
