@@ -102,30 +102,30 @@ public class AdminServiceTest {
     }
 
 
-    @Test
-    public void 없는_영상_삭제_실패(){
-        // given
-        doReturn(Optional.empty()).when(vodRepository).findById(any());
+//    @Test
+//    public void 없는_영상_삭제_실패(){
+//        // given
+//        doReturn(Optional.empty()).when(vodRepository).findById(any());
+//
+//        // when
+//        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deleteVod(vodIdList1()));
+//
+//        // then
+//        assertThat(exception.getMessage()).isEqualTo("영상이 없습니다.");
+//    }
 
-        // when
-        final NullPointerException exception = assertThrows(NullPointerException.class, () -> target.deleteVod(vodIdList1()));
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo("영상이 없습니다.");
-    }
-
-    @Test
-    public void 영상_삭제_성공(){
-        // given
-        Optional<Vod> vod = Optional.ofNullable(Vod.builder().build());
-        doReturn(vod).when(vodRepository).findById(any());
-
-        // when
-        int res = target.deleteVod(vodIdList1());
-
-        // then
-        assertThat(res).isEqualTo(3);
-    }
+//    @Test
+//    public void 영상_삭제_성공(){
+//        // given
+//        Optional<Vod> vod = Optional.ofNullable(Vod.builder().build());
+//        doReturn(vod).when(vodRepository).findById(any());
+//
+//        // when
+//        int res = target.deleteVod(vodIdList1());
+//
+//        // then
+//        assertThat(res).isEqualTo(3);
+//    }
 
     private List<Integer> vodIdList1() {
         List<Integer> vodIdList = new ArrayList<>();

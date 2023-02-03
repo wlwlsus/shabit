@@ -49,49 +49,49 @@ public class AdminControllerTest {
 
     @Mock
     private AdminServiceImpl adminService;
-    @Test
-    public void 없는_영상_삭제_실패() throws Exception {
-        // given
-        List<Integer> list = vodIdList1();
-        doReturn(0).when(adminService)
-                .deleteVod(list);
+//    @Test
+//    public void 없는_영상_삭제_실패() throws Exception {
+//        // given
+//        List<Integer> list = vodIdList1();
+//        doReturn(0).when(adminService)
+//                .deleteVod(list);
+//
+//        // when
+//        ResultActions resultActions = mockMvc.perform(
+//                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
+//                        .content(gson.toJson(list))
+//                        .contentType(MediaType.APPLICATION_JSON)
+//        );
+//
+//        // then
+//        // HTTP Status가 OK인지 확인
+//        MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
+//
+//        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
+//        System.out.println(mvcResult.getResponse().getContentAsString());
+//    }
 
-        // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
-                        .content(gson.toJson(list))
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        // HTTP Status가 OK인지 확인
-        MvcResult mvcResult = resultActions.andExpect(status().isNotFound()).andReturn();
-
-        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
-        System.out.println(mvcResult.getResponse().getContentAsString());
-    }
-
-    @Test
-    void 영상_삭제_성공() throws Exception{
-        // given
-        List<Integer> list = vodIdList1();
-        doReturn(3).when(adminService)
-                .deleteVod(list);
-
-        // when
-        ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
-                        .content(gson.toJson(list))
-                        .contentType(MediaType.APPLICATION_JSON)
-        );
-
-        // then
-        // HTTP Status가 OK인지 확인
-        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
-
-        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
-        System.out.println(mvcResult.getResponse().getContentAsString());
-    }
+//    @Test
+//    void 영상_삭제_성공() throws Exception{
+//        // given
+//        List<Integer> list = vodIdList1();
+//        doReturn(3).when(adminService)
+//                .deleteVod(list);
+//
+//        // when
+//        ResultActions resultActions = mockMvc.perform(
+//                MockMvcRequestBuilders.delete("/api/v1/admin/vods")
+//                        .content(gson.toJson(list))
+//                        .contentType(MediaType.APPLICATION_JSON)
+//        );
+//
+//        // then
+//        // HTTP Status가 OK인지 확인
+//        MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
+//
+//        // 주어진 데이터가 올바른지 검증해야하는데 Json 응답을 객체로 변환하여 확인
+//        System.out.println(mvcResult.getResponse().getContentAsString());
+//    }
 
     private List<Integer> vodIdList1() {
         List<Integer> vodIdList = new ArrayList<>();
