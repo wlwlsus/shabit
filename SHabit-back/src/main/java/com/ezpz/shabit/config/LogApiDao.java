@@ -14,12 +14,14 @@ public class LogApiDao {
     private String id;
     private String log;
     private LocalDateTime time;
+    private LocalDateTime expire;
 
     @Builder
-    public LogApiDao(String id, String log,  LocalDateTime time) {
+    public LogApiDao(String id, String log,  LocalDateTime time, LocalDateTime expire) {
         this.id = id;
         this.log = log;
         this.time = time;
+        this.expire = expire;
     }
 
 }
