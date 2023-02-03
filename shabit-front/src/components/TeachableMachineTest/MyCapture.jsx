@@ -143,7 +143,6 @@ const ContainerNotice = styled.div`
   font-weight: 100;
 `;
 const ContainerHeader = styled.div`
-  z-index: 999;
   width: 30rem;
   height: 3rem;
   background-color: ${theme.color.secondary};
@@ -159,7 +158,6 @@ const ContainerHeader = styled.div`
 `;
 
 const Container = styled.div`
-  z-index: 999;
   background-color: ${theme.color.whiteColor};
   width: 30rem;
   height: 18.75rem;
