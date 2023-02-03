@@ -39,6 +39,7 @@ export const login = async (email: string, password: string) => {
     .post('/api/v1/user/login', { email, password })
     .then((res) => {
       const accessToken = res.data.result.token.accessToken;
+      const refreshToken = res.data.result.token.refreshToken;
       const user = res.data.result.user;
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
@@ -48,7 +49,7 @@ export const login = async (email: string, password: string) => {
       if (decodedToken.auth === 'ROLE_ADMIN') {
         store.dispatch(setIsAdminState(true));
       } else store.dispatch(setIsAdminState(false));
-      return Promise.resolve({ user, accessToken });
+      return Promise.resolve({ user, accessToken, refreshToken });
     })
     .catch((err) => {
       return Promise.reject(err);
