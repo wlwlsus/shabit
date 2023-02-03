@@ -4,7 +4,7 @@ import { theme } from '../../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
-import { fetchVideo } from '../../services/video/get';
+import { fetchVods } from '../../services/vod/get';
 
 export default function VideoList() {
   const [videoList, setVideoList] = useState(); // 비디오 리스트
@@ -13,7 +13,7 @@ export default function VideoList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchVideo(user.email).then((res) => {
+    fetchVods(user.email).then((res) => {
       setVideoList(res);
     });
   }, []);
