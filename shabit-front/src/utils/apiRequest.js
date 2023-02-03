@@ -7,11 +7,12 @@ apiRequest.defaults.withCredentials = true;
 
 // apiRequest.interceptors.request.use(
 //   (config) => {
+//     console.log(config);
 //     return {
 //       ...config,
-//       headers: {
-//         Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-//       },
+//       // headers: {
+//       //   Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
+//       // },
 //     };
 //   },
 //   (error) => {

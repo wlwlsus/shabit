@@ -22,9 +22,13 @@ import StretchContent from './components/Posture/StretchContent';
 import AdminPage from './pages/AdminPage';
 import AdminRoute from './utils/AdminRoute';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <Provider store={store}>
+      <ToastContainer />
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <Routes>

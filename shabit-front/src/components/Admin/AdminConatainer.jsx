@@ -27,7 +27,9 @@ const AdminConatainer = () => {
   return (
     <div>
       <AlarmSettings />
+      <br />
       <QuotesSettings />
+      <br />
       <VideoSettings />
     </div>
   );

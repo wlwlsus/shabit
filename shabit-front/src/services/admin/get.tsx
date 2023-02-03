@@ -15,7 +15,7 @@ interface AlarmTime {
 
 export const fetchAlarmTime = async (): Promise<AlarmTime> => {
   return await apiRequest
-    .get('/admin/alarm', { headers: header() })
+    .get('/api/v1/admin/alarm', { headers: header() })
     .then((res) => {
       const { stretchingTime, alertTime } = res.data.result;
       store.dispatch(setStretchingTime(Number(stretchingTime)));
@@ -57,8 +57,9 @@ export const retrieveVods = async (page: number = null): Promise<[object]> => {
 
 export const retreivePhrases = async (): Promise<object> => {
   return await apiRequest
-    .get(`/api/v1/admin/phrases?page={}`, { headers: header() })
+    .get(`/api/v1/admin/phrase?page=0`, { headers: header() })
     .then((res) => {
+      // console.log(res.data.result);
       store.dispatch(setQuetesList(res.data.result));
       return res.data.result;
     })
