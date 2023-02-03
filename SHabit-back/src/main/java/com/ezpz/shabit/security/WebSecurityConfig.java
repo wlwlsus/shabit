@@ -1,6 +1,8 @@
 package com.ezpz.shabit.security;
 
+import com.ezpz.shabit.config.auth.CookieAuthorizationRequestRepository;
 import com.ezpz.shabit.config.auth.CustomOAuth2UserService;
+import com.ezpz.shabit.config.auth.OAuth2AuthenticationSuccessHandler;
 import com.ezpz.shabit.jwt.JwtAuthenticationFilter;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig {
 
 	private final CustomOAuth2UserService customOAuth2UserService;
-
+	private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
+	private final OAuth2AuthenticationSuccessHandler authenticationSuccessHandler;
+//	private final OAuth2AuthenticationFailureHandler authenticationFailureHandler;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisTemplate<String, String> redisTemplate;
 
@@ -55,11 +59,12 @@ public class WebSecurityConfig {
 						.oauth2Login()
 //						.loginPage("http://i8a601.p.ssafy.io:8090/login")
 						.authorizationEndpoint()
+						.authorizationRequestRepository(cookieAuthorizationRequestRepository)
 						.and()
 						.userInfoEndpoint()
-						.userService(customOAuth2UserService);
-//						.and()
-//						.successHandler(authenticationSuccessHandler)
+						.userService(customOAuth2UserService)
+						.and()
+						.successHandler(authenticationSuccessHandler);
 //						.failureHandler(authenticationFailureHandler);
 
 		return httpSecurity.build();

@@ -61,7 +61,7 @@ spring:
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
     #    url: jdbc:mariadb://i8a601.p.ssafy.io:3306/ssafy601
-    url: jdbc:mariadb://localhost:3306/ssafy601
+    url: jdbc:mariadb://localhost:3307/ssafy601
     username: ssafy601
     password: ssafy601
 
@@ -111,3 +111,11 @@ jwt:
 
 key:
   youtube: AIzaSyCgGyrOibFVCbL9Bvkqt0A8MWEYEZPwwJc
+
+app:
+  auth:
+    token:
+      secret-key: "6B64DCA4E72F58EDIKU9AAB215FE7"
+      refresh-cookie-key: "refresh"
+  oauth2:
+    authorizedRedirectUri: "http://localhost:3000/oauth2/redirect"
