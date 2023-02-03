@@ -26,6 +26,7 @@ public class MongoDBAppender extends UnsynchronizedAppenderBase<ILoggingEvent> i
         LogApiDao logDao = LogApiDao.builder()
                 .log(formatLog(e))
                 .time(time.plusHours(9))
+                .expire(LocalDateTime.now())
                 .build();
         logRepository.save(logDao);
     }
