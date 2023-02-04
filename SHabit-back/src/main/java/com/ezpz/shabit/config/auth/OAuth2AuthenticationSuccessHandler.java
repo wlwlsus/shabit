@@ -38,18 +38,19 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-		log.info("request : " + request);
-		log.info("response : " + response);
-		log.info("authentication : " + authentication);
+//		log.info("request : " + request);
+//		log.info("response : " + response);
+//		log.info("authentication : " + authentication);
 		log.info("성공~~~!!!!!");
-//		String targetUrl = determineTargetUrl(request, response, authentication);
+		String targetUrl = determineTargetUrl(request, response, authentication);
 
-//		if (response.isCommitted()) {
-//			log.debug("Response has already been committed");
-//			return;
-//		}
-//		clearAuthenticationAttributes(request, response);
-//		getRedirectStrategy().sendRedirect(request, response, targetUrl);
+		System.out.println("onAuthenticationSuccess" + targetUrl);
+		if (response.isCommitted()) {
+			log.debug("Response has already been committed");
+			return;
+		}
+		clearAuthenticationAttributes(request, response);
+		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	}
 
 	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -58,11 +59,17 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
 //			throw new BadRequestException("redirect URIs are not matched");
+			System.out.println("redirect URIs are not matched");
 		}
 		String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-
+		System.out.println("determineTargetUrl" + targetUrl);
 		// JWT 생성
-		UserTestResDto.TokenInfo accessToken = jwtTokenProvider.generateToken(authentication);
+		System.out.println("계정 정보 : " + authentication);
+		System.out.println("계정 정보 : " + authentication.getName());
+		System.out.println("계정 정보 : " + authentication.getDetails());
+		System.out.println("계정 정보 : " + authentication.getCredentials());
+		System.out.println("계정 정보 : " + authentication.getAuthorities());
+		String accessToken = jwtTokenProvider.generateToken(authentication).getAccessToken();
 //		tokenProvider.createRefreshToken(authentication, response);
 
 		return UriComponentsBuilder.fromUriString(targetUrl)
