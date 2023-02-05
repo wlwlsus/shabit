@@ -1,6 +1,5 @@
 package com.ezpz.shabit.security;
 
-import com.ezpz.shabit.config.auth.base.oauth.handler.AppProperties;
 import com.ezpz.shabit.config.auth.base.oauth.handler.OAuth2AuthenticationFailureHandler;
 import com.ezpz.shabit.config.auth.base.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
@@ -29,7 +28,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig {
 
 	private final CustomOAuth2UserService oAuth2UserService;
-	private final AppProperties appProperties;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisTemplate<String, String> redisTemplate;
 
@@ -48,7 +46,7 @@ public class WebSecurityConfig {
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 						.and()
 						.authorizeHttpRequests()
-						.requestMatchers("/oauth2/**", "/api/v1/user/password-find/**", "/api/v1/user/email-check/**", "/api/v1" +
+						.requestMatchers("/api/v1/user/password-find/**", "/api/v1/user/email-check/**", "/api/v1" +
 										"/user/email" +
 										"-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
 										"-docs/**").permitAll()
@@ -97,7 +95,6 @@ public class WebSecurityConfig {
 	@Bean
 	public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
 		return new OAuth2AuthenticationSuccessHandler(
-						appProperties,
 						oAuth2AuthorizationRequestBasedOnCookieRepository(),
 						jwtTokenProvider,
 						redisTemplate);
@@ -117,7 +114,7 @@ public class WebSecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOrigin("*");
+		configuration.addAllowedOriginPattern("*");
 		configuration.addAllowedHeader("*");
 		configuration.addAllowedMethod("*");
 		configuration.setAllowCredentials(true);

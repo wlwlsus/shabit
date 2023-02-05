@@ -48,7 +48,7 @@ public class Users extends BaseTimeEntity implements UserDetails {
 	private List<String> roles = new ArrayList<>();
 
 
-	@Column(name = "PROVIDER_TYPE", length = 20)
+	@Column(name = "provider_type", length = 20)
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private ProviderType providerType;

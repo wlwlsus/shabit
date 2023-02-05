@@ -34,7 +34,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		} catch (AuthenticationException ex) {
 			throw ex;
 		} catch (Exception ex) {
-			ex.printStackTrace();
 			throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
 		}
 	}
@@ -48,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		if (savedUser != null) {
 			if (providerType != savedUser.getProviderType()) {
 				throw new OAuthProviderMissMatchException(
-								"Looks like you're signed up with " + providerType +
+								"Looks like you're signed up with " + savedUser.getProviderType() +
 												" account. Please use your " + savedUser.getProviderType() + " account to login."
 				);
 			}
@@ -72,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		return userRepository.saveAndFlush(user);
 	}
 
-	private Users updateUser(Users user, OAuth2UserInfo userInfo) {
+	private void updateUser(Users user, OAuth2UserInfo userInfo) {
 		if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
 			user.setNickname(userInfo.getName());
 		}
@@ -80,7 +79,5 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		if (userInfo.getImageUrl() != null && !user.getProfile().equals(userInfo.getImageUrl())) {
 			user.setProfile(userInfo.getImageUrl());
 		}
-
-		return user;
 	}
 }

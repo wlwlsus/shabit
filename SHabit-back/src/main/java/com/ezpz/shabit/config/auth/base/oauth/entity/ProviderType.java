@@ -7,5 +7,5 @@ public enum ProviderType {
 	GOOGLE,
 	NAVER,
 	KAKAO,
-	LOCAL;
+	LOCAL
 }

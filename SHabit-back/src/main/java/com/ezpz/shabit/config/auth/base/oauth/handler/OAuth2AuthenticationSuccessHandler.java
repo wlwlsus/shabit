@@ -1,16 +1,19 @@
 package com.ezpz.shabit.config.auth.base.oauth.handler;
 
 import com.ezpz.shabit.config.auth.base.oauth.entity.ProviderType;
-import com.ezpz.shabit.config.auth.base.oauth.entity.RoleType;
 import com.ezpz.shabit.config.auth.base.oauth.info.OAuth2UserInfo;
 import com.ezpz.shabit.config.auth.base.oauth.info.OAuth2UserInfoFactory;
 import com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.ezpz.shabit.config.auth.base.oauth.token.AuthToken;
 import com.ezpz.shabit.config.auth.base.oauth.utils.CookieUtil;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
+import com.ezpz.shabit.user.dto.res.UserTestResDto;
+import com.ezpz.shabit.user.enums.Authority;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -19,32 +22,31 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.net.URI;
-import java.util.*;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 import static com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
+import static com.ezpz.shabit.jwt.JwtTokenProvider.getRefreshTokenExpireTimeCookie;
 
 
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	//    private final AuthTokenProvider tokenProvider;
-	private final AppProperties appProperties;
-	//    private final UserRefreshTokenRepository userRefreshTokenRepository;
+	@Value("${app.oauth2.authorizedRedirectUris}")
+	private String redirectUri;
 	private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
+
 	private final JwtTokenProvider jwtTokenProvider;
+
 	private final RedisTemplate<String, String> redisTemplate;
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		String targetUrl = determineTargetUrl(request, response, authentication);
 
 		if (response.isCommitted()) {
@@ -73,41 +75,19 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
 		Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
 
-		RoleType roleType = hasAuthority(authorities, RoleType.ADMIN.getCode()) ? RoleType.ADMIN : RoleType.USER;
+		Authority roleType = hasAuthority(authorities, Authority.ROLE_ADMIN.name()) ? Authority.ROLE_ADMIN : Authority.ROLE_USER;
 
-//        Date now = new Date();
-//        AuthToken accessToken = tokenProvider.createAuthToken(
-//                userInfo.getId(),
-//                roleType.getCode(),
-//                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
-//        );
-//
-//        // refresh 토큰 설정
-//        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
-//
-//        AuthToken refreshToken = tokenProvider.createAuthToken(
-//                appProperties.getAuth().getTokenSecret(),
-//                new Date(now.getTime() + refreshTokenExpiry)
-//        );
-//
-//        // DB 저장
-//        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userInfo.getId());
-//        if (userRefreshToken != null) {
-//            userRefreshToken.setRefreshToken(refreshToken.getToken());
-//        } else {
-//            userRefreshToken = new UserRefreshToken(userInfo.getId(), refreshToken.getToken());
-//            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
-//        }
-//
-//        int cookieMaxAge = (int) refreshTokenExpiry / 60;
-//
-//        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-//        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+		UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(userInfo.getEmail(), roleType.name());
 
-//        return UriComponentsBuilder.fromUriString(targetUrl)
-//                .queryParam("token", accessToken.getToken())
-//                .build().toUriString();
-		return null;
+		redisTemplate.opsForValue()
+						.set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+
+		CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+		CookieUtil.addCookie(response, REFRESH_TOKEN, tokenInfo.getRefreshToken(), getRefreshTokenExpireTimeCookie());
+
+		return UriComponentsBuilder.fromUriString(targetUrl)
+						.queryParam("token", tokenInfo.getAccessToken())
+						.build().toUriString();
 	}
 
 	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
@@ -130,18 +110,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private boolean isAuthorizedRedirectUri(String uri) {
 		URI clientRedirectUri = URI.create(uri);
+		URI authorizedUri = URI.create(redirectUri);
 
-		return appProperties.getOauth2().getAuthorizedRedirectUris()
-						.stream()
-						.anyMatch(authorizedRedirectUri -> {
-							// Only validate host and port. Let the clients use different paths if they want to
-							URI authorizedURI = URI.create(authorizedRedirectUri);
-							if (authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-											&& authorizedURI.getPort() == clientRedirectUri.getPort()) {
-								return true;
-							}
-							return false;
-						});
+		return authorizedUri.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
+						&& authorizedUri.getPort() == clientRedirectUri.getPort();
 	}
 
 }

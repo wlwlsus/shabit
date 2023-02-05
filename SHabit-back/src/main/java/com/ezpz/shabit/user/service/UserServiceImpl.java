@@ -1,5 +1,6 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.config.auth.base.oauth.entity.ProviderType;
 import com.ezpz.shabit.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
 						.nickname(signUp.getNickname())
 						.password(passwordEncoder.encode(signUp.getPassword()))
 						.roles(Collections.singletonList(Authority.ROLE_USER.name()))
+						.providerType(ProviderType.LOCAL)
 						.build();
 
 		userRepository.save(users);

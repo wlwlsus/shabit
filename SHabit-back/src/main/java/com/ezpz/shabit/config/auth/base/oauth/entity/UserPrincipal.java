@@ -1,6 +1,7 @@
 package com.ezpz.shabit.config.auth.base.oauth.entity;
 
 import com.ezpz.shabit.user.entity.Users;
+import com.ezpz.shabit.user.enums.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
 	private final String nickname;
 	private final String password;
 	private final ProviderType providerType;
-	private final RoleType roleType;
+	private final Authority roleType;
 	private final Collection<GrantedAuthority> authorities;
 	private Map<String, Object> attributes;
 
@@ -92,8 +93,8 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
 						user.getNickname(),
 						user.getPassword(),
 						user.getProviderType(),
-						RoleType.USER,
-						Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
+						Authority.ROLE_USER,
+						Collections.singletonList(new SimpleGrantedAuthority(Authority.ROLE_USER.name()))
 		);
 	}
 
