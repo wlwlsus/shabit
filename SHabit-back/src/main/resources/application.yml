@@ -93,7 +93,6 @@ cloud:
     stack:
       auto: false
     credentials:
-      instanceProfile: true
       access-key: AKIARYFPHUBQGRUEKLLL
       secret-key: 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
 
@@ -113,9 +112,6 @@ key:
   youtube: AIzaSyCgGyrOibFVCbL9Bvkqt0A8MWEYEZPwwJc
 
 app:
-  auth:
-    token:
-      secret-key: "6B64DCA4E72F58EDIKU9AAB215FE7"
-      refresh-cookie-key: "refresh"
   oauth2:
-    authorizedRedirectUri: "http://localhost:3000/oauth2/redirect"
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect

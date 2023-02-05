@@ -1,8 +1,10 @@
 package com.ezpz.shabit.security;
 
-import com.ezpz.shabit.config.auth.CookieAuthorizationRequestRepository;
-import com.ezpz.shabit.config.auth.CustomOAuth2UserService;
-import com.ezpz.shabit.config.auth.OAuth2AuthenticationSuccessHandler;
+import com.ezpz.shabit.config.auth.base.oauth.handler.AppProperties;
+import com.ezpz.shabit.config.auth.base.oauth.handler.OAuth2AuthenticationFailureHandler;
+import com.ezpz.shabit.config.auth.base.oauth.handler.OAuth2AuthenticationSuccessHandler;
+import com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.ezpz.shabit.config.auth.base.oauth.service.CustomOAuth2UserService;
 import com.ezpz.shabit.jwt.JwtAuthenticationFilter;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -26,46 +28,49 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebSecurityConfig {
 
-	private final CustomOAuth2UserService customOAuth2UserService;
-	private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
-	private final OAuth2AuthenticationSuccessHandler authenticationSuccessHandler;
-//	private final OAuth2AuthenticationFailureHandler authenticationFailureHandler;
+	private final CustomOAuth2UserService oAuth2UserService;
+	private final AppProperties appProperties;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisTemplate<String, String> redisTemplate;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws
 					Exception {
-		httpSecurity.cors().configurationSource(corsConfigurationSource());
+		httpSecurity
+						.cors()
+						.configurationSource(corsConfigurationSource());
 
 		httpSecurity
 						.httpBasic().disable()
 						.csrf().disable()
-						.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+						.formLogin().disable()
+						.sessionManagement()
+						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 						.and()
 						.authorizeHttpRequests()
-						.requestMatchers("/oauth2/**", "/api/v1/user/password-find/**", "/api/v1/user/email-check/**",
-										"/api/v1" +
-														"/user/email" +
-														"-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
-														"-docs/**").permitAll()
+						.requestMatchers("/oauth2/**", "/api/v1/user/password-find/**", "/api/v1/user/email-check/**", "/api/v1" +
+										"/user/email" +
+										"-valid/**", "/api/v1/user", "/api/v1/user/login", "/api/v1/user/logout", "/api/v1/user/token", "/swagger-ui/**", "/v3/api" +
+										"-docs/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/v1/admin/alarm").permitAll()
-						.requestMatchers("/**").hasRole("USER")
-						.and()
-						.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
-		// JwtAuthenticationFilter를 UsernamePasswordAuthentictaionFilter 전에 적용시킨다.
+						.requestMatchers("/**").hasRole("USER");
 
-		httpSecurity.formLogin().disable()
+		httpSecurity
 						.oauth2Login()
-//						.loginPage("http://i8a601.p.ssafy.io:8090/login")
 						.authorizationEndpoint()
-						.authorizationRequestRepository(cookieAuthorizationRequestRepository)
+						.baseUri("/oauth2/authorization")
+						.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+						.and()
+						.redirectionEndpoint()
+						.baseUri("/*/oauth2/code/*")
 						.and()
 						.userInfoEndpoint()
-						.userService(customOAuth2UserService)
+						.userService(oAuth2UserService)
 						.and()
-						.successHandler(authenticationSuccessHandler);
-//						.failureHandler(authenticationFailureHandler);
+						.successHandler(oAuth2AuthenticationSuccessHandler())
+						.failureHandler(oAuth2AuthenticationFailureHandler());
+
+		httpSecurity.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
 
 		return httpSecurity.build();
 	}
@@ -76,6 +81,36 @@ public class WebSecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
+	/*
+	 * 쿠키 기반 인가 Repository
+	 * 인가 응답을 연계 하고 검증할 때 사용.
+	 * */
+	@Bean
+	public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
+		return new OAuth2AuthorizationRequestBasedOnCookieRepository();
+	}
+
+	/*
+	 * Oauth 인증 성공 핸들러
+	 * */
+	@Bean
+	public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+		return new OAuth2AuthenticationSuccessHandler(
+						appProperties,
+						oAuth2AuthorizationRequestBasedOnCookieRepository(),
+						jwtTokenProvider,
+						redisTemplate);
+	}
+
+	/*
+	 * Oauth 인증 실패 핸들러
+	 * */
+	@Bean
+	public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
+		return new OAuth2AuthenticationFailureHandler(oAuth2AuthorizationRequestBasedOnCookieRepository());
+	}
+
 
 	// CORS 허용 적용
 	@Bean

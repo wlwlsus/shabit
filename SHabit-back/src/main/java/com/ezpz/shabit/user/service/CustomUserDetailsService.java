@@ -1,6 +1,7 @@
 package com.ezpz.shabit.user.service;
 
 
+import com.ezpz.shabit.config.auth.base.oauth.entity.UserPrincipal;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   // 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
   private UserDetails createUserDetails(Users users) {
-    return new User(users.getEmail(), users.getPassword(), users.getAuthorities());
+//    return new User(users.getEmail(), users.getPassword(), users.getAuthorities());
+    return UserPrincipal.create(users);
   }
 }
