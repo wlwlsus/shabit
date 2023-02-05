@@ -24,6 +24,8 @@ import AdminPage from './pages/AdminPage';
 
 import NotFound404 from './components/common/NotFound404';
 
+import Redirect from './components/OAuth/Redirect';
+
 function App() {
   return (
     <Provider store={store}>
@@ -64,6 +66,7 @@ function App() {
           </Route>
           <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFound404 />} />
+          <Route path="/oauth/redirect" element={<Redirect />} />
         </Routes>
       </ThemeProvider>
     </Provider>
