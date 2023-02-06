@@ -58,16 +58,25 @@ export default function HistoryContent() {
         <BarChart user={user} />
       </ChartWrapper>
 
-      <DropDownWrapper>
-        <label htmlFor="w">
-          <Checkbox name="mode" id="w" defaultChecked onChange={handleMode} />
-          Weekly
-        </label>
-        <label htmlFor="m">
-          <Checkbox name="mode" id="m" onChange={handleMode} />
-          Monthly
-        </label>
-      </DropDownWrapper>
+      <ToolBar>
+        <RadioWrapper>
+          <label htmlFor="w">
+            <Checkbox name="mode" id="w" defaultChecked onChange={handleMode} />
+            Weekly
+          </label>
+          <label htmlFor="m">
+            <Checkbox name="mode" id="m" onChange={handleMode} />
+            Monthly
+          </label>
+        </RadioWrapper>
+        <Reset
+          onClick={() => {
+            setPage(0);
+          }}
+        >
+          Reset
+        </Reset>
+      </ToolBar>
       <LineChart
         user={user}
         mode={mode}
@@ -127,12 +136,18 @@ const P = styled.span`
   position: relative;
 `;
 
-const DropDownWrapper = styled.div`
-  width: 20%;
+const ToolBar = styled.div`
+  width: 47%;
+  display: flex;
+  align-self: start;
+  justify-content: space-between;
+  margin-left: 4.5rem;
+`;
+
+const RadioWrapper = styled.div`
+  width: 45%;
   display: flex;
   justify-content: space-evenly;
-  align-self: start;
-  margin-left: 3rem;
   color: ${theme.color.primary};
   font-weight: bold;
 
@@ -140,6 +155,15 @@ const DropDownWrapper = styled.div`
     &:hover {
       cursor: pointer;
     }
+  }
+`;
+
+const Reset = styled.div`
+  color: ${theme.color.primary};
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
   }
 `;
 
