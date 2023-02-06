@@ -1,40 +1,52 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
+import com.ezpz.shabit.jwt.JwtTokenProvider;
+import com.ezpz.shabit.statistics.entity.Posture;
+import com.ezpz.shabit.statistics.repository.PostureRepository;
+import com.ezpz.shabit.user.dto.req.UserTestReqDto;
+import com.ezpz.shabit.user.dto.res.UserGalleryResDto;
+import com.ezpz.shabit.user.dto.res.UserTestResDto;
+import com.ezpz.shabit.user.entity.Gallery;
+import com.ezpz.shabit.user.entity.Users;
+import com.ezpz.shabit.user.enums.Authority;
+import com.ezpz.shabit.user.repository.GalleryRepository;
 import com.ezpz.shabit.user.repository.UserRepository;
+import com.ezpz.shabit.util.Response;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.ezpz.shabit.jwt.JwtTokenProvider;
-import com.ezpz.shabit.user.dto.req.UserTestReqDto;
-import com.ezpz.shabit.user.dto.res.UserTestResDto;
-import com.ezpz.shabit.user.entity.Users;
-import com.ezpz.shabit.user.enums.Authority;
-import com.ezpz.shabit.util.Response;
+import org.hibernate.QueryTimeoutException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+  private final PostureRepository postureRepository;
+  private final GalleryRepository galleryRepository;
   private final UserRepository userRepository;
 
   private final PasswordEncoder passwordEncoder;
   private final JwtTokenProvider jwtTokenProvider;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
-  private final RedisTemplate redisTemplate;
+  private final RedisTemplate<String, String> redisTemplate;
 
   private final S3File s3File;
 
@@ -58,6 +70,7 @@ public class UserServiceImpl implements UserService {
                           .nickname(signUp.getNickname())
                           .password(passwordEncoder.encode(signUp.getPassword()))
                           .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+                          .providerType(ProviderType.LOCAL)
                           .build();
 
     userRepository.save(users);
@@ -68,35 +81,45 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseEntity<?> login(UserTestReqDto.Login login) {
+    try {
+      if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
+        return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
+      }
 
-    if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
-      return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
+      UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
+
+      Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+      UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+      UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
+
+      Users users = userRepository.findUserByEmail(login.getEmail());
+
+      UserTestResDto.LoginUserRes loginUserRes =
+              UserTestResDto.LoginUserRes.builder()
+                      .email(users.getEmail())
+                      .nickname(users.getNickname())
+                      .theme(users.getTheme())
+                      .profile(users.getProfile())
+                      .build();
+
+      userInfo.setToken(tokenInfo);
+      userInfo.setUser(loginUserRes);
+
+      redisTemplate.opsForValue()
+              .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+
+      return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
+    } catch (BadCredentialsException e) {
+      log.error("Login BadCredentialsException error : {}", e.getMessage());
+      return Response.badRequest("비밀번호를 틀렸습니다.");
+    } catch (RedisConnectionFailureException e) {
+      log.error("Login RedisConnectionFailureException error : {}", e.getMessage());
+      return Response.serverError("레디스 서버 연결에 실패하였습니다.");
+    } catch (QueryTimeoutException e) {
+      log.error("Login QueryTimeoutException error : {}", e.getMessage());
+      return Response.serverError("레디스 서버 연결에서 시간 초과가 발생하였습니다.");
     }
-
-    UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
-
-    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-    UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
-    UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
-
-    Users users = userRepository.findUserByEmail(login.getEmail());
-
-    UserTestResDto.LoginUserRes loginUserRes =
-            UserTestResDto.LoginUserRes.builder()
-                    .email(users.getEmail())
-                    .nickname(users.getNickname())
-                    .theme(users.getTheme())
-                    .profile(users.getProfile())
-                    .build();
-
-    userInfo.setToken(tokenInfo);
-    userInfo.setUser(loginUserRes);
-
-    redisTemplate.opsForValue()
-            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
-
-    return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
   }
 
   public ResponseEntity<?> logout(UserTestReqDto.Logout logout) {
@@ -133,7 +156,7 @@ public class UserServiceImpl implements UserService {
     Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
 
     // 3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져옵니다.
-    String refreshToken = (String) redisTemplate.opsForValue().get("RT:" + authentication.getName());
+    String refreshToken = redisTemplate.opsForValue().get("RT:" + authentication.getName());
     // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
     if (ObjectUtils.isEmpty(refreshToken)) {
       return Response.badRequest("잘못된 요청입니다.");
@@ -241,6 +264,47 @@ public class UserServiceImpl implements UserService {
 
   }
 
+  @Override
+  @Transactional
+  public void addPostureImage(String email, MultipartFile image) throws Exception {
+    // 유저 정보 가져오기
+    final Users user = userRepository.findByEmail(email).orElseThrow();
+    String imageName = image.getOriginalFilename();
+    log.info("imageName : {}", imageName);
+
+    String[] str = imageName.split(" ");
+    String[] temp = str[str.length - 1].split("\\.");
+    long postureId = Long.parseLong(temp[0]);
+    final Posture posture = postureRepository.findById(postureId).orElseThrow();
+    log.info("posture : {}", postureId);
+
+    // 프로필 사진 저장하기
+    String url = s3File.upload(image, "gallery/" + email, email);
+    log.info("posture image uploaded successfully");
+    Gallery gallery = Gallery.builder()
+                              .user(user)
+                              .url(url)
+                              .posture(posture)
+                              .build();
+    galleryRepository.save(gallery);
+  }
+
+  @Override
+  public List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable) {
+    // 회원 정보 확인
+    final Users user = userRepository.findByEmail(email).orElseThrow();
+    List<Gallery> images;
+    if (postureId == 0) {
+      images = galleryRepository.findByUserEmail(email, pageable);
+    } else {
+      images = galleryRepository.findByUserEmailAndPosturePostureId(email, postureId, pageable);
+      log.info("images list : {}", images);
+    }
+    List<UserGalleryResDto> result = images.stream().map(UserGalleryResDto::new).toList();
+    log.info("result list : {}", result);
+
+    return result;
+  }
 
   @Override
   public void changeThema(String email, int theme) throws Exception {

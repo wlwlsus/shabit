@@ -56,10 +56,10 @@ public class AdminController {
     try {
       res = adminService.insertPhrases(req);
     } catch (DataIntegrityViolationException e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return Response.badRequest("이미 존재하는 문구입니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (res == 0) return Response.notFound("문구 등록을 실패하였습니다.");
@@ -74,7 +74,7 @@ public class AdminController {
     try {
       data = adminService.getPhrasesList(pageable);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("문구 리스트 조회를 실패하였습니다");
@@ -96,10 +96,10 @@ public class AdminController {
     try {
       data = adminService.getVodList(search, query, pageable);
     } catch (InputMismatchException e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return Response.badRequest(e.getMessage());
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("영상 리스트 조회를 실패하였습니다");
@@ -128,7 +128,7 @@ public class AdminController {
       log.error(e.getMessage());
       return Response.badRequest(e.getMessage());
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (res == 0) return Response.notFound("영상 삭제에 실패하였습니다.");
@@ -146,13 +146,13 @@ public class AdminController {
 
       res = adminService.insertVod(youtube, req.getCategoryId());
     } catch (DataIntegrityViolationException e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return Response.badRequest("이미 존재하는 영상입니다.");
     } catch (InputMismatchException e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return Response.badRequest("영상 길이가 13분 이상입니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (res == 0) return Response.notFound("영상 등록에 실패하였습니다.");
@@ -168,10 +168,10 @@ public class AdminController {
     try {
       res = adminService.editSetting(req);
     } catch (NullPointerException e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return Response.notFound("초기 세팅이 되어있지 않습니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (res == 0) return Response.badRequest("세팅 수정에 실패하였습니다.");
@@ -186,10 +186,10 @@ public class AdminController {
     try {
       res = adminService.getSetting();
     } catch (NullPointerException e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
       return Response.notFound("초기 세팅이 되어있지 않습니다.");
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (res == null) return Response.badRequest("세팅 조회에 실패하였습니다.");

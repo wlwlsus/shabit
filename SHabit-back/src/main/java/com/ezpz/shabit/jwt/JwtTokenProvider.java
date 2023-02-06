@@ -30,6 +30,7 @@ public class JwtTokenProvider {
   private static final String BEARER_TYPE = "Bearer";
   private static final long ACCESS_TOKEN_EXPIRE_TIME = 24 * 60 * 60 * 1000L;          // 1일
   private static final long REFRESH_TOKEN_EXPIRE_TIME = 90 * 24 * 60 * 60 * 1000L;    // 90일
+  private static final int REFRESH_TOKEN_EXPIRE_TIME_COOKIE = Integer.MAX_VALUE;
 
   private final Key key;
 
@@ -53,6 +54,30 @@ public class JwtTokenProvider {
         .claim(AUTHORITIES_KEY, authorities)
         .setExpiration(accessTokenExpiresIn)
         .signWith(key, SignatureAlgorithm.HS256)
+        .compact();
+
+    // Refresh Token 생성
+    String refreshToken = Jwts.builder()
+        .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+        .signWith(key, SignatureAlgorithm.HS256)
+        .compact();
+
+    return UserTestResDto.TokenInfo.builder()
+        .grantType(BEARER_TYPE)
+        .accessToken(accessToken)
+        .refreshToken(refreshToken)
+        .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRE_TIME)
+        .build();
+  }
+
+  public UserTestResDto.TokenInfo generateToken(String id, String role) {
+    long now = (new Date()).getTime();
+    // Access Token 생성
+    String accessToken = Jwts.builder()
+        .setSubject(id)
+        .claim(AUTHORITIES_KEY, role)
+        .signWith(key, SignatureAlgorithm.HS256)
+        .setExpiration(new Date(now + ACCESS_TOKEN_EXPIRE_TIME))
         .compact();
 
     // Refresh Token 생성
@@ -118,7 +143,11 @@ public class JwtTokenProvider {
     // accessToken 남은 유효시간
     Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
     // 현재 시간
-    Long now = new Date().getTime();
+    long now = new Date().getTime();
     return (expiration.getTime() - now);
+  }
+
+  public static int getRefreshTokenExpireTimeCookie() {
+    return REFRESH_TOKEN_EXPIRE_TIME_COOKIE;
   }
 }
