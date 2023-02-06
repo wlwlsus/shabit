@@ -1,0 +1,31 @@
+# version: '3'
+# services:
+#   server:
+#     container_name: server
+#     build:
+#       context: ./commbServer
+#       args:
+#         DOMAIN: i5a602.p.ssafy.io
+#     ports:
+#       - '8080:8080'
+#   client:
+#     container_name: client
+#     build: ./client
+#     ports:
+#       - '8000:8000'
+#     depends_on:
+#       - server
+#   nginx:
+#     container_name: nginx
+#     # image: proxy
+#     build: ./.nginx
+#     depends_on:
+#       - server
+#       - client
+#     volumes:
+#       - .nginx/conf.d:/etc/nginx/conf.d
+#       - .nginx/zerossl:/var/www/zerossl/.well-known/pki-validation
+#       - .nginx/cert:/cert
+#     ports:
+#       - 80:80
+#       - 443:443
