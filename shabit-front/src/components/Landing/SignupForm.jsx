@@ -68,10 +68,18 @@ const SignupForm = () => {
   //비밀번호 검증 로직입니다.
   const [passwordMatch, setPasswordMatch] = useState(false);
   useEffect(() => {
+    // console.log(
+    //   password,
+    //   password.match(
+    //     /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+    //     // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
+    //   ),
+    // );
     if (password.length >= 8) {
       if (
         !password.match(
-          /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          // /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
         setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');

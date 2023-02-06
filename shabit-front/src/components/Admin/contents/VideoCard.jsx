@@ -9,12 +9,22 @@ const VideoCard = ({
   videoId,
 }) => {
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
-  // const categoryTag = switch(Number(categoryId)) {
-  //   case 1 :
-  //     return (
-  //       <span className="tag tag-teal"></span>
-  //       )
-  // }
+  let categoryTag;
+  switch (categoryId) {
+    case 1:
+      categoryTag = <span className="tag tag-teal">목 스트레칭</span>;
+      break;
+    case 2:
+      categoryTag = <span className="tag tag-purple">허리 스트레칭</span>;
+      break;
+    case 3:
+      categoryTag = <span className="tag tag-pink">전신 스트레칭</span>;
+      break;
+    default:
+      categoryTag = <div></div>;
+  }
+
+  // const categoryClass = switch(categoryId)
 
   return (
     <StyledCardWrapper className="container">
@@ -26,7 +36,8 @@ const VideoCard = ({
           />
         </div>
         <div className="card-body">
-          <span className="tag tag-teal">Technology</span>
+          {/* <span className="tag tag-teal">Technology</span> */}
+          {categoryTag}
           <span className="tag tag-purple">Popular</span>
           <h4>
             Why is the Tesla Cybertruck designed the way it is? The future can
