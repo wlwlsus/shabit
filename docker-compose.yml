@@ -5,14 +5,14 @@ services:
     build:
       context: ./SHabit-back
     ports:
-      - "8080:8080"
+      - 8080:8080
     environment:
       - TZ=Asia/Seoul
   client:
     container_name: client
     build: ./shabit-front
     ports:
-      - "3000:3000"
+      - 80:80
     depends_on:
       - server
   nginx:
