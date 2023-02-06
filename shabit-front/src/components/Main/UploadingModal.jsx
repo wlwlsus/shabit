@@ -25,6 +25,7 @@ const UploadingModal = ({ isModalOpen }) => {
     }
     const reader = new FileReader();
     reader.onload = () => {
+      if (!imgRef.current) return;
       imgRef.current.style.backgroundImage = `url(${reader.result})`;
     };
     reader.readAsDataURL(files[0]);
@@ -36,7 +37,7 @@ const UploadingModal = ({ isModalOpen }) => {
     formdata.append('profile', files[0]);
     changeImage(email, formdata).then(() => {
       isModalOpen(false);
-      hasPreview(false);
+      setHasPreview(false);
       setFiles('');
     });
   };
@@ -60,7 +61,7 @@ const UploadingModal = ({ isModalOpen }) => {
         <Button
           onClick={() => {
             isModalOpen(false);
-            hasPreview(false);
+            setHasPreview(false);
             setFiles('');
           }}
           style={{ backgroundColor: `${theme.color.grayColor}` }}

@@ -6,7 +6,7 @@ import ReactApexChart from 'react-apexcharts';
 import DonutChart from './DonutChart';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 
-const LineChart = ({ mode, lineData, page, setPage, setPageStatus }) => {
+const LineChart = ({ mode, lineData, page, setPage }) => {
   const [axisX, setAxisX] = useState([]);
   const [axisY, setAxisY] = useState([]);
 
@@ -66,7 +66,8 @@ const LineChart = ({ mode, lineData, page, setPage, setPageStatus }) => {
 
     //  날짜별 바른자세 데이터 나누기 날짜별 전체시간 데이터 (소수점 2째 자리 올림)
     const newSeriesData = goodTime.map((data, idx) => {
-      return Math.ceil((data / totalTime[idx]) * 100);
+      if (!data) return 0;
+      else return Math.ceil((data / totalTime[idx]) * 100);
     });
 
     setAxisY(newSeriesData);
@@ -184,15 +185,14 @@ const ChartWrapper = styled.div`
 `;
 
 const DonutWrapper = styled.div`
-  height: 100%;
+  margin-top: 1rem;
+  width: 21rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 `;
 
 const Title = styled.div`
-  font-size: 0.8rem;
   font-weight: bold;
   color: ${theme.color.blackColor};
 `;
