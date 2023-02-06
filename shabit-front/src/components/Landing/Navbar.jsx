@@ -36,6 +36,17 @@ const Navbar = () => {
 
       <NavContent>
         <IconWrapper
+          style={{
+            color: clicked[2] ? theme.color.primary : theme.color.grayColor,
+          }}
+          onClick={() => {
+            navigate('/');
+          }}
+        >
+          <RiBookmark2Line />
+          <div>앱소개</div>
+        </IconWrapper>
+        <IconWrapper
           onClick={() => {
             navigate('/login');
           }}
@@ -57,18 +68,6 @@ const Navbar = () => {
         >
           <RiUserAddLine />
           <div>회원가입</div>
-        </IconWrapper>
-
-        <IconWrapper
-          style={{
-            color: clicked[2] ? theme.color.primary : theme.color.grayColor,
-          }}
-          onClick={() => {
-            navigate('/');
-          }}
-        >
-          <RiBookmark2Line />
-          <div>앱소개</div>
         </IconWrapper>
       </NavContent>
     </NavWrapper>

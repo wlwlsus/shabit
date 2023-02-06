@@ -6,7 +6,6 @@ import Input from '../common/Input';
 
 import { HiArrowRightCircle } from 'react-icons/hi2';
 
-
 const ConfirmForm = ({ onConfirmed, confirmCode }) => {
   const [code, setCode] = useState('');
   const [comfirmed, setConfirmed] = useState(false);
@@ -31,7 +30,7 @@ const ConfirmForm = ({ onConfirmed, confirmCode }) => {
       ) : (
         <>
           <div>{message}</div>
-          <div>
+          <div style={{ marginBottom: '1rem' }}>
             인증번호를 발송하였습니다. <br /> 메일함을 확인해주세요.
           </div>
           <Input
@@ -64,9 +63,9 @@ const FormWrapper = styled.div`
     color: ${theme.color.blueColor};
   }
 
-
   & > svg {
     color: ${theme.color.primary};
+    font-size: 3rem;
+    margin-top: 0.5rem;
   }
-
 `;

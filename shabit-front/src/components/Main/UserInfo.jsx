@@ -14,18 +14,15 @@ export default function UserInfo({ user, lastDate, isModalOpen }) {
       <ImgWrapper
         style={profile?.length ? { backgroundImage: `url(${profile})` } : {}}
       >
-        {profile ? <div></div> : <Logo color={'pink'} />}
+        {profile ? <></> : <Logo color={'pink'} />}
         <span onClick={() => isModalOpen(true)}>이미지 변경하기</span>
       </ImgWrapper>
 
       <ContentWrapper>
         <UserName>
-          {/* <span>USERNAME</span>
-          <span>이메일 :asdfasfsdfasdfaezpz@gmail.com</span> */}
           <span>{nickname}</span>
           <span>이메일 : {email}</span>
         </UserName>
-        {/* <LastLogin>마지막 접속일 : 2022.11.12</LastLogin> */}
         <LastLogin>마지막 접속일 : {lastDate}</LastLogin>
         <ThemeBox />
       </ContentWrapper>
@@ -53,6 +50,7 @@ const ImgWrapper = styled.div`
   left: 7%;
   animation: 0.8s ease-in ${loadEffect.down};
   z-index: 1;
+
   span {
     visibility: hidden;
     padding: 5px 10px;

@@ -1,59 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
-import MainInfo from './MainInfo';
+import QuoteInfo from './QuoteInfo';
 import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-import { typedUseSeletor } from '../../store';
-
+import { typedUseSelector } from '../../store';
 import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+// import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
+import LogoutButton from './LogoutButton';
 
 export default function MainContent() {
-  const heatMapSeries = typedUseSeletor((state) => {
-    return state.chart.heatMapSeries;
-  });
-
-  const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+  const [lastDate, setLastDate] = useState('');
   const [isUploading, setIsUploading] = useState(false);
-  const randomQuote = typedUseSeletor((state) => {
-    return state.chart.randomQuote;
+
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  useEffect(() => {
+    if (!user.email) return;
+    Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+  }, [user.email]);
+
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
+
+  const heatmap = typedUseSelector((state) => {
+    return state.chart.heatmapData;
   });
-  const user = typedUseSeletor((state) => {
-    return state.auth.user;
+
+  const quote = typedUseSelector((state) => {
+    return state.chart.quote;
   });
 
   useEffect(() => {
-    if (user.email) {
-      Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
-    }
-  }, [user]);
+    setLastDate(heatmap.slice(-1)[0]?.date);
+  }, [heatmap]);
 
-  useEffect(() => {
-    setLastDate(heatMapSeries.slice(-1)[0]?.date);
-  }, [heatMapSeries]);
-
-  const isModalOpen = (boolean?) => {
+  const isModalOpen = (boolean) => {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
     else setIsUploading(!isUploading);
   };
   return (
     <Wrapper>
-      {!isUploading ? (
-        <div></div>
-      ) : (
-        <UploadingModal isModalOpen={isModalOpen} />
-      )}
+      <LogoutButton />
+      {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
       <InfoWrapper>
         <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
-        <MainInfo randomQuote={randomQuote} />
+        <QuoteInfo quote={quote} />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap heatMapSeries={heatMapSeries} />
+        <Heatmap heatmap={heatmap} />
         <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>
@@ -63,8 +63,8 @@ export default function MainContent() {
 const Wrapper = styled.div``;
 
 const InfoWrapper = styled.div`
-  width: 100%;
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: space-between;
   margin: 4rem 0 2rem 0;

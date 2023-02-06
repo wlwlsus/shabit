@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
+import { useNavigate } from 'react-router-dom';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function MainInfo({ randomQuote }) {
+export default function QuoteInfo({ quote }) {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <InfoBox>
@@ -14,19 +17,15 @@ export default function MainInfo({ randomQuote }) {
           <FiAlertCircle />
           알고 계셨나요?
         </InfoTitle>
-
-        
-        <div>
-          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem dicta
-          facere odit ad, at, illum neque soluta optio assumenda reprehenderit
-          ullam, accusantium molestiae impedit natus iusto quod fugit asperiores
-          dolorum! */}
-          {randomQuote}
-        </div>
+        <div>{quote}</div>
       </InfoBox>
 
       <Start>
-        <BsFillCaretRightSquareFill />
+        <BsFillCaretRightSquareFill
+          onClick={() => {
+            navigate('/posture/live');
+          }}
+        />
         <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>

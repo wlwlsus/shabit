@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { theme } from '../styles/GlobalStyles';
-import { useDispatch } from 'react-redux';
-import { setTokenState, setUserState } from '../store/authSlice';
-import { typedUseSeletor } from '../store';
+// import { useDispatch } from 'react-redux';
+// import { setTokenState, setUserState } from '../store/authSlice';
+// import { typedUseSelector } from '../store';
+import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const user = typedUseSeletor((state) => {
-    return state.auth.user;
-  });
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
 
   const unClicked = {
     color: theme.color.grayColor,
@@ -39,27 +40,39 @@ export default function MainPage() {
     }
   }, [currentUrl]);
 
-  useEffect(() => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
-    if (!accessToken && !user.email) {
-      return navigate('/login');
-    }
-    dispatch(setTokenState(accessToken));
-    dispatch(setUserState(user));
-  }, []);
+  // useEffect(() => {
+  //   const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+  //   // if (!accessToken && !user.email) {
+  //   //   return navigate('/login');
+  //   // }
+  //   dispatch(setTokenState(accessToken));
+  //   dispatch(setUserState(user));
+  // }, []);
 
-  useEffect(() => {
-    let newUser = user;
-    const _setUser = () => {
-      if (newUser.email) return;
-      else {
-        const localUser = JSON.parse(localStorage.getItem('user'));
-        newUser = localUser;
-        dispatch(setUserState(localUser));
-      }
-    };
-    _setUser();
-  }, []);
+  // useEffect(() => {
+  //   let newUser;
+  //   const accessToken = sessionStorage.getItem('accessToken');
+  //   if (!accessToken && !user.email) {
+  //     return navigate('/login');
+  //   } else if (accessToken && !user.email) {
+  //     newUser = sessionStorage.getItem('user');
+  //   }
+  //   dispatch(setTokenState(accessToken));
+  //   dispatch(setUserState(newUser));
+  // }, []);
+
+  // useEffect(() => {
+  //   let newUser = user;
+  //   const _setUser = () => {
+  //     if (newUser.email) return;
+  //     else {
+  //       const localUser = JSON.parse(sessionStorage.getItem('user'));
+  //       newUser = localUser;
+  //       dispatch(setUserState(localUser));
+  //     }
+  //   };
+  //   _setUser();
+  // }, []);
 
   return (
     <PageWrapper>
@@ -81,6 +94,7 @@ export default function MainPage() {
           자세기록
         </Tab>
         <Container>
+          <MoveToAdmin />
           <Outlet />
         </Container>
       </ContainerWrapper>
@@ -89,7 +103,8 @@ export default function MainPage() {
 }
 
 const PageWrapper = styled.div`
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,14 +122,14 @@ const ContainerWrapper = styled.div`
 
   & > button:first-child {
     position: absolute;
-    top: -8%;
+    top: -6.5%;
     left: 0;
   }
 
   & > button:nth-child(2) {
     position: absolute;
-    top: -8%;
-    left: 8.5%;
+    top: -6.5%;
+    left: 8%;
   }
 
   & > div:last-child {
@@ -137,7 +152,7 @@ const Tab = styled.button`
   font-size: 1.1rem;
   font-weight: bold;
   line-height: 0.7rem;
-  padding: 1.2rem;
+  padding: 1rem;
   border-radius: 1.5rem 1.5rem 0 0;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
 `;

@@ -2,14 +2,46 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
-import RangeBarDaily from '../Chart/RangeBarDaily';
+import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { TiArrowSortedDown } from 'react-icons/ti';
+import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
+// import { typedUseSelector } from '../../store';
 
 export default function HistoryContent() {
+  const [lineData, setLineData] = useState([]);
   const [dropDown, setDropDown] = useState('none');
   const [mode, setMode] = useState('Weekly');
   const [item, setItem] = useState('Monthly');
+  const [page, setPage] = useState(0);
+
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
+
+  // useEffect(() => {
+  //   if (!user.email) return;
+  //   Promise.allSettled([
+  //     fetchWeekly(user.email, page),
+  //     fetchMonthly(user.email, page),
+  //   ]);
+  // }, [user.email]);
+
+  useEffect(() => {
+    if (!user.email) return;
+    if (mode === 'Weekly') {
+      fetchWeekly(user.email, page).then((res) => {
+        // 빈 데이터가 오면 +1이 되게
+        setLineData(res);
+      });
+    } else {
+      fetchMonthly(user.email, page).then((res) => {
+        setLineData(res);
+      });
+    }
+  }, [user.email, mode, page]);
 
   const handleDropdown = () => {
     if (dropDown === '') {
@@ -23,7 +55,6 @@ export default function HistoryContent() {
     const selected = e.target.innerText;
     setMode(e.target.innerText);
     setDropDown('none');
-
     switch (selected) {
       case 'Weekly':
         setItem('Monthly');
@@ -37,8 +68,6 @@ export default function HistoryContent() {
     }
   };
 
-  useEffect(() => {}, [mode]);
-
   return (
     <Wrapper>
       <TitleWrapper>
@@ -49,9 +78,9 @@ export default function HistoryContent() {
         </Content>
       </TitleWrapper>
 
-      <p>
-        <RangeBarDaily className={'rangeBar'} />
-      </p>
+      <ChartWrapper>
+        <BarChart user={user} />
+      </ChartWrapper>
 
       <DropDownWrapper>
         <DropDown onClick={handleDropdown}>
@@ -62,7 +91,13 @@ export default function HistoryContent() {
           {item}
         </DropDownItem>
       </DropDownWrapper>
-      <LineChart mode={mode} />
+      <LineChart
+        user={user}
+        mode={mode}
+        lineData={lineData}
+        page={page}
+        setPage={setPage}
+      />
     </Wrapper>
   );
 }
@@ -73,10 +108,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+`;
 
-  & > p {
-    animation: 0.8s ease-in ${loadEffect.down};
-  }
+const ChartWrapper = styled.div`
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const TitleWrapper = styled.div`
