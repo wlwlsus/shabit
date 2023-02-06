@@ -514,6 +514,7 @@ const StyledDropBox = styled.div`
   border-radius: 36px;
   text-align: center;
   width: 8rem;
+  z-index: 1;
   background-color: ${theme.color.primary};
   /* display: inline-block; */
   /* overflow: hidden; */
