@@ -6,21 +6,20 @@ import ReactApexChart from 'react-apexcharts';
 import DonutChart from './DonutChart';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 
-const LineChart = ({ mode, lineData, page, setPage }) => {
+const LineChart = ({ mode, lineData, page, setPage, setPageStatus }) => {
   const [axisX, setAxisX] = useState([]);
   const [axisY, setAxisY] = useState([]);
 
   const changePage = (value) => {
     let newPage = page;
     if (value) {
+      if (page === 0) return;
       newPage += 1;
     } else {
       newPage -= 1;
     }
     setPage(newPage);
   };
-
-  console.log(page);
 
   //  도넛차트에 넘겨줄 날짜
   //  day 초기값 설정 : Lazy Initialization (state 정의될 때 한 번만 실행)
@@ -49,6 +48,7 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
       return new Date(a).getTime() - new Date(b).getTime();
     });
 
+    setDay(sortedData[0]);
     setAxisX(sortedData);
 
     //  날짜 개수만큼의 0값을 가지는 배열 생성

@@ -25,11 +25,11 @@ function getSocialLoginUrl(socialType) {
   window.location.href = url;
 }
 const IconWrapper = styled.div`
-  width: 30%;
+  width: 35%;
   margin-top: 0.5rem;
   display: flex;
   justify-content: space-evenly;
-  font-size: 1.5rem;
+  font-size: 2rem;
 
   transition: all 0.2s linear;
 

@@ -19,14 +19,13 @@ export default function MainContent() {
   const [isUploading, setIsUploading] = useState(false);
 
   const user = JSON.parse(sessionStorage.getItem('user'));
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
   useEffect(() => {
     if (!user.email) return;
     Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
   }, [user.email]);
-
-  // const user = typedUseSelector((state) => {
-  //   return state.auth.user;
-  // });
 
   const heatmap = typedUseSelector((state) => {
     return state.chart.heatmapData;
@@ -44,20 +43,23 @@ export default function MainContent() {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
     else setIsUploading(!isUploading);
   };
-  return (
-    <Wrapper>
-      <LogoutButton />
-      {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
-      <InfoWrapper>
-        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
-        <QuoteInfo quote={quote} />
-      </InfoWrapper>
-      <HeatmapWrapper>
-        <Heatmap heatmap={heatmap} />
-        <HeatmapScale />
-      </HeatmapWrapper>
-    </Wrapper>
-  );
+
+  if (heatmap.length) {
+    return (
+      <Wrapper>
+        <LogoutButton />
+        {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
+        <InfoWrapper>
+          <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
+          <QuoteInfo quote={quote} />
+        </InfoWrapper>
+        <HeatmapWrapper>
+          <Heatmap heatmap={heatmap} />
+          <HeatmapScale />
+        </HeatmapWrapper>
+      </Wrapper>
+    );
+  }
 }
 
 const Wrapper = styled.div``;
