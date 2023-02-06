@@ -106,135 +106,141 @@ export default function VideoSettings() {
               천재야
             </DropDownItem>
           </DropDownWrapper> */}
-          <StyledDropBox>
-            <div className="select-box">
-              <div className="select-box__current" tabIndex={1}>
-                <div className="select-box__value">
-                  <input
-                    className="select-box__input"
-                    type="radio"
-                    id={0}
-                    defaultValue={1}
-                    name="Ben"
-                    defaultChecked="checked"
-                  />
-                  <p className="select-box__input-text">Cream</p>
-                </div>
-                <div className="select-box__value">
-                  <input
-                    className="select-box__input"
-                    type="radio"
-                    id={1}
-                    defaultValue={2}
-                    name="Ben"
-                  />
-                  <p className="select-box__input-text">Cheese</p>
-                </div>
-                <div className="select-box__value">
-                  <input
-                    className="select-box__input"
-                    type="radio"
-                    id={2}
-                    defaultValue={3}
-                    name="Ben"
-                  />
-                  <p className="select-box__input-text">Milk</p>
-                </div>
-                <div className="select-box__value">
-                  <input
-                    className="select-box__input"
-                    type="radio"
-                    id={3}
-                    defaultValue={4}
-                    name="Ben"
-                  />
-                  <p className="select-box__input-text">Honey</p>
-                </div>
-                <div className="select-box__value">
-                  <input
-                    className="select-box__input"
-                    type="radio"
-                    id={4}
-                    defaultValue={5}
-                    name="Ben"
-                  />
-                  <p className="select-box__input-text">Toast</p>
-                </div>
-                <img
+          <VideoInputWrapper>
+            <StyledDropBox>
+              <div className="select-box">
+                <div className="select-box__current" tabIndex={1}>
+                  <div className="select-box__value">
+                    <input
+                      className="select-box__input"
+                      type="radio"
+                      id={0}
+                      defaultValue={1}
+                      name="Ben"
+                      defaultChecked="checked"
+                    />
+                    <p className="select-box__input-text">Cream</p>
+                  </div>
+                  <div className="select-box__value">
+                    <input
+                      className="select-box__input"
+                      type="radio"
+                      id={1}
+                      defaultValue={2}
+                      name="Ben"
+                    />
+                    <p className="select-box__input-text">Cheese</p>
+                  </div>
+                  <div className="select-box__value">
+                    <input
+                      className="select-box__input"
+                      type="radio"
+                      id={2}
+                      defaultValue={3}
+                      name="Ben"
+                    />
+                    <p className="select-box__input-text">Milk</p>
+                  </div>
+                  <div className="select-box__value">
+                    <input
+                      className="select-box__input"
+                      type="radio"
+                      id={3}
+                      defaultValue={4}
+                      name="Ben"
+                    />
+                    <p className="select-box__input-text">Honey</p>
+                  </div>
+                  <div className="select-box__value">
+                    <input
+                      className="select-box__input"
+                      type="radio"
+                      id={4}
+                      defaultValue={5}
+                      name="Ben"
+                    />
+                    <p className="select-box__input-text">Toast</p>
+                  </div>
+                  {/* <img
                   className="select-box__icon"
                   src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
                   alt="Arrow Icon"
                   aria-hidden="true"
-                />
+                /> */}
+                  <TiArrowSortedDown className="select-box__icon" />
+                </div>
+                <ul className="select-box__list">
+                  <li>
+                    <label
+                      className="select-box__option"
+                      htmlFor={0}
+                      aria-hidden="aria-hidden"
+                    >
+                      Cream
+                    </label>
+                  </li>
+                  <li>
+                    <label
+                      className="select-box__option"
+                      htmlFor={1}
+                      aria-hidden="aria-hidden"
+                    >
+                      Cheese
+                    </label>
+                  </li>
+                  <li>
+                    <label
+                      className="select-box__option"
+                      htmlFor={2}
+                      aria-hidden="aria-hidden"
+                    >
+                      Milk
+                    </label>
+                  </li>
+                  <li>
+                    <label
+                      className="select-box__option"
+                      htmlFor={3}
+                      aria-hidden="aria-hidden"
+                    >
+                      Honey
+                    </label>
+                  </li>
+                  <li>
+                    <label
+                      className="select-box__option"
+                      htmlFor={4}
+                      aria-hidden="aria-hidden"
+                    >
+                      Toast
+                    </label>
+                  </li>
+                </ul>
               </div>
-              <ul className="select-box__list">
-                <li>
-                  <label
-                    className="select-box__option"
-                    htmlFor={0}
-                    aria-hidden="aria-hidden"
-                  >
-                    Cream
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="select-box__option"
-                    htmlFor={1}
-                    aria-hidden="aria-hidden"
-                  >
-                    Cheese
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="select-box__option"
-                    htmlFor={2}
-                    aria-hidden="aria-hidden"
-                  >
-                    Milk
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="select-box__option"
-                    htmlFor={3}
-                    aria-hidden="aria-hidden"
-                  >
-                    Honey
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="select-box__option"
-                    htmlFor={4}
-                    aria-hidden="aria-hidden"
-                  >
-                    Toast
-                  </label>
-                </li>
-              </ul>
-            </div>
-          </StyledDropBox>
+            </StyledDropBox>
 
-          <input
-            type="text"
-            name="urlInput"
-            placeholder="유튜브 URL을 입력하세요"
-            onChange={(e) => {
-              setUrlInput(e.target.value);
-            }}
-          ></input>
-          <button
-            type="button"
-            onClick={async () => {
-              await postVod(~~categoryInput || 1, urlInput.split('&')[0]);
-              setUrlInput(1);
-              setCategoryInput('');
-            }}
-          >
-            영상 추가하기
-          </button>
+            {/* <input
+              type="text"
+              name="urlInput"
+              placeholder="유튜브 URL을 입력하세요"
+              onChange={(e) => {
+                setUrlInput(e.target.value);
+              }}
+            ></input> */}
+            <StyledInputTag>
+              <input type="text" class="type-2" />
+            </StyledInputTag>
+            <button
+              type="button"
+              onClick={async () => {
+                await postVod(~~categoryInput || 1, urlInput.split('&')[0]);
+                setUrlInput(1);
+                setCategoryInput('');
+              }}
+            >
+              영상 추가하기
+            </button>
+          </VideoInputWrapper>
         </form>
       </PostWrapper>
       <ButtonContainer>
@@ -444,8 +450,75 @@ const DropDownItem = styled.div`
   }
 `;
 
+const VideoInputWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+// https://blog.logrocket.com/how-to-style-forms-with-css-a-beginners-guide/
+const StyledInputTag = styled.div`
+  width: 50rem;
+  height: 2rem;
+  input {
+    display: block;
+    width: 100%;
+    /* margin: 10px 0; */
+    padding: 1rem;
+    border-radius: 2rem;
+    background-color: #fafafa;
+    border: 0;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    transition: 0.3s box-shadow;
+  }
+  input:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
+`;
+
+const InputTag = styled.div`
+  input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  .type-1 {
+    border-radius: 10px;
+    border: 1px solid #eee;
+    transition: 0.3s border-color;
+  }
+  .type-1:hover {
+    border: 1px solid #aaa;
+  }
+
+  .type-2 {
+    background-color: #fafafa;
+    border: 0;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    transition: 0.3s box-shadow;
+  }
+  .type-2:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  }
+  .type-3 {
+    border: 1px solid #111;
+    transition: 0.3s background-color;
+  }
+  .type-3:hover {
+    background-color: #fafafa;
+  }
+`;
+
 //https://codepen.io/miniven/pen/ZJydge
 const StyledDropBox = styled.div`
+  border-radius: 36px;
+  text-align: center;
+  width: 8rem;
+  background-color: ${theme.color.primary};
+  /* display: inline-block; */
+  /* overflow: hidden; */
+  /* background: #cccccc; */
+  /* border: 1px solid #cccccc; */
   .select-box {
     position: relative;
     display: block;
@@ -454,22 +527,8 @@ const StyledDropBox = styled.div`
     font-family: 'Open Sans', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial',
       sans-serif;
     font-size: 18px;
-    color: #60666d;
-  }
-  @media (min-width: 768px) {
-    .select-box {
-      width: 70%;
-    }
-  }
-  @media (min-width: 992px) {
-    .select-box {
-      width: 50%;
-    }
-  }
-  @media (min-width: 1200px) {
-    .select-box {
-      width: 30%;
-    }
+    font-weight: bold;
+    color: ${theme.color.whiteColor};
   }
   .select-box__current {
     position: relative;
@@ -510,7 +569,7 @@ const StyledDropBox = styled.div`
     width: 100%;
     margin: 0;
     padding: 15px;
-    background-color: #fff;
+    /* background-color: ${theme.color.primary}; */
   }
   .select-box__list {
     position: absolute;
@@ -528,7 +587,7 @@ const StyledDropBox = styled.div`
   .select-box__option {
     display: block;
     padding: 15px;
-    background-color: #fff;
+    background-color: ${theme.color.grayColor};
   }
   .select-box__option:hover,
   .select-box__option:focus {
