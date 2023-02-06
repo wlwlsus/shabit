@@ -66,7 +66,8 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
 
     //  날짜별 바른자세 데이터 나누기 날짜별 전체시간 데이터 (소수점 2째 자리 올림)
     const newSeriesData = goodTime.map((data, idx) => {
-      return Math.ceil((data / totalTime[idx]) * 100);
+      if (!data) return 0;
+      else return Math.ceil((data / totalTime[idx]) * 100);
     });
 
     setAxisY(newSeriesData);
