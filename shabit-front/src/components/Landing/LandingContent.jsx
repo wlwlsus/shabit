@@ -39,7 +39,7 @@ const WelcomeWrapper = styled.div`
 `;
 
 const SocialWrapper = styled.div`
-  margin-left: 1rem;
+  margin-left: 3rem;
   font-size: 0.8rem;
   color: ${theme.color.whiteColor};
 `;
