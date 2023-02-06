@@ -5,9 +5,11 @@ import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import { fetchQuote } from '../../services/stat/get';
+// import  {getAlarmTime}  from '../../services/admin/get';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
+
 
 
 export default function QuoteInfo() {
@@ -17,6 +19,9 @@ export default function QuoteInfo() {
   useEffect(() => {
     fetchQuote().then((res) => setQuote(res));
   }, []);
+  // const dispatch = useDispatch();
+  sessionStorage.setItem('alertTime',"3");
+  // dispatch(setIniStretchMin(50));
 
   return (
     <Wrapper>
@@ -31,6 +36,8 @@ export default function QuoteInfo() {
       <Start>
         <BsFillCaretRightSquareFill
           onClick={() => {
+            // getAlarmTime().then(()=>navigate('/posture/live'));
+            // 임시 코드
             navigate('/posture/live');
           }}
         />

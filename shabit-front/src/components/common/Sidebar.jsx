@@ -1,26 +1,50 @@
-import React from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
-import {CgTimer,CgSandClock,CgPlayPause} from 'react-icons/cg';
+import {CgTimer,CgSandClock,CgPlayPause,CgPlayButton} from 'react-icons/cg';
 import {ImExit} from "react-icons/im";
+import { useDispatch } from 'react-redux';
+import {setIsRunning} from '../../store/timeSlice';
+
+import { typedUseSelector } from '../../store';
 
 const Sidebar = ()=>{
-    return(
-        <ContainerWrapper>
-            <TimeContainer>
-                <Icon><CgTimer/></Icon>
-                <Text>총 이용 시간</Text>
-                
-                <Icon><CgSandClock/></Icon>
-                <Text>스트레칭 시간</Text>
-            </TimeContainer>
-            <CapturingContainer>
-                <Icon><CgPlayPause /></Icon>
-                <Text>일시정지</Text>    
-                <Icon><ImExit/></Icon>
-                <Text>종료하기</Text>  
-            </CapturingContainer>
-        </ContainerWrapper>
+  const [toggle,setToggle] = useState(true);
+  const dispatch = useDispatch();
+  const usedTime = typedUseSelector((state) => {
+    return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
+  });
+  const stretchingTime = typedUseSelector((state) => {
+    return `${state.time.stretchTime.min}:${state.time.stretchTime.sec}`;
+  });
+  const ClickPlayButton =()=>{
+    dispatch(setIsRunning());
+    setToggle(!toggle);
+  }
+  return(
+      <ContainerWrapper>
+          <TimeContainer>
+              <Icon><CgTimer/></Icon>
+              <Text>총 이용 시간</Text>
+              <Text>{usedTime}</Text>
+              <Icon><CgSandClock/></Icon>
+              <Text>스트레칭 시간</Text>
+              <Text>{stretchingTime}</Text>
+          </TimeContainer>
+          <CapturingContainer>
+            {toggle?
+            <>
+                <Icon><CgPlayPause onClick={ClickPlayButton}/></Icon>
+                <Text>일시정지</Text></>:
+              <>
+                <Icon><CgPlayButton onClick={ClickPlayButton}/></Icon>
+                <Text>시작</Text>
+              </> 
+            }
+              <Icon><ImExit/></Icon>
+              <Text>종료하기</Text>  
+          </CapturingContainer>
+      </ContainerWrapper>
     )
 }
 export default Sidebar;
@@ -59,3 +83,4 @@ const Text = styled.div`
   align-items:center;
   font-size:0.5rem;
 `;
+// TODO: 고쳐야됨

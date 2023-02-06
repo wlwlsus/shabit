@@ -21,45 +21,8 @@ const MyPose = ({
   const [maxClassState, setMaxClassState] = useState(''); // 비율이 가장 높은 자세
   const [maxPredictionState, setMaxPredictionState] = useState(''); // 가장 높은 자세의 비율
   const [logArray, setLogArray] = useState([]); // 로그를 배열로 기록함.
-  const [remainMin, setRemainMin] = useState(50);
-  const [remainSec, setRemainSec] = useState(0);
 
-  const [usedHour, setUsedHour] = useState(0);
-  const [usedMin, setUsedMin] = useState(0);
-
-  const [strechingCount, setStrechingCount] = useState(0);
-  useEffect(()=>{
-    const remainTime = setInterval(()=>{
-      if(remainSec>0) setRemainSec(remainSec-1);
-      else if(remainSec===0  && remainMin===0) clearInterval(remainTime);
-      else if(remainSec===0 && remainMin!==0) {
-        setRemainSec(59);
-        setRemainMin(remainMin-1);
-      }
-    },1000);
-    
-    return ()=>clearInterval(remainTime);
-  },[remainMin,remainSec])
-
-  useEffect(()=>{
-    const usedTime = setInterval(()=>{
-      if(usedMin===59) {
-        setUsedMin(0);
-        setUsedHour(usedHour+1);
-      }
-      else setUsedMin(usedMin+1);
-    },60000);
-    return ()=>clearInterval(usedTime);
-  },[usedHour,usedMin])
-
-  const displayRemainTime = `${remainMin}:${remainSec}`;
-  const displayUsedTime = `${usedHour}:${usedMin}`;
-    
-  useEffect(() => {
-    if (remainMin === 0 && remainSec===0) {
-      setStrechingCount(strechingCount + 1);
-    }
-  }, [remainMin,remainSec]);
+  
 
   // TM: 정지 버튼을 눌렀을 때에 intervalID를 기준으로 loop함수를 중단합니다.
   async function onStop() {

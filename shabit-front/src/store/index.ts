@@ -6,12 +6,14 @@ import {
   useSelector as useReduxSelector,
 } from 'react-redux';
 import chartSlice from './chartSlice';
+import timeSlice from './timeSlice';
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     video: videoSlice.reducer,
     chart: chartSlice.reducer,
+    time:timeSlice.reducer,
   },
 });
 
