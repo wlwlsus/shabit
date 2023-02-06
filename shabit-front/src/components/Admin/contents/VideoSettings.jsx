@@ -7,6 +7,7 @@ import { postVod } from '../../../services/admin/post';
 import { typedUseSelector } from '../../../store';
 import { theme } from '../../../styles/GlobalStyles';
 import { loadEffect } from '../../common/animation';
+import VideoCard from './VideoCard';
 
 export default function VideoSettings() {
   useEffect(() => {
@@ -84,23 +85,32 @@ export default function VideoSettings() {
       <ListWrapper>
         {vodsList.map((element, idx) => {
           return (
-            <ListContainer key={String(idx) + Date().toString().slice(0, 2)}>
-              <img src={element.thumbnail} style={{ maxWidth: '4rem' }}></img>
-              <div>
-                카테고리: {element.categoryId} {element.name}
-              </div>
-              <TextDiv>제목: {element.title}</TextDiv>
-              <div>영상길이: {element.originalLength}</div>
-              {/* <div>비디오ID: {element.videoId}</div> */}
+            // <ListContainer key={String(idx) + Date().toString().slice(0, 2)}>
+            //   <img src={element.thumbnail} style={{ maxWidth: '4rem' }}></img>
+            //   <div>
+            //     카테고리: {element.categoryId} {element.name}
+            //   </div>
+            //   <TextDiv>제목: {element.title}</TextDiv>
+            //   <div>영상길이: {element.originalLength}</div>
+            //   {/* <div>비디오ID: {element.videoId}</div> */}
 
-              <button
-                onClick={async () => {
-                  await deleteVod(element.videoId);
-                }}
-              >
-                삭제
-              </button>
-            </ListContainer>
+            //   <button
+            //     onClick={async () => {
+            //       await deleteVod(element.videoId);
+            //     }}
+            //   >
+            //     삭제
+            //   </button>
+            // </ListContainer>
+            <VideoCard
+              thumbnail={element.thumbnail}
+              categoryId={element.categoryId}
+              title={element.title}
+              originalLength={element.originalLength}
+              videoId={element.videoId}
+            />
+            // <VideoCard />
+            // <VideoCard />
           );
         })}
       </ListWrapper>
@@ -108,9 +118,13 @@ export default function VideoSettings() {
   );
 }
 
-const ListWrapper = styled.ul`
+const ListWrapper = styled.div`
   max-height: 15rem;
+  max-width: 100%;
+  display: flex;
   overflow-y: scroll;
+  flex-wrap: wrap;
+  overflow-x: hidden;
 `;
 const ListContainer = styled.li`
   display: flex;
