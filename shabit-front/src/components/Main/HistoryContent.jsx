@@ -33,7 +33,6 @@ export default function HistoryContent() {
     if (!user.email) return;
     if (mode === 'Weekly') {
       fetchWeekly(user.email, page).then((res) => {
-        // 빈 데이터가 오면 +1이 되게
         setLineData(res);
       });
     } else {
@@ -41,6 +40,8 @@ export default function HistoryContent() {
         setLineData(res);
       });
     }
+
+    // console.log(data);
   }, [user.email, mode, page]);
 
   const handleDropdown = () => {
