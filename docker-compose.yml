@@ -12,7 +12,7 @@ services:
     container_name: client
     build: ./shabit-front
     ports:
-      - 80:80
+      - 3000:3000
     depends_on:
       - server
   nginx:
