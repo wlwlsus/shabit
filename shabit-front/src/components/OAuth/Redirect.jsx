@@ -9,7 +9,7 @@ export default function Redirect() {
   const error = serchParams.get('error');
   console.log(`token : ${token}`);
   console.log(`error : ${error}`);
- 
+
   if (!error) {
     // JWT decode
     const base64Payload = token.split('.')[1];

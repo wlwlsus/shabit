@@ -4,15 +4,12 @@ import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
-import { TiArrowSortedDown } from 'react-icons/ti';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
 // import { typedUseSelector } from '../../store';
 
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);
-  const [dropDown, setDropDown] = useState('none');
-  const [mode, setMode] = useState('Weekly');
-  const [item, setItem] = useState('Monthly');
+  const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
 
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -31,7 +28,7 @@ export default function HistoryContent() {
 
   useEffect(() => {
     if (!user.email) return;
-    if (mode === 'Weekly') {
+    if (mode === 'w') {
       fetchWeekly(user.email, page).then((res) => {
         setLineData(res);
       });
@@ -40,33 +37,11 @@ export default function HistoryContent() {
         setLineData(res);
       });
     }
-
-    // console.log(data);
   }, [user.email, mode, page]);
 
-  const handleDropdown = () => {
-    if (dropDown === '') {
-      setDropDown('none');
-    } else {
-      setDropDown('');
-    }
-  };
-
   const handleMode = (e) => {
-    const selected = e.target.innerText;
-    setMode(e.target.innerText);
-    setDropDown('none');
-    switch (selected) {
-      case 'Weekly':
-        setItem('Monthly');
-        break;
-      case 'Monthly':
-        setItem('Weekly');
-        break;
-      default:
-        setItem('Monthly');
-        break;
-    }
+    const newMode = e.target.id;
+    setMode(newMode);
   };
 
   return (
@@ -84,13 +59,14 @@ export default function HistoryContent() {
       </ChartWrapper>
 
       <DropDownWrapper>
-        <DropDown onClick={handleDropdown}>
-          {mode}
-          <TiArrowSortedDown />
-        </DropDown>
-        <DropDownItem onClick={handleMode} style={{ display: dropDown }}>
-          {item}
-        </DropDownItem>
+        <label htmlFor="w">
+          <Checkbox name="mode" id="w" defaultChecked onChange={handleMode} />
+          Weekly
+        </label>
+        <label htmlFor="m">
+          <Checkbox name="mode" id="m" onChange={handleMode} />
+          Monthly
+        </label>
       </DropDownWrapper>
       <LineChart
         user={user}
@@ -152,41 +128,30 @@ const P = styled.span`
 `;
 
 const DropDownWrapper = styled.div`
-  text-align: center;
+  width: 20%;
+  display: flex;
+  justify-content: space-evenly;
   align-self: start;
   margin-left: 3rem;
-`;
-
-const DropDown = styled.ul`
-  width: 6rem;
-  border: 0.1rem solid ${theme.color.primary};
-  border-radius: 0.5rem;
-  padding: 0.3rem;
-  background-color: ${theme.color.secondary};
   color: ${theme.color.primary};
   font-weight: bold;
-  position: relative;
 
-  &:hover {
-    cursor: pointer;
+  & > label {
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
-const DropDownItem = styled.div`
-  width: 6rem;
-  border: 0.1rem solid ${theme.color.primary};
-  border-radius: 0.5rem;
-  padding: 0.3rem;
+const Checkbox = styled.input.attrs({ type: 'radio' })`
+  margin-right: 0.5rem;
+  appearance: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 100%;
   background-color: ${theme.color.secondary};
-  color: ${theme.color.primary};
-  font-weight: bold;
 
-  position: absolute;
-  left: 7.1%;
-  top: 40%;
-  z-index: 1;
-
-  &:hover {
-    cursor: pointer;
+  &:checked {
+    background-color: ${theme.color.primary};
   }
 `;

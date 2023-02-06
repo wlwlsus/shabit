@@ -65,8 +65,8 @@ function App() {
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="*" element={<NotFound404 />} />
           <Route path="/oauth/redirect" element={<Redirect />} />
+          <Route path="*" element={<NotFound404 />} />
         </Routes>
       </ThemeProvider>
     </Provider>

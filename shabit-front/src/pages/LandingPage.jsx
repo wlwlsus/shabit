@@ -53,8 +53,8 @@ const ContainerWrapper = styled.div`
 `;
 
 const NavContainer = styled.div`
-  width: 7rem;
-  height: 25rem;
+  width: 8rem;
+  height: 28rem;
   background-color: ${theme.color.whiteColor};
   border-radius: 1.5rem 0 0 1.5rem;
   margin-right: 19rem;
@@ -64,20 +64,20 @@ const NavContainer = styled.div`
 
 const FormContainer = styled.div`
   width: 25rem;
-  height: 25rem;
+  height: 28rem;
   background-color: ${theme.color.whiteColor};
   border-radius: 0 1.5rem 1.5rem 0;
-  margin-left: 8rem;
+  margin-left: 11rem;
 
   animation: 0.8s ease-in ${loadEffect.left};
 `;
 
 const ContentContainer = styled.div`
-  width: 27rem;
-  height: 27rem;
+  width: 30rem;
+  height: 30rem;
   background-color: ${theme.color.primary};
   position: absolute;
-  left: 12%;
+  left: 12.7%;
 
   animation: 0.8s ease-in ${loadEffect.down};
 `;

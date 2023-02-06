@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import styled from 'styled-components';
+import { theme } from '../../styles/GlobalStyles';
 
 const DonutChart = ({ jsonData, day }) => {
   const [data, setData] = useState([]); // 전체 데이터
@@ -53,28 +54,53 @@ const DonutChart = ({ jsonData, day }) => {
     },
   };
 
-  return (
-    <>
-      {!data.reduce((acc, crr) => acc + crr, 0) ? (
-        <Msg>
-          {day.split('-')[0]}년 {day.split('-')[1]}월 {day.split('-')[2]}일의
-          기록이 없습니다
-        </Msg>
-      ) : (
-        <ReactApexChart
-          options={options}
-          series={data}
-          type="donut"
-          width={350}
-          height={290}
-        />
-      )}
-    </>
-  );
+  if (!data.reduce((acc, crr) => acc + crr, 0)) {
+    return <EmptyDonut>기록이 없습니다</EmptyDonut>;
+  } else {
+    return (
+      <ReactApexChart
+        options={options}
+        series={data}
+        type="donut"
+        width={350}
+        height={290}
+      />
+    );
+  }
+
+  // return (
+  //   <DonutWrapper>
+  //     { ? (
+  //       <EmptyDonut>
+  //         <Msg>
+  //           {day.split('-')[0]}년 {day.split('-')[1]}월 {day.split('-')[2]}일의
+  //           기록이 없습니다
+  //         </Msg>
+  //       </EmptyDonut>
+  //     ) : (
+  //       <ReactApexChart
+  //         options={options}
+  //         series={data}
+  //         type="donut"
+  //         width={350}
+  //         height={290}
+  //       />
+  //     )}
+  //   </DonutWrapper>
+  // );
 };
 
 export default DonutChart;
 
-const Msg = styled.div`
-  font-size: 0.8rem;
+const EmptyDonut = styled.div`
+  background-color: ${theme.color.secondary};
+  width: 13rem;
+  height: 13rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  color: ${theme.color.primary};
+  font-weight: bold;
 `;
