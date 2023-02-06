@@ -206,6 +206,7 @@ public class UserController {
     // validation check
     log.info(signUp.toString());
     if (errors.hasErrors()) {
+      log.error("signUp 에러 : {}", errors.getAllErrors());
       return Response.badRequest("회원가입에 실패하였습니다.");
     }
 
@@ -223,6 +224,7 @@ public class UserController {
     // validation  check
     log.info(login.toString());
     if (errors.hasErrors()) {
+      log.error("login 에러 : {}", errors.getAllErrors());
       return Response.badRequest("로그인에 실패하였습니다.");
     }
 

@@ -1,5 +1,6 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
 import com.ezpz.shabit.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +11,12 @@ import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;
 import com.ezpz.shabit.util.Response;
+import org.hibernate.QueryTimeoutException;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -34,7 +38,7 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final JwtTokenProvider jwtTokenProvider;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
-  private final RedisTemplate redisTemplate;
+  private final RedisTemplate<String, String> redisTemplate;
 
   private final S3File s3File;
 
@@ -54,11 +58,12 @@ public class UserServiceImpl implements UserService {
     }
 
     Users users = Users.builder()
-                          .email(signUp.getEmail())
-                          .nickname(signUp.getNickname())
-                          .password(passwordEncoder.encode(signUp.getPassword()))
-                          .roles(Collections.singletonList(Authority.ROLE_USER.name()))
-                          .build();
+        .email(signUp.getEmail())
+        .nickname(signUp.getNickname())
+        .password(passwordEncoder.encode(signUp.getPassword()))
+        .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+        .providerType(ProviderType.LOCAL)
+        .build();
 
     userRepository.save(users);
 
@@ -68,35 +73,45 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResponseEntity<?> login(UserTestReqDto.Login login) {
+    try {
+      if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
+        return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
+      }
 
-    if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
-      return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
+      UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
+
+      Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+      UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+      UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
+
+      Users users = userRepository.findUserByEmail(login.getEmail());
+
+      UserTestResDto.LoginUserRes loginUserRes =
+          UserTestResDto.LoginUserRes.builder()
+              .email(users.getEmail())
+              .nickname(users.getNickname())
+              .theme(users.getTheme())
+              .profile(users.getProfile())
+              .build();
+
+      userInfo.setToken(tokenInfo);
+      userInfo.setUser(loginUserRes);
+
+      redisTemplate.opsForValue()
+          .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+
+      return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
+    } catch (BadCredentialsException e) {
+      log.error("Login BadCredentialsException error : {}", e.getMessage());
+      return Response.badRequest("비밀번호를 틀렸습니다.");
+    } catch (RedisConnectionFailureException e) {
+      log.error("Login RedisConnectionFailureException error : {}", e.getMessage());
+      return Response.serverError("레디스 서버 연결에 실패하였습니다.");
+    } catch (QueryTimeoutException e) {
+      log.error("Login QueryTimeoutException error : {}", e.getMessage());
+      return Response.serverError("레디스 서버 연결에서 시간 초과가 발생하였습니다.");
     }
-
-    UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
-
-    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-    UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
-    UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
-
-    Users users = userRepository.findUserByEmail(login.getEmail());
-
-    UserTestResDto.LoginUserRes loginUserRes =
-            UserTestResDto.LoginUserRes.builder()
-                    .email(users.getEmail())
-                    .nickname(users.getNickname())
-                    .theme(users.getTheme())
-                    .profile(users.getProfile())
-                    .build();
-
-    userInfo.setToken(tokenInfo);
-    userInfo.setUser(loginUserRes);
-
-    redisTemplate.opsForValue()
-            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
-
-    return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
   }
 
   public ResponseEntity<?> logout(UserTestReqDto.Logout logout) {
@@ -117,7 +132,7 @@ public class UserServiceImpl implements UserService {
     // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
     Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
     redisTemplate.opsForValue()
-            .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+        .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
     return Response.ok("로그아웃 되었습니다.");
   }
@@ -133,7 +148,7 @@ public class UserServiceImpl implements UserService {
     Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
 
     // 3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져옵니다.
-    String refreshToken = (String) redisTemplate.opsForValue().get("RT:" + authentication.getName());
+    String refreshToken = redisTemplate.opsForValue().get("RT:" + authentication.getName());
     // (추가) 로그아웃되어 Redis 에 RefreshToken 이 존재하지 않는 경우 처리
     if (ObjectUtils.isEmpty(refreshToken)) {
       return Response.badRequest("잘못된 요청입니다.");
@@ -147,7 +162,7 @@ public class UserServiceImpl implements UserService {
 
     // 5. RefreshToken Redis 업데이트
     redisTemplate.opsForValue()
-            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "토큰 재발급을 성공하였습니다.", 0, tokenInfo);
   }
@@ -161,12 +176,12 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(email);
 
     UserTestResDto.LoginUserRes loginUserRes =
-            UserTestResDto.LoginUserRes.builder()
-                    .email(users.getEmail())
-                    .nickname(users.getNickname())
-                    .theme(users.getTheme())
-                    .profile(users.getProfile())
-                    .build();
+        UserTestResDto.LoginUserRes.builder()
+            .email(users.getEmail())
+            .nickname(users.getNickname())
+            .theme(users.getTheme())
+            .profile(users.getProfile())
+            .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
   }

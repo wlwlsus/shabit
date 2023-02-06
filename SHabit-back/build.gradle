@@ -78,6 +78,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.385'
 
+    // OAUth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
     // mongodb
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
