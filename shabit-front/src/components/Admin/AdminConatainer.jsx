@@ -26,10 +26,10 @@ const AdminConatainer = () => {
 
   return (
     <div>
-      <AlarmSettings />
+      {/* <AlarmSettings />
       <br />
       <QuotesSettings />
-      <br />
+      <br /> */}
       <VideoSettings />
     </div>
   );

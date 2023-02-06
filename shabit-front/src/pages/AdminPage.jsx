@@ -66,7 +66,6 @@ const Container = styled.div`
   border-radius: 1.5rem 1.5rem;
   padding: 2rem;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
-
   z-index: 0;
 `;
 

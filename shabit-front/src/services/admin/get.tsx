@@ -40,12 +40,15 @@ export const fetchVods = async (email: string): Promise<object> => {
     });
 };
 
-export const retrieveVods = async (page: number = null): Promise<[object]> => {
+export const retrieveVods = async (
+  page: number | string = '',
+  search: 'category' | 'title' | 'length' | '' = '',
+  query: string = '',
+): Promise<[object]> => {
   return await apiRequest
-    .get(
-      `/api/v1/admin/vods?search=&query=&page=${page !== null ? page : ''}`,
-      { headers: header() },
-    )
+    .get(`/api/v1/admin/vods?search=${search}&query=${query}&page=${page}`, {
+      headers: header(),
+    })
     .then((res) => {
       store.dispatch(setVideoList(res.data.result));
       return Promise.resolve(res.data.result);
