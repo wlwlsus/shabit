@@ -23,7 +23,7 @@ const BarChart = ({ user }) => {
       const jsonData = res;
       const newData = [];
       const colorList = [];
-
+      console.log(jsonData);
       for (let element of jsonData) {
         newData.push({
           name: nameTable[element.postureId],
@@ -72,10 +72,10 @@ const BarChart = ({ user }) => {
       show: false,
     },
     tooltip: {
-      y: {
-        formatter(value) {
-          return '';
-        },
+      x: {
+        show: true,
+        format: 'HH:mm',
+        formatter: undefined,
       },
     },
     colors: colors,
