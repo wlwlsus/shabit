@@ -1,5 +1,9 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.statistics.entity.Posture;
+import com.ezpz.shabit.statistics.repository.PostureRepository;
+import com.ezpz.shabit.user.entity.Gallery;
+import com.ezpz.shabit.user.repository.GalleryRepository;
 import com.ezpz.shabit.config.oauth.entity.ProviderType;
 import com.ezpz.shabit.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -33,6 +37,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+  private final PostureRepository postureRepository;
+  private final GalleryRepository galleryRepository;
   private final UserRepository userRepository;
 
   private final PasswordEncoder passwordEncoder;
@@ -256,6 +262,30 @@ public class UserServiceImpl implements UserService {
 
   }
 
+  @Override
+  @Transactional
+  public void addPostureImage(String email, MultipartFile image) throws Exception {
+    // 유저 정보 가져오기
+    final Users user = userRepository.findByEmail(email).orElseThrow();
+    String imageName = image.getOriginalFilename();
+    log.info("imageName : {}", imageName);
+
+    String[] str = imageName.split(" ");
+    String[] temp = str[str.length - 1].split("\\.");
+    long postureId = Long.parseLong(temp[0]);
+    final Posture posture = postureRepository.findById(postureId).orElseThrow();
+    log.info("posture : {}", postureId);
+
+    // 프로필 사진 저장하기
+    String url = s3File.upload(image, "gallery/" + email, email);
+    log.info("posture image uploaded successfully");
+    Gallery gallery = Gallery.builder()
+                              .user(user)
+                              .url(url)
+                              .posture(posture)
+                              .build();
+    galleryRepository.save(gallery);
+  }
 
   @Override
   public void changeThema(String email, int theme) throws Exception {

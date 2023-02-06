@@ -3,6 +3,7 @@ package com.ezpz.shabit.user.controller;
 import com.ezpz.shabit.user.dto.req.UserPassChangeReqDto;
 import com.ezpz.shabit.user.dto.req.UserNicknameReqDto;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
+import com.ezpz.shabit.user.dto.res.UserGalleryResDto;
 import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.service.UserService;
@@ -81,6 +82,28 @@ public class UserController {
       return Response.serverError("서버 에러");
     }
   }
+
+  // 자세 사진 등록 API
+  @Operation(summary = "자세 사진 등록 API")
+  @PostMapping(value = "image/{email}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<?> addPostureImage(@Parameter(description = "등록할 자세 사진", required = true)
+                                           @RequestBody MultipartFile image,
+                                           @Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                           @PathVariable String email) {
+
+    log.info("in addPostureImage API input email : {}", email);
+    try {
+      userService.addPostureImage(email, image);
+      return Response.makeResponse(HttpStatus.OK, "자세 사진 등록 성공");
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
+    }
+  }
+
 
   // 이메일 중복체크 API
   @Operation(summary = "이메일 중복체크 API")
