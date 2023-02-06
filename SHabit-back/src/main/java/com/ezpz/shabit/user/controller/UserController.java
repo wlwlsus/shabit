@@ -11,6 +11,8 @@ import com.ezpz.shabit.util.Response;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -102,6 +105,31 @@ public class UserController {
       log.error(e.getMessage());
       return Response.serverError("서버 에러");
     }
+  }
+
+  // 자세 사진 조회 API
+  @Operation(summary = "자세 사진 조회 API")
+  @GetMapping("image/{email}")
+  public ResponseEntity<?> getPostureImage(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                           @PathVariable String email,
+                                           @Parameter(description = "자세 아이디")
+                                           @RequestParam(value = "query", defaultValue = "0") long postureId,
+                                           @Parameter(description = "페이지 번호")
+                                           @PageableDefault(size = 10, page = 0)
+                                           Pageable pageable) {
+    log.info("user email : {}, postureId : {}, page : {}", email, postureId, pageable.getPageNumber());
+    try {
+      List<UserGalleryResDto> list = userService.getPostureImage(email, postureId, pageable);
+      log.info("gallery list : {}", list);
+      return Response.makeResponse(HttpStatus.OK, "자세 사진 조회 성공", list.size(), list);
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
+    }
+
   }
 
 
