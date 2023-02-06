@@ -20,8 +20,8 @@ export default function SocialLogin() {
 }
 
 function getSocialLoginUrl(socialType) {
-  const redirectUri = 'http://localhost:3000/oauth/redirect';
-  const url = `http://localhost:8080/oauth2/authorization/${socialType}?redirect_uri=${redirectUri}`;
+  const redirectUri = 'http://i8a601.p.ssafy.io:3000/oauth/redirect';
+  const url = `http://i8a601.p.ssafy.io:8081/oauth2/authorization/${socialType}?redirect_uri=${redirectUri}`;
   window.location.href = url;
 }
 const IconWrapper = styled.div`
