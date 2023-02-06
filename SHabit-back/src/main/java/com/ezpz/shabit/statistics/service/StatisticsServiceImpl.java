@@ -63,7 +63,22 @@ public class StatisticsServiceImpl implements StatisticsService {
         LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue()).minusDays(page*(-7));
         LocalDate weekEnd = today.minusDays((today.getDayOfWeek().getValue()-6)).minusDays(page*(-7));
 
-        return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), weekStart, weekEnd);
+        List<Statistics> res = new ArrayList<>();
+        List<Statistics> list = statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), weekStart, weekEnd);
+
+        int cursor = 0;
+        for(int i=0; i<7; i++){
+            LocalDate date = weekStart.plusDays(i);
+            if(cursor < list.size() && date.equals(list.get(cursor).getDate())){
+                while(cursor < list.size() && date.equals(list.get(cursor).getDate())) {
+                    res.add(list.get(cursor));
+                    cursor++;
+                }
+            }else{
+                res.add(Statistics.builder().time(0).posture(postureRepository.findById(1L).get()).date(date).user(user).build());
+            }
+        }
+        return res;
     }
 
     @Override
@@ -77,7 +92,22 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         LocalDate monthEnd = monthStart.withDayOfMonth(monthStart.lengthOfMonth());
 
-        return statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), monthStart, monthEnd);
+        List<Statistics> res = new ArrayList<>();
+        List<Statistics> list = statisticsRepository.findByUserEmailAndDateBetweenOrderByDateAsc(user.getEmail(), monthStart, monthEnd);
+
+        int cursor = 0;
+        for(int i=0; i<monthStart.lengthOfMonth(); i++){
+            LocalDate date = monthStart.plusDays(i);
+            if(cursor < list.size() && date.equals(list.get(cursor).getDate())){
+                while(cursor < list.size() && date.equals(list.get(cursor).getDate())) {
+                    res.add(list.get(cursor));
+                    cursor++;
+                }
+            }else{
+                res.add(Statistics.builder().time(0).posture(postureRepository.findById(1L).get()).date(date).user(user).build());
+            }
+        }
+        return res;
     }
 
     @Override
