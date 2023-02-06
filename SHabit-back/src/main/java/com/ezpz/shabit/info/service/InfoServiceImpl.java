@@ -49,6 +49,7 @@ public class InfoServiceImpl implements InfoService {
     }
     List<DailyCalcDto> list = dList.stream().map(DailyCalcDto::new).toList();
     log.info("daily list : {}", dList);
+    log.info("daily calc list : {}", list);
 
     // 자세 취한 시간 계산하고, 오래 취한 순으로 정렬해서 가져오기
     PriorityQueue<Long[]> calcResult = postureCalc(list);

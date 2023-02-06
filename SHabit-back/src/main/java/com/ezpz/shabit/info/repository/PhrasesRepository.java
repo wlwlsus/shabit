@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PhrasesRepository extends JpaRepository<Phrases, Long> {
     Phrases findByContent(String content);
     Page<Phrases> findAll(Pageable pageable);
+    void deleteByContent(String content);
 }

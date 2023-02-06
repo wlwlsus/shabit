@@ -32,13 +32,15 @@ public class AdminServiceImpl implements AdminService{
 
 
     @Override
-    public int deleteVod(List<Integer> vodIdList) {
-        vodIdList.forEach(i -> {
-            if(vodRepository.findById(Integer.toUnsignedLong(i)).isEmpty()){
+    public int deleteVod(List<String> videoIdList) {
+        videoIdList.forEach(str -> {
+            Vod vod = vodRepository.findByVideoId(str);
+            if(vod == null){
                 throw new NullPointerException("영상이 없습니다.");
             }
-            vodRepository.deleteById(Integer.toUnsignedLong(i));});
-        return vodIdList.size();
+            vodRepository.delete(vod);
+        });
+        return videoIdList.size();
     }
 
     @Override
@@ -137,13 +139,15 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int deletePhrases(List<Integer> phrasesIdList) {
-        phrasesIdList.forEach(i -> {
-            if(phrasesRepository.findById(Integer.toUnsignedLong(i)).isEmpty()){
-                throw new NullPointerException("없는 문구 입니다.");
+    public int deletePhrases(List<String> phrasesContentList) {
+        phrasesContentList.forEach(str -> {
+            Phrases phrases = phrasesRepository.findByContent(str);
+            if(phrases == null){
+                throw new NullPointerException("존재하지않는 문구 입니다.");
             }
-            phrasesRepository.deleteById(Integer.toUnsignedLong(i));});
-        return phrasesIdList.size();
+            phrasesRepository.delete(phrases);
+        });
+        return phrasesContentList.size();
     }
 
 }
