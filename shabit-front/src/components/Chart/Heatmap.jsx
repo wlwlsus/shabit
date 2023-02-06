@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import { theme } from '../../styles/GlobalStyles';
+import { typedUseSelector } from '../../store';
 
-const Heatmap = ({ heatmap }) => {
-  const [HeatmapData] = useState(heatmap);
+const Heatmap = () => {
   const [startDate, setStartDate] = useState('');
+  const heatmapData = typedUseSelector((state) => {
+    return state.chart.heatmapData;
+  });
 
   //  기간 설정 (1년 전 ~ today)
   // Lazy Initialization (state 정의될 때 한 번만 실행)
@@ -27,7 +30,7 @@ const Heatmap = ({ heatmap }) => {
       <CalendarHeatmap
         endDate={endDate}
         startDate={startDate}
-        values={HeatmapData}
+        values={heatmapData}
         showWeekdayLabels={true}
         classForValue={(value) => {
           if (!value) {

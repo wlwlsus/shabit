@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 import { useNavigate } from 'react-router-dom';
+import { typedUseSelector } from '../../store';
 
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
-export default function QuoteInfo({ quote }) {
+export default function QuoteInfo() {
   const navigate = useNavigate();
+
+  const quote = typedUseSelector((state) => {
+    return state.chart.quote;
+  });
 
   return (
     <Wrapper>
