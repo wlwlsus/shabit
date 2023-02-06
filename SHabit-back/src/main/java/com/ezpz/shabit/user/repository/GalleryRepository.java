@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
   List<Gallery> findByUserEmailAndPosturePostureId(String email, long postureId, Pageable pageable);
+
+  List<Gallery> findByUserEmail(String email, Pageable pageable);
 }

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -294,10 +295,13 @@ public class UserServiceImpl implements UserService {
   public List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable) {
     // 회원 정보 확인
     final Users user = userRepository.findByEmail(email).orElseThrow();
-
-    List<Gallery> images = galleryRepository.findByUserEmailAndPosturePostureId(email, postureId, pageable);
-    log.info("images list : {}", images);
-
+    List<Gallery> images;
+    if (postureId == 0) {
+      images = galleryRepository.findByUserEmail(email, pageable);
+    } else {
+      images = galleryRepository.findByUserEmailAndPosturePostureId(email, postureId, pageable);
+      log.info("images list : {}", images);
+    }
     List<UserGalleryResDto> result = images.stream().map(UserGalleryResDto::new).toList();
     log.info("result list : {}", result);
 

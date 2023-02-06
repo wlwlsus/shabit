@@ -113,7 +113,7 @@ public class UserController {
   public ResponseEntity<?> getPostureImage(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
                                            @PathVariable String email,
                                            @Parameter(description = "자세 아이디")
-                                           @RequestParam(value = "query", defaultValue = "1") long postureId,
+                                           @RequestParam(value = "query", defaultValue = "0") long postureId,
                                            @Parameter(description = "페이지 번호")
                                            @PageableDefault(size = 10, page = 0)
                                            Pageable pageable) {
