@@ -10,7 +10,7 @@ RUN npm install --force
 COPY . /usr/src/app
 RUN npm run build
 
-FROM nginx:latest
+FROM nginx:alpine
 # nginx의 기본 설정을 삭제하고 앱에서 설정한 파일을 복사
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
