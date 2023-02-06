@@ -6,7 +6,8 @@ import styled from 'styled-components';
 
 export default function StretchContent() {
   const videoURL = useSelector((state) => {
-    return state.video.videoURL;
+    let url = state.video.videoURL + `?autoplay=1&mute=1`;
+    return url;
   });
 
   return (
@@ -33,6 +34,6 @@ const InfoBox = styled.div`
 
   & > svg {
     color: ${theme.color.primary};
-    margin-right: 1r;
+    margin-right: 1rem;
   }
 `;

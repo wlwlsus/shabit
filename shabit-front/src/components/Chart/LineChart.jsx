@@ -117,14 +117,15 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
         opacity: 0.5,
       },
     },
-
     xaxis: {
+      type: 'datetime',
       categories: axisX,
       labels: {
-        style: {
-          colors: theme.color.blackColor,
-        },
+        format: 'yy.MM.dd',
       },
+    },
+    yaxis: {
+      max: 100,
     },
   };
 

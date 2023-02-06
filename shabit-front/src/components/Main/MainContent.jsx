@@ -31,35 +31,31 @@ export default function MainContent() {
     return state.chart.heatmapData;
   });
 
-  const quote = typedUseSelector((state) => {
-    return state.chart.quote;
-  });
-
   useEffect(() => {
     setLastDate(heatmap.slice(-1)[0]?.date);
   }, [heatmap]);
+
+  // console.log(heatmapData);
 
   const isModalOpen = (boolean) => {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
     else setIsUploading(!isUploading);
   };
 
-  if (heatmap.length) {
-    return (
-      <Wrapper>
-        <LogoutButton />
-        {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
-        <InfoWrapper>
-          <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
-          <QuoteInfo quote={quote} />
-        </InfoWrapper>
-        <HeatmapWrapper>
-          <Heatmap heatmap={heatmap} />
-          <HeatmapScale />
-        </HeatmapWrapper>
-      </Wrapper>
-    );
-  }
+  return (
+    <Wrapper>
+      <LogoutButton />
+      {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
+      <InfoWrapper>
+        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
+        <QuoteInfo />
+      </InfoWrapper>
+      <HeatmapWrapper>
+        <Heatmap />
+        <HeatmapScale />
+      </HeatmapWrapper>
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div``;
