@@ -6,4 +6,4 @@ DOCKER_BUILDKIT=1
 
 docker-compose up --build -d
 
-docker rmi $(docker images -f "dangling=true" -q) -f
+docker rmi -f $(docker images -f "dangling=true" -q) || true
