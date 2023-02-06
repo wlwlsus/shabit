@@ -36,7 +36,7 @@ public class YouTubeServiceImpl implements YouTubeService {
         YouTubeDto youTubeDto = null;
 
         if (!iteratorSearchResults.hasNext()) {
-            log.info(" There aren't any results for your query.");
+            log.error(" There aren't any results for your query.");
         }
 
         while (iteratorSearchResults.hasNext()) {

@@ -51,7 +51,7 @@ public class StatisticsController {
     try {
       data = statisticsService.getTodayData(email);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("일일 데이터 요청 실패");
@@ -73,7 +73,7 @@ public class StatisticsController {
     try {
       data = statisticsService.getGrassData(email);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("잔디 가져오기 실패");
@@ -96,7 +96,7 @@ public class StatisticsController {
     try {
       data = statisticsService.getWeeklyData(email, page);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("주간 데이터 가져오기 실패");
@@ -121,7 +121,7 @@ public class StatisticsController {
     try {
       data = statisticsService.getMonthlyData(email, page);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("월간 데이터 가져오기 실패");
@@ -145,7 +145,7 @@ public class StatisticsController {
     try {
       res = statisticsService.insertTodayData(data, email);
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (res == 0) return Response.notFound("트래킹 데이터 삽입 실패");
@@ -161,7 +161,7 @@ public class StatisticsController {
     try {
       data = statisticsService.getPostureList();
     } catch (Exception e) {
-      log.info(e.getMessage());
+      log.error(e.getMessage());
     }
 
     if (data == null) return Response.notFound("자세 리스트 조회에 실패했습니다.");
