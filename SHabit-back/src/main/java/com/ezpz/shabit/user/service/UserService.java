@@ -30,4 +30,5 @@ public interface UserService {
 
   void deleteProfile(String email) throws Exception;
 
+  void addPostureImage(String email, MultipartFile image) throws Exception;
 }
