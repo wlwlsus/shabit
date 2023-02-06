@@ -28,66 +28,10 @@ const VideoCard = ({
         <div className="card-body">
           <span className="tag tag-teal">Technology</span>
           <span className="tag tag-purple">Popular</span>
-          <h4>Why is the Tesla Cybertruck designed the way it is?</h4>
-          {/* <p>An exploration into the truck's polarising design</p> */}
-          {/* <div className="user">
-            <img
-              src="https://yt3.ggpht.com/a/AGF-l7-0J1G0Ue0mcZMw-99kMeVuBmRxiPjyvIYONg=s900-c-k-c0xffffffff-no-rj-mo"
-              alt="user"
-            />
-            <div className="user-info">
-              <h5>July Dec</h5>
-              <small>2h ago</small>
-            </div>
-          </div> */}
-        </div>
-      </div>
-      <div className="card">
-        <div className="card-header">
-          <img
-            src="https://www.newsbtc.com/wp-content/uploads/2020/06/mesut-kaya-LcCdl__-kO0-unsplash-scaled.jpg"
-            alt="ballons"
-          />
-        </div>
-        <div className="card-body">
-          <span className="tag tag-purple">Popular</span>
-          <h4>How to Keep Going When You Don’t Know What’s Next</h4>
-          <p>
-            The future can be scary, but there are ways to deal with that fear.
-          </p>
-          <div className="user">
-            <img
-              src="https://lh3.googleusercontent.com/ogw/ADGmqu8sn9zF15pW59JIYiLgx3PQ3EyZLFp5Zqao906l=s32-c-mo"
-              alt="user"
-            />
-            <div className="user-info">
-              <h5>Eyup Ucmaz</h5>
-              <small>Yesterday</small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="card">
-        <div className="card-header">
-          <img
-            src="https://images6.alphacoders.com/312/thumb-1920-312773.jpg"
-            alt="city"
-          />
-        </div>
-        <div className="card-body">
-          <span className="tag tag-pink">Design</span>
-          <h4>10 Rules of Dashboard Design</h4>
-          <p>Dashboard Design Guidelines</p>
-          <div className="user">
-            <img
-              src="https://studyinbaltics.ee/wp-content/uploads/2020/03/3799Ffxy.jpg"
-              alt="user"
-            />
-            <div className="user-info">
-              <h5>Carrie Brewer</h5>
-              <small>1w ago</small>
-            </div>
-          </div>
+          <h4>
+            Why is the Tesla Cybertruck designed the way it is? The future can
+            be scary, but there are ways to deal with that fear
+          </h4>
         </div>
       </div>
     </StyledCardWrapper>
@@ -112,6 +56,11 @@ const StyledCardWrapper = styled.div`
   } */
   h4 {
     margin-top: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   .container {
     display: flex;
@@ -121,9 +70,10 @@ const StyledCardWrapper = styled.div`
   }
   .card {
     margin: 0.5rem;
-    background-color: #fff;
+    /* background-color: #fff; */s
+    background-color: #fbfbfb;
     border-radius: 1rem;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     /* overflow: hidden; */
     width: 12rem;
   }
@@ -131,6 +81,9 @@ const StyledCardWrapper = styled.div`
     width: 100%;
     height: 6rem;
     /* height: 200px; */
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 0.1rem;
+    /* border-radius: 1rem; */
     object-fit: cover;
   }
   .card-body {
