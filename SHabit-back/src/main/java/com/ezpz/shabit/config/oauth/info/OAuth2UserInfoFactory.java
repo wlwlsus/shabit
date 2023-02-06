@@ -1,9 +1,9 @@
-package com.ezpz.shabit.config.auth.base.oauth.info;
+package com.ezpz.shabit.config.oauth.info;
 
-import com.ezpz.shabit.config.auth.base.oauth.entity.ProviderType;
-import com.ezpz.shabit.config.auth.base.oauth.info.impl.GoogleOAuth2UserInfo;
-import com.ezpz.shabit.config.auth.base.oauth.info.impl.KakaoOAuth2UserInfo;
-import com.ezpz.shabit.config.auth.base.oauth.info.impl.NaverOAuth2UserInfo;
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
+import com.ezpz.shabit.config.oauth.info.impl.GoogleOAuth2UserInfo;
+import com.ezpz.shabit.config.oauth.info.impl.KakaoOAuth2UserInfo;
+import com.ezpz.shabit.config.oauth.info.impl.NaverOAuth2UserInfo;
 
 import java.util.Map;
 

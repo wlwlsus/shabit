@@ -1,4 +1,4 @@
-package com.ezpz.shabit.config.auth.base.oauth.info;
+package com.ezpz.shabit.config.oauth.info;
 
 import java.util.Map;
 

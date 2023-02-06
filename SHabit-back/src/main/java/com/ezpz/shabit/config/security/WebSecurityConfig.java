@@ -1,9 +1,9 @@
-package com.ezpz.shabit.security;
+package com.ezpz.shabit.config.security;
 
-import com.ezpz.shabit.config.auth.base.oauth.handler.OAuth2AuthenticationFailureHandler;
-import com.ezpz.shabit.config.auth.base.oauth.handler.OAuth2AuthenticationSuccessHandler;
-import com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.ezpz.shabit.config.auth.base.oauth.service.CustomOAuth2UserService;
+import com.ezpz.shabit.config.oauth.handler.OAuth2AuthenticationFailureHandler;
+import com.ezpz.shabit.config.oauth.handler.OAuth2AuthenticationSuccessHandler;
+import com.ezpz.shabit.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.ezpz.shabit.config.oauth.service.CustomOAuth2UserService;
 import com.ezpz.shabit.jwt.JwtAuthenticationFilter;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

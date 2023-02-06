@@ -1,4 +1,4 @@
-package com.ezpz.shabit.config.auth.base.oauth.utils;
+package com.ezpz.shabit.config.oauth.utils;
 
 import org.springframework.util.SerializationUtils;
 

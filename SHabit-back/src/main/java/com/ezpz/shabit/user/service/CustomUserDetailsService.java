@@ -1,11 +1,10 @@
 package com.ezpz.shabit.user.service;
 
 
-import com.ezpz.shabit.config.auth.base.oauth.entity.UserPrincipal;
+import com.ezpz.shabit.config.oauth.entity.UserPrincipal;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

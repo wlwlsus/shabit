@@ -1,6 +1,6 @@
-package com.ezpz.shabit.config.auth.base.oauth.repository;
+package com.ezpz.shabit.config.oauth.repository;
 
-import com.ezpz.shabit.config.auth.base.oauth.utils.CookieUtil;
+import com.ezpz.shabit.config.oauth.utils.CookieUtil;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;

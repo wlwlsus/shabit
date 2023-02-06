@@ -1,6 +1,6 @@
-package com.ezpz.shabit.config.auth.base.oauth.info.impl;
+package com.ezpz.shabit.config.oauth.info.impl;
 
-import com.ezpz.shabit.config.auth.base.oauth.info.OAuth2UserInfo;
+import com.ezpz.shabit.config.oauth.info.OAuth2UserInfo;
 
 import java.util.Map;
 

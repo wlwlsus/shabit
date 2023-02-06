@@ -1,6 +1,6 @@
 package com.ezpz.shabit.user.entity;
 
-import com.ezpz.shabit.config.auth.base.oauth.entity.ProviderType;
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
 import com.ezpz.shabit.util.BaseTimeEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

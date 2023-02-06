@@ -1,4 +1,4 @@
-package com.ezpz.shabit.config.auth.base.oauth.entity;
+package com.ezpz.shabit.config.oauth.entity;
 
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.enums.Authority;

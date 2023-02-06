@@ -1,10 +1,10 @@
-package com.ezpz.shabit.config.auth.base.oauth.handler;
+package com.ezpz.shabit.config.oauth.handler;
 
-import com.ezpz.shabit.config.auth.base.oauth.entity.ProviderType;
-import com.ezpz.shabit.config.auth.base.oauth.info.OAuth2UserInfo;
-import com.ezpz.shabit.config.auth.base.oauth.info.OAuth2UserInfoFactory;
-import com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.ezpz.shabit.config.auth.base.oauth.utils.CookieUtil;
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
+import com.ezpz.shabit.config.oauth.info.OAuth2UserInfo;
+import com.ezpz.shabit.config.oauth.info.OAuth2UserInfoFactory;
+import com.ezpz.shabit.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.ezpz.shabit.config.oauth.utils.CookieUtil;
 import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.enums.Authority;
@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
@@ -28,11 +29,12 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-import static com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
+import static com.ezpz.shabit.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.ezpz.shabit.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
 import static com.ezpz.shabit.jwt.JwtTokenProvider.getRefreshTokenExpireTimeCookie;
 
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -50,7 +52,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		String targetUrl = determineTargetUrl(request, response, authentication);
 
 		if (response.isCommitted()) {
-			logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+			log.error("Response has already been committed. Unable to redirect to " + targetUrl);
 			return;
 		}
 
@@ -63,6 +65,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 						.map(Cookie::getValue);
 
 		if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
+			log.error("determineTargetUrl - redirectUri : {} , 인증을 진행할 수 없습니다.", redirectUri);
 			throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
 		}
 

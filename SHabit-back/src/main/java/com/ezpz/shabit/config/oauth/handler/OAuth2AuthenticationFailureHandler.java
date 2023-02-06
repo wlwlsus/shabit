@@ -1,7 +1,7 @@
-package com.ezpz.shabit.config.auth.base.oauth.handler;
+package com.ezpz.shabit.config.oauth.handler;
 
-import com.ezpz.shabit.config.auth.base.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.ezpz.shabit.config.auth.base.oauth.utils.CookieUtil;
+import com.ezpz.shabit.config.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.ezpz.shabit.config.oauth.utils.CookieUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
