@@ -1,10 +1,10 @@
 package com.ezpz.shabit.user.service;
 
 
-import com.ezpz.shabit.config.oauth.entity.UserPrincipal;
 import com.ezpz.shabit.user.entity.Users;
 import com.ezpz.shabit.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   // 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
   private UserDetails createUserDetails(Users users) {
-//    return new User(users.getEmail(), users.getPassword(), users.getAuthorities());
-    return UserPrincipal.create(users);
+    return new User(users.getEmail(), users.getPassword(), users.getAuthorities());
+//    return UserPrincipal.create(users);
   }
 }

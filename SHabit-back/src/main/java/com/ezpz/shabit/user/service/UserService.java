@@ -1,8 +1,12 @@
 package com.ezpz.shabit.user.service;
 
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
+import com.ezpz.shabit.user.dto.res.UserGalleryResDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -31,4 +35,6 @@ public interface UserService {
   void deleteProfile(String email) throws Exception;
 
   void addPostureImage(String email, MultipartFile image) throws Exception;
+
+  List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable);
 }

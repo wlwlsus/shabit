@@ -166,6 +166,8 @@ public class StatisticsController {
     return Response.makeResponse(HttpStatus.OK, "자세 리스트 조회에 성공했습니다.", data.size(), data);
   }
 
+  // 오늘의 자세 데이터 조회 API
+  @Operation(summary = "오늘의 자세 데이터 조회 API")
   @GetMapping("/goal/{email}")
   ResponseEntity<?> getTodayGoal(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
                                  @PathVariable String email) {
