@@ -7,12 +7,12 @@ spring:
           google:
             client-id: "135940431465-e82m01dj8rp1ufn8go11e5351052ri2q.apps.googleusercontent.com"
             client-secret: "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"
-            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             scope: profile, email
           naver:
             client-id: "7Ok2n8mRGPoSxzGABJRc"
             client-secret: "QeTRN6VlPc"
-            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
             scope:
               - name
@@ -28,7 +28,7 @@ spring:
               - profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
 
         provider:
@@ -60,7 +60,7 @@ spring:
     #    password: h2test
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://i8a601.p.ssafy.io:3306/ssafy601
+    url: jdbc:mariadb://shabit.site:3306/ssafy601
     username: ssafy601
     password: ssafy601
 
@@ -78,12 +78,12 @@ spring:
             enable: true
   data:
     redis:
-      host: i8a601.p.ssafy.io
+      host: shabit.site
       port: 6379
 
     # mongo db
     mongodb:
-      host: i8a601.p.ssafy.io
+      host: shabit.site
       port: 27017
       authentication-database: admin
       username: root
@@ -121,4 +121,4 @@ key:
 app:
   oauth2:
     #    authorizedRedirectUris: http://localhost:3000/oauth/redirect
-    authorizedRedirectUris: http://i8a601.p.ssafy.io:3000/oauth/redirect
+    authorizedRedirectUris: http://shabit.site/oauth/redirect
