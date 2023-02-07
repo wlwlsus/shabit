@@ -29,13 +29,16 @@ export default function MainPage() {
   useEffect(() => {
     switch (currentUrl) {
       case '/main':
-        setStyle([clicked, unClicked]);
+        setStyle([clicked, unClicked, unClicked]);
         break;
       case '/main/history':
-        setStyle([unClicked, clicked]);
+        setStyle([unClicked, clicked, unClicked]);
+        break;
+      case '/main/analyze':
+        setStyle([unClicked, unClicked, clicked]);
         break;
       default:
-        setStyle([0, 0]);
+        setStyle([0, 0, 0]);
         break;
     }
   }, [currentUrl]);
@@ -93,6 +96,14 @@ export default function MainPage() {
         >
           자세기록
         </Tab>
+        <Tab
+          onClick={() => {
+            navigate('/main/analyze');
+          }}
+          style={style[2]}
+        >
+          자세분석
+        </Tab>
         <Container>
           <MoveToAdmin />
           <Outlet />
@@ -121,18 +132,15 @@ const ContainerWrapper = styled.div`
   position: relative;
 
   & > button:first-child {
-    position: absolute;
-    top: -6.5%;
     left: 0;
   }
 
   & > button:nth-child(2) {
-    position: absolute;
-    top: -6.5%;
-    left: 8%;
+    left: 7.5%;
   }
 
-  & > div:last-child {
+  & > button:nth-child(3) {
+    left: 16%;
   }
 `;
 
@@ -155,4 +163,7 @@ const Tab = styled.button`
   padding: 1rem;
   border-radius: 1.5rem 1.5rem 0 0;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+
+  position: absolute;
+  top: -6.5%;
 `;

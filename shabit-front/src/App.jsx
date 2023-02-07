@@ -16,10 +16,12 @@ import LoginForm from './components/Landing/LoginForm';
 import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
+import AnalyzeContent from './components/Main/AnalyzeContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
+
 import AdminPage from './pages/AdminPage';
 
 import NotFound404 from './components/common/NotFound404';
@@ -56,6 +58,7 @@ function App() {
           >
             <Route path="" element={<MainContent />} />
             <Route path="history" element={<HistoryContent />} />
+            <Route path="analyze" element={<AnalyzeContent />} />
           </Route>
           <Route
             path="/posture"
