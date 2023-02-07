@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
 
 import ThemeBox from './ThemeBox';
-import Logo from '../common/Logo';
+import { BiUserCircle } from 'react-icons/bi';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const { email, nickname, profile } = user;
@@ -13,7 +13,7 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
       <ImgWrapper
         style={profile?.length ? { backgroundImage: `url(${profile})` } : {}}
       >
-        {profile ? <></> : <Logo color={'pink'} />}
+        {profile ? <></> : <BiUserCircle />}
         <span onClick={() => isModalOpen(true)}>이미지 변경하기</span>
       </ImgWrapper>
 
@@ -49,6 +49,11 @@ const ImgWrapper = styled.div`
   left: 7%;
   animation: 0.8s ease-in ${loadEffect.down};
   z-index: 1;
+
+  & > svg {
+    color: ${(props) => props.theme.color.primary};
+    font-size: 8rem;
+  }
 
   span {
     visibility: hidden;

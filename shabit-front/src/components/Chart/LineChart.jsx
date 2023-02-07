@@ -8,13 +8,12 @@ import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 const LineChart = ({ mode, lineData, page, setPage }) => {
   const [axisX, setAxisX] = useState([]);
   const [axisY, setAxisY] = useState([]);
-
   const themeContext = useContext(ThemeContext);
 
   const changePage = (value) => {
     let newPage = page;
     if (value) {
-      if (page === 0) return;
+      if (!page) return;
       newPage += 1;
     } else {
       newPage -= 1;
@@ -76,10 +75,12 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
 
   // stroke 클릭 => donut chart로 데이터 prop
   const onChartClick = (event, chartContext, config) => {
-    const newDay = config.globals.categoryLabels[config.dataPointIndex];
-    if (newDay) {
-      setDay(newDay);
-    }
+    const newDay =
+      config?.globals.lastXAxis.categories[
+        config?.globals.capturedDataPointIndex
+      ];
+    if (!newDay) return;
+    setDay(newDay);
   };
 
   const series = [
@@ -119,14 +120,17 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
       },
     },
     xaxis: {
-      type: 'datetime',
       categories: axisX,
+      type: 'datetime',
       labels: {
         format: 'yy.MM.dd',
       },
     },
     yaxis: {
       max: 100,
+    },
+    tooltip: {
+      enabled: true,
     },
   };
 
@@ -141,6 +145,7 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
           height={255}
           width={450}
           style={{ fontSize: '0.6rem' }}
+          onClick={onChartClick}
         />
         <BsFillCaretRightFill onClick={() => changePage(1)} />
       </div>

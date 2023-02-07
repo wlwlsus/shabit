@@ -12,6 +12,8 @@ const Navbar = () => {
   const currentUrl = location.pathname;
   const themeContext = useContext(ThemeContext);
 
+  const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';
+
   useEffect(() => {
     switch (currentUrl) {
       case '/':
@@ -31,7 +33,7 @@ const Navbar = () => {
 
   return (
     <NavWrapper>
-      <Logo color={'black'} size={'sm'} />
+      <Logo color={logoColor} size={'sm'} />
 
       <NavContent>
         <IconWrapper
