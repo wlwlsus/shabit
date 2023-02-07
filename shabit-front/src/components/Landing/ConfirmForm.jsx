@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 
@@ -60,11 +59,11 @@ const FormWrapper = styled.div`
   & > div:first-child {
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: ${theme.color.blueColor};
+    color: ${(props) => props.theme.color.blueColor};
   }
 
   & > svg {
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
     font-size: 3rem;
     margin-top: 0.5rem;
   }

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 import Logo from '../common/Logo';
 
@@ -40,7 +39,7 @@ const WelcomeWrapper = styled.div`
   justify-content: space-evenly;
   font-size: 2.5rem;
   font-weight: bold;
-  color: ${theme.color.whiteColor};
+  color: ${(props) => props.theme.color.whiteColor};
 `;
 
 const ImgWrapper = styled.div`
@@ -49,7 +48,7 @@ const ImgWrapper = styled.div`
   justify-content: center;
 
   & > svg {
-    color: ${theme.color.whiteColor};
+    color: ${(props) => props.theme.color.whiteColor};
     font-size: 3rem;
   }
 `;

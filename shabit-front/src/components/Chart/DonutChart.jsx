@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 const DonutChart = ({ jsonData, day }) => {
   const [data, setData] = useState([]); // 전체 데이터
@@ -93,7 +92,7 @@ const DonutChart = ({ jsonData, day }) => {
 export default DonutChart;
 
 const EmptyDonut = styled.div`
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   width: 13rem;
   height: 13rem;
   border-radius: 50%;
@@ -101,6 +100,6 @@ const EmptyDonut = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
 `;

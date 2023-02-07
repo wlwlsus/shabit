@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { theme } from '../../styles/GlobalStyles';
-
 import Logo from '../common/Logo';
 
 import { RiUser3Line, RiUserAddLine, RiBookmark2Line } from 'react-icons/ri';
@@ -12,6 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentUrl = location.pathname;
+  const themeContext = useContext(ThemeContext);
 
   useEffect(() => {
     switch (currentUrl) {
@@ -32,12 +31,14 @@ const Navbar = () => {
 
   return (
     <NavWrapper>
-      <Logo color={'pink'} size={'sm'} />
+      <Logo color={'black'} size={'sm'} />
 
       <NavContent>
         <IconWrapper
           style={{
-            color: clicked[2] ? theme.color.primary : theme.color.grayColor,
+            color: clicked[2]
+              ? themeContext.color.primary
+              : themeContext.color.grayColor,
           }}
           onClick={() => {
             navigate('/');
@@ -51,7 +52,9 @@ const Navbar = () => {
             navigate('/login');
           }}
           style={{
-            color: clicked[0] ? theme.color.primary : theme.color.grayColor,
+            color: clicked[0]
+              ? themeContext.color.primary
+              : themeContext.color.grayColor,
           }}
         >
           <RiUser3Line />
@@ -60,7 +63,9 @@ const Navbar = () => {
 
         <IconWrapper
           style={{
-            color: clicked[1] ? theme.color.primary : theme.color.grayColor,
+            color: clicked[1]
+              ? themeContext.color.primary
+              : themeContext.color.grayColor,
           }}
           onClick={() => {
             navigate('/signup');
@@ -104,7 +109,7 @@ const IconWrapper = styled.div`
   &:hover {
     cursor: pointer;
     transform: scale(1.11);
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
   }
 
   & > svg {

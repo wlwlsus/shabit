@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
@@ -26,11 +25,11 @@ export default function VideoList() {
 
   const style = {
     box: {
-      border: `0.2rem solid ${theme.color.primary}`,
+      border: `0.2rem solid ${(props) => props.theme.color.primary}`,
     },
     title: {
-      backgroundColor: theme.color.primary,
-      color: theme.color.secondary,
+      backgroundColor: (props) => props.theme.color.primary,
+      color: (props) => props.theme.color.secondary,
     },
   };
 
@@ -69,10 +68,10 @@ const Container = styled.div`
   width: 30%;
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   position: relative;
 
-  border: 0.2rem solid ${theme.color.secondary};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
 
   display: flex;
   justify-content: center;
@@ -95,10 +94,10 @@ const Minute = styled.div`
   width: 40%;
   text-align: center;
   border-radius: 0.5rem;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
-  background-color: ${theme.color.secondary};
-  color: ${theme.color.primary};
+  background-color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
 
   position: absolute;
   top: -10%;

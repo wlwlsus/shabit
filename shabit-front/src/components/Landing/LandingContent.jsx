@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import Logo from '../common/Logo';
@@ -35,13 +34,13 @@ const WelcomeWrapper = styled.div`
   justify-content: space-evenly;
   font-size: 2.5rem;
   font-weight: bold;
-  color: ${theme.color.whiteColor};
+  color: ${(props) => props.theme.color.whiteColor};
 `;
 
 const SocialWrapper = styled.div`
   margin-left: 3rem;
   font-size: 0.8rem;
-  color: ${theme.color.whiteColor};
+  color: ${(props) => props.theme.color.whiteColor};
 `;
 
 export default LandingContent;
