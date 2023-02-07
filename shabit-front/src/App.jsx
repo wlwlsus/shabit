@@ -1,5 +1,11 @@
-import React from 'react';
-import { GlobalStyle, theme } from './styles/GlobalStyles';
+import React, { useState, useEffect } from 'react';
+import {
+  GlobalStyle,
+  pinkTheme,
+  blueTheme,
+  darkTheme,
+  greenTheme,
+} from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -21,17 +27,28 @@ import GoalContent from './components/Main/GoalContent';
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
-import AdminPage from './pages/AdminPage';
 
-import NotFound404 from './components/common/NotFound404';
+import AdminPage from './pages/AdminPage';
+import { Recording } from './components/Posture/Recording';
+
+import NotFound404 from './pages/NotFound404';
 
 import Redirect from './components/OAuth/Redirect';
 
 function App() {
+  const [theme, setTheme] = useState(pinkTheme);
+  const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
+
+  useEffect(() => {
+    const themeInfo = localStorage.getItem('theme');
+    if (!themeInfo) return;
+    setTheme(themeList[themeInfo]);
+  }, []);
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
+        <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
         <Routes>
           <Route
             path="/"
@@ -55,7 +72,7 @@ function App() {
             path="/main"
             element={<PrivateRoute component={<MainPage />} />}
           >
-            <Route path="" element={<MainContent />} />
+            <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
             <Route path="goal" element={<GoalContent />} />
           </Route>

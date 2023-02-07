@@ -1,30 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import { RxThickArrowRight } from 'react-icons/rx';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
-import { fetchTimes } from '../../services/analyze/get';
 
-export default function PostureTime({ today }) {
-  // useEffect(() => {
-  //   fetchTimes(user.email).then((res) => {
-  //     setTimesData(res);
-  //   });
-  // }, [user.email]);
-
+export default function GoalTime({ today }) {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>바른자세 유지 시간</Title>
+        <Title>바른 자세 유지 시간</Title>
       </TitleWrapper>
       <ContentWrapper>
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Past>{0}분</Past>
+            <Goal>{0}분</Goal>
           </Data>
         </DataWrapper>
         <Arrow>
@@ -33,9 +25,9 @@ export default function PostureTime({ today }) {
         <DataWrapper>
           <Data>
             <P>오늘의 자세</P>
-            <Past>
+            <Today>
               {today}분
-            </Past>
+            </Today>
           </Data>
         </DataWrapper>
       </ContentWrapper>
@@ -43,14 +35,16 @@ export default function PostureTime({ today }) {
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 1rem;
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
   position: absolute;
   align-self: start;
   align-items: center;
-  top: 1.5rem;
+  top: 2.5rem;
 `;
 
 const Title = styled.div`
@@ -58,40 +52,48 @@ const Title = styled.div`
   align-items: center;
   align-self: start;
   margin-left: 3rem;
-  background-color: ${theme.color.secondary};
-  color: ${theme.color.primary};
+  background-color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
   padding: 0.3rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid ${theme.color.primary};
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  border: 0.1rem solid ${(props) => props.theme.color.primary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
   border-radius: 1.5rem;
-  border: 0.2rem solid ${theme.color.secondary};
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const DataWrapper = styled.div`
+  padding: 2rem;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const P = styled.div`
-  color: ${theme.color.blackColor};
+  color: ${(props) => props.theme.color.blackColor};
   font-size: 0.75rem;
   font-weight: bold;
   margin: 0 0.3rem;
   position: relative;
 `;
 
-const Past = styled.span`
-  color: ${theme.color.grayColor};
+const Goal = styled.span`
+  color: ${(props) => props.theme.color.darkGrayColor};
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0.3rem;
+  position: relative;
+`;
+
+const Today = styled.span`
+  color: ${(props) => props.theme.color.primary};
   font-size: 2rem;
   font-weight: bold;
   margin: 0 0.3rem;
@@ -101,7 +103,7 @@ const Past = styled.span`
 const Data = styled.div`
 `;
 const Arrow = styled.div`
-  color: ${theme.color.secondary};
+  color: ${(props) => props.theme.color.secondary};
 
   & > svg {
     font-size: 3rem;

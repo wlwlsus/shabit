@@ -2,49 +2,57 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
 
-import { RxThickArrowRight } from 'react-icons/rx';
+import { SlShare } from 'react-icons/sl';
+import {RiScreenshot2Fill} from 'react-icons/ri';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function GoalPercentage({ today }) {
+import PostureTimeData from './PostureTimeData';
+
+export default function TimeData({ today }) {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>목표 달성</Title>
+        <Title>자세 유지 시간</Title>
       </TitleWrapper>
+      <ButtonWrapper>
+        <DownloadButton>
+          <RiScreenshot2Fill />
+        </DownloadButton>
+        <ShareButton>
+          <SlShare />
+        </ShareButton>
+      </ButtonWrapper>
       <ContentWrapper>
-        <DataWrapper>
           <Data>
-            <P>나의 목표</P>
-            <Goal>{0}%</Goal>
+            <P>바른 자세</P>
+            <PostureTimeData total={89} data={69} />
           </Data>
-        </DataWrapper>
-        <Arrow>
-          <RxThickArrowRight />
-        </Arrow>
-        <DataWrapper>
           <Data>
-            <P>오늘의 자세</P>
-            <Today>
-              {today}%
-            </Today>
+            <P>바른 자세</P>
+            <PostureTimeData total={89} data={69} />
           </Data>
-        </DataWrapper>
+          <Data>
+            <P>바른 자세</P>
+            <PostureTimeData total={89} data={69} />
+          </Data>
+          <Data>
+            <P>바른 자세</P>
+            <PostureTimeData total={89} data={69} />
+          </Data>
       </ContentWrapper>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.div`
-  margin-top: 1rem;
-`;
+const Wrapper = styled.div``;
 
 const TitleWrapper = styled.div`
   display: flex;
   position: absolute;
   align-self: start;
   align-items: center;
-  top: 2.5rem;
+  top: 13rem;
 `;
 
 const Title = styled.div`
@@ -61,14 +69,46 @@ const Title = styled.div`
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+
+const Button = styled.div`
+  padding: 0.3rem;
+  font-size: 1.75rem;
+
+  transition: all 0.2s linear;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+`;
+
+const DownloadButton = styled(Button)`
+  color: ${(props) => props.theme.color.primary};
+`;
+
+const ShareButton = styled(Button)`
+  color: ${(props) => props.theme.color.primary};
+  margin: 0 1rem;
+`;
+
 const ContentWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+  padding: 1rem;
   border-radius: 1.5rem;
   border: 0.2rem solid ${(props) => props.theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
   animation: 0.8s ease-in ${loadEffect.down};
+
+  & > div {
+    width: 47%;
+  }
 `;
 
 const DataWrapper = styled.div`
@@ -80,7 +120,7 @@ const P = styled.div`
   color: ${(props) => props.theme.color.blackColor};
   font-size: 0.75rem;
   font-weight: bold;
-  margin: 0 0.3rem;
+  margin-top: 1rem;
   position: relative;
 `;
 
@@ -101,11 +141,4 @@ const Today = styled.span`
 `;
 
 const Data = styled.div`
-`;
-const Arrow = styled.div`
-  color: ${(props) => props.theme.color.secondary};
-
-  & > svg {
-    font-size: 3rem;
-  }
 `;

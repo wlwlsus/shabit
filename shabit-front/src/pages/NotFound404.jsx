@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
-
 export default function NotFound404() {
   return (
     <NotFound>
@@ -13,7 +11,7 @@ export default function NotFound404() {
 
 const NotFound = styled.div`
   height: 80%;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-size: 2rem;
   font-weight: bold;
 

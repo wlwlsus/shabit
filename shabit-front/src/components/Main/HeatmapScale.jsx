@@ -1,16 +1,16 @@
-import React from 'react';
-import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
+import React, { useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 
 export default function HeatmapScale() {
+  const themeContext = useContext(ThemeContext);
   return (
     <Wrapper>
       <span>Less</span>
-      <Block style={{ backgroundColor: theme.heatMap.scale0 }} />
-      <Block style={{ backgroundColor: theme.heatMap.scale1 }} />
-      <Block style={{ backgroundColor: theme.heatMap.scale2 }} />
-      <Block style={{ backgroundColor: theme.heatMap.scale3 }} />
-      <Block style={{ backgroundColor: theme.heatMap.scale4 }} />
+      <Block style={{ backgroundColor: themeContext.heatMap.scale0 }} />
+      <Block style={{ backgroundColor: themeContext.heatMap.scale1 }} />
+      <Block style={{ backgroundColor: themeContext.heatMap.scale2 }} />
+      <Block style={{ backgroundColor: themeContext.heatMap.scale3 }} />
+      <Block style={{ backgroundColor: themeContext.heatMap.scale4 }} />
       <span>More</span>
     </Wrapper>
   );

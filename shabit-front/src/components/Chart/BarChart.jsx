@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
-import { theme } from '../../styles/GlobalStyles';
-
+import { ThemeContext } from 'styled-components';
 import { fetchDaily } from '../../services/stat/get';
 
 const BarChart = ({ user }) => {
   const [data, setData] = useState([]);
   const [colors, setColors] = useState([]);
-
+  const themeContext = useContext(ThemeContext);
   // 자세에 따른 색상, 이름 지정
   const colorTable = [
     0,
-    theme.color.blueColor,
-    theme.color.greenColor,
-    theme.color.redColor,
-    theme.color.yellowColor,
+    themeContext.color.blueColor,
+    themeContext.color.greenColor,
+    themeContext.color.redColor,
+    themeContext.color.yellowColor,
   ];
   const nameTable = [0, '바른 자세', '거북목', '누운 자세', '비스듬한 자세'];
 
@@ -23,7 +22,7 @@ const BarChart = ({ user }) => {
       const jsonData = res;
       const newData = [];
       const colorList = [];
-      console.log(jsonData);
+
       for (let element of jsonData) {
         newData.push({
           name: nameTable[element.postureId],

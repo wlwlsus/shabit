@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 import { FcGoogle } from 'react-icons/fc';
 import { SiKakaotalk, SiNaver } from 'react-icons/si';
@@ -46,14 +45,14 @@ const IconWrapper = styled.div`
   }
 
   & > svg:nth-child(2) {
-    background-color: ${theme.color.blackColor};
-    color: ${theme.color.yellowColor};
+    background-color: ${(props) => props.theme.color.blackColor};
+    color: ${(props) => props.theme.color.yellowColor};
     border-radius: 0.2rem;
   }
 
   & > svg:nth-child(3) {
-    background-color: ${theme.color.whiteColor};
-    color: ${theme.color.greenColor};
+    background-color: ${(props) => props.theme.color.whiteColor};
+    color: ${(props) => props.theme.color.greenColor};
     border-radius: 0.2rem;
   }
 `;

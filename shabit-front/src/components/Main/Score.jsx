@@ -40,7 +40,7 @@ const DataWrapper = styled.div`
 `;
 
 const P = styled.div`
-  color: ${theme.color.blackColor};
+  color: ${(props) => props.theme.color.blackColor};
   font-size: 0.75rem;
   font-weight: bold;
   margin: 0 0.3rem;
@@ -48,7 +48,7 @@ const P = styled.div`
 `;
 
 const Score = styled.span`
-  color: ${theme.color.grayColor};
+  color: ${(props) => props.theme.color.darkGrayColor};
   font-size: 2rem;
   font-weight: bold;
   margin: 0 0.3rem;
@@ -56,11 +56,4 @@ const Score = styled.span`
 `;
 
 const Data = styled.div`
-`;
-const Arrow = styled.div`
-  color: ${theme.color.secondary};
-
-  & > svg {
-    font-size: 3rem;
-  }
 `;

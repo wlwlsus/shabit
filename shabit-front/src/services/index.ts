@@ -1,6 +1,7 @@
 import Auth from './auth';
 import Info from './info';
 import Stat from './stat';
+import Admin from './admin';
 
 export const header = () => {
   const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
@@ -12,5 +13,6 @@ const Services = {
   Auth,
   Info,
   Stat,
+  Admin,
 };
 export default Services;

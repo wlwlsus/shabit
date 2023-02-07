@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function UserInfo({ user, lastDate, isModalOpen }) {
-  const { email, nickname, profile, theme } = user;
+export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
+  const { email, nickname, profile } = user;
 
   return (
     <Wrapper>
@@ -24,7 +23,7 @@ export default function UserInfo({ user, lastDate, isModalOpen }) {
           <span>이메일 : {email}</span>
         </UserName>
         <LastLogin>마지막 접속일 : {lastDate}</LastLogin>
-        <ThemeBox />
+        <ThemeBox setTheme={setTheme} />
       </ContentWrapper>
     </Wrapper>
   );
@@ -36,7 +35,7 @@ const ImgWrapper = styled.div`
   width: 7.5rem;
   height: 7.5rem;
   border-radius: 50%;
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   background-size: cover;
   object-fit: cover;
   background-position: center;
@@ -60,7 +59,7 @@ const ImgWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: ${theme.color.whiteColor};
+    color: ${(props) => props.theme.color.whiteColor};
     text-shadow: 0px 0px 3px black;
     cursor: pointer;
   }
@@ -72,8 +71,8 @@ const ImgWrapper = styled.div`
 const ContentWrapper = styled.div`
   padding: 1rem;
   border-radius: 1.5rem;
-  border: 0.2rem solid ${theme.color.secondary};
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
 
   animation: 0.8s ease-in ${loadEffect.down};
 `;
@@ -94,9 +93,9 @@ const UserName = styled.div`
 const LastLogin = styled.div`
   padding: 0.3rem;
   margin: 0.7rem;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
   border-radius: 0.5rem;
-  border: 0.2rem solid ${theme.color.secondary};
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
 `;
