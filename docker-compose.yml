@@ -22,7 +22,7 @@ services:
       - server
       - client
     volumes:
-      - .nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - .nginx/conf.d:/etc/nginx/conf.d
       # - .nginx/zerossl:/var/www/zerossl/.well-known/pki-validation
       # - .nginx/cert:/cert
     ports:
