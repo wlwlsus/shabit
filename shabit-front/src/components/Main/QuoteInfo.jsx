@@ -7,7 +7,6 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
 
-
 export default function QuoteInfo() {
   const navigate = useNavigate();
 

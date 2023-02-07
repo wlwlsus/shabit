@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import MyCapture from "../TeachableMachineTest/MyCapture";
-import MyPose from "../TeachableMachineTest/MyPose";
+// import MyPose from "../TeachableMachineTest/MyPose";
 import {setInitTime,calUsedTime,calStretchTime} from '../../store/timeSlice';
 import { useDispatch } from 'react-redux';
 import { typedUseSelector } from '../../store';
+import TrackingPose from '../TeachableMachineTest/TrackingPose';
+import { getAlarmTime } from '../../services/admin/get';
 
 export default function LiveContent() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -11,9 +13,13 @@ export default function LiveContent() {
   const isRunning = typedUseSelector((state) => {
     return state.time.isRunning;
   });
+  const stretchingTime = typedUseSelector((state)=>{
+    return state.time.stretchTime.min;
+  });
   const dispatch = useDispatch();
     useEffect(()=>{
-      dispatch(setInitTime(50));
+      getAlarmTime().then((stretchingTime)=>
+        dispatch(setInitTime(stretchingTime)));
     },[]);
     
     useEffect(()=>{
@@ -38,7 +44,7 @@ export default function LiveContent() {
   return (
     <div>
       <MyCapture nickname={nickname} />
-      <MyPose/>
+      <TrackingPose/>
     </div>
     );
 }
