@@ -15,16 +15,25 @@ services:
       - 3000:3000
     depends_on:
       - server
+  # nginx:
+  #   container_name: nginx
+  #   build: ./.nginx
+  #   depends_on:
+  #     - server
+  #     - client
+  #   volumes:
+  #     - .nginx/conf.d:/etc/nginx/conf.d
+  #     # - .nginx/zerossl:/var/www/zerossl/.well-known/pki-validation
+  #     # - .nginx/cert:/cert
+  #   ports:
+  #     - 80:80
+  #     - 443:443
   nginx:
-    container_name: nginx
-    build: ./.nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - .nginx/conf.d/default.conf:/etc/nginx/nginx.conf
     depends_on:
       - server
       - client
-    volumes:
-      - .nginx/conf.d:/etc/nginx/conf.d
-      # - .nginx/zerossl:/var/www/zerossl/.well-known/pki-validation
-      # - .nginx/cert:/cert
-    ports:
-      - 80:80
-      - 443:443
