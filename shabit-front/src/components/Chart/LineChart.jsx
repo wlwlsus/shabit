@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { theme } from '../../styles/GlobalStyles';
+import React, { useContext, useEffect, useState } from 'react';
 import { loadEffect } from '../common/animation';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import DonutChart from './DonutChart';
 import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
@@ -9,6 +8,8 @@ import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 const LineChart = ({ mode, lineData, page, setPage }) => {
   const [axisX, setAxisX] = useState([]);
   const [axisY, setAxisY] = useState([]);
+
+  const themeContext = useContext(ThemeContext);
 
   const changePage = (value) => {
     let newPage = page;
@@ -105,7 +106,7 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
     stroke: {
       width: 3,
       curve: 'smooth',
-      colors: theme.color.primary,
+      colors: themeContext.color.primary,
     },
     title: {
       text: '단위:퍼센트(%)',
@@ -113,7 +114,7 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
     },
     grid: {
       row: {
-        colors: [theme.color.whiteColor, 'transparent'],
+        colors: [themeContext.color.whiteColor, 'transparent'],
         opacity: 0.5,
       },
     },
@@ -166,9 +167,9 @@ const ChartWrapper = styled.div`
     display: flex;
     align-items: center;
     padding: 0.5rem;
-    border: 0.2rem solid ${theme.color.secondary};
+    border: 0.2rem solid ${(props) => props.theme.color.secondary};
     border-radius: 1.5rem;
-    box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+    box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
     &:hover {
       cursor: pointer;
@@ -176,7 +177,7 @@ const ChartWrapper = styled.div`
 
     & > svg {
       font-size: 1.5rem;
-      color: ${theme.color.grayColor};
+      color: ${(props) => props.theme.color.grayColor};
 
       &:hover {
         cursor: pointer;
@@ -195,5 +196,5 @@ const DonutWrapper = styled.div`
 
 const Title = styled.div`
   font-weight: bold;
-  color: ${theme.color.blackColor};
+  color: ${(props) => props.theme.color.blackColor};
 `;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { theme } from '../styles/GlobalStyles';
 import Modal from '../components/Posture/Modal';
 
 import Logo from '../components/common/Logo';
@@ -45,9 +44,9 @@ const PageWrapper = styled.div`
 const Container = styled.div`
   width: 53rem;
   height: 33rem;
-  background-color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 1.5rem 0 0 1.5rem;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
 
   display: flex;
   flex-direction: column;
@@ -66,7 +65,7 @@ const Container = styled.div`
 const Sidebar = styled.div`
   width: 8rem;
   height: 33rem;
-  background-color: ${theme.color.primary};
+  background-color: ${(props) => props.theme.color.primary};
   border-radius: 0 1.5rem 1.5rem 0;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
 `;

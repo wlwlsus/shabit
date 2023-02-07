@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import useDebounce from '../../utils/useDebounce';
 import Services from '../../services';
 import Input from '../common/Input';
@@ -210,7 +209,11 @@ const SignupForm = () => {
       password === password2 ? (
         <button onClick={onSignup}>가입하기</button>
       ) : (
-        <button style={{ backgroundColor: `${theme.color.grayColor}` }}>
+        <button
+          style={{
+            backgroundColor: `${(props) => props.theme.color.grayColor}`,
+          }}
+        >
           가입하기
         </button>
       )}
@@ -233,16 +236,16 @@ const FormWrapper = styled.div`
   & > div:first-child {
     font-size: 0.8rem;
     font-weight: bold;
-    color: ${theme.color.redColor};
+    color: ${(props) => props.theme.color.redColor};
   }
 
   & > button {
-    background-color: ${theme.color.primary};
-    color: ${theme.color.whiteColor};
+    background-color: ${(props) => props.theme.color.primary};
+    color: ${(props) => props.theme.color.whiteColor};
     padding: 0.5rem;
     border-radius: 0.5rem;
     font-weight: bold;
-    box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+    box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   }
 `;
 
@@ -259,13 +262,13 @@ const RightTag = styled.div`
   top: 21.5%;
   right: 3%;
   & > button {
-    background-color: ${theme.color.greenColor};
-    color: ${theme.color.whiteColor};
+    background-color: ${(props) => props.theme.color.greenColor};
+    color: ${(props) => props.theme.color.whiteColor};
     font-size: 0.7rem;
     padding: 0.5rem;
     border-radius: 0.5rem;
     font-weight: bold;
-    box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+    box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   }
 `;
 
@@ -273,12 +276,12 @@ const ConfirmModal = styled.div`
   position: absolute;
   right: -5%;
   top: -200%;
-  background-color: ${theme.color.whiteColor};
-  border: 0.3rem solid ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.whiteColor};
+  border: 0.3rem solid ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem;
   width: 22rem;
   height: 22rem;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
 export default SignupForm;

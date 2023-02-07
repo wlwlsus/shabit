@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
@@ -14,7 +13,7 @@ import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
 
-export default function MainContent() {
+export default function MainContent({ setTheme }) {
   const [lastDate, setLastDate] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
@@ -47,7 +46,12 @@ export default function MainContent() {
       <LogoutButton />
       {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
       <InfoWrapper>
-        <UserInfo user={user} lastDate={lastDate} isModalOpen={isModalOpen} />
+        <UserInfo
+          user={user}
+          lastDate={lastDate}
+          isModalOpen={isModalOpen}
+          setTheme={setTheme}
+        />
         <QuoteInfo />
       </InfoWrapper>
       <HeatmapWrapper>
@@ -77,9 +81,9 @@ const InfoWrapper = styled.div`
 `;
 
 const HeatmapWrapper = styled.div`
-  border: 0.2rem solid ${theme.color.secondary};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
 
   display: flex;
   flex-direction: column;

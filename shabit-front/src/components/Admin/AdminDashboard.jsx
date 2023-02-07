@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 const AdminDashboard = () => {
   return (
@@ -55,7 +54,7 @@ const StyledContainer = styled.div`
   .sidebar {
     width: 240px;
     height: 100%;
-    background: ${theme.color.whiteColor};
+    background: ${(props) => props.theme.color.whiteColor};
     position: absolute;
     top: 0rem;
     left: 0rem;
@@ -78,14 +77,14 @@ const StyledContainer = styled.div`
           border-bottom: 1px solid rgba(247, 183, 183, 0.212);
           &.active {
             & > a {
-              color: ${theme.color.grayColor};
+              color: ${(props) => props.theme.color.grayColor};
             }
             ul {
               display: block;
             }
           }
           a {
-            color: ${theme.color.grayColor};
+            color: ${(props) => props.theme.color.grayColor};
             text-decoration: none;
             display: block;
             padding: 18px 0 18px 25px;
@@ -97,7 +96,7 @@ const StyledContainer = styled.div`
             -ms-transition: all 200ms ease-in;
             transition: all 200ms ease-in;
             &:hover {
-              color: ${theme.color.grayColor};
+              color: ${(props) => props.theme.color.grayColor};
             }
             span {
               display: inline-block;
