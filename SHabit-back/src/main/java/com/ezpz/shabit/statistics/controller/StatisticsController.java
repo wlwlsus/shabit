@@ -182,4 +182,5 @@ public class StatisticsController {
 
     return Response.makeResponse(HttpStatus.OK, "오늘의 자세 데이터 가져오기 성공", 1, data);
   }
+
 }

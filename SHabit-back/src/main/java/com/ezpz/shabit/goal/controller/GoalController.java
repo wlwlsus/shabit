@@ -29,24 +29,13 @@ import java.util.List;
 @Slf4j
 public class GoalController {
 
+  // 목표 조회 API
+  @Operation(summary = "목표 조회 API")
+  @GetMapping("/{email}")
+  ResponseEntity<?> getGoal(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                               @PathVariable String email) {
 
-  // 목표 설정 API
-  @Operation(summary = "목표 설정 API")
-  @PostMapping("/{email}")
-  ResponseEntity<?> updateGoal(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
-                                  @PathVariable String email) {
-//    int res = 0;
-//    try {
-//      res = statisticsService.insertTodayData(data, email);
-//    } catch (Exception e) {
-//      log.error(e.getMessage());
-//    }
-//
-//    if (res == 0) return Response.notFound("트래킹 데이터 삽입 실패");
-//
-//    return Response.ok("트래킹 데이터 삽입 완료");
-
-    return Response.ok("목표 설정 완료");
+    return Response.makeResponse(HttpStatus.OK, "목표 조회 성공", 1, GoalResDto.builder().percentage(70).time(15).build());
   }
 
 }
