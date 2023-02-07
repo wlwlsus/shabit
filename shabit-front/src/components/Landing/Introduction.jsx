@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 import Logo from '../common/Logo';
 
@@ -37,10 +36,10 @@ const ContentWrapper = styled.div`
 const WelcomeWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  font-size: 2rem;
+  justify-content: space-evenly;
+  font-size: 2.5rem;
   font-weight: bold;
-  color: ${theme.color.whiteColor};
+  color: ${(props) => props.theme.color.whiteColor};
 `;
 
 const ImgWrapper = styled.div`
@@ -49,7 +48,7 @@ const ImgWrapper = styled.div`
   justify-content: center;
 
   & > svg {
-    color: ${theme.color.whiteColor};
+    color: ${(props) => props.theme.color.whiteColor};
     font-size: 3rem;
   }
 `;

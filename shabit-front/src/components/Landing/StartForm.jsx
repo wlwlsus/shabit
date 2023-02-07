@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { HiArrowRightCircle } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 
 import { loadEffect } from '../common/animation';
 
 const StartForm = () => {
+  const navigate = useNavigate();
+
   return (
     <Wrapper>
       <span>지금 바로 시작하기</span>
-      <HiArrowRightCircle />
+      <HiArrowRightCircle onClick={() => navigate('/login')} />
     </Wrapper>
   );
 };
@@ -22,12 +24,12 @@ const Wrapper = styled.div`
   animation: 0.8s ease-in ${loadEffect.left};
 
   & > span {
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
     font-weight: bold;
   }
 
   & > svg {
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
     font-size: 3rem;
     transition: all 0.2s linear;
 

@@ -1,27 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
-
-import { fetchQuote } from '../../services/stat/get';
-// import  {getAlarmTime}  from '../../services/admin/get';
-
+import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 
 
 
 export default function QuoteInfo() {
-  const [quote, setQuote] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchQuote().then((res) => setQuote(res));
-  }, []);
-  // const dispatch = useDispatch();
-  sessionStorage.setItem('alertTime',"3");
-  // dispatch(setIniStretchMin(50));
+  const quote = typedUseSelector((state) => {
+    return state.chart.quote;
+  });
 
   return (
     <Wrapper>
@@ -48,10 +40,10 @@ export default function QuoteInfo() {
 }
 
 const Wrapper = styled.div`
-  background-color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 1.5rem;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
-  border: 0.2rem solid ${theme.color.secondary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
   padding: 1.5rem 1rem;
 
   display: flex;
@@ -62,7 +54,7 @@ const Wrapper = styled.div`
 
 const InfoBox = styled.div`
   width: 60%;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-size: 1.1rem;
   font-weight: 600;
 
@@ -79,21 +71,21 @@ const InfoTitle = styled.div`
   margin-bottom: 1rem;
   font-size: 0.8rem;
   padding: 0.3rem 0.5rem;
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem;
-  border: 0.1rem solid ${theme.color.primary};
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+  border: 0.1rem solid ${(props) => props.theme.color.primary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
 
   display: flex;
   align-items: center;
 `;
 
 const Start = styled.div`
-  color: ${theme.color.primary};
-  background-color: ${theme.color.whiteColor};
+  color: ${(props) => props.theme.color.primary};
+  background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 1.5rem;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
-  border: 0.2rem solid ${theme.color.secondary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
   padding: 1.4rem;
   display: flex;
   flex-direction: column;

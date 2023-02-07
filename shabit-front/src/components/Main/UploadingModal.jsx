@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { changeImage } from '../../services/auth/put';
 import { typedUseSelector } from '../../store';
-import { theme } from '../../styles/GlobalStyles';
 import Logo from '../common/Logo';
 
 const UploadingModal = ({ isModalOpen }) => {
@@ -25,6 +24,7 @@ const UploadingModal = ({ isModalOpen }) => {
     }
     const reader = new FileReader();
     reader.onload = () => {
+      if (!imgRef.current) return;
       imgRef.current.style.backgroundImage = `url(${reader.result})`;
     };
     reader.readAsDataURL(files[0]);
@@ -36,7 +36,7 @@ const UploadingModal = ({ isModalOpen }) => {
     formdata.append('profile', files[0]);
     changeImage(email, formdata).then(() => {
       isModalOpen(false);
-      hasPreview(false);
+      setHasPreview(false);
       setFiles('');
     });
   };
@@ -60,10 +60,12 @@ const UploadingModal = ({ isModalOpen }) => {
         <Button
           onClick={() => {
             isModalOpen(false);
-            hasPreview(false);
+            setHasPreview(false);
             setFiles('');
           }}
-          style={{ backgroundColor: `${theme.color.grayColor}` }}
+          style={{
+            backgroundColor: `${(props) => props.theme.color.grayColor}`,
+          }}
         >
           취소하기
         </Button>
@@ -84,12 +86,12 @@ const ModalWrapper = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 2;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
   & > span {
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: ${theme.color.blueColor};
+    color: ${(props) => props.theme.color.blueColor};
   }
 `;
 
@@ -97,7 +99,7 @@ const ImgWrapper = styled.div`
   width: 7.5rem;
   height: 7.5rem;
   border-radius: 50%;
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   background-size: cover;
   object-fit: cover;
 
@@ -107,25 +109,25 @@ const ImgWrapper = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: ${theme.color.primary};
-  color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.color.whiteColor};
   margin: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: bold;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 const Input = styled.input`
   display: none;
 `;
 const InputLabel = styled.label`
-  background-color: ${theme.color.secondary};
-  color: ${theme.color.primary};
+  background-color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   margin: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: bold;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   cursor: pointer;
 `;
 const ButtonGroup = styled.div`

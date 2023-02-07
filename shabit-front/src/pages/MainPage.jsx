@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { theme } from '../styles/GlobalStyles';
 // import { useDispatch } from 'react-redux';
 // import { setTokenState, setUserState } from '../store/authSlice';
 // import { typedUseSelector } from '../store';
@@ -10,32 +9,34 @@ import MoveToAdmin from '../components/Admin/MoveToAdmin';
 export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const themeContext = useContext(ThemeContext);
+
   // const dispatch = useDispatch();
 
   // const user = typedUseSelector((state) => {
   //   return state.auth.user;
   // });
 
-  const unClicked = {
-    color: theme.color.grayColor,
+  const style = {
+    backgroundColor: themeContext.color.whiteColor,
+    color: themeContext.color.grayColor,
   };
-  const clicked = {
-    backgroundColor: theme.color.primary,
-    color: theme.color.secondary,
-  };
-  const [style, setStyle] = useState([clicked, unClicked]);
+  const [clicked, setClicked] = useState([0, 1, 1]);
 
   const currentUrl = location.pathname;
   useEffect(() => {
     switch (currentUrl) {
       case '/main':
-        setStyle([clicked, unClicked]);
+        setClicked([0, 1, 1]);
         break;
       case '/main/history':
-        setStyle([unClicked, clicked]);
+        setClicked([1, 0, 1]);
+        break;
+      case '/main/analyze':
+        setClicked([1, 1, 0]);
         break;
       default:
-        setStyle([0, 0]);
+        setClicked([0, 1, 1]);
         break;
     }
   }, [currentUrl]);
@@ -81,7 +82,7 @@ export default function MainPage() {
           onClick={() => {
             navigate('/main');
           }}
-          style={style[0]}
+          style={clicked[0] ? style : null}
         >
           SHabit
         </Tab>
@@ -89,9 +90,17 @@ export default function MainPage() {
           onClick={() => {
             navigate('/main/history');
           }}
-          style={style[1]}
+          style={clicked[1] ? style : null}
         >
           자세기록
+        </Tab>
+        <Tab
+          onClick={() => {
+            navigate('/main/analyze');
+          }}
+          style={clicked[2] ? style : null}
+        >
+          자세분석
         </Tab>
         <Container>
           <MoveToAdmin />
@@ -121,38 +130,39 @@ const ContainerWrapper = styled.div`
   position: relative;
 
   & > button:first-child {
-    position: absolute;
-    top: -6.5%;
     left: 0;
   }
 
   & > button:nth-child(2) {
-    position: absolute;
-    top: -6.5%;
-    left: 8%;
+    left: 7.5%;
   }
 
-  & > div:last-child {
+  & > button:nth-child(3) {
+    left: 16%;
   }
 `;
 
 const Container = styled.div`
   width: 70rem;
   height: 36rem;
-  background-color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 0 1.5rem 1.5rem;
   padding: 2rem;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
 
   z-index: 0;
 `;
 
 const Tab = styled.button`
-  background-color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.color.secondary};
   font-size: 1.1rem;
   font-weight: bold;
   line-height: 0.7rem;
   padding: 1rem;
   border-radius: 1.5rem 1.5rem 0 0;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+
+  position: absolute;
+  top: -6.5%;
 `;

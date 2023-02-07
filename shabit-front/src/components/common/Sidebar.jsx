@@ -1,6 +1,5 @@
 import React,{useState} from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import {CgTimer,CgSandClock,CgPlayPause,CgPlayButton} from 'react-icons/cg';
 import {ImExit} from "react-icons/im";
 import { useDispatch } from 'react-redux';
@@ -52,10 +51,10 @@ export default Sidebar;
 const ContainerWrapper=styled.div`
   width: 8rem;
   height: 33rem;
-  background-color: ${theme.color.primary};
+  background-color: ${(props) => props.theme.color.primary};
   border-radius: 0 1.5rem 1.5rem 0;
-  box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
-  color: ${theme.color.whiteColor}
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
+  color: ${(props) => props.theme.color.whiteColor}
 `;
 const TimeContainer=styled.div`
   display:flex;

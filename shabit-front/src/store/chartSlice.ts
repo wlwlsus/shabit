@@ -3,14 +3,18 @@ import { createSlice } from '@reduxjs/toolkit';
 const chartSlice = createSlice({
   name: 'chartSlice',
   initialState: {
-    dailyData: [],
+    heatmapData: [],
+    quote: [],
   },
   reducers: {
-    setDailyData: (state, action) => {
-      state.dailyData = action.payload;
+    setHeatmapData: (state, action) => {
+      state.heatmapData = action.payload;
+    },
+    setQuote: (state, action) => {
+      state.quote = action.payload;
     },
   },
 });
 
 export default chartSlice;
-export const { setDailyData } = chartSlice.actions;
+export const { setHeatmapData, setQuote } = chartSlice.actions;

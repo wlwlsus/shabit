@@ -1,7 +1,6 @@
 import React,{useRef,useState,useCallback } from "react";
 import Webcam from "react-webcam";
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { HiChatAlt } from 'react-icons/hi';
 
 
@@ -123,42 +122,42 @@ const ContainerWrapper = styled.div`
 `;
 const NoticeText = styled.div`
   font-size: 1.25rem;
-  color: ${theme.color.blackColor};
+  color: ${(props) => props.theme.color.blackColor};
   font-weight: 100;
   margin-left:1rem;
 `;
 const ContainerNotice = styled.div`
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   margin:1rem 0 1rem 0;
   width: 40rem;
   height:3rem;
   padding:0.7rem 0.7rem 0.7rem 2rem;
   border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
-  border: 1px solid ${theme.color.primary};
+  border: 1px solid ${(props) => props.theme.color.primary};
   display: flex;
   align-items: center;
   justify-content: flex-start;
   font-size: 2rem;
-  color: ${theme.color.primary};
+  color:${(props) => props.theme.color.primary};
   font-weight: 100;
 `;
 const ContainerHeader = styled.div`
   width: 30rem;
   height: 3rem;
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem 1.5rem 0 0;
   padding: 0 1rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.color.primary};
+  color:${(props) => props.theme.color.primary};
   font-size: 1.5rem;
   font-weight: 600;
 `;
 
 const Container = styled.div`
-  background-color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.whiteColor};
   width: 30rem;
   height: 18.75rem;
   border-radius: 0 0 1.5rem 1.5rem;

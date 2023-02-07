@@ -1,14 +1,13 @@
 import { createGlobalStyle } from 'styled-components';
 
-const theme = {
+export const pinkTheme = {
   color: {
-    primary: '#C77882',
+    primary: '#C57A84',
     secondary: '#F2E4E6',
     whiteColor: '#fff',
     blackColor: '#000000',
     grayColor: '#D3D3D3',
     lightGrayColor: '#e9e9e9',
-    // darkGrayColor: '#ABABAB',
     redColor: '#FF4560',
     greenColor: '#00E396',
     yellowColor: '#FEB019',
@@ -21,7 +20,83 @@ const theme = {
     scale3: '#C77882',
     scale4: '#AB4653',
   },
-  fontSize: {},
+};
+
+export const blueTheme = {
+  color: {
+    primary: '#3667A6',
+    secondary: '#E3EFF3',
+    whiteColor: '#fff',
+    blackColor: '#000000',
+    grayColor: '#D3D3D3',
+    lightGrayColor: '#e9e9e9',
+    redColor: '#FF4560',
+    greenColor: '#00E396',
+    yellowColor: '#FEB019',
+    blueColor: '#008FFB',
+  },
+  heatMap: {
+    scale0: '#FFE7EA',
+    scale1: '#F0C4CA',
+    scale2: '#E5949F',
+    scale3: '#C77882',
+    scale4: '#AB4653',
+  },
+};
+
+export const darkTheme = {
+  color: {
+    primary: '#393E46',
+    secondary: '#EEEEEE',
+    whiteColor: '#fff',
+    blackColor: '#000000',
+    grayColor: '#D3D3D3',
+    lightGrayColor: '#e9e9e9',
+    redColor: '#FF4560',
+    greenColor: '#00E396',
+    yellowColor: '#FEB019',
+    blueColor: '#008FFB',
+  },
+  heatMap: {
+    scale0: '#FFE7EA',
+    scale1: '#F0C4CA',
+    scale2: '#E5949F',
+    scale3: '#C77882',
+    scale4: '#AB4653',
+  },
+};
+
+export const greenTheme = {
+  color: {
+    primary: '#4fb068',
+    secondary: '#e4f2e6',
+    whiteColor: '#fff',
+    blackColor: '#000000',
+    grayColor: '#D3D3D3',
+    lightGrayColor: '#e9e9e9',
+    redColor: '#FF4560',
+    greenColor: '#00E396',
+    yellowColor: '#FEB019',
+    blueColor: '#008FFB',
+  },
+  heatMap: {
+    scale0: '#FFE7EA',
+    scale1: '#F0C4CA',
+    scale2: '#E5949F',
+    scale3: '#C77882',
+    scale4: '#AB4653',
+  },
+};
+
+export const themeColor = {
+  pinkPrim: '#C57A84',
+  pinkSec: '#F2E4E6',
+  darkPrim: '#393E46',
+  darkSec: '#EEEEEE',
+  bluePrim: '#3667A6',
+  blueSec: '#E3EFF3',
+  greenPrim: '#4fb068',
+  greenSec: '#e4f2e6',
 };
 
 /** reset css */
@@ -45,10 +120,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     width: 100%;
     height: 100%;
-    color: ${theme.textColor};
+    color: ${(props) => props.color}
     font-size: 100%;
     line-height: 1.2;
-    background-color: ${theme.color.secondary};
+    background-color:${(props) => props.bg}
   }
   table {
     border-collapse: collapse;
@@ -872,4 +947,4 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export { GlobalStyle, theme };
+export { GlobalStyle };

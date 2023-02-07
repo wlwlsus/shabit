@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 
 import UserInfo from './UserInfo';
@@ -8,45 +7,55 @@ import QuoteInfo from './QuoteInfo';
 import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-// import { typedUseSelector } from '../../store';
-
+import { typedUseSelector } from '../../store';
+import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+// import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
 
-export default function MainContent() {
-  // const [lastDate, setLastDate] = useState(heatMapSeries.slice(-1)[0]?.date);
+export default function MainContent({ setTheme }) {
+  const [lastDate, setLastDate] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   const user = JSON.parse(sessionStorage.getItem('user'));
-
   // const user = typedUseSelector((state) => {
   //   return state.auth.user;
   // });
+  useEffect(() => {
+    if (!user.email) return;
+    Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
+  }, [user.email]);
 
-  // useEffect(() => {
-  //   if (user.email) {
-  //     Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
-  //   }
-  // }, [user]);
+  const heatmap = typedUseSelector((state) => {
+    return state.chart.heatmapData;
+  });
 
-  // useEffect(() => {
-  //   setLastDate(heatMapSeries.slice(-1)[0]?.date);
-  // }, [heatMapSeries]);
+  useEffect(() => {
+    setLastDate(heatmap.slice(-1)[0]?.date);
+  }, [heatmap]);
+
+  // console.log(heatmapData);
 
   const isModalOpen = (boolean) => {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
     else setIsUploading(!isUploading);
   };
+
   return (
     <Wrapper>
       <LogoutButton />
       {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
       <InfoWrapper>
-        <UserInfo user={user} isModalOpen={isModalOpen} />
+        <UserInfo
+          user={user}
+          lastDate={lastDate}
+          isModalOpen={isModalOpen}
+          setTheme={setTheme}
+        />
         <QuoteInfo />
       </InfoWrapper>
       <HeatmapWrapper>
-        <Heatmap user={user} />
+        <Heatmap />
         <HeatmapScale />
       </HeatmapWrapper>
     </Wrapper>
@@ -72,9 +81,9 @@ const InfoWrapper = styled.div`
 `;
 
 const HeatmapWrapper = styled.div`
-  border: 0.2rem solid ${theme.color.secondary};
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
 
   display: flex;
   flex-direction: column;

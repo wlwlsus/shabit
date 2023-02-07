@@ -1,4 +1,6 @@
 import { header } from '..';
+import store from '../../store';
+import { setHeatmapData, setQuote } from '../../store/chartSlice';
 import apiRequest from '../../utils/apiRequest';
 
 export const fetchDaily = async (email: string): Promise<object> => {
@@ -33,7 +35,8 @@ export const fetchMonthly = async (
       headers: header(),
     })
     .then((res) => {
-      return Promise.resolve(res.data.result);
+      const data = res.data.result;
+      return Promise.resolve(data);
     })
     .catch((err) => Promise.reject(err.data));
 };
@@ -53,6 +56,7 @@ export const fetchHeatmap = async (email: string): Promise<object> => {
         else if (percentage >= 20) classValue = 1;
         newArray.push({ date, percentage, classValue });
       }
+      store.dispatch(setHeatmapData(newArray));
       return Promise.resolve(newArray);
     })
     .catch((err) => err.data);
@@ -62,6 +66,8 @@ export const fetchQuote = async (): Promise<object> => {
   return await apiRequest
     .get('/api/v1/info/phrases', { headers: header() })
     .then((res) => {
-      return Promise.resolve(res.data.result.content);
+      const data = res.data.result.content;
+      store.dispatch(setQuote(data));
+      return Promise.resolve(data);
     });
 };
