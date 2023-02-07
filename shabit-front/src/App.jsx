@@ -16,6 +16,7 @@ import LoginForm from './components/Landing/LoginForm';
 import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
+import GoalContent from './components/Main/GoalContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
@@ -56,6 +57,7 @@ function App() {
           >
             <Route path="" element={<MainContent />} />
             <Route path="history" element={<HistoryContent />} />
+            <Route path="goal" element={<GoalContent />} />
           </Route>
           <Route
             path="/posture"
