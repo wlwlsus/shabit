@@ -1,0 +1,23 @@
+{
+    "name": "SHabit",
+    "description": "올바른 자세 습관 만들기",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": { 
+        "service_worker": "background.js"
+    },
+    "permissions": [
+        "notifications",
+        "alarms",
+        "tabs"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+          "matches": ["http://localhost:3000/posture/live"],
+          "js":["content.js"]
+        }
+    ]
+}

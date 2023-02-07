@@ -99,7 +99,7 @@ const MyCapture = ({nickname}) => {
         <WebcamWrapper>
             <Webcam audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}/>
         </WebcamWrapper>
-        {/* {capturing ? (
+        {capturing ? (
           <button onClick={handleStopCaptureClick}>Stop Capture</button>
         ) : (
           <button onClick={handleStartCaptureClick}>Start Capture</button>
@@ -111,7 +111,7 @@ const MyCapture = ({nickname}) => {
           </button>
           <button onClick={handleDownload}>Download</button>
           </>
-        )} */}
+        )}
       </Container>
     </ContainerWrapper>
   );
