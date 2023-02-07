@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAlarmTime } from '../../services/admin/get';
-import AlarmSettings from './contents/AlarmSettings';
-import QuotesSettings from './contents/QuotesSettings';
-import VideoSettings from './contents/VideoSettings';
+import VideoSettings from './videos/VideoSettings';
 
-const AdminConatainer = () => {
+const AdminVideoContainer = () => {
   /* 
     건강 랜덤 구문 조회
 
@@ -26,13 +24,9 @@ const AdminConatainer = () => {
 
   return (
     <div>
-      {/* <AlarmSettings />
-      <br />
-      <QuotesSettings />
-      <br /> */}
       <VideoSettings />
     </div>
   );
 };
 
-export default AdminConatainer;
+export default AdminVideoContainer;

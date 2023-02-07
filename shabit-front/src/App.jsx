@@ -24,6 +24,8 @@ import AdminRoute from './utils/AdminRoute';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminVideoContainer from './components/Admin/AdminVideoContainer';
+import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
 
 function App() {
   return (
@@ -64,10 +66,18 @@ function App() {
             {/* <Route path="stretch" element={<LiveContent />} /> */}
             <Route path="stretch" element={<StretchContent />} />
           </Route>
+          {/* <Route
+            path="/admin"
+            element={<AdminRoute component={<AdminPage />} />}
+          /> */}
           <Route
             path="/admin"
             element={<AdminRoute component={<AdminPage />} />}
-          />
+            // element={<AdminPage />}
+          >
+            <Route path="" element={<AdminVideoContainer />} />
+            <Route path="settings" element={<AdminSettingsContainer />} />
+          </Route>
         </Routes>
       </ThemeProvider>
     </Provider>

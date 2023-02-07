@@ -19,7 +19,7 @@ export default function VideoList() {
         setVideoList(res.data.result);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
 

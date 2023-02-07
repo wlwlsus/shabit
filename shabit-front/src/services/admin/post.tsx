@@ -8,7 +8,7 @@ export const postVod = async (
   categoryId: number,
   url: string,
 ): Promise<[Object]> => {
-  console.log(categoryId, url);
+  // console.log(categoryId, url);
   return await apiRequest
     .post('/api/v1/admin/vods', { categoryId, url }, { headers: header() })
     .then(async () => {

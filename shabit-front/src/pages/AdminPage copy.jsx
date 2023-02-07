@@ -1,7 +1,6 @@
 import React from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import AdminVideoContainer from '../components/Admin/AdminVideoContainer';
+import AdminConatainer from '../components/Admin/AdminConatainer';
 // import AdminDashboard from '../components/Admin/AdminDashboard';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 import { loadEffect } from '../components/common/animation';
@@ -9,38 +8,15 @@ import LogoutButton from '../components/Main/LogoutButton';
 import { theme } from '../styles/GlobalStyles';
 
 const AdminPage = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const currentPath = location.pathname;
-  const style = {
-    backgroundColor: theme.color.primary,
-    color: theme.color.secondary,
-  };
-
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab
-          onClick={() => {
-            navigate('/admin');
-          }}
-          style={currentPath === '/admin' ? style : {}}
-        >
-          영상
-        </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/admin/settings');
-          }}
-          style={currentPath === '/admin/settings' ? style : {}}
-        >
-          시간/문구
-        </Tab>
         <Container>
           <Wrapper>
             <MoveToAdmin />
             <LogoutButton></LogoutButton>
-            <Outlet />
+            {/* <AdminDashboard /> */}
+            <AdminConatainer />
           </Wrapper>
         </Container>
       </ContainerWrapper>
@@ -51,8 +27,7 @@ const AdminPage = () => {
 export default AdminPage;
 
 const PageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,6 +36,7 @@ const PageWrapper = styled.div`
     cursor: default;
   }
 `;
+
 const ContainerWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -76,8 +52,7 @@ const ContainerWrapper = styled.div`
   & > button:nth-child(2) {
     position: absolute;
     top: -8%;
-    /* left: 11.5%; */
-    left: 8.1rem;
+    left: 8.5%;
   }
 
   & > div:last-child {
@@ -88,7 +63,7 @@ const Container = styled.div`
   width: 70rem;
   height: 36rem;
   background-color: ${theme.color.whiteColor};
-  border-radius: 0 1.5rem 1.5rem;
+  border-radius: 1.5rem 1.5rem;
   padding: 2rem;
   box-shadow: 0 0.2rem 0.5rem ${theme.color.grayColor};
   z-index: 0;
@@ -96,9 +71,7 @@ const Container = styled.div`
 
 const Tab = styled.button`
   background-color: ${theme.color.whiteColor};
-  color: ${theme.color.grayColor};
   font-size: 1.1rem;
-  width: 8rem;
   font-weight: bold;
   line-height: 0.7rem;
   padding: 1.2rem;

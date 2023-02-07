@@ -157,7 +157,7 @@ const VideoCard = ({
           {categoryTag}
           {videoLengthTag}
           {/* <h4>{title}</h4> */}
-          <a href="https://www.google.com" target="_blank">
+          <a href={videoURL} target="_blank">
             {title}
           </a>
         </div>
@@ -199,6 +199,9 @@ const StyledCardWrapper = styled.div`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     font-size: small;
+  }
+  a:hover {
+    font-weight:bold;
   }
   .container {
     display: flex;

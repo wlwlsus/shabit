@@ -31,7 +31,7 @@ const MoveToAdmin = () => {
   return (
     <ButtonContainer>
       <div style={{ visibility: `${isAdmin ? 'visible' : 'hidden'}` }}>
-        {pathName === '/admin' ? (
+        {pathName.startsWith('/admin') ? (
           <StyledButton onClick={() => navigate('/main')}>
             메인 페이지로 돌아가기
           </StyledButton>
