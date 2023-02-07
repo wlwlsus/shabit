@@ -7,12 +7,12 @@ spring:
           google:
             client-id: "135940431465-e82m01dj8rp1ufn8go11e5351052ri2q.apps.googleusercontent.com"
             client-secret: "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"
-            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             scope: profile, email
           naver:
             client-id: "7Ok2n8mRGPoSxzGABJRc"
             client-secret: "QeTRN6VlPc"
-            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             authorization-grant-type: authorization_code
             scope:
               - name
@@ -28,7 +28,7 @@ spring:
               - profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
+            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             client-authentication-method: POST
 
         provider:
