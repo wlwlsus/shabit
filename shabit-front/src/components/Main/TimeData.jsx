@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
 
 import { SlShare } from 'react-icons/sl';
-import {RiScreenshot2Fill} from 'react-icons/ri';
+import { RiScreenshot2Fill } from 'react-icons/ri';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
 import PostureTimeData from './PostureTimeData';
 
-export default function TimeData({ today }) {
+export default function TimeData({ total, time }) {
   return (
     <Wrapper>
       <TitleWrapper>
@@ -24,22 +24,22 @@ export default function TimeData({ today }) {
         </ShareButton>
       </ButtonWrapper>
       <ContentWrapper>
-          <Data>
-            <P>바른 자세</P>
-            <PostureTimeData total={89} data={69} />
-          </Data>
-          <Data>
-            <P>바른 자세</P>
-            <PostureTimeData total={89} data={69} />
-          </Data>
-          <Data>
-            <P>바른 자세</P>
-            <PostureTimeData total={89} data={69} />
-          </Data>
-          <Data>
-            <P>바른 자세</P>
-            <PostureTimeData total={89} data={69} />
-          </Data>
+        <Data>
+          <P>바른 자세</P>
+          <PostureTimeData total={total} time={time[0]} />
+        </Data>
+        <Data>
+          <P>거북목 자세</P>
+          <PostureTimeData total={total} time={time[1]} />
+        </Data>
+        <Data>
+          <P>비스듬한 자세</P>
+          <PostureTimeData total={total} time={time[2]} />
+        </Data>
+        <Data>
+          <P>누운 자세</P>
+          <PostureTimeData total={total} time={time[3]} />
+        </Data>
       </ContentWrapper>
     </Wrapper>
   );
@@ -140,5 +140,4 @@ const Today = styled.span`
   position: relative;
 `;
 
-const Data = styled.div`
-`;
+const Data = styled.div``;

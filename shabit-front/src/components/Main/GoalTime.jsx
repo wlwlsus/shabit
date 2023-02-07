@@ -6,7 +6,7 @@ import { RxThickArrowRight } from 'react-icons/rx';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function GoalTime({ today }) {
+export default function GoalTime({ goal, today }) {
   return (
     <Wrapper>
       <TitleWrapper>
@@ -16,7 +16,7 @@ export default function GoalTime({ today }) {
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{0}분</Goal>
+            <Goal>{goal}분</Goal>
           </Data>
         </DataWrapper>
         <Arrow>
@@ -25,9 +25,7 @@ export default function GoalTime({ today }) {
         <DataWrapper>
           <Data>
             <P>오늘의 자세</P>
-            <Today>
-              {today}분
-            </Today>
+            <Today>{today}분</Today>
           </Data>
         </DataWrapper>
       </ContentWrapper>
@@ -100,8 +98,7 @@ const Today = styled.span`
   position: relative;
 `;
 
-const Data = styled.div`
-`;
+const Data = styled.div``;
 const Arrow = styled.div`
   color: ${(props) => props.theme.color.secondary};
 

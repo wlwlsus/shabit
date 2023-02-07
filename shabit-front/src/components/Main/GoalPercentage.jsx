@@ -6,7 +6,7 @@ import { RxThickArrowRight } from 'react-icons/rx';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function GoalPercentage({ today }) {
+export default function GoalPercentage({ goal, today }) {
   return (
     <Wrapper>
       <TitleWrapper>
@@ -16,7 +16,7 @@ export default function GoalPercentage({ today }) {
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{0}%</Goal>
+            <Goal>{goal}%</Goal>
           </Data>
         </DataWrapper>
         <Arrow>
@@ -25,9 +25,7 @@ export default function GoalPercentage({ today }) {
         <DataWrapper>
           <Data>
             <P>오늘의 자세</P>
-            <Today>
-              {today}%
-            </Today>
+            <Today>{today}%</Today>
           </Data>
         </DataWrapper>
       </ContentWrapper>
@@ -100,8 +98,7 @@ const Today = styled.span`
   position: relative;
 `;
 
-const Data = styled.div`
-`;
+const Data = styled.div``;
 const Arrow = styled.div`
   color: ${(props) => props.theme.color.secondary};
 

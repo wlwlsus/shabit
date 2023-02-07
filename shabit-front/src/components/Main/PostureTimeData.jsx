@@ -13,7 +13,8 @@ import Chart from 'react-apexcharts';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function PostureTimeData({ total, data }) {
+export default function PostureTimeData({ total, time }) {
+  const user = JSON.parse(sessionStorage.getItem('user'));
   const [theme, setTheme] = useState(pinkTheme);
   const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
 
@@ -23,23 +24,20 @@ export default function PostureTimeData({ total, data }) {
     setTheme(themeList[themeInfo]);
   }, []);
 
-  
-  const [data2, setData] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-      const newData = [];
+    const newData = [];
 
-      newData.push({
-        data: [
-          {
-            x: '자세',
-            y: [
-              0, data
-            ],
-          },
-        ],
-      });
-      setData(newData);
+    newData.push({
+      data: [
+        {
+          x: '자세',
+          y: [0, time],
+        },
+      ],
+    });
+    setData(newData);
   }, []);
 
   const options = {
@@ -64,7 +62,7 @@ export default function PostureTimeData({ total, data }) {
       show: false,
     },
     tooltip: {
-      enabled: false
+      enabled: false,
     },
     x: {
       show: false,
@@ -72,20 +70,20 @@ export default function PostureTimeData({ total, data }) {
     yaxis: {
       max: total,
       labels: {
-        show: false
-      }
+        show: false,
+      },
     },
     states: {
       hover: {
-          filter: {
-              type: 'none',
-          }
+        filter: {
+          type: 'none',
+        },
       },
     },
-    chart:{
-      toolbar:{
-        show: false
-      }
+    chart: {
+      toolbar: {
+        show: false,
+      },
     },
     colors: theme.color.primary,
   };
@@ -94,7 +92,7 @@ export default function PostureTimeData({ total, data }) {
     <Chart
       type={'rangeBar'}
       options={options}
-      series={data2}
+      series={data}
       height={90}
       style={{ fontSize: '0.7rem' }}
     />
