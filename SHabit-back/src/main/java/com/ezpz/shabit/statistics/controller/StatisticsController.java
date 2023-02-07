@@ -183,4 +183,22 @@ public class StatisticsController {
     return Response.makeResponse(HttpStatus.OK, "오늘의 자세 데이터 가져오기 성공", 1, data);
   }
 
+  // 오늘의 자세별 시간 조회 API
+  @Operation(summary = "오늘의 자세별 시간 조회 API")
+  @GetMapping("/posture/{email}")
+  ResponseEntity<?> getTodayPostureTime(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                 @PathVariable String email) {
+    TodayPostureTimeResDto data = null;
+    try {
+      data = statisticsService.getTodayPostureTime(email);
+    } catch (Exception e) {
+      log.error(e.getMessage());
+    }
+
+    if (data == null) return Response.notFound("오늘의 자세별 시간 요청 실패");
+
+    System.out.println(data.toString());
+    return Response.makeResponse(HttpStatus.OK, "오늘의 자세별 시간 가져오기 성공", 1, data);
+  }
+
 }

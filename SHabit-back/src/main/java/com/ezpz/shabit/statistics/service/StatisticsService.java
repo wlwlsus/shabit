@@ -1,6 +1,7 @@
 package com.ezpz.shabit.statistics.service;
 
 import com.ezpz.shabit.statistics.dto.res.TodayGoalResDto;
+import com.ezpz.shabit.statistics.dto.res.TodayPostureTimeResDto;
 import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.entity.Grass;
@@ -17,4 +18,5 @@ public interface StatisticsService {
     int insertTodayData(List<DailyReqDto> data, String email);
     List<Posture> getPostureList();
     TodayGoalResDto getTodayGoal(String email);
+    TodayPostureTimeResDto getTodayPostureTime(String email);
 }
