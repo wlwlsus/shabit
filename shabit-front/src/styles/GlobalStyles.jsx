@@ -15,16 +15,16 @@ export const pinkTheme = {
   },
   heatMap: {
     scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
+    scale1: '#facfd5',
     scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale3: '#cf616f',
+    scale4: '#b04855',
   },
 };
 
 export const blueTheme = {
   color: {
-    primary: '#3667A6',
+    primary: '#5e89bf',
     secondary: '#E3EFF3',
     whiteColor: '#fff',
     blackColor: '#000000',
@@ -36,11 +36,11 @@ export const blueTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
-    scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale0: '#d2e4fa',
+    scale1: '#a0c3f2',
+    scale2: '#5e9ae6',
+    scale3: '#497ab8',
+    scale4: '#335682',
   },
 };
 
