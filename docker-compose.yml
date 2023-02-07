@@ -25,10 +25,6 @@ services:
       - .nginx/conf.d:/etc/nginx/conf.d
       - .nginx/zerossl:/var/www/zerossl/.well-known/pki-validation
       - .nginx/cert:/cert
-      - v-data:/var/vvv
     ports:
       - 80:80
       - 443:443
-
-volumes:
-  v-data:
