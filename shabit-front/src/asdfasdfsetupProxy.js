@@ -5,7 +5,7 @@
 //   app.use(
 //     '/api',
 //     createProxyMiddleware({
-//       target: 'http://i8a601.p.ssafy.io:8080',
+//       target: 'https://i8a601.p.ssafy.io:8080',
 //       changeOrigin: true,
 //       secure: false,
 //     }),
