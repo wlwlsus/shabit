@@ -24,7 +24,7 @@ export const pinkTheme = {
 
 export const blueTheme = {
   color: {
-    primary: '#5e89bf',
+    primary: '#5584AC',
     secondary: '#E3EFF3',
     whiteColor: '#fff',
     blackColor: '#000000',
@@ -46,8 +46,8 @@ export const blueTheme = {
 
 export const darkTheme = {
   color: {
-    primary: '#393E46',
-    secondary: '#EEEEEE',
+    primary: '#2C3333',
+    secondary: '#DDDDDD',
     whiteColor: '#fff',
     blackColor: '#000000',
     grayColor: '#D3D3D3',
@@ -68,7 +68,7 @@ export const darkTheme = {
 
 export const greenTheme = {
   color: {
-    primary: '#4fb068',
+    primary: '#749F82',
     secondary: '#e4f2e6',
     whiteColor: '#fff',
     blackColor: '#000000',
@@ -91,11 +91,11 @@ export const greenTheme = {
 export const themeColor = {
   pinkPrim: '#C57A84',
   pinkSec: '#F2E4E6',
-  darkPrim: '#393E46',
-  darkSec: '#EEEEEE',
-  bluePrim: '#3667A6',
+  darkPrim: '#2C3333',
+  darkSec: '#DDDDDD',
+  bluePrim: '#5584AC',
   blueSec: '#E3EFF3',
-  greenPrim: '#4fb068',
+  greenPrim: '#749F82',
   greenSec: '#e4f2e6',
 };
 

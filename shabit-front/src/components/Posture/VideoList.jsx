@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useContext, useState, useEffect } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
@@ -10,6 +10,7 @@ export default function VideoList() {
   const [isClicked, setIsClicked] = useState();
   const user = JSON.parse(sessionStorage.getItem('user'));
   const dispatch = useDispatch();
+  const themeContext = useContext(ThemeContext);
 
   useEffect(() => {
     fetchVods(user.email).then((res) => {
@@ -25,11 +26,11 @@ export default function VideoList() {
 
   const style = {
     box: {
-      border: `0.2rem solid ${(props) => props.theme.color.primary}`,
+      border: `0.2rem solid ${themeContext.color.primary}`,
     },
     title: {
-      backgroundColor: (props) => props.theme.color.primary,
-      color: (props) => props.theme.color.secondary,
+      backgroundColor: `${themeContext.color.primary}`,
+      color: `${themeContext.color.secondary}`,
     },
   };
 

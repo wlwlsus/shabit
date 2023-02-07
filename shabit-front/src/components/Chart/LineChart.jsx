@@ -8,13 +8,12 @@ import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
 const LineChart = ({ mode, lineData, page, setPage }) => {
   const [axisX, setAxisX] = useState([]);
   const [axisY, setAxisY] = useState([]);
-
   const themeContext = useContext(ThemeContext);
 
   const changePage = (value) => {
     let newPage = page;
     if (value) {
-      if (page === 0) return;
+      if (!page) return;
       newPage += 1;
     } else {
       newPage -= 1;

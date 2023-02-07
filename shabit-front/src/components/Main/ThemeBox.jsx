@@ -20,7 +20,7 @@ export default function ThemeBox({ setTheme }) {
     <Wrapper>
       <span>테마</span>
       <Pink onClick={() => changeTheme(0)}>PINK</Pink>
-      <Dark onClick={() => changeTheme(1)}>DARK</Dark>
+      <Dark onClick={() => changeTheme(1)}>BLACK</Dark>
       <Blue onClick={() => changeTheme(2)}>BLUE</Blue>
       <Green onClick={() => changeTheme(3)}>GREEN</Green>
     </Wrapper>
@@ -39,6 +39,7 @@ const Button = styled.div`
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   padding: 0.3rem;
   font-size: 0.7rem;
+  line-height: 0.7rem;
   font-weight: bold;
 
   transition: all 0.2s linear;
