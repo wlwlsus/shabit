@@ -1,5 +1,6 @@
 package com.ezpz.shabit.statistics.service;
 
+import com.ezpz.shabit.statistics.dto.res.TodayGoalResDto;
 import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.entity.Statistics;
 import com.ezpz.shabit.statistics.repository.DailyRepository;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -135,6 +137,26 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public List<Posture> getPostureList() {
         return postureRepository.findAll();
+    }
+
+    @Override
+    public TodayGoalResDto getTodayGoal(String email) {
+        Users user = userRepository.findByEmail(email).orElse(null);
+        if (user == null) throw new NullPointerException("일치하는 유저가 존재하지 않습니다.");
+
+        List<Daily> list = dailyRepository.findByUserEmailOrderByStartTimeAsc(user.getEmail());
+        long total = 0L;
+        long rightPosture = 0L;
+
+        for(Daily data: list){
+            Duration duration = Duration.between(data.getStartTime(), data.getEndTime());
+            total += duration.getSeconds();
+            if(data.getPosture().getPostureId() == 1L){
+                rightPosture += duration.getSeconds();
+            }
+        }
+
+        return TodayGoalResDto.builder().percentage((int) ((100*rightPosture)/total)).time((int) (rightPosture/60)).build();
     }
 
 }
