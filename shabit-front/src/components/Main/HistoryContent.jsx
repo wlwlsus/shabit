@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
@@ -111,13 +110,13 @@ const Title = styled.div`
   align-items: center;
   align-self: start;
   margin-left: 3rem;
-  background-color: ${theme.color.secondary};
-  color: ${theme.color.primary};
+  background-color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
   padding: 0.3rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid ${theme.color.primary};
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  border: 0.1rem solid ${(props) => props.theme.color.primary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
 const Content = styled.div`
@@ -130,7 +129,7 @@ const Content = styled.div`
 `;
 
 const P = styled.span`
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-size: 1.05rem;
   margin: 0 0.3rem;
   position: relative;
@@ -148,7 +147,7 @@ const RadioWrapper = styled.div`
   width: 45%;
   display: flex;
   justify-content: space-evenly;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
 
   & > label {
@@ -159,7 +158,7 @@ const RadioWrapper = styled.div`
 `;
 
 const Reset = styled.div`
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
 
   &:hover {
@@ -173,9 +172,9 @@ const Checkbox = styled.input.attrs({ type: 'radio' })`
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 100%;
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
 
   &:checked {
-    background-color: ${theme.color.primary};
+    background-color: ${(props) => props.theme.color.primary};
   }
 `;

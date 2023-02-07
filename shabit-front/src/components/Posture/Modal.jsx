@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVideoURL } from '../../store/videoSlice';
-import { theme } from '../../styles/GlobalStyles';
 
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
@@ -62,7 +61,7 @@ const ContainerHeader = styled.div`
   z-index: 999;
   width: 55rem;
   height: 4rem;
-  background-color: ${theme.color.secondary};
+  background-color: ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem 1.5rem 0 0;
   padding: 0 1rem;
 
@@ -71,7 +70,7 @@ const ContainerHeader = styled.div`
   justify-content: flex-end;
 
   & > svg {
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
     font-size: 2.5rem;
 
     &:hover {
@@ -82,7 +81,7 @@ const ContainerHeader = styled.div`
 
 const Container = styled.div`
   z-index: 999;
-  background-color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.whiteColor};
   width: 55rem;
   height: 25rem;
   border-radius: 0 0 1.5rem 1.5rem;
@@ -94,7 +93,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
   font-size: 1.3rem;
 `;
@@ -105,7 +104,7 @@ const IconWrapper = styled.div`
   align-items: center;
   align-self: flex-end;
   margin: 0 2rem;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-weight: bold;
 
   & > svg {

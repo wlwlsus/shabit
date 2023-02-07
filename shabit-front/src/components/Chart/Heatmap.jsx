@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import { theme } from '../../styles/GlobalStyles';
 import { typedUseSelector } from '../../store';
 
 const Heatmap = () => {
@@ -70,19 +69,19 @@ const HeatmapContainer = styled.div`
   }
 
   .react-calendar-heatmap .color-scale-0 {
-    fill: ${theme.heatMap.scale0};
+    fill: ${(props) => props.theme.heatMap.scale0};
   }
 
   .react-calendar-heatmap .color-scale-1 {
-    fill: ${theme.heatMap.scale1};
+    fill: ${(props) => props.theme.heatMap.scale1};
   }
   .react-calendar-heatmap .color-scale-2 {
-    fill: ${theme.heatMap.scale2};
+    fill: ${(props) => props.theme.heatMap.scale2};
   }
   .react-calendar-heatmap .color-scale-3 {
-    fill: ${theme.heatMap.scale3};
+    fill: ${(props) => props.theme.heatMap.scale3};
   }
   .react-calendar-heatmap .color-scale-4 {
-    fill: ${theme.heatMap.scale4};
+    fill: ${(props) => props.theme.heatMap.scale4};
   }
 `;

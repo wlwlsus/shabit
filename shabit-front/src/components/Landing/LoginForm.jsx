@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
 
 import Input from '../common/Input';
 import { HiArrowRightCircle } from 'react-icons/hi2';
@@ -155,7 +154,7 @@ const FormWrapper = styled.div`
   animation: 0.8s ease-in ${loadEffect.left};
 
   & > svg {
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
     font-size: 3rem;
     transition: all 0.3s linear;
 
@@ -168,14 +167,14 @@ const FormWrapper = styled.div`
 
 const Title = styled.div`
   width: 38%;
-  color: ${theme.color.grayColor};
+  color: ${(props) => props.theme.color.grayColor};
   font-size: 0.9rem;
   margin-bottom: 1rem;
 `;
 
 const Wrapper = styled.div`
   width: 70%;
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   font-size: 0.7rem;
   padding-left: 1.5rem;
   margin: 0.2rem 0 1rem 0;
@@ -190,7 +189,7 @@ const Checkbox = styled.div`
 `;
 
 const Div = styled.div`
-  color: ${theme.color.primary};
+  color: ${(props) => props.theme.color.primary};
   transition: all 0.2s linear;
   font-weight: bold;
 
@@ -209,23 +208,23 @@ const Signup = styled.div`
   font-size: 0.9rem;
 
   & > span {
-    color: ${theme.color.grayColor};
+    color: ${(props) => props.theme.color.grayColor};
   }
 
   & > button {
-    color: ${theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
     font-weight: bold;
   }
 `;
 
 const StyledButton = styled.button`
   margin-top: 0.5rem;
-  background-color: ${theme.color.primary};
-  color: ${theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.color.whiteColor};
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: bold;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
 export default LoginForm;
