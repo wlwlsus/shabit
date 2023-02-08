@@ -202,7 +202,8 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,intellij,java,gradle
 
-application.yml
+!**/src/test/
+#application.yml
 
 ### QClass ###
 generated/

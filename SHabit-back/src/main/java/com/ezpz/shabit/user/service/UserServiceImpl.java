@@ -1,21 +1,21 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
+import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.repository.PostureRepository;
+import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserGalleryResDto;
+import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.entity.Gallery;
+import com.ezpz.shabit.user.entity.Users;
+import com.ezpz.shabit.user.enums.Authority;
 import com.ezpz.shabit.user.repository.GalleryRepository;
-import com.ezpz.shabit.config.oauth.entity.ProviderType;
 import com.ezpz.shabit.user.repository.UserRepository;
+import com.ezpz.shabit.util.Response;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.ezpz.shabit.jwt.JwtTokenProvider;
-import com.ezpz.shabit.user.dto.req.UserTestReqDto;
-import com.ezpz.shabit.user.dto.res.UserTestResDto;
-import com.ezpz.shabit.user.entity.Users;
-import com.ezpz.shabit.user.enums.Authority;
-import com.ezpz.shabit.util.Response;
 import org.hibernate.QueryTimeoutException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.RedisConnectionFailureException;
@@ -27,12 +27,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;

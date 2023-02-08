@@ -132,7 +132,6 @@ public class UserController {
 
   }
 
-
   // 이메일 중복체크 API
   @Operation(summary = "이메일 중복체크 API")
   @GetMapping("/email-check/{email}")
