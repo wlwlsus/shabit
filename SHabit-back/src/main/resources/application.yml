@@ -60,7 +60,7 @@ spring:
     #    password: h2test
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://shabit.site:3306/ssafy601
+    #    url: jdbc:mariadb://shabit.site:3306/ssafy601
     url: jdbc:mariadb://i8a601.p.ssafy.io:3307/ssafy601
     username: ssafy601
     password: ssafy601
@@ -79,15 +79,15 @@ spring:
             enable: true
   data:
     redis:
-#      host: shabit.site
-#      port: 6379
-      host: localhost
+      #      host: shabit.site
+      #      port: 6379
+      host: i8a601.p.ssafy.io
       port: 6380
 
     # mongo db
     mongodb:
-#      host: shabit.site
-      host: localhost
+      #      host: shabit.site
+      host: i8a601.p.ssafy.io
       port: 27017
       authentication-database: admin
       username: root
@@ -124,7 +124,7 @@ key:
 
 app:
   oauth2:
-        authorizedRedirectUris: http://i8a601.p.ssay.io:3001/oauth/redirect
+    authorizedRedirectUris: http://i8a601.p.ssay.io:3001/oauth/redirect
 #    authorizedRedirectUris: https://shabit.site/oauth/redirect
 
 #server:
