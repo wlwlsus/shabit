@@ -337,14 +337,14 @@ const StyledDropBox = styled.div`
 // https://blog.logrocket.com/how-to-style-forms-with-css-a-beginners-guide/
 const StyledInputTag = styled.div`
   width: 52rem;
-  height: 2rem;
+  /* height: 2rem; */
 
   input {
     display: block;
     width: 100%;
     /* margin: 10px 0; */
     padding: 1rem;
-    padding-bottom: 1.01rem;
+    /* padding-bottom: 1.05rem; */
     /* border-radius: 2rem; */
     /* background-color: ${theme.color.lightGrayColor}; */
     border: 0.1rem solid ${theme.color.primary};

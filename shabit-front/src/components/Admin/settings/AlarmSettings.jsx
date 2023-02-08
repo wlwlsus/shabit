@@ -102,6 +102,7 @@ export default function AlarmSettings() {
             <Content>
               <div style={{ padding: '0.2rem' }}>울리도록</div>
               <StyledButton onClick={onClick}>수정하기</StyledButton>
+              {/* <StyledButton onClick={onClick}>취소하기</StyledButton> */}
             </Content>
           )}
         </ButtonWrapper>

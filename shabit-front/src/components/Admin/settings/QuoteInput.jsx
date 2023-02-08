@@ -56,7 +56,7 @@ const StyledInputTag = styled.div`
     width: 100%;
     /* margin: 10px 0; */
     padding: 1rem;
-    padding-bottom: 1.01rem;
+    padding-bottom: 1rem;
     border-radius: 1rem 0 0 1rem;
     /* border-radius: 2rem; */
     /* background-color: ${theme.color.lightGrayColor}; */
