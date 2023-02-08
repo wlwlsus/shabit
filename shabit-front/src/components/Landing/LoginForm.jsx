@@ -48,7 +48,11 @@ const LoginForm = () => {
 
   const onLogin = () => {
     Auth.login(email, password)
-      .then(({ user, accessToken }) => {
+      .then(({ user, accessToken, refreshToken }) => {
+        if (autoLogin) {
+          localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+          localStorage.setItem('accessToken', JSON.stringify(accessToken));
+        }
         navigate('/main');
       })
       .catch((err) => {

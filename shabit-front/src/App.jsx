@@ -34,6 +34,12 @@ import { Recording } from './components/Posture/Recording';
 import NotFound404 from './pages/NotFound404';
 
 import Redirect from './components/OAuth/Redirect';
+import AdminRoute from './utils/AdminRoute';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AdminVideoContainer from './components/Admin/AdminVideoContainer';
+import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
@@ -51,6 +57,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <ToastContainer />
       <ThemeProvider theme={theme}>
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
         <Routes>
@@ -87,8 +94,14 @@ function App() {
             <Route path="live" element={<LiveContent />} />
             <Route path="stretch" element={<StretchContent />} />
           </Route>
-          <Route path="/admin" element={<AdminPage />} />
           <Route path="/oauth/redirect" element={<Redirect />} />
+          <Route
+            path="/admin"
+            element={<AdminRoute component={<AdminPage />} />}
+          >
+            <Route path="" element={<AdminVideoContainer />} />
+            <Route path="settings" element={<AdminSettingsContainer />} />
+          </Route>
           <Route path="*" element={<NotFound404 />} />
         </Routes>
       </ThemeProvider>
