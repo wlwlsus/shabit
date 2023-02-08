@@ -10,5 +10,6 @@ RUN ./gradlew bootJar
 
 FROM openjdk:17-jdk-slim
 COPY --from=builder build/libs/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "/app.jar"]
+# EXPOSE 8080
+ARG SERVER_MODE
+ENTRYPOINT ["java", "-Dspring.profiles.active=${SERVER_MODE}","-Duser.timezone=Asia/Seoul", "-jar", "/app.jar"]
