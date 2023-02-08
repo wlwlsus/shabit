@@ -61,9 +61,9 @@ spring:
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
 #    url: jdbc:mariadb://i8a601.p.ssafy.io:3306/ssafy601
-    url: jdbc:mariadb://localhost:3306/ssafy601
-    username: root
-    password: root
+    url: jdbc:mariadb://localhost:3306/ssafy
+    username: easypeasy
+    password: lemon
 
   # Mail Sending
   mail:
