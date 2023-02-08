@@ -157,6 +157,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             }
         }
 
+        if(total == 0) return TodayGoalResDto.builder().percentage(0).time(0).build();
         return TodayGoalResDto.builder().percentage((int) ((100*rightPosture)/total)).time((int) (rightPosture/60)).build();
     }
 
