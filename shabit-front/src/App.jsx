@@ -80,6 +80,8 @@ function App() {
       // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
       isAutoLogin = true;
     }
+    //(추가) 토큰이 없으면 로그인 로직을 중단합니다.
+    if (!newToken) return;
     const { sub, auth } = jwtDecode(newToken);
     try {
       // (8) 가져온 토큰으로 유저 정보를 불러오는 요청을 실행합니다.
