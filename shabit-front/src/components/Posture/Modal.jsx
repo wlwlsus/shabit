@@ -9,6 +9,9 @@ import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 import VideoList from './VideoList';
 
 export default function Modal({ setModal }) {
+  // 비디오 미선택시 경고 메세지
+  const [msg, setMsg] = React.useState('');
+  // 선택한 비디오
   const selected = useSelector((state) => {
     return state.video.selected;
   });
@@ -19,6 +22,7 @@ export default function Modal({ setModal }) {
 
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   const playVideo = () => {
+    if (!selected) return setMsg('스트레칭 영상을 선택해주세요.');
     dispatch(setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`));
     setModal(false);
     navigate('/posture/stretch');
@@ -34,7 +38,11 @@ export default function Modal({ setModal }) {
         />
       </ModalHeader>
       <Container>
-        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
+        {msg ? (
+          <Msg>{msg}</Msg>
+        ) : (
+          <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
+        )}
         <VideoList />
         <ModalFooter>
           <VideoInfo>
@@ -108,6 +116,11 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 1.3rem;
+`;
+
+const Msg = styled.div`
+  font-size: 1.3rem;
+  color: ${(props) => props.theme.color.redColor};
 `;
 
 const ModalFooter = styled.div`
