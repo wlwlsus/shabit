@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { typedUseSelector } from '../../store';
 import jwt_decode from 'jwt-decode';
@@ -10,7 +10,6 @@ const MoveToAdmin = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isDiaplay, setIsDisplay] = useState(false);
   const [pathName, setPathName] = useState('');
   const isAdmin = typedUseSelector((state) => {
     return state.auth.isAdmin;
@@ -30,7 +29,7 @@ const MoveToAdmin = () => {
   return (
     <ButtonContainer>
       <div style={{ visibility: `${isAdmin ? 'visible' : 'hidden'}` }}>
-        {pathName === '/admin' ? (
+        {pathName.startsWith('/admin') ? (
           <StyledButton onClick={() => navigate('/main')}>
             메인 페이지로 돌아가기
           </StyledButton>

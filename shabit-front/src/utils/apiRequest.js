@@ -7,16 +7,31 @@ apiRequest.defaults.withCredentials = true;
 
 // apiRequest.interceptors.request.use(
 //   (config) => {
+//     console.log(config);
 //     return {
 //       ...config,
-//       headers: {
-//         Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
-//       },
+//       // headers: {
+//       //   Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
+//       // },
 //     };
 //   },
 //   (error) => {
 //     return Promise.reject(error);
 //   },
+// );
+// apiRequest.interceptors.request.use(
+//   (config) => {
+//     console.log(config);
+//     return {
+//       ...config,
+//       // headers: {
+//       //   Authorization: 'Bearer ' + sessionStorage.getItem('accessToken'),
+//       // },
+//     };
+//   },
+//   //   (error) => {
+//   //     return Promise.reject(error);
+//   //   },
 // );
 
 apiRequest.interceptors.response.use(
@@ -25,9 +40,11 @@ apiRequest.interceptors.response.use(
     else if (response.status === 401) alert('로그인 후 진행해주세요');
     else if (response.status === 500) alert('서버에서 오류가 발생했습니다');
     else if (response.status !== 200) alert('알 수 없는 오류가 발생했습니다');
+
     return response;
   },
   (error) => {
+    // console.log(error.response);
     if (error.response && error.response.data) {
       return Promise.reject(error.response.data);
     }
