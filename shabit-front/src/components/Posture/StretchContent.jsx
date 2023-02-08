@@ -15,7 +15,7 @@ export default function StretchContent() {
         <AiFillNotification />
         영상을 보고 따라해보세요.
       </InfoBox>
-      <iframe title="stretch video" src={videoURL} width="460" height="300" />
+      <Video title="stretch video" src={videoURL} width="515" height="290" />
     </>
   );
 }
@@ -35,4 +35,8 @@ const InfoBox = styled.div`
     color: ${(props) => props.theme.color.primary};
     margin-right: 1rem;
   }
+`;
+
+const Video = styled.iframe`
+  border-radius: 1rem;
 `;

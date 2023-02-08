@@ -39,9 +39,9 @@ export default function Modal({ setModal }) {
         <ModalFooter>
           <VideoInfo>
             <span>
-              종류 : {titleTable[selected.category.categoryId]} 스트레칭
+              스트레칭 종류 : {titleTable[selected?.category?.categoryId]}
             </span>
-            <span>소요 시간 : {selected.originalLength}</span>
+            <span>소요 시간 : {selected?.originalLength}</span>
           </VideoInfo>
           <IconWrapper>
             <BsPlayCircleFill onClick={playVideo} />

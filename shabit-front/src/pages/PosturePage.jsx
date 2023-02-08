@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Posture/Modal';
-import Sidebar from '../components/common/Sidebar';
+import Sidebar from '../components/Posture/Sidebar';
 import Logo from '../components/common/Logo';
 
 import { useDispatch } from 'react-redux';
@@ -42,11 +42,11 @@ const PageWrapper = styled.div`
 `;
 
 const Container = styled.div`
-  width: 53rem;
-  height: 33rem;
+  width: 62rem;
+  height: 36rem;
   background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 1.5rem 0 0 1.5rem;
-  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
+  box-shadow: 0 0.1rem 0.2rem ${(props) => props.theme.color.grayColor};
 
   display: flex;
   flex-direction: column;
