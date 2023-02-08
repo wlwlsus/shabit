@@ -10,31 +10,33 @@ import java.util.List;
 
 public interface UserService {
 
-  boolean checkEmail(String email) throws Exception;
+	boolean checkEmail(String email) throws Exception;
 
-  ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
+	boolean checkOAuthAccount(String email);
 
-  ResponseEntity<?> login(UserTestReqDto.Login login);
+	ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
-  ResponseEntity<?> logout(UserTestReqDto.Logout logout);
+	ResponseEntity<?> login(UserTestReqDto.Login login);
 
-  ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue);
+	ResponseEntity<?> logout(UserTestReqDto.Logout logout);
 
-  ResponseEntity<?> getUserInfo(String email);
+	ResponseEntity<?> reissue(UserTestReqDto.Reissue reissue);
 
-  void updatePassword(String email, String password) throws Exception;
+	ResponseEntity<?> getUserInfo(String email);
 
-  void updateNickname(String email, String nickname) throws Exception;
+	void updatePassword(String email, String password) throws Exception;
 
-  void changeThema(String email, int thema) throws Exception;
+	void updateNickname(String email, String nickname) throws Exception;
 
-  boolean changePassword(String email, String curPassword, String changePassword) throws Exception;
+	void changeThema(String email, int thema) throws Exception;
 
-  String updateProfile(String email, MultipartFile profile) throws Exception;
+	boolean changePassword(String email, String curPassword, String changePassword) throws Exception;
 
-  void deleteProfile(String email) throws Exception;
+	String updateProfile(String email, MultipartFile profile) throws Exception;
 
-  void addPostureImage(String email, MultipartFile image) throws Exception;
+	void deleteProfile(String email) throws Exception;
 
-  List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable);
+	void addPostureImage(String email, MultipartFile image) throws Exception;
+
+	List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable);
 }
