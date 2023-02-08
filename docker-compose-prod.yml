@@ -4,7 +4,7 @@ services:
     container_name: server
     build:
       context: ./SHabit-back
-      args:
+      environment:
         SERVER_MODE: prod
     ports:
       - 8080:8080

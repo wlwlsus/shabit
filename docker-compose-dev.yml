@@ -4,7 +4,7 @@ services:
     container_name: server-dev
     build:
       context: ./SHabit-back
-      args:
+      environment:
         SERVER_MODE: dev
     ports:
       - 8081:8080
