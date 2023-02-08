@@ -13,6 +13,7 @@ import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
 import { shallowEqual } from 'react-redux';
+import MoveToAdmin from '../Admin/MoveToAdmin';
 
 export default function MainContent({ setTheme }) {
   const [lastDate, setLastDate] = useState('');
@@ -45,6 +46,7 @@ export default function MainContent({ setTheme }) {
   return (
     <Wrapper>
       <LogoutButton />
+      <MoveToAdmin />
       {!isUploading ? <></> : <UploadingModal isModalOpen={isModalOpen} />}
       <InfoWrapper>
         <UserInfo

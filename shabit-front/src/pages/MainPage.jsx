@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
   const location = useLocation();
@@ -60,7 +59,6 @@ export default function MainPage() {
           나의목표
         </Tab>
         <Container>
-          <MoveToAdmin />
           <Outlet />
         </Container>
       </ContainerWrapper>
