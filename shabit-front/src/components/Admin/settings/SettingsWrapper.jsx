@@ -19,11 +19,12 @@ const SettingsWrapper = () => {
         <Title>시간 설정</Title>
         <AlarmSettings />
       </>
+      <div style={{ padding: '0.5rem' }}></div>
       <>
         <ButtonContainer>
           <Title>문구 리스트</Title>
-          <QuoteInput />
         </ButtonContainer>
+        <QuoteInput />
         <QuotesList quetesList={quetesList} />
       </>
     </StyledSettingsWrapper>

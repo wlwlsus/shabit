@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AdminConatainer from '../components/Admin/AdminConatainer';
+import AdminVideoContainer from '../components/Admin/AdminVideoContainer';
 // import AdminDashboard from '../components/Admin/AdminDashboard';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 import { loadEffect } from '../components/common/animation';
@@ -16,7 +16,7 @@ const AdminPage = () => {
             <MoveToAdmin />
             <LogoutButton></LogoutButton>
             {/* <AdminDashboard /> */}
-            <AdminConatainer />
+            <AdminVideoContainer />
           </Wrapper>
         </Container>
       </ContainerWrapper>

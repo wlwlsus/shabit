@@ -221,10 +221,13 @@ const VideoInputWrapper = styled.div`
 
 const StyledButton = styled.button`
   /* margin-top: 0.5rem; */
-  background-color: ${theme.color.grayColor};
+  background-color: ${theme.color.whiteColor};
   cursor: default;
   color: ${theme.color.whiteColor};
-  padding: 1rem;
+  width: 7rem;
+  /* padding: 1rem; */
+  border: 0.1rem solid ${theme.color.primary};
+  border-left: none;
   border-radius: 0 1rem 1rem 0;
   /* border-radius: 4rem; */
   font-weight: bold;
@@ -239,6 +242,8 @@ const StyledDropBox = styled.div`
   z-index: 1;
   /* background-color: ${theme.color.primary}; */
   background-color: ${theme.color.secondary};
+  border: 0.1rem solid ${theme.color.primary};
+  border-right: none;
   border-radius: 1rem 0 0 1rem;
   /* display: inline-block; */
   /* overflow: hidden; */
@@ -333,6 +338,7 @@ const StyledDropBox = styled.div`
 const StyledInputTag = styled.div`
   width: 52rem;
   height: 2rem;
+
   input {
     display: block;
     width: 100%;
@@ -340,8 +346,11 @@ const StyledInputTag = styled.div`
     padding: 1rem;
     padding-bottom: 1.01rem;
     /* border-radius: 2rem; */
-    background-color: ${theme.color.lightGrayColor};
-    border: 0;
+    /* background-color: ${theme.color.lightGrayColor}; */
+    border: 0.1rem solid ${theme.color.primary};
+    border-right: none;
+    border-left: none;
+    /* border: 0; */
     /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); */
     transition: 0.3s box-shadow;
   }
@@ -355,13 +364,13 @@ const ThumbNailFloat = styled.div`
   display: flex;
   justify-content: space-around;
   position: absolute;
-  background-color: ${theme.color.grayColor};
-  top: 4.2rem;
-  left: 9rem;
+  top: 4.35rem;
+  left: 7.4rem;
 `;
 
 const Thumbnail = styled.img`
   width: 7.1rem;
   height: 3.9rem;
+  margin-left: 0.5rem;
   object-fit: cover;
 `;

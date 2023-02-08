@@ -19,16 +19,19 @@ export default function AlarmSettings() {
     fetchAlarmTime();
   }, []);
 
-  const alertTime = typedUseSelector((state) => state.admin.alertTime);
+  // const alertTime = typedUseSelector((state) => state.admin.alertTime);
+  // const stretchingTime = typedUseSelector(
+  //   (state) => state.admin.stretchingTime,
+  // );
   const stretchingTime = typedUseSelector(
-    (state) => state.admin.stretchingTime,
+    (state) => state.admin.stretchingTime / 60 / 1000,
   );
-  const [stretchingTimeInput, setStretchingTimeInput] = useState(
-    typedUseSelector((state) => state.admin.stretchingTime / 60 / 1000),
+  const alertTime = typedUseSelector(
+    (state) => state.admin.alertTime / 60 / 1000,
   );
-  const [alertTimeInput, setAlertTimeInput] = useState(
-    typedUseSelector((state) => state.admin.alertTime / 60 / 1000),
-  );
+  const [stretchingTimeInput, setStretchingTimeInput] =
+    useState(stretchingTime);
+  const [alertTimeInput, setAlertTimeInput] = useState(alertTime);
   const onChange = (e) => {
     const { name, value } = e.target;
     if (name === 'stretchingTimeInput') setStretchingTimeInput(value);
@@ -36,14 +39,17 @@ export default function AlarmSettings() {
   };
 
   const onClick = async (e) => {
-    putAlarmTime(
-      stretchingTimeInput ? stretchingTimeInput : stretchingTime / 60 / 1000,
-      alertTimeInput ? alertTimeInput : alertTime / 60 / 1000,
-    )
-      .then(() => {
-        setStretchingTimeInput('');
-        setAlertTimeInput('');
-      })
+    const newStretchingTime = stretchingTimeInput
+      ? stretchingTimeInput
+      : stretchingTime / 60 / 1000;
+    const newAlertTime = alertTimeInput
+      ? alertTimeInput
+      : alertTime / 60 / 1000;
+    putAlarmTime(newStretchingTime, newAlertTime)
+      // .then(() => {
+      //   // setStretchingTimeInput(newStretchingTime);
+      //   // setAlertTimeInput(newAlertTime);
+      // })
       .catch();
   };
 
@@ -60,7 +66,7 @@ export default function AlarmSettings() {
                 }}
               />
             </I>
-            <P>{stretchingTimeInput} 분</P> 마다
+            <P>{stretchingTimeInput} 분</P> 마다,
             <I>
               <TiArrowSortedDown
                 onClick={() => setStretchingTimeInput(stretchingTimeInput - 1)}
@@ -86,6 +92,19 @@ export default function AlarmSettings() {
             </I>
           </div>
         </Content>
+        <ButtonWrapper>
+          {stretchingTimeInput === stretchingTime &&
+          alertTimeInput === alertTime ? (
+            <Content style={{ textAlign: 'left' }}>
+              <div style={{ padding: '0.2rem' }}>울리기</div>
+            </Content>
+          ) : (
+            <Content>
+              <div style={{ padding: '0.2rem' }}>울리도록</div>
+              <StyledButton onClick={onClick}>수정하기</StyledButton>
+            </Content>
+          )}
+        </ButtonWrapper>
       </ContentWrapper>
 
       {/* <div>스트레칭 시간 : {stretchingTime / 60 / 1000} 분 간격</div>
@@ -108,26 +127,57 @@ export default function AlarmSettings() {
         onChange={onChange}
       />{' '}
       분 간격 */}
-      <button type="button" onClick={onClick}>
+
+      {/* <button
+        type="button"
+        onClick={onClick}
+        // style={
+        //   stretchingTimeInput === stretchingTime && alertTimeInput === alertTime
+        //     ? { visibility: 'hidden' }
+        //     : {}
+        // }
+      >
         수정하기
-      </button>
+      </button> */}
     </>
   );
 }
 
+const StyledButton = styled.button`
+  /* margin-top: 0.5rem; */
+  background-color: ${theme.color.primary};
+  color: ${theme.color.whiteColor};
+  padding: 0.1rem 0.3rem;
+  margin-left: 0.4rem;
+  border-radius: 0.3rem;
+  font-weight: bold;
+  box-shadow: 0 0.1rem 0.5rem ${theme.color.lightGrayColor};
+`;
+
 const ContentWrapper = styled.div`
   display: flex;
-  max-width: 30rem;
+  max-width: 26rem;
   justify-content: space-between;
+`;
+const ButtonWrapper = styled.div`
+  position: absolute;
+  left: 26.3rem;
+  top: 4.4rem;
 `;
 const Content = styled.div`
   font-weight: bold;
-  max-width: 15rem;
+  max-width: 13rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
   animation: 0.8s ease-in ${loadEffect.down};
+  p {
+    visibility: hidden;
+  }
+  &:hover p {
+    visibility: visible;
+  }
 `;
 
 const I = styled.p`
