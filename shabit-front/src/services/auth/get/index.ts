@@ -12,27 +12,7 @@ export const fetchProfile = async (email: string): Promise<object> => {
       sessionStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve(user);
     })
-    .catch(async (err) => {
-      const refreshToken = localStorage.getItem('refreshToken');
-      const accessToken = localStorage.getItem('accessToken');
-      return await apiRequest
-        .post(`/api/v1/user/token`, { accessToken, refreshToken })
-        .then(async (res) => {
-          const { accessToken, refreshToken } = res.data.result;
-          sessionStorage.setItem('user', JSON.stringify(accessToken));
-          localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-          localStorage.setItem('accessToken', JSON.stringify(accessToken));
-          return await apiRequest
-            .get(`/api/v1/user/${email}`, { headers: header() })
-            .then((res) => {
-              const user = res.data.result;
-              store.dispatch(setUserState(user));
-              sessionStorage.setItem('user', JSON.stringify(user));
-              return Promise.resolve(user);
-            })
-            .catch((err) => Promise.reject(err));
-        });
-    });
+    .catch(async (err) => Promise.reject(err));
 };
 
 export const confirmEmail = async (email: string): Promise<string> => {

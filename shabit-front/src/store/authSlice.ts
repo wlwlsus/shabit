@@ -17,9 +17,16 @@ const authSlice = createSlice({
     setIsAdminState: (state, action) => {
       state.isAdmin = action.payload;
     },
+    clearAuthState: (state) => {
+      state = {
+        accessToken: '',
+        user: { email: '', nickname: '', profile: '', theme: 0 },
+        isAdmin: false,
+      };
+    },
   },
 });
 
 export default authSlice;
-export const { setTokenState, setUserState, setIsAdminState } =
+export const { setTokenState, setUserState, setIsAdminState, clearAuthState } =
   authSlice.actions;

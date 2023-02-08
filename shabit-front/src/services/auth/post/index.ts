@@ -60,8 +60,20 @@ export const login = async (email: string, password: string) => {
 export const refreshLogin = async (
   accessToken: string,
   refreshToken: string,
+  email: string,
 ): Promise<boolean> => {
-  return Promise.resolve(true);
+  // const refreshToken = localStorage.getItem('refreshToken');
+  // const accessToken = localStorage.getItem('accessToken');
+  return await apiRequest
+    .post(`/api/v1/user/token`, { accessToken, refreshToken })
+    .then(async (res) => {
+      const { accessToken, refreshToken } = res.data.result;
+      localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+      localStorage.setItem('accessToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+      store.dispatch(setTokenState(accessToken));
+      return Promise.resolve({ accessToken, refreshToken }).catch((err) => {});
+    });
 };
 
 export const logout = async (
