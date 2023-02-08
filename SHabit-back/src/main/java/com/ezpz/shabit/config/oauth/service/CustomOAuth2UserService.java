@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.Collections;
 
 @Slf4j
@@ -25,63 +26,62 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-  private final UserRepository userRepository;
+	private static final String ALREADY_SIGNED_UP = "already_signed_up";
 
-  @Override
-  public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-    OAuth2User user = super.loadUser(userRequest);
+	private final UserRepository userRepository;
 
-    try {
-      return this.process(userRequest, user);
-    } catch (AuthenticationException ex) {
-      throw ex;
-    } catch (Exception ex) {
-      log.error("CustomOAuth2UserService loadUser Error: {} ", ex.getMessage());
-      throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
-    }
-  }
+	@Override
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		OAuth2User user = super.loadUser(userRequest);
 
-  private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
-    ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
+		try {
+			return this.process(userRequest, user);
+		} catch (AuthenticationException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			log.error("CustomOAuth2UserService loadUser Error: {} ", ex.getMessage());
+			throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
+		}
+	}
 
-    OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-    Users savedUser = userRepository.findUserByEmail(userInfo.getEmail());
+	private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
+		ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
-    if (savedUser != null) {
-      if (providerType != savedUser.getProviderType()) {
-        log.error("CustomOAuth2UserService process Error: 이미 가입한 이메일 입니다. ");
-        throw new OAuthProviderMissMatchException(
-            "Looks like you're signed up with " + savedUser.getProviderType() +
-                " account. Please use your " + savedUser.getProviderType() + " account to login."
-        );
-      }
-      updateUser(savedUser, userInfo);
-    } else {
-      savedUser = createUser(userInfo, providerType);
-    }
+		OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
+		Users savedUser = userRepository.findUserByEmail(userInfo.getEmail());
 
-    return UserPrincipal.create(savedUser, user.getAttributes());
-  }
+		if (savedUser != null) {
+			if (providerType != savedUser.getProviderType()) {
+				log.error("CustomOAuth2UserService process Error: 이미 가입한 이메일 입니다. ");
+				throw new OAuthProviderMissMatchException(ALREADY_SIGNED_UP);
+			}
+			updateUser(savedUser, userInfo);
+		} else {
+			savedUser = createUser(userInfo, providerType);
+		}
 
-  private Users createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
-    Users user = Users.builder()
-        .email(userInfo.getEmail())
-        .nickname(userInfo.getName())
-        .profile(userInfo.getImageUrl())
-        .providerType(providerType)
-        .roles(Collections.singletonList(Authority.ROLE_USER.name()))
-        .build();
+		return UserPrincipal.create(savedUser, user.getAttributes());
+	}
 
-    return userRepository.saveAndFlush(user);
-  }
+	private Users createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
+		Users user = Users.builder()
+						.email(userInfo.getEmail())
+						.nickname(userInfo.getName())
+						.profile(userInfo.getImageUrl())
+						.providerType(providerType)
+						.roles(Collections.singletonList(Authority.ROLE_USER.name()))
+						.build();
 
-  private void updateUser(Users user, OAuth2UserInfo userInfo) {
-    if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
-      user.setNickname(userInfo.getName());
-    }
+		return userRepository.saveAndFlush(user);
+	}
 
-    if (userInfo.getImageUrl() != null && !user.getProfile().equals(userInfo.getImageUrl())) {
-      user.setProfile(userInfo.getImageUrl());
-    }
-  }
+	private void updateUser(Users user, OAuth2UserInfo userInfo) {
+		if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
+			user.setNickname(userInfo.getName());
+		}
+
+		if (userInfo.getImageUrl() != null && !user.getProfile().equals(userInfo.getImageUrl())) {
+			user.setProfile(userInfo.getImageUrl());
+		}
+	}
 }
