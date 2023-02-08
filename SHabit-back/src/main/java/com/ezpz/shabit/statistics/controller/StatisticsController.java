@@ -1,11 +1,9 @@
 package com.ezpz.shabit.statistics.controller;
 
-import com.ezpz.shabit.statistics.dto.res.DailyResDto;
-import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
+import com.ezpz.shabit.statistics.dto.res.*;
 import com.ezpz.shabit.statistics.entity.Daily;
 import com.ezpz.shabit.statistics.dto.res.StatisticsSimpleResDto;
 import com.ezpz.shabit.statistics.entity.Statistics;
-import com.ezpz.shabit.statistics.dto.res.GrassResDto;
 import com.ezpz.shabit.statistics.entity.Grass;
 import com.ezpz.shabit.statistics.dto.req.DailyReqDto;
 import com.ezpz.shabit.statistics.entity.Posture;
@@ -168,5 +166,39 @@ public class StatisticsController {
     return Response.makeResponse(HttpStatus.OK, "자세 리스트 조회에 성공했습니다.", data.size(), data);
   }
 
+  // 오늘의 자세 데이터 조회 API
+  @Operation(summary = "오늘의 자세 데이터 조회 API")
+  @GetMapping("/goal/{email}")
+  ResponseEntity<?> getTodayGoal(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                 @PathVariable String email) {
+    TodayGoalResDto data = null;
+    try {
+      data = statisticsService.getTodayGoal(email);
+    } catch (Exception e) {
+      log.error(e.getMessage());
+    }
+
+    if (data == null) return Response.notFound("오늘의 자세 데이터 요청 실패");
+
+    return Response.makeResponse(HttpStatus.OK, "오늘의 자세 데이터 가져오기 성공", 1, data);
+  }
+
+  // 오늘의 자세별 시간 조회 API
+  @Operation(summary = "오늘의 자세별 시간 조회 API")
+  @GetMapping("/posture/{email}")
+  ResponseEntity<?> getTodayPostureTime(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                 @PathVariable String email) {
+    TodayPostureTimeResDto data = null;
+    try {
+      data = statisticsService.getTodayPostureTime(email);
+    } catch (Exception e) {
+      log.error(e.getMessage());
+    }
+
+    if (data == null) return Response.notFound("오늘의 자세별 시간 요청 실패");
+
+    System.out.println(data.toString());
+    return Response.makeResponse(HttpStatus.OK, "오늘의 자세별 시간 가져오기 성공", 1, data);
+  }
 
 }
