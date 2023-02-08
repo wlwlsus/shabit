@@ -10,7 +10,9 @@ services:
       - TZ=Asia/Seoul
   client:
     container_name: client
-    build: ./shabit-front
+    build:
+      context: ./shabit-front
+      dockerfile: Dockerfile.dev
     ports:
       - 3000:3000
     depends_on:

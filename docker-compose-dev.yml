@@ -10,21 +10,10 @@ services:
       - TZ=Asia/Seoul
   client-dev:
     container_name: client-dev
-    build: ./shabit-front
+    build:
+      context: ./shabit-front
+      dockerfile: Dockerfile.dev
     ports:
       - 3001:3000
     depends_on:
       - server-dev
-  # nginx:
-  #   container_name: nginx
-  #   build: ./.nginx
-  #   depends_on:
-  #     - server
-  #     - client
-  #   volumes:
-  #     - .nginx/conf.d:/etc/nginx/conf.d
-  #     - .nginx/zerossl:/var/www/zerossl/.well-known/pki-validation
-  #     - .nginx/cert:/cert
-  #   ports:
-  #     - 80:80
-  #     - 443:443
