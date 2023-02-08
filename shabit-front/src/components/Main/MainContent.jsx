@@ -12,15 +12,16 @@ import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
 // import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
+import { shallowEqual } from 'react-redux';
 
 export default function MainContent({ setTheme }) {
   const [lastDate, setLastDate] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
-  const user = JSON.parse(sessionStorage.getItem('user'));
-  // const user = typedUseSelector((state) => {
-  //   return state.auth.user;
-  // });
+  // const user = JSON.parse(sessionStorage.getItem('user'));
+  const user = typedUseSelector((state) => {
+    return state.auth.user;
+  }, shallowEqual);
   useEffect(() => {
     if (!user.email) return;
     Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);

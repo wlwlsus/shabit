@@ -1,21 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { setTokenState, setUserState } from '../store/authSlice';
-// import { typedUseSelector } from '../store';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
-
-  // const dispatch = useDispatch();
-
-  // const user = typedUseSelector((state) => {
-  //   return state.auth.user;
-  // });
 
   const style = {
     backgroundColor: themeContext.color.whiteColor,
@@ -40,40 +31,6 @@ export default function MainPage() {
         break;
     }
   }, [currentUrl]);
-
-  // useEffect(() => {
-  //   const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
-  //   // if (!accessToken && !user.email) {
-  //   //   return navigate('/login');
-  //   // }
-  //   dispatch(setTokenState(accessToken));
-  //   dispatch(setUserState(user));
-  // }, []);
-
-  // useEffect(() => {
-  //   let newUser;
-  //   const accessToken = sessionStorage.getItem('accessToken');
-  //   if (!accessToken && !user.email) {
-  //     return navigate('/login');
-  //   } else if (accessToken && !user.email) {
-  //     newUser = sessionStorage.getItem('user');
-  //   }
-  //   dispatch(setTokenState(accessToken));
-  //   dispatch(setUserState(newUser));
-  // }, []);
-
-  // useEffect(() => {
-  //   let newUser = user;
-  //   const _setUser = () => {
-  //     if (newUser.email) return;
-  //     else {
-  //       const localUser = JSON.parse(sessionStorage.getItem('user'));
-  //       newUser = localUser;
-  //       dispatch(setUserState(localUser));
-  //     }
-  //   };
-  //   _setUser();
-  // }, []);
 
   return (
     <PageWrapper>
