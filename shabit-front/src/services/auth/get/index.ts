@@ -12,7 +12,7 @@ export const fetchProfile = async (email: string): Promise<object> => {
       sessionStorage.setItem('user', JSON.stringify(user));
       return Promise.resolve(user);
     })
-    .catch((err) => Promise.reject(err));
+    .catch(async (err) => Promise.reject(err));
 };
 
 export const confirmEmail = async (email: string): Promise<string> => {

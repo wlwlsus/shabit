@@ -1,7 +1,6 @@
-import { fetchVods, fetchCategories } from './get';
+import { fetchCategories } from './get';
 
 const Info = {
-  fetchVods,
   fetchCategories,
 };
 

@@ -32,7 +32,7 @@ export default function MainPage() {
       case '/main/history':
         setClicked([1, 0, 1]);
         break;
-      case '/main/analyze':
+      case '/main/goal':
         setClicked([1, 1, 0]);
         break;
       default:
@@ -96,11 +96,11 @@ export default function MainPage() {
         </Tab>
         <Tab
           onClick={() => {
-            navigate('/main/analyze');
+            navigate('/main/goal');
           }}
           style={clicked[2] ? style : null}
         >
-          자세분석
+          나의목표
         </Tab>
         <Container>
           <MoveToAdmin />

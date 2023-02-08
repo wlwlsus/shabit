@@ -7,13 +7,15 @@ import {
 } from 'react-redux';
 import chartSlice from './chartSlice';
 import timeSlice from './timeSlice';
+import adminSlice from './adminSlice';
 
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     video: videoSlice.reducer,
     chart: chartSlice.reducer,
-    time:timeSlice.reducer,
+    time: timeSlice.reducer,
+    admin: adminSlice.reducer,
   },
 });
 
