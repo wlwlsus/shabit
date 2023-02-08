@@ -28,7 +28,7 @@ const BarChart = ({ user }) => {
           name: nameTable[element.postureId],
           data: [
             {
-              x: '자세',
+              x: '시간',
               //  시차 조정 (8시간 만큼 제외)
               y: [
                 new Date(element.startTime).getTime() -
