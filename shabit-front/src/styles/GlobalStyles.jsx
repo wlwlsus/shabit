@@ -101,6 +101,12 @@ export const themeColor = {
 
 /** reset css */
 const GlobalStyle = createGlobalStyle`
+@font-face {
+  font-family: 'KOTRA_GOTHIC';
+  src: url('/assets/fonts/KOTRA_GOTHIC.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
   * {
     margin: 0;
     padding: 0;
@@ -109,9 +115,10 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
     box-sizing: border-box;
-    font-family: inherit;
+    font-family: 'KOTRA_GOTHIC';
     color: inherit;
     outline: 0;
+    
   }
   html {
     width: 100%;

@@ -15,9 +15,9 @@ const Introduction = () => {
         <Logo size={'lg'} />
       </WelcomeWrapper>
       <ImgWrapper>
-        <Img src={'/assets/posture-bad.png'} alt="" />
+        <Img src={'/assets/posture-bad.png'} alt="bad posture" />
         <TbArrowBigRightLine />
-        <Img src={'/assets/posture-good.png'} alt="" />
+        <Img src={'/assets/posture-good.png'} alt="good posture" />
       </ImgWrapper>
     </ContentWrapper>
   );
@@ -49,6 +49,7 @@ const ImgWrapper = styled.div`
 
   & > svg {
     color: ${(props) => props.theme.color.whiteColor};
+    animation: 1.2s ease-in ${loadEffect.right};
     font-size: 3rem;
   }
 `;
@@ -56,5 +57,7 @@ const ImgWrapper = styled.div`
 const Img = styled.img`
   width: 9rem;
   margin: 0 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.2rem ${(props) => props.theme.color.grayColor};
 `;
 export default Introduction;

@@ -103,7 +103,7 @@ const IconWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   font-weight: bold;
 
   transition: all 0.2s linear;
@@ -115,7 +115,7 @@ const IconWrapper = styled.div`
   }
 
   & > svg {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 `;
 
