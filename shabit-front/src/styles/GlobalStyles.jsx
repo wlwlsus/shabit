@@ -101,12 +101,14 @@ export const themeColor = {
 
 /** reset css */
 const GlobalStyle = createGlobalStyle`
-@font-face {
-  font-family: 'KOTRA_GOTHIC';
-  src: url('/assets/fonts/KOTRA_GOTHIC.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
+
+  @font-face {
+    font-family: 'LotteMartDream';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/assets/fonts/LotteMartDreamMedium.woff2') format('woff2');
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -115,7 +117,7 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
     box-sizing: border-box;
-    font-family: 'KOTRA_GOTHIC';
+    font-family: 'LotteMartDream';
     color: inherit;
     outline: 0;
     

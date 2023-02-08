@@ -47,10 +47,9 @@ const Slogan = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
 
   color: ${(props) => props.theme.color.secondary};
-  -webkit-text-stroke: 0.001rem ${(props) => props.theme.color.primary};
 
   & > p {
     & > span {

@@ -6,7 +6,8 @@ import { SiKakaotalk, SiNaver } from 'react-icons/si';
 
 export default function SocialLogin() {
   function getSocialLoginUrl(socialType) {
-    const redirectUri = 'https://shabit.site/oauth/redirect';
+    const redirectUri = 'http://localhost:3000/oauth/redirect';
+    // const redirectUri = 'https://shabit.site/oauth/redirect';
     const url = `https://shabit.site:8080/oauth2/authorization/${socialType}?redirect_uri=${redirectUri}`;
     window.location.href = url;
   }
