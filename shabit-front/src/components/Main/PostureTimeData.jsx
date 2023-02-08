@@ -24,39 +24,41 @@ export default function PostureTimeData({ total, time }) {
     setTheme(themeList[themeInfo]);
   }, []);
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const newData = [];
-
-    newData.push({
-      data: [
-        {
-          x: '자세',
-          y: [0, time],
-        },
-      ],
-    });
-    setData(newData);
-  }, []);
-
   const options = {
     chart: {
-      type: 'rangeBar',
+      type: 'bar',
+      barHeight: '100%',
       zoom: {
         enabled: false,
+      },
+      toolbar:{
+        show: false,
       },
     },
     plotOptions: {
       bar: {
         horizontal: true,
-        barHeight: '100%',
-        rangeBarGroupRows: true,
-      },
+        dataLabels: {
+          position: 'top',
+        },
+      }
     },
     fill: {
       type: 'solid',
       colors: theme.color.primary,
+    },
+    dataLabels: {
+      enabled: true,
+      offsetX: -6,
+      style: {
+        fontSize: '12px',
+        colors: ['#fff']
+      }
+    },
+    stroke: {
+      show: true,
+      width: 1,
+      colors: ['#fff']
     },
     legend: {
       show: false,
@@ -64,35 +66,24 @@ export default function PostureTimeData({ total, time }) {
     tooltip: {
       enabled: false,
     },
-    x: {
-      show: false,
-    },
     yaxis: {
       max: total,
       labels: {
         show: false,
       },
     },
-    states: {
-      hover: {
-        filter: {
-          type: 'none',
-        },
-      },
+    xaxis: {
+      categories: ['자세'],
     },
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    colors: theme.color.primary,
   };
 
   return (
     <Chart
-      type={'rangeBar'}
+      type={'bar'}
       options={options}
-      series={data}
+      series={[{
+        data: [time]
+      }]}
       height={90}
       style={{ fontSize: '0.7rem' }}
     />

@@ -10,22 +10,33 @@ export default function GoalTime({ goal, today }) {
   return (
     <Wrapper>
       <TitleWrapper>
-        <Title>바른 자세 유지 시간</Title>
+        <Title>목표 달성</Title>
       </TitleWrapper>
       <ContentWrapper>
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{goal}분</Goal>
+            <Goal>{goal.percentage}%</Goal>
           </Data>
-        </DataWrapper>
-        <Arrow>
-          <RxThickArrowRight />
-        </Arrow>
-        <DataWrapper>
+          <Arrow>
+            <RxThickArrowRight />
+          </Arrow>
           <Data>
             <P>오늘의 자세</P>
-            <Today>{today}분</Today>
+            <Today>{today.percentage}%</Today>
+          </Data>
+        </DataWrapper>
+        <DataWrapper>
+          <Data>
+            <P>나의 목표</P>
+            <Goal>{goal.time}분</Goal>
+          </Data>
+          <Arrow>
+            <RxThickArrowRight />
+          </Arrow>
+          <Data>
+            <P>오늘의 자세</P>
+            <Today>{today.time}분</Today>
           </Data>
         </DataWrapper>
       </ContentWrapper>
@@ -42,7 +53,8 @@ const TitleWrapper = styled.div`
   position: absolute;
   align-self: start;
   align-items: center;
-  top: 2.5rem;
+  top: 4.5rem;
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const Title = styled.div`
@@ -66,11 +78,16 @@ const ContentWrapper = styled.div`
   border-radius: 1.5rem;
   border: 0.2rem solid ${(props) => props.theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
+  padding: 0 2rem;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const DataWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 2rem;
+  width: 45%;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 

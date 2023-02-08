@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
 
-import { SlShare } from 'react-icons/sl';
-import { RiScreenshot2Fill } from 'react-icons/ri';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
@@ -15,14 +13,6 @@ export default function TimeData({ total, time }) {
       <TitleWrapper>
         <Title>자세 유지 시간</Title>
       </TitleWrapper>
-      <ButtonWrapper>
-        <DownloadButton>
-          <RiScreenshot2Fill />
-        </DownloadButton>
-        <ShareButton>
-          <SlShare />
-        </ShareButton>
-      </ButtonWrapper>
       <ContentWrapper>
         <Data>
           <P>바른 자세</P>
@@ -45,14 +35,17 @@ export default function TimeData({ total, time }) {
   );
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin-top: 2rem;
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
   position: absolute;
   align-self: start;
   align-items: center;
-  top: 13rem;
+  top: 14.5rem;
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const Title = styled.div`
@@ -69,38 +62,12 @@ const Title = styled.div`
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-`;
-
-const Button = styled.div`
-  padding: 0.3rem;
-  font-size: 1.75rem;
-
-  transition: all 0.2s linear;
-
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-  }
-`;
-
-const DownloadButton = styled(Button)`
-  color: ${(props) => props.theme.color.primary};
-`;
-
-const ShareButton = styled(Button)`
-  color: ${(props) => props.theme.color.primary};
-  margin: 0 1rem;
-`;
-
 const ContentWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-  padding: 1rem;
+  padding: 2.25rem 1rem 0.5rem 1rem;
   border-radius: 1.5rem;
   border: 0.2rem solid ${(props) => props.theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
@@ -111,32 +78,10 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const DataWrapper = styled.div`
-  padding: 2rem;
-  animation: 0.8s ease-in ${loadEffect.down};
-`;
 
 const P = styled.div`
-  color: ${(props) => props.theme.color.blackColor};
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  position: relative;
-`;
-
-const Goal = styled.span`
-  color: ${(props) => props.theme.color.darkGrayColor};
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0 0.3rem;
-  position: relative;
-`;
-
-const Today = styled.span`
   color: ${(props) => props.theme.color.primary};
-  font-size: 2rem;
   font-weight: bold;
-  margin: 0 0.3rem;
   position: relative;
 `;
 
