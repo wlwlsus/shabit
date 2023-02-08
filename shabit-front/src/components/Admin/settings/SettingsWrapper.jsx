@@ -15,18 +15,14 @@ const SettingsWrapper = () => {
   const quetesList = typedUseSelector((state) => state.admin.quetesList);
   return (
     <StyledSettingsWrapper>
-      <>
-        <Title>시간 설정</Title>
-        <AlarmSettings />
-      </>
+      <Title>시간 설정</Title>
+      <AlarmSettings />
       <div style={{ padding: '0.5rem' }}></div>
-      <>
-        <ButtonContainer>
-          <Title>문구 리스트</Title>
-        </ButtonContainer>
-        <QuoteInput />
-        <QuotesList quetesList={quetesList} />
-      </>
+      <ButtonContainer>
+        <Title>문구 리스트</Title>
+      </ButtonContainer>
+      <QuoteInput />
+      <QuotesList quetesList={quetesList} />
     </StyledSettingsWrapper>
   );
 };
@@ -34,13 +30,8 @@ const SettingsWrapper = () => {
 export default SettingsWrapper;
 
 const StyledSettingsWrapper = styled.div`
-  /* border: 0.2rem solid ${theme.color.secondary};
-  border-radius: 1.5rem;
-  box-shadow: 0 0.1rem 0.5rem ${theme.color.grayColor}; */
-
   display: flex;
   flex-direction: column;
-
   animation: 0.8s ease-in ${loadEffect.up};
   position: relative;
 `;

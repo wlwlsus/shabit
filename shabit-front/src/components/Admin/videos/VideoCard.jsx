@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { deleteVod } from '../../../services/admin/delete';
 import { retrieveVods } from '../../../services/admin/get';
@@ -9,11 +9,15 @@ const VideoCard = ({
   title,
   originalLength,
   videoId,
+  vodsList,
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  useEffect(() => {
+    if (!isDeleting) return;
+    setIsDeleting(false);
+  }, [vodsList]);
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
   let categoryTag;
-  // console.log(categoryId);
   switch (categoryId) {
     case 1:
       categoryTag = (
@@ -85,33 +89,6 @@ const VideoCard = ({
   } else {
     videoLengthTag = <div>{originalLengthText}</div>;
   }
-  // switch (originalMinuite) {
-  //   case originalMinuite < 4:
-  //     videoLengthTag = (
-  //       <span className="tag tag-time-dark-verdun">{originalLength}</span>
-  //     );
-  //     break;
-  //   case originalMinuite < 8:
-  //     videoLengthTag = (
-  //       <span className="tag tag-time-deep-sea">{originalLength}</span>
-  //     );
-  //     break;
-  //   case originalMinuite < 12:
-  //     videoLengthTag = (
-  //       <span className="tag tag-time-indian-sunset">{originalLength}</span>
-  //     );
-  //     break;
-  //   default:
-  //     videoLengthTag = <div>디폴드</div>;
-  // }
-  // console.log(typeof originalMinuite, videoLengthTag);
-  // // const categoryClass = switch(categoryId)
-
-  // thumbnail,
-  // categoryId,
-  // title,
-  // originalLength,
-  // videoId,
 
   return (
     <StyledCardWrapper className="container">
@@ -153,11 +130,9 @@ const VideoCard = ({
           <img src={thumbnail} alt={categoryId} />
         </div>
         <div className="card-body">
-          {/* <span className="tag tag-teal">Technology</span> */}
           {categoryTag}
           {videoLengthTag}
-          {/* <h4>{title}</h4> */}
-          <a href={videoURL} target="_blank">
+          <a href={videoURL} target="_blank" rel="noopener noreferrer">
             {title}
           </a>
         </div>
@@ -169,28 +144,6 @@ const VideoCard = ({
 export default VideoCard;
 
 const StyledCardWrapper = styled.div`
-  /* 템플릿출처: https://codepen.io/eyupucmaz/pen/oNbeXOb */
-  /* * {
-    box-sizing: border-box;
-  }
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-color: #f7f8fc;
-    font-family: 'Roboto', sans-serif;
-    color: #10182f;
-  } */
-  /* h4 {
-    margin-top: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    font-size: small;
-  } */
   a {
     margin-top: 1rem;
     overflow: hidden;
@@ -201,43 +154,34 @@ const StyledCardWrapper = styled.div`
     font-size: small;
   }
   a:hover {
-    font-weight:bold;
+    font-weight: bold;
   }
   .container {
     display: flex;
-    /* width: 1040px; */
     justify-content: space-evenly;
     flex-wrap: wrap;
   }
   .card {
-    position:relative;
-    /* margin-left: 0.8rem; */
-    /* margin-top: 0.5rem */
+    position: relative;
     margin-bottom: 2rem;
-    /* background-color: #fff; */s
     background-color: #fbfbfb;
     border-radius: 0.5rem;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-    /* overflow: hidden; */
     width: 12rem;
     height: 13rem;
   }
   .card-header img {
     width: 100%;
     height: 6rem;
-    /* height: 200px; */
     border-top-right-radius: 0.5rem;
     border-top-left-radius: 0.5rem;
-    /* border-radius: 1rem; */
     object-fit: cover;
   }
   .card-body {
-    /* display: flex; */
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     padding: 1rem;
-    /* min-height: 250px; */
   }
 
   .tag {
@@ -253,9 +197,7 @@ const StyledCardWrapper = styled.div`
   }
   .delete-tag {
     position: absolute;
-    /* margin-left: 8.8rem; */
     background-color: #ff0000;
-    /* top: 2rem; */
     right: 0.2rem;
     top: 0.3rem;
     display: none;
@@ -286,21 +228,4 @@ const StyledCardWrapper = styled.div`
     font-size: 13px;
     margin: 0 0 40px;
   }
-  /* .user {
-    display: flex;
-    margin-top: auto;
-  }
-
-  .user img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-  }
-  .user-info h5 {
-    margin: 0;
-  }
-  .user-info small {
-    color: #545d7a;
-  } */
 `;

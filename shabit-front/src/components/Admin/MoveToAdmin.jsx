@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { typedUseSelector } from '../../store';
 import { theme } from '../../styles/GlobalStyles';
@@ -11,7 +11,6 @@ const MoveToAdmin = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isDiaplay, setIsDisplay] = useState(false);
   const [pathName, setPathName] = useState('');
   const isAdmin = typedUseSelector((state) => {
     return state.auth.isAdmin;

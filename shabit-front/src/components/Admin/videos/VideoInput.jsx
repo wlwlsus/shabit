@@ -16,15 +16,12 @@ const VideoInput = () => {
         cursor: 'pointer',
       }
     : {};
-  // const [buttonStyle, setButtonStyle] = useState({});
   const debouncedInput = useDebounce(urlInput, 300);
   const myRef = useRef();
-  //이미지 온로드 이벤트 발생하면
   useEffect(() => {
     setHasImage(false);
     if (!debouncedInput) return setVideoId('');
     if (debouncedInput.includes('youtube')) {
-      // const newList = debouncedInput.split('?v=')[1]?.split('&')[0];
       const inputArray = debouncedInput.split('?v=');
       if (inputArray.length > 1) {
         const newId = inputArray[1].split('&')[0];
@@ -36,12 +33,8 @@ const VideoInput = () => {
   }, [debouncedInput]);
 
   const onLoad = (e) => {
-    //만일 유튜브 썸네일 이미지의 넓이가 120이라면...
-    //썸네일 이미지가 없어서 404 사진이 뜬거임!!
-    //모달창 지우고, 이미지 없다고 함
     if (~~e.target.naturalWidth <= 120) {
       setHasImage(false);
-      // setVideoId('');
       return;
     }
     setHasImage(true);
@@ -51,7 +44,11 @@ const VideoInput = () => {
     <VideoInputWrapper>
       <StyledDropBox>
         <div className="select-box">
-          <div className="select-box__current" tabIndex={1}>
+          <div
+            className="select-box__current"
+            tabIndex={1}
+            onClick={(e) => e.target?.value && setCategoryInput(e.target.value)}
+          >
             <div className="select-box__value">
               <input
                 className="select-box__input"
@@ -83,32 +80,6 @@ const VideoInput = () => {
               />
               <p className="select-box__input-text">전신 운동</p>
             </div>
-            {/* <div className="select-box__value">
-              <input
-                className="select-box__input"
-                type="radio"
-                id={3}
-                defaultValue={4}
-                name="Ben"
-              />
-              <p className="select-box__input-text">Honey</p>
-            </div>
-            <div className="select-box__value">
-              <input
-                className="select-box__input"
-                type="radio"
-                id={4}
-                defaultValue={5}
-                name="Ben"
-              />
-              <p className="select-box__input-text">Toast</p>
-            </div> */}
-            {/* <img
-          className="select-box__icon"
-          src="http://cdn.onlinewebfonts.com/svg/img_295694.svg"
-          alt="Arrow Icon"
-          aria-hidden="true"
-        /> */}
             <TiArrowSortedDown className="select-box__icon" />
           </div>
           <ul className="select-box__list">
@@ -116,7 +87,7 @@ const VideoInput = () => {
               <label
                 className="select-box__option"
                 htmlFor={0}
-                aria-hidden="aria-hidden"
+                aria-hidden="true"
               >
                 목 운동
               </label>
@@ -125,7 +96,7 @@ const VideoInput = () => {
               <label
                 className="select-box__option"
                 htmlFor={1}
-                aria-hidden="aria-hidden"
+                aria-hidden="true"
               >
                 허리 운동
               </label>
@@ -134,41 +105,14 @@ const VideoInput = () => {
               <label
                 className="select-box__option"
                 htmlFor={2}
-                aria-hidden="aria-hidden"
+                aria-hidden="true"
               >
                 전신 운동
               </label>
             </li>
-            {/* <li>
-              <label
-                className="select-box__option"
-                htmlFor={3}
-                aria-hidden="aria-hidden"
-              >
-                Honey
-              </label>
-            </li>
-            <li>
-              <label
-                className="select-box__option"
-                htmlFor={4}
-                aria-hidden="aria-hidden"
-              >
-                Toast
-              </label>
-            </li> */}
           </ul>
         </div>
       </StyledDropBox>
-
-      {/* <input
-      type="text"
-      name="urlInput"
-      placeholder="유튜브 URL을 입력하세요"
-      onChange={(e) => {
-        setUrlInput(e.target.value);
-      }}
-    ></input> */}
       <StyledInputTag>
         <input
           type="text"
@@ -216,39 +160,28 @@ const VideoInputWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  /* box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 0.1); */
 `;
 
 const StyledButton = styled.button`
-  /* margin-top: 0.5rem; */
   background-color: ${theme.color.whiteColor};
   cursor: default;
   color: ${theme.color.whiteColor};
   width: 7rem;
-  /* padding: 1rem; */
   border: 0.1rem solid ${theme.color.primary};
   border-left: none;
   border-radius: 0 1rem 1rem 0;
-  /* border-radius: 4rem; */
   font-weight: bold;
   &:hover {
   }
 `;
-//https://codepen.io/miniven/pen/ZJydge
 const StyledDropBox = styled.div`
-  /* border-radius: 36px; */
   text-align: center;
   width: 8rem;
   z-index: 1;
-  /* background-color: ${theme.color.primary}; */
   background-color: ${theme.color.secondary};
   border: 0.1rem solid ${theme.color.primary};
   border-right: none;
   border-radius: 1rem 0 0 1rem;
-  /* display: inline-block; */
-  /* overflow: hidden; */
-  /* background: #cccccc; */
-  /* border: 1px solid #cccccc; */
   .select-box {
     position: relative;
     display: block;
@@ -262,7 +195,6 @@ const StyledDropBox = styled.div`
   }
   .select-box__current {
     position: relative;
-    /* box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1); */
     cursor: pointer;
     outline: none;
   }
@@ -279,9 +211,9 @@ const StyledDropBox = styled.div`
   .select-box__icon {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 0.2rem;
     transform: translateY(-50%);
-    width: 20px;
+    width: 1rem;
     opacity: 0.3;
     transition: 0.2s ease;
   }
@@ -299,7 +231,6 @@ const StyledDropBox = styled.div`
     width: 100%;
     margin: 0;
     padding: 15px;
-    /* background-color: ${theme.color.primary}; */
   }
   .select-box__list {
     position: absolute;
@@ -334,33 +265,21 @@ const StyledDropBox = styled.div`
   }
 `;
 
-// https://blog.logrocket.com/how-to-style-forms-with-css-a-beginners-guide/
 const StyledInputTag = styled.div`
   width: 52rem;
-  /* height: 2rem; */
 
   input {
     display: block;
     width: 100%;
-    /* margin: 10px 0; */
     padding: 1rem;
-    /* padding-bottom: 1.05rem; */
-    /* border-radius: 2rem; */
-    /* background-color: ${theme.color.lightGrayColor}; */
     border: 0.1rem solid ${theme.color.primary};
     border-right: none;
     border-left: none;
-    /* border: 0; */
-    /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.3); */
     transition: 0.3s box-shadow;
   }
-  /* input:hover {
-    background-color: #fbecec;
-  } */
 `;
 
 const ThumbNailFloat = styled.div`
-  /* width: 30rem; */
   display: flex;
   justify-content: space-around;
   position: absolute;
