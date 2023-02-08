@@ -48,7 +48,7 @@ const ListWrapper = styled.div`
   margin-top: 0.5rem;
   max-height: 17.6rem;
   /* padding-top: 4rem; */
-  max-width: 90%;
+  max-width: 99%;
   align-self: center;
   display: flex;
   overflow-y: scroll;

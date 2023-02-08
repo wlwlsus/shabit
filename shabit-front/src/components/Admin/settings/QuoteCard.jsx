@@ -65,7 +65,7 @@ const Wrapper = styled.div`
 
 const Icon = styled.div`
   position: absolute;
-  right: 3.5rem;
+  right: 0.8rem;
   /* position: absolute;
   left:0; */
   color: ${theme.color.primary};

@@ -48,7 +48,8 @@ const QuoteInputWrapper = styled.div`
 `;
 
 const StyledInputTag = styled.div`
-  width: 52rem;
+  /* width: 5rem; */
+  width: 88%;
   /* height: 2rem; */
 
   input {
