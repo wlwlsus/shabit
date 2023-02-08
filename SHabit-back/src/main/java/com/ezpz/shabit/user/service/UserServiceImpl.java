@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
 		// 회원 정보 확인
 		Users user = userRepository.findUserByEmail(email);
 
+		log.info("유저 확인 : {} ", user);
 		// 소셜 가입자 유무 확인 : 소셜 가입자 = true, 일반 가입자 : false
 		return user.getProviderType() != ProviderType.LOCAL;
 	}

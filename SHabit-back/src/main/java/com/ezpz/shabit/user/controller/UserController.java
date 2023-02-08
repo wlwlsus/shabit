@@ -1,15 +1,19 @@
 package com.ezpz.shabit.user.controller;
 
-import com.ezpz.shabit.user.annotation.UserValid;
-import com.ezpz.shabit.user.dto.req.UserPassChangeReqDto;
 import com.ezpz.shabit.user.dto.req.UserNicknameReqDto;
+import com.ezpz.shabit.user.dto.req.UserPassChangeReqDto;
 import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserGalleryResDto;
-import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.dto.res.UserTestResDto;
+import com.ezpz.shabit.user.service.EmailService;
 import com.ezpz.shabit.user.service.UserService;
 import com.ezpz.shabit.util.Response;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -18,15 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -176,9 +171,12 @@ public class UserController {
 	@Operation(summary = "비밀번호 찾기 API")
 	@PutMapping("/password-find/{email}")
 	public ResponseEntity<?> findPassword(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
-	                                      @PathVariable @UserValid String email) {
+	                                      @PathVariable String email) {
 		log.info("input email : {}", email);
 		try {
+			// 회원인지 확인
+			if (!userService.checkEmail(email))
+				return Response.makeResponse(HttpStatus.BAD_REQUEST, "입력하신 이메일을 찾을 수 없습니다.");
 
 			// 소셜 회원인지 확인
 			if (userService.checkOAuthAccount(email))
@@ -209,14 +207,24 @@ public class UserController {
 	                                        @Parameter(description = "현재 비밀번호 & 변경할 비밀번호", required = true)
 	                                        @RequestBody @Validated UserPassChangeReqDto req,
 	                                        Errors errors) {
-		log.info("input email : {}", email);
-		String curPassword = req.getCurPassword();
-		String changePassword = req.getChangePassword();
-		if (errors.hasErrors()) {
-			return Response.badRequest("변경하려는 비밀번호의 형식이 맞지 않습니다.");
-		}
-		log.info("curPassword : {}, changePassword : {}", curPassword, changePassword);
 		try {
+			// 회원인지 확인
+			if (!userService.checkEmail(email))
+				return Response.makeResponse(HttpStatus.BAD_REQUEST, "입력하신 이메일을 찾을 수 없습니다.");
+
+			// 소셜 회원인지 확인
+			if (userService.checkOAuthAccount(email))
+				return Response.makeResponse(HttpStatus.BAD_REQUEST, "소셜 가입자는 이용할 수 없습니다.");
+
+			log.info("input email : {}", email);
+
+			String curPassword = req.getCurPassword();
+			String changePassword = req.getChangePassword();
+			if (errors.hasErrors()) {
+				return Response.badRequest("변경하려는 비밀번호의 형식이 맞지 않습니다.");
+			}
+
+			log.info("curPassword : {}, changePassword : {}", curPassword, changePassword);
 			boolean success = userService.changePassword(email, curPassword, changePassword);
 			// curPassword와 현재 비밀번호가 다르다면
 			if (!success) {
