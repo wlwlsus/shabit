@@ -129,12 +129,20 @@ const ContainerWrapper = styled.div`
   justify-content: center;
   position: relative;
 
+  & > button {
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+  }
+
   & > button:first-child {
-    left: 0;
+    left: 0.2%;
   }
 
   & > button:nth-child(2) {
-    left: 7.5%;
+    left: 7.7%;
   }
 
   & > button:nth-child(3) {

@@ -1,19 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Services from '../../services';
+import { clearAuthState } from '../../store/authSlice';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Button
       onClick={() => {
         sessionStorage.clear();
+        localStorage.clear();
+        dispatch(clearAuthState);
         navigate('/');
-        // Services.Auth.logout(
-        //   sessionStorage.getItem('accessToken'),
-        //   sessionStorage.getItem('refreshToken'),
-        // )
       }}
     >
       로그아웃

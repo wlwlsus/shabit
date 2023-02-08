@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { changeImage } from '../../services/auth/put';
 import { typedUseSelector } from '../../store';
-import Logo from '../common/Logo';
+import { BiUserCircle } from 'react-icons/bi';
 
 const UploadingModal = ({ isModalOpen }) => {
   const [hasPreview, setHasPreview] = useState(false);
@@ -43,20 +43,18 @@ const UploadingModal = ({ isModalOpen }) => {
 
   return (
     <ModalWrapper>
-      {/* <span>사진을 업로드하세요.</span> */}
       <ImgWrapper ref={imgRef}>
         {hasPreview ? (
-          <div></div>
+          <></>
         ) : (
           <ImgWrapper>
-            <Logo color={'pink'} />
+            <BiUserCircle />
           </ImgWrapper>
         )}
       </ImgWrapper>
-      <InputLabel htmlFor="file">파일 선택하기</InputLabel>
+      <InputLabel htmlFor="file">파일 선택</InputLabel>
       <Input type="file" onChange={onLoadFile} id="file"></Input>
-      <ButtonGroup>
-        {files.length ? <Button onClick={onUpload}>업로드 하기</Button> : ''}
+      <ButtonWrapper>
         <Button
           onClick={() => {
             isModalOpen(false);
@@ -67,9 +65,10 @@ const UploadingModal = ({ isModalOpen }) => {
             backgroundColor: `${(props) => props.theme.color.grayColor}`,
           }}
         >
-          취소하기
+          취소
         </Button>
-      </ButtonGroup>
+        {files.length ? <Button onClick={onUpload}>확인</Button> : ''}
+      </ButtonWrapper>
     </ModalWrapper>
   );
 };
@@ -87,6 +86,9 @@ const ModalWrapper = styled.div`
   justify-content: center;
   z-index: 2;
   box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
+  border-radius: 1.5rem;
+  border: 0.2rem solid ${(props) => props.theme.color.secondary};
+
   & > span {
     font-size: 1rem;
     font-weight: bold;
@@ -106,6 +108,11 @@ const ImgWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  & > svg {
+    color: ${(props) => props.theme.color.primary};
+    font-size: 8rem;
+  }
 `;
 
 const Button = styled.button`
@@ -130,6 +137,6 @@ const InputLabel = styled.label`
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   cursor: pointer;
 `;
-const ButtonGroup = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
 `;
