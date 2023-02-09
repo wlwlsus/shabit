@@ -1,25 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
 import Navbar from '../components/Landing/Navbar';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setTokenState, setUserState } from '../store/authSlice';
 import { loadEffect } from '../components/common/animation';
 
 export default function LandingPage({ content, form }) {
-  // const [content, form] = children;
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    dispatch(setTokenState(accessToken));
-    dispatch(setUserState(user));
-    if (accessToken && user) {
-      // navigate('/main'); 로그인 됐을때 이동시키는 로직입니다. 임시 비활성화
-    }
-  }, [navigate, dispatch]);
   return (
     <PageWrapper>
       <ContainerWrapper>

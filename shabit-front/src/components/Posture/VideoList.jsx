@@ -1,14 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { shallowEqual, useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
 import { fetchVods } from '../../services/vod/get';
+import { typedUseSelector } from '../../store';
 
 export default function VideoList() {
   const [videoList, setVideoList] = useState(); // 비디오 리스트
   const [isClicked, setIsClicked] = useState();
-  const user = JSON.parse(sessionStorage.getItem('user'));
+  // const user = JSON.parse(sessionStorage.getItem('user'));
+  const user = typedUseSelector((state) => {
+    return state.auth.user;
+  }, shallowEqual);
   const dispatch = useDispatch();
   const themeContext = useContext(ThemeContext);
 

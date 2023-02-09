@@ -41,7 +41,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AdminVideoContainer from './components/Admin/AdminVideoContainer';
 import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
 import jwtDecode from 'jwt-decode';
-import { setIsAdminState } from './store/authSlice';
+import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
 
@@ -56,49 +56,57 @@ function App() {
   }, []);
 
   //최초 접속시에 실행되는 자동 로그인 로직입니다.
-
   // (1) 리덕스 스토어에 토큰과 유저정보가 있는지 확인합니다.
   const accessToken = store.getState().auth.accessToken;
   const currentUserEmail = store.getState().auth.user.email;
   useEffect(() => {
-    // (2) 스토어에 유저정보가 있다면 이미 로그인 된 것으로 판단합니다.
-    if (currentUserEmail) return;
-    // (3) 스토어에 유저 정보가 없으면
-    let newToken = accessToken;
-    let isAutoLogin = false;
-    // (4) sessionStorage 토큰을 가져옵니다.
-    if (!newToken) newToken = JSON.parse(sessionStorage.getItem('accessToken'));
-    // (5) sessionStorage 토큰이 없으면
-    if (!newToken) {
-      // (6) localStorage 토큰을 가져오고 sessionStorage를 업데이트 합니다.
-      newToken = JSON.parse(localStorage.getItem('newToken'));
-      sessionStorage.setItem('accessToken', JSON.stringify(newToken));
-      // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
-      isAutoLogin = true;
-    }
-    //(추가) 토큰이 없으면 로그인 로직을 중단합니다.
-    if (!newToken) return;
-    const { sub, auth } = jwtDecode(newToken);
-    try {
-      // (8) 가져온 토큰으로 유저 정보를 불러오는 요청을 실행합니다.
-      fetchProfile(sub).catch(() => {
-        // (9) 만일 유저 정보를 불러오는 요청이 실패하였고, 자동로그인 중이었다면(즉, 로컬 스토리지에서 가져온 토큰이었다면)
-        if (!isAutoLogin) return;
-        const currentRefreshToken = JSON.parse(
-          localStorage.getItem('refreshToken'),
-        );
-        // (10) 토큰을 리프레시하고 다시 유저정보를 불러오는 요청을 합니다.
-        refreshLogin(newToken, currentRefreshToken).then(() => {
-          fetchProfile(sub);
+    const loginCheck = async () => {
+      // (2) 스토어에 유저정보가 있다면 이미 로그인 된 것으로 판단합니다.
+      if (currentUserEmail) return;
+      // (3) 스토어에 유저 정보가 없으면
+      let newToken = accessToken;
+      let isAutoLogin = false;
+      // (4) sessionStorage 토큰을 가져옵니다.
+      if (!newToken)
+        newToken = JSON.parse(sessionStorage.getItem('accessToken'));
+      // (5) sessionStorage 토큰이 없으면
+      if (!newToken) {
+        // (6) localStorage 토큰을 가져오고 sessionStorage를 업데이트 합니다.
+        newToken = JSON.parse(localStorage.getItem('accessToken'));
+        sessionStorage.setItem('accessToken', JSON.stringify(newToken));
+        // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
+        isAutoLogin = true;
+      }
+      //(추가) 토큰이 없으면 로그인 로직을 중단합니다.
+      if (!newToken) return;
+      const { sub, auth } = jwtDecode(newToken);
+      try {
+        // (8) 가져온 토큰으로 유저 정보를 불러오는 요청을 실행합니다.
+        await fetchProfile(sub).catch(() => {
+          // (9) 만일 유저 정보를 불러오는 요청이 실패하였고, 자동로그인 중이었다면(즉, 로컬 스토리지에서 가져온 토큰이었다면)
+          if (!isAutoLogin) return;
+          const currentRefreshToken = JSON.parse(
+            localStorage.getItem('refreshToken'),
+          );
+          // (10) 토큰을 리프레시하고 다시 유저정보를 불러오는 요청을 합니다.
+          refreshLogin(newToken, currentRefreshToken).then(() => {
+            fetchProfile(sub);
+          });
         });
-      });
-      // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
-      if (auth === 'ROLE_ADMIN') {
-        store.dispatch(setIsAdminState(true));
-      } else store.dispatch(setIsAdminState(false));
-    } catch (error) {
-      // (12) 로그인이 실패하였을 때에 처리할 로직은 이곳에서 처리하면 됩니다.
-    }
+        //(추가) 토큰을 리덕스에 저장합니다.
+        store.dispatch(setTokenState(newToken));
+        // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
+        if (auth === 'ROLE_ADMIN') {
+          store.dispatch(setIsAdminState(true));
+        } else store.dispatch(setIsAdminState(false));
+        return;
+        // store.getState().chart;
+      } catch (error) {
+        return Promise.reject(error);
+        // (12) 로그인이 실패하였을 때에 처리할 로직은 이곳에서 처리하면 됩니다.
+      }
+    };
+    loginCheck();
   }, []);
 
   return (

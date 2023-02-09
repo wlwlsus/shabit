@@ -4,7 +4,9 @@ import jwt_decode from 'jwt-decode';
 import { FireAlert } from './FireAlert';
 
 export default function AdminRoute({ component }) {
-  const token = sessionStorage.getItem('accessToken');
+  const token =
+    JSON.parse(sessionStorage.getItem('accessToken')) ||
+    JSON.parse(localStorage.getItem('accessToken'));
   const isLogin = !!token;
   let result;
   if (isLogin) {

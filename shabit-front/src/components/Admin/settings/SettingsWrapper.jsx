@@ -1,17 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { retreivePhrases } from '../../../services/admin/get';
-import { typedUseSelector } from '../../../store';
 import { loadEffect } from '../../common/animation';
 import AlarmSettings from './AlarmSettings';
 import QuoteInput from './QuoteInput';
 import QuotesList from './QuotesList';
 
 const SettingsWrapper = () => {
-  useEffect(() => {
-    retreivePhrases();
-  }, []);
-  const quetesList = typedUseSelector((state) => state.admin.quetesList);
+  const [triggered, setTriggered] = useState(false);
+  const [page, setPage] = useState(0);
+  const [isLastPage, setIsLastPage] = useState(false);
   return (
     <StyledSettingsWrapper>
       <Title>시간 설정</Title>
@@ -20,8 +17,19 @@ const SettingsWrapper = () => {
       <ButtonContainer>
         <Title>문구 리스트</Title>
       </ButtonContainer>
-      <QuoteInput />
-      <QuotesList quetesList={quetesList} />
+      <QuoteInput
+        setTriggered={setTriggered}
+        setPage={setPage}
+        setIsLastPage={setIsLastPage}
+      />
+      <QuotesList
+        triggered={triggered}
+        setTriggered={setTriggered}
+        setIsLastPage={setIsLastPage}
+        isLastPage={isLastPage}
+        page={page}
+        setPage={setPage}
+      />
     </StyledSettingsWrapper>
   );
 };
