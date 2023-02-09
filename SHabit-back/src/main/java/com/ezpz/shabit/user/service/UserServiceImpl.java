@@ -1,21 +1,21 @@
 package com.ezpz.shabit.user.service;
 
+import com.ezpz.shabit.config.oauth.entity.ProviderType;
+import com.ezpz.shabit.jwt.JwtTokenProvider;
 import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.statistics.repository.PostureRepository;
+import com.ezpz.shabit.user.dto.req.UserTestReqDto;
 import com.ezpz.shabit.user.dto.res.UserGalleryResDto;
+import com.ezpz.shabit.user.dto.res.UserTestResDto;
 import com.ezpz.shabit.user.entity.Gallery;
+import com.ezpz.shabit.user.entity.Users;
+import com.ezpz.shabit.user.enums.Authority;
 import com.ezpz.shabit.user.repository.GalleryRepository;
-import com.ezpz.shabit.config.oauth.entity.ProviderType;
 import com.ezpz.shabit.user.repository.UserRepository;
+import com.ezpz.shabit.util.Response;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.ezpz.shabit.jwt.JwtTokenProvider;
-import com.ezpz.shabit.user.dto.req.UserTestReqDto;
-import com.ezpz.shabit.user.dto.res.UserTestResDto;
-import com.ezpz.shabit.user.entity.Users;
-import com.ezpz.shabit.user.enums.Authority;
-import com.ezpz.shabit.util.Response;
 import org.hibernate.QueryTimeoutException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.RedisConnectionFailureException;
@@ -27,12 +27,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +57,16 @@ public class UserServiceImpl implements UserService {
     log.info("check email : {}", email);
 
     return userRepository.findByEmail(email).isPresent();
+  }
+
+  @Override
+  public boolean checkOAuthAccount(String email) {
+    // 회원 정보 확인
+    Users user = userRepository.findUserByEmail(email);
+
+    log.info("유저 확인 : {} ", user);
+    // 소셜 가입자 유무 확인 : 소셜 가입자 = true, 일반 가입자 : false
+    return user.getProviderType() != ProviderType.LOCAL;
   }
 
   @Override
@@ -292,6 +300,21 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public long getAllPosture(String email, long postureId) {
+    // 회원 정보 확인
+    final Users user = userRepository.findByEmail(email).orElseThrow();
+    long count;
+    if (postureId == 0) {
+      count = galleryRepository.countByUserEmail(email);
+    } else {
+      count = galleryRepository.countByUserEmailAndPosturePostureId(email, postureId);
+      log.info("total posture : {}", count);
+    }
+
+    return count;
+  }
+
+  @Override
   public List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable) {
     // 회원 정보 확인
     final Users user = userRepository.findByEmail(email).orElseThrow();
@@ -306,21 +329,6 @@ public class UserServiceImpl implements UserService {
     log.info("result list : {}", result);
 
     return result;
-  }
-
-  @Override
-  public long getAllPosture(String email, long postureId) {
-    // 회원 정보 확인
-    final Users user = userRepository.findByEmail(email).orElseThrow();
-    long count;
-    if (postureId == 0) {
-      count = galleryRepository.countByUserEmail(email);
-    } else {
-      count = galleryRepository.countByUserEmailAndPosturePostureId(email, postureId);
-      log.info("total posture : {}", count);
-    }
-
-    return count;
   }
 
   @Override

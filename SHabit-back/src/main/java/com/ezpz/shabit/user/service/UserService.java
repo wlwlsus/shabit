@@ -12,6 +12,8 @@ public interface UserService {
 
   boolean checkEmail(String email) throws Exception;
 
+  boolean checkOAuthAccount(String email);
+
   ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
   ResponseEntity<?> login(UserTestReqDto.Login login);
@@ -34,9 +36,10 @@ public interface UserService {
 
   void deleteProfile(String email) throws Exception;
 
-  void addPostureImage(String email, MultipartFile image) throws Exception;
-
   List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable);
 
   long getAllPosture(String email, long postureId);
+
+  void addPostureImage(String email, MultipartFile image) throws Exception;
+
 }
