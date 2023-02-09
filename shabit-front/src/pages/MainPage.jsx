@@ -1,13 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { setTokenState, setUserState } from '../store/authSlice';
 // import { typedUseSelector } from '../store';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
-  const location = useLocation();
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
 
@@ -21,25 +20,18 @@ export default function MainPage() {
     backgroundColor: themeContext.color.whiteColor,
     color: themeContext.color.grayColor,
   };
-  const [clicked, setClicked] = useState([0, 1, 1]);
+  const [clicked, setClicked] = useState(0);
 
-  const currentUrl = location.pathname;
-  useEffect(() => {
-    switch (currentUrl) {
-      case '/main':
-        setClicked([0, 1, 1]);
-        break;
-      case '/main/history':
-        setClicked([1, 0, 1]);
-        break;
-      case '/main/analyze':
-        setClicked([1, 1, 0]);
-        break;
-      default:
-        setClicked([0, 1, 1]);
-        break;
+  const tabClicked = (value) => {
+    setClicked(value);
+    if (value === 0) {
+      navigate('/main');
+    } else if (value === 1) {
+      navigate('/main/history');
+    } else {
+      navigate('/main/analyze');
     }
-  }, [currentUrl]);
+  };
 
   // useEffect(() => {
   //   const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
@@ -78,28 +70,13 @@ export default function MainPage() {
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab
-          onClick={() => {
-            navigate('/main');
-          }}
-          style={clicked[0] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
           SHabit
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/history');
-          }}
-          style={clicked[1] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(1)} style={clicked === 1 ? null : style}>
           자세기록
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/analyze');
-          }}
-          style={clicked[2] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
           자세분석
         </Tab>
         <Container>
