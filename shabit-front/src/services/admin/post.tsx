@@ -13,9 +13,9 @@ export const postVod = async (
     .post('/api/v1/admin/vods', { categoryId, url }, { headers: header() })
     .then(async () => {
       FireConfirm('추가되었습니다.');
-      const vods = await retrieveVods().catch();
-      store.dispatch(setVideoList(vods));
-      return Promise.resolve(vods);
+      // const vods = await retrieveVods().catch();
+      // store.dispatch(setVideoList(vods));
+      return Promise.resolve();
     })
     .catch((err) => {
       FireAlert(

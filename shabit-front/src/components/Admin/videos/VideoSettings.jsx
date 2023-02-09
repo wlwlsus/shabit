@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { retrieveVods } from '../../../services/admin/get';
 import { typedUseSelector } from '../../../store';
@@ -7,20 +7,21 @@ import VideoInput from './VideoInput';
 import VideoList from './VideoList';
 
 export default function VideoSettings() {
-  useEffect(() => {
-    retrieveVods();
-  }, []);
-
-  const vodsList = typedUseSelector((state) => {
-    return state.admin.videoList;
+  const [scrollProp, setScrollProp] = useState({
+    page: 0,
+    search: '',
+    query: '',
   });
+  // useEffect(() => {
+  //   retrieveVods();
+  // }, []);
 
   return (
     <VodWrapper>
       <>
         <Title>영상 추가</Title>
         <PostWrapper>
-          <VideoInput />
+          <VideoInput scrollProp={scrollProp} setScrollProp={setScrollProp} />
         </PostWrapper>
       </>
       <>
@@ -28,13 +29,17 @@ export default function VideoSettings() {
           <Title>영상 리스트</Title>
           <StyledButton
             onClick={() => {
-              retrieveVods();
+              setScrollProp({
+                page: 0,
+                search: '',
+                query: '',
+              });
             }}
           >
             전체 불러오기
           </StyledButton>
         </ButtonContainer>
-        <VideoList vodsList={vodsList} />
+        <VideoList scrollProp={scrollProp} setScrollProp={setScrollProp} />
       </>
     </VodWrapper>
   );

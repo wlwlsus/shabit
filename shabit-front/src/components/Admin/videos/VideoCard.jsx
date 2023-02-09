@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { deleteVod } from '../../../services/admin/delete';
 import { retrieveVods } from '../../../services/admin/get';
+import { clearVideoList } from '../../../store/adminSlice';
 
 const VideoCard = ({
   thumbnail,
@@ -10,8 +12,17 @@ const VideoCard = ({
   originalLength,
   videoId,
   vodsList,
+  scrollProp,
+  setScrollProp,
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const dispatch = useDispatch();
+  const setMYScrollProp = (page, search, query) => {
+    // dispatch(clearVideoList());
+    // alert(page + search + query);
+    setScrollProp({ page, search, query });
+  };
+
   useEffect(() => {
     if (!isDeleting) return;
     setIsDeleting(false);
@@ -23,7 +34,7 @@ const VideoCard = ({
       categoryTag = (
         <span
           className="tag tag-teal"
-          onClick={() => retrieveVods('', 'category', '1')}
+          onClick={() => setMYScrollProp(0, 'category', '1')}
         >
           목 스트레칭
         </span>
@@ -33,7 +44,7 @@ const VideoCard = ({
       categoryTag = (
         <span
           className="tag tag-purple"
-          onClick={() => retrieveVods('', 'category', '2')}
+          onClick={() => setMYScrollProp(0, 'category', '2')}
         >
           허리 스트레칭
         </span>
@@ -43,7 +54,7 @@ const VideoCard = ({
       categoryTag = (
         <span
           className="tag tag-pink"
-          onClick={() => retrieveVods('', 'category', '3')}
+          onClick={() => setMYScrollProp(0, 'category', '3')}
         >
           전신 스트레칭
         </span>
@@ -63,7 +74,7 @@ const VideoCard = ({
     videoLengthTag = (
       <span
         className="tag tag-time-dark-verdun"
-        onClick={() => retrieveVods('', 'length', '3')}
+        onClick={() => setMYScrollProp(0, 'length', '3')}
       >
         {originalLengthText}
       </span>
@@ -72,7 +83,7 @@ const VideoCard = ({
     videoLengthTag = (
       <span
         className="tag tag-time-deep-sea"
-        onClick={() => retrieveVods('', 'length', '5')}
+        onClick={() => setMYScrollProp(0, 'length', '5')}
       >
         {originalLengthText}
       </span>
@@ -81,7 +92,7 @@ const VideoCard = ({
     videoLengthTag = (
       <span
         className="tag tag-time-indian-sunset"
-        onClick={() => retrieveVods('', 'length', '10')}
+        onClick={() => setMYScrollProp(0, 'length', '10')}
       >
         {originalLengthText}
       </span>
@@ -108,6 +119,7 @@ const VideoCard = ({
               }}
               onClick={() => {
                 deleteVod(videoId);
+                setScrollProp({ ...scrollProp, page: 0 });
                 setIsDeleting(false);
               }}
             >
@@ -163,7 +175,8 @@ const StyledCardWrapper = styled.div`
   }
   .card {
     position: relative;
-    margin-bottom: 2rem;
+    margin: 0 0.6rem;
+    margin-bottom: 1.2rem;
     background-color: #fbfbfb;
     border-radius: 0.5rem;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
@@ -223,7 +236,6 @@ const StyledCardWrapper = styled.div`
   .tag-time-indian-sunset {
     background-color: #dabd78;
   }
-
   .card-body p {
     font-size: 13px;
     margin: 0 0 40px;
