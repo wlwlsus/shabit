@@ -164,7 +164,7 @@ const VideoInputWrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-  background-color: ${(props) => props.theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.grayColor};
   cursor: default;
   color: ${(props) => props.theme.color.whiteColor};
   width: 7rem;

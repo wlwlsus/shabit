@@ -19,7 +19,7 @@ export default function VideoSettings() {
   return (
     <VodWrapper>
       <>
-        <Title>영상 추가</Title>
+        {/* <Title>영상 추가</Title> */}
         <PostWrapper>
           <VideoInput scrollProp={scrollProp} setScrollProp={setScrollProp} />
         </PostWrapper>
@@ -60,6 +60,7 @@ const Title = styled.div`
 `;
 
 const PostWrapper = styled.div`
+  margin-top: 2.5rem;
   position: relative;
   border: black;
   height: 4.5rem;
