@@ -7,8 +7,7 @@ import LogoutButton from '../components/Main/LogoutButton';
 const AdminPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentPath = location.pathname;
-
+  const crrPath = location.pathname;
   return (
     <PageWrapper>
       <ContainerWrapper>
@@ -16,7 +15,7 @@ const AdminPage = () => {
           onClick={() => {
             navigate('/admin');
           }}
-          className={currentPath === '/admin' ? 'selected' : ''}
+          className={crrPath === '/admin' ? 'selected' : ''}
         >
           영상
         </Tab>
@@ -24,7 +23,7 @@ const AdminPage = () => {
           onClick={() => {
             navigate('/admin/settings');
           }}
-          className={currentPath === '/admin/settings' ? 'selected' : ''}
+          className={crrPath === '/admin/settings' ? 'selected' : ''}
         >
           시간/문구
         </Tab>
@@ -69,10 +68,14 @@ const ContainerWrapper = styled.div`
     position: absolute;
     top: -8%;
     /* left: 11.5%; */
-    left: 8.1rem;
+    left: 8rem;
   }
 
   & > div:last-child {
+  }
+  .selected {
+    background-color: ${(props) => props.theme.color.primary};
+    color: ${(props) => props.theme.color.secondary};
   }
 `;
 
@@ -96,10 +99,6 @@ const Tab = styled.button`
   padding: 1.2rem;
   border-radius: 1.5rem 1.5rem 0 0;
   box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
-  .selected {
-    background-color: ${(props) => props.theme.color.primary};
-    color: ${(props) => props.theme.color.secondary};
-  }
 `;
 
 const Wrapper = styled.div``;

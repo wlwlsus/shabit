@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { deletePhrase } from '../../../services/admin/delete';
 import { loadEffect } from '../../common/animation';
 
-const QuoteCard = ({ quote }) => {
+const QuoteCard = ({ quote, setTriggered, setPage, setIsLastPage }) => {
   const [isEditting, setIsEdditing] = useState(false);
   useEffect(() => {
     if (!isEditting) return;
@@ -20,7 +20,12 @@ const QuoteCard = ({ quote }) => {
           <ButtonWrapper>
             <StyledButton
               onClick={() => {
-                deletePhrase(quote).then(() => setIsEdditing(false));
+                deletePhrase(quote).then(() => {
+                  setIsEdditing(false);
+                  setIsLastPage(false);
+                  setPage(0);
+                  setTriggered(true);
+                });
               }}
             >
               삭제
@@ -61,7 +66,6 @@ const Wrapper = styled.div`
 `;
 
 const Icon = styled.div`
-  position: absolute;
   right: 0.8rem;
   color: ${(props) => props.theme.color.primary};
   font-size: 1rem;

@@ -14,7 +14,7 @@ const MoveToAdmin = () => {
   const isAdmin = typedUseSelector((state) => {
     return state.auth.isAdmin;
   });
-  const token = sessionStorage.getItem('accessToken');
+  const token = JSON.parse(sessionStorage.getItem('accessToken'));
   const decodedAuth = token && jwt_decode(token).auth;
 
   useEffect(() => {
