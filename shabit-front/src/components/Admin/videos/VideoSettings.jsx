@@ -62,7 +62,7 @@ const Title = styled.div`
 const PostWrapper = styled.div`
   position: relative;
   border: black;
-  height: 7rem;
+  height: 4.5rem;
 `;
 
 const VodWrapper = styled.div`
