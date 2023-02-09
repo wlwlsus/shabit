@@ -1,25 +1,50 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import styled from 'styled-components';
 import {CgTimer,CgSandClock,CgPlayPause,CgPlayButton} from 'react-icons/cg';
 import {ImExit} from "react-icons/im";
 import { useDispatch } from 'react-redux';
-import {setIsRunning} from '../../store/timeSlice';
-
+import {setIsRunning,setIsStop} from '../../store/timeSlice';
 import { typedUseSelector } from '../../store';
+import notify from '../../utils/notify';
 
 const Sidebar = ()=>{
   const [toggle,setToggle] = useState(true);
   const dispatch = useDispatch();
+ 
+  const isRunning = typedUseSelector((state) => {
+    return state.time.isRunning;
+  });
+  const stretchingMin = typedUseSelector((state) => {
+    return state.time.stretchTime.min;
+  });
+  const stretchingSec  = typedUseSelector((state) => {
+    return state.time.stretchTime.sec;
+  });
+  const pose =typedUseSelector((state) => {
+    return state.pose.pose;
+  });
+
+  useEffect(()=>{
+    if(stretchingMin===0 && stretchingSec===0) notify(pose,'stretching');
+  },[isRunning])
+
   const usedTime = typedUseSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
-  const stretchingTime = typedUseSelector((state) => {
-    return `${state.time.stretchTime.min}:${state.time.stretchTime.sec}`;
-  });
+
+  const stretchingTime = `${stretchingMin}:${stretchingSec}`;
+  
+  const ClickStop = ()=>{
+      // 시간 같은거 모두 정지
+      dispatch(setIsStop(true));
+    // 모달 띄워서 내 모습 play + download
+    // api날리기 stat post
+  }
   const ClickPlayButton =()=>{
     dispatch(setIsRunning());
     setToggle(!toggle);
   }
+
   return(
       <ContainerWrapper>
           <TimeContainer>
@@ -40,7 +65,7 @@ const Sidebar = ()=>{
                 <Text>시작</Text>
               </> 
             }
-              <Icon><ImExit/></Icon>
+              <Icon><ImExit onClick={ClickStop}/></Icon>
               <Text>종료하기</Text>  
           </CapturingContainer>
       </ContainerWrapper>
@@ -75,6 +100,7 @@ const Icon = styled.div`
   font-size:2rem;
   flex-direction:column;
   margin-top:1rem;
+  cursor:pointer;
 `;
 const Text = styled.div`
   display:flex;

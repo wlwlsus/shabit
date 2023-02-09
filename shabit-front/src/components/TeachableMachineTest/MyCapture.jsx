@@ -1,7 +1,7 @@
 import React,{useRef,useState,useCallback } from "react";
 import Webcam from "react-webcam";
 import styled from 'styled-components';
-import { HiChatAlt } from 'react-icons/hi';
+import { typedUseSelector } from '../../store';
 
 
 //10배속 다운로드만 구현하면 됨
@@ -9,15 +9,25 @@ const MyCapture = ({nickname}) => {
   const webcamRef = useRef(null);//window
   const mediaRecorderRef = useRef(null);//viewRef
   const recordedVideoRef = useRef(null);//recordedVideo
+  const isRunning = typedUseSelector((state) => {
+    return state.time.isRunning;
+  });
+  const isStop = typedUseSelector((state) => {
+    return state.time.isStop;
+  });
 
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
   let resumeId,pauseId;
   const videoConstraints = {
-    height:250,
-    width:380,
+    height:400,
+    width:850,
   }
-
+  const pose =typedUseSelector((state) => {
+    return state.pose.pose;
+  });
+  
+  // 캡쳐 시작
   const handleStartCaptureClick = useCallback(() => {
     setCapturing(true);
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
@@ -33,7 +43,7 @@ const MyCapture = ({nickname}) => {
     //TODO:나중에 1분으로 수정해야됨
     pauseId = setInterval(()=>{mediaRecorderRef.current.resume();},3000);
   }, [webcamRef, setCapturing, mediaRecorderRef]);
-
+  // 캡쳐할 때 필요
   const handleDataAvailable = useCallback(
     ({ data }) => {
       if (data.size > 0) {
@@ -42,18 +52,18 @@ const MyCapture = ({nickname}) => {
     },
     [setRecordedChunks]
   );
-    // 방 나가기 클릭하면
+    // 방 나가기 클릭하면 -> 종료 버튼 누르고나면 
   const handleStopCaptureClick = useCallback(() => {
     
     clearInterval(resumeId);
     clearInterval(pauseId);
 
-    // console.log(intervalId);
     mediaRecorderRef.current.stop();
     mediaRecorderRef.current.playbackRate = 10;
     setCapturing(false);
   }, [mediaRecorderRef, webcamRef,recordedChunks, setCapturing]);
-  //play후 download이기 때문에
+  
+  //play후 download이기 때문에 -> 종료 버튼 누르고나면 
   const handlePlayRecorderVideo=useCallback(()=>{
     console.log(recordedChunks);
 
@@ -66,7 +76,7 @@ const MyCapture = ({nickname}) => {
       recordedVideoRef.current.play();
     
   },[recordedChunks]);
-  //다운로드 여부 물어볼 때 클릭하면
+  //다운로드 여부 물어볼 때 클릭하면 -> 다운로드 버튼 누르고나면
   const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
@@ -84,17 +94,13 @@ const MyCapture = ({nickname}) => {
     }
   }, [recordedChunks]);
 
+      useEffect(()=>{
+        handleStopCaptureClick();
 
+      },[isStop])
   return (
     <ContainerWrapper>
-      <ContainerNotice>
-        <HiChatAlt />
-        <NoticeText>현재 자세</NoticeText>
-      </ContainerNotice>
-      <ContainerHeader>
-        {nickname}
-      </ContainerHeader>
-      <Container>
+        <NoticeText>현재자세 : {pose}</NoticeText>
         <WebcamWrapper>
             <Webcam audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}/>
         </WebcamWrapper>
@@ -111,7 +117,6 @@ const MyCapture = ({nickname}) => {
           <button onClick={handleDownload}>Download</button>
           </>
         )} */}
-      </Container>
     </ContainerWrapper>
   );
 };
@@ -119,12 +124,14 @@ const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width:100%;
+  height:100%;
 `;
 const NoticeText = styled.div`
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: ${(props) => props.theme.color.blackColor};
   font-weight: 100;
-  margin-left:1rem;
+  margin-bottom:1rem;
 `;
 const ContainerNotice = styled.div`
   background-color: ${(props) => props.theme.color.secondary};
@@ -176,8 +183,8 @@ const Container = styled.div`
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem; 
   overflow: hidden;
-  height:80%;
-  width:80%;
+  height:100%;
+  width:100%;
 `;
 
 export default MyCapture;

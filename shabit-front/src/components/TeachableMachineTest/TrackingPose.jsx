@@ -1,84 +1,87 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 import Loading from '../common/Loading';
+import {setPose} from "../../store/poseSlice";
+import {useDispatch} from 'react-redux';
+import notify from '../../utils/notify';
 
 const TrackingPose = () =>{
-    const [pose,setPose] = useState();
-    const [time,setTime] = useState();
+    // 바른 자세인지 아닌지
     const [load,setLoad] = useState(false);
-    const [alarmSec,setAlarmSec] = useState();
+    const dispatch = useDispatch();
+
     let model,webcam, poseCnt;
     let id;
+    let maxPose; 
+    let prevPose;
+    let time;
+    let alarmSec;
+    let isSetTime = true;
 
     const init = async()=>{
         model = await tmPose.load(
             '/my_model/model.json',
             '/my_model/metadata.json',
-          );
-        poseCnt = model.getTotalClasses();
-        const size = 300;
-        const flip = true; // whether to flip the webcam
-        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-        await webcam.setup(); // request access to the webcam
-        await webcam.play();
-        setAlarmSec(sessionStorage.getItem('alertTime')*3);
-        setLoad(true);
-        id = setInterval(tracking,16);
+            );
+            poseCnt = model.getTotalClasses();
+            const size = 300;
+            const flip = true; // whether to flip the webcam
+            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+            await webcam.setup(); // request access to the webcam
+            await webcam.play();
+            alarmSec = sessionStorage.getItem('alertTime')*3; //일단 9초
+            setLoad(true);
+            id = setInterval(tracking,16);
     }
     const predictPose = async()=>{
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
         const prediction = await model.predict(posenetOutput);
         let res;
+        
         for (let i = 0; i < poseCnt; i++) {
             res =  prediction[i].probability.toFixed(2);
             if(res>0.7){
-                setPose(prediction[i].className);
-                setTime(Date.now());
+                maxPose = prediction[i].className;
+                //자세 바뀜
+                if(prevPose!==maxPose) {
+                    prevPose = maxPose;
+                    dispatch(setPose(prediction[i].className)); //다를 경우만 포즈설정
+                }
             }
+        }
+        //바른 자세
+        if(maxPose === '바른 자세'){
+            isSetTime=true;
+        }
+        //바르지 않은 자세
+        else{
+            // 바른 -> 바르지않은이 되었을 때 시간 기억
+            if(isSetTime) time = Date.now();
+            // 바르지않은 -> 바르지않은 시간 얼마나 지났는지 계산
+            else getElapsedTime();
+            isSetTime = false;
         }
     }
     const onStop = async () =>{
         await clearInterval(id);
-        console.log(id);
+    }
+    const getElapsedTime = ()=>{
+        const now = Date.now(); //
+        const elapsed =Math.floor((now-time) / 1000);
+        if(elapsed>=alarmSec){
+            notify(maxPose,'pose');
+            time =now;
+        }
     }
     useEffect(() => {
         init();
     }, []);
-
-    useEffect(()=>{
-        //시간 이상함
-        const now = Date.now();
-        const elapsed = now - time;
-        const elapsedSec = elapsed/1000;
-        console.log(elapsedSec,alarmSec)
-        if(elapsedSec>=alarmSec) {
-            notify(pose);
-            setTime(now);
-        }
-    },[pose]);
-
+    
     const tracking = async() =>{
         webcam.update();
         await predictPose();
     }
-    // 알람 보내기
-    const notify=(pose)=>{
-        if(Notification.permission==='granted'){
-          const text = `혹시 자세가 흐트러지셨나요? 올바른 자세는 척추 건강에 도움이 됩니다. :)
-          `;
-          const img = "./public/assets/logo-pink.png";
-          new Notification(`현재 자세 :${pose}`,{body:text, icon:img});
-        }
-        else if (Notification.permission !== "denied") {
-          Notification.requestPermission().then((permission) => {
-            if (permission === "granted") {
-              const text = `${pose}자세 3분 유지 중입니다.`;
-          const img = "./public/assets/logo-pink.png";
-          new Notification("똑바로 앉으세요",{body:text, icon:img});
-            }
-          });
-        }
-    }
+   
     return(
         <div>
             {!load ? <Loading /> : ``}

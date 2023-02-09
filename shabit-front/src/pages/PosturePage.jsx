@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Posture/Modal';
+import VideoModal from "../components/TeachableMachineTest/VideoModal";
 import Sidebar from '../components/common/Sidebar';
 import Logo from '../components/common/Logo';
 
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
+import { setIsStop } from '../store/timeSlice';
 export default function PosturePage() {
-  const [stretchModal, setStretchModal] = useState(true);
+  const [stretchModal, setStretchModal] = useState(false);
+  const [videoModal, setVideoModal] = useState(true);
 
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -25,6 +29,7 @@ export default function PosturePage() {
   return (
     <PageWrapper>
       {stretchModal && <Modal setModal={setStretchModal} />}
+      {videoModal &&< VideoModal setModal={setVideoModal}/>}
       <Container>
         <Logo color={'pink'} size={'sm'} />
         <Outlet />

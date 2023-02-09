@@ -8,13 +8,8 @@ import TrackingPose from '../TeachableMachineTest/TrackingPose';
 import { getAlarmTime } from '../../services/admin/get';
 
 export default function LiveContent() {
-  const user = JSON.parse(sessionStorage.getItem('user'));
-  const nickname = user.nickname;
   const isRunning = typedUseSelector((state) => {
     return state.time.isRunning;
-  });
-  const stretchingTime = typedUseSelector((state)=>{
-    return state.time.stretchTime.min;
   });
   const dispatch = useDispatch();
     useEffect(()=>{
@@ -41,10 +36,11 @@ export default function LiveContent() {
 
     },[isRunning])
 
+
   return (
     <div>
-      <MyCapture nickname={nickname} />
-      <TrackingPose/>
+      <MyCapture/>
+      {/* <TrackingPose/> */}
     </div>
     );
 }

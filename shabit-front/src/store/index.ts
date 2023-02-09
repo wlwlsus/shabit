@@ -7,6 +7,7 @@ import {
 } from 'react-redux';
 import chartSlice from './chartSlice';
 import timeSlice from './timeSlice';
+import poseSlice from './poseSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     video: videoSlice.reducer,
     chart: chartSlice.reducer,
     time:timeSlice.reducer,
+    pose: poseSlice.reducer
   },
 });
 
