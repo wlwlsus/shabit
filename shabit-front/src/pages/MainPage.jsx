@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { setTokenState, setUserState } from '../store/authSlice';
 // import { typedUseSelector } from '../store';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
+import GoalModal from '../components/Main/GoalModal'
 
 export default function MainPage() {
   const location = useLocation();
@@ -75,8 +77,13 @@ export default function MainPage() {
   //   _setUser();
   // }, []);
 
+const goalModal = useSelector((state) => {
+  return state.goal.goalModal;
+});
+
   return (
     <PageWrapper>
+      {goalModal && <GoalModal />}
       <ContainerWrapper>
         <Tab
           onClick={() => {

@@ -5,7 +5,7 @@ import { loadEffect } from '../common/animation';
 
 import { RiDownload2Line } from 'react-icons/ri';
 
-import Goal from './Goal';
+import GoalBox from './GoalBox';
 import TimeData from './TimeData';
 
 import * as htmlToImage from "html-to-image";
@@ -93,7 +93,7 @@ export default function GoalContent() {
           <Img src={'/assets/logo-pink.png'} alt="logo"  />
         </ImageWrapper>
         {todayGoal.time != -1 && goal.time != -1 && (
-          <Goal goal={goal} today={todayGoal} />
+          <GoalBox goal={goal} today={todayGoal} />
         )}
       </GoalWrapper>
       {todayTime.total != -1 && (

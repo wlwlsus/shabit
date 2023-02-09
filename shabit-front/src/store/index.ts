@@ -8,6 +8,7 @@ import {
 import chartSlice from './chartSlice';
 import timeSlice from './timeSlice';
 import adminSlice from './adminSlice';
+import goalSlice from './goalSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     chart: chartSlice.reducer,
     time: timeSlice.reducer,
     admin: adminSlice.reducer,
+    goal: goalSlice.reducer,
   },
 });
 
