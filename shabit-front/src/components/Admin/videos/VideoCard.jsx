@@ -157,11 +157,11 @@ export default VideoCard;
 
 const StyledCardWrapper = styled.div`
   a {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     font-size: small;
   }
@@ -175,13 +175,13 @@ const StyledCardWrapper = styled.div`
   }
   .card {
     position: relative;
-    margin: 0 0.6rem;
-    margin-bottom: 1.2rem;
+    margin: 0.5rem 0.5rem;
+    /* margin-bottom: 1rem; */
     background-color: #fbfbfb;
     border-radius: 0.5rem;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
     width: 12rem;
-    height: 13rem;
+    height: 11rem;
   }
   .card-header img {
     width: 100%;
@@ -195,6 +195,7 @@ const StyledCardWrapper = styled.div`
     justify-content: center;
     align-items: flex-start;
     padding: 1rem;
+    padding-top: 0.5rem;
   }
 
   .tag {

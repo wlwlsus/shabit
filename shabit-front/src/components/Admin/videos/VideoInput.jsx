@@ -156,7 +156,7 @@ export default VideoInput;
 const VideoInputWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 0rem;
   .buttonVisible {
     background-color: ${(props) => props.theme.color.primary};
     cursor: pointer;
@@ -284,7 +284,7 @@ const ThumbNailFloat = styled.div`
   display: flex;
   justify-content: space-around;
   position: absolute;
-  top: 4.35rem;
+  top: -3.9rem;
   left: 7.4rem;
 `;
 
