@@ -156,6 +156,7 @@ public class UserController {
     }
   }
 
+
   // 이메일 인증 API
   @Operation(summary = "이메일 인증 API")
   @GetMapping("/email-valid/{email}")
