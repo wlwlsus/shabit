@@ -87,8 +87,8 @@ spring:
 
     # mongo db
     mongodb:
-#      host: localhost
-      host: i8a601.p.ssafy.io
+      host: localhost
+#      host: i8a601.p.ssafy.io
       port: 27017
       authentication-database: admin
       username: root
