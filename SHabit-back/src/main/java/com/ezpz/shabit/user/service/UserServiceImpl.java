@@ -309,6 +309,21 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public long getAllPosture(String email, long postureId) {
+    // 회원 정보 확인
+    final Users user = userRepository.findByEmail(email).orElseThrow();
+    long count;
+    if (postureId == 0) {
+      count = galleryRepository.countByUserEmail(email);
+    } else {
+      count = galleryRepository.countByUserEmailAndPosturePostureId(email, postureId);
+      log.info("total posture : {}", count);
+    }
+
+    return count;
+  }
+
+  @Override
   public void changeThema(String email, int theme) throws Exception {
     Users user = userRepository.findByEmail(email).orElseThrow();
     user.setTheme(theme);

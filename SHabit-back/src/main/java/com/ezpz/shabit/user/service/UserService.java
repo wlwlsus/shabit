@@ -37,4 +37,6 @@ public interface UserService {
   void addPostureImage(String email, MultipartFile image) throws Exception;
 
   List<UserGalleryResDto> getPostureImage(String email, long postureId, Pageable pageable);
+
+  long getAllPosture(String email, long postureId);
 }

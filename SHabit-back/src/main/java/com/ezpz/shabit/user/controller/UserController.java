@@ -120,8 +120,13 @@ public class UserController {
     log.info("user email : {}, postureId : {}, page : {}", email, postureId, pageable.getPageNumber());
     try {
       List<UserGalleryResDto> list = userService.getPostureImage(email, postureId, pageable);
+      userService.getAllPosture(email, postureId);
       log.info("gallery list : {}", list);
-      return Response.makeResponse(HttpStatus.OK, "자세 사진 조회 성공", list.size(), list);
+
+      long totalPosture = userService.getAllPosture(email, postureId);
+      int totalPage = (int) Math.ceil((double) totalPosture / pageable.getPageSize());
+
+      return Response.makeResponse(HttpStatus.OK, "자세 사진 조회 성공", totalPage, list);
     } catch (NoSuchElementException e) {
       log.error(e.getMessage());
       return Response.notFound("잘못된 요청입니다.");
@@ -131,7 +136,6 @@ public class UserController {
     }
 
   }
-
 
   // 이메일 중복체크 API
   @Operation(summary = "이메일 중복체크 API")
