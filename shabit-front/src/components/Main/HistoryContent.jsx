@@ -109,7 +109,7 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   align-self: start;
-  margin-left: 3rem;
+  margin-left: 3.5rem;
   background-color: ${(props) => props.theme.color.secondary};
   color: ${(props) => props.theme.color.primary};
   font-weight: bold;
@@ -136,11 +136,11 @@ const P = styled.span`
 `;
 
 const ToolBar = styled.div`
-  width: 47%;
+  width: 50%;
   display: flex;
   align-self: start;
   justify-content: space-between;
-  margin-left: 4.5rem;
+  margin-left: 3rem;
 `;
 
 const RadioWrapper = styled.div`

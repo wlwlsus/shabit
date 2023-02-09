@@ -12,6 +12,7 @@ export default function Modal({ setModal }) {
   const selected = useSelector((state) => {
     return state.video.selected;
   });
+  const titleTable = [0, '목', '허리', '전신'];
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,20 +26,28 @@ export default function Modal({ setModal }) {
 
   return (
     <ContainerWrapper>
-      <ContainerHeader>
+      <ModalHeader>
         <BsFillXCircleFill
           onClick={() => {
             setModal(false);
           }}
         />
-      </ContainerHeader>
+      </ModalHeader>
       <Container>
         <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <VideoList />
-        <IconWrapper>
-          <BsPlayCircleFill onClick={playVideo} />
-          시작하기
-        </IconWrapper>
+        <ModalFooter>
+          <VideoInfo>
+            <span>
+              스트레칭 종류 : {titleTable[selected?.category?.categoryId]}
+            </span>
+            <span>소요 시간 : {selected?.originalLength}</span>
+          </VideoInfo>
+          <IconWrapper>
+            <BsPlayCircleFill onClick={playVideo} />
+            시작하기
+          </IconWrapper>
+        </ModalFooter>
       </Container>
     </ContainerWrapper>
   );
@@ -57,7 +66,7 @@ const ContainerWrapper = styled.div`
   flex-direction: column;
 `;
 
-const ContainerHeader = styled.div`
+const ModalHeader = styled.div`
   z-index: 999;
   width: 55rem;
   height: 4rem;
@@ -72,19 +81,24 @@ const ContainerHeader = styled.div`
   & > svg {
     color: ${(props) => props.theme.color.primary};
     font-size: 2.5rem;
+    transition: all 0.2s linear;
 
     &:hover {
       cursor: pointer;
+      transform: scale(1.05);
     }
   }
 `;
 
 const Container = styled.div`
   z-index: 999;
+  color: ${(props) => props.theme.color.primary};
+
   background-color: ${(props) => props.theme.color.whiteColor};
   width: 55rem;
   height: 25rem;
   border-radius: 0 0 1.5rem 1.5rem;
+  font-weight: bold;
 
   display: flex;
   flex-direction: column;
@@ -93,25 +107,39 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  color: ${(props) => props.theme.color.primary};
-  font-weight: bold;
   font-size: 1.3rem;
 `;
 
-const IconWrapper = styled.div`
+const ModalFooter = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  justify-content: space-between;
+`;
+
+const VideoInfo = styled.span`
+  font-size: 1.3rem;
+  & > span {
+    margin-left: 2rem;
+  }
+`;
+
+const IconWrapper = styled.span`
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-self: flex-end;
   margin: 0 2rem;
-  color: ${(props) => props.theme.color.primary};
-  font-weight: bold;
+
+  transition: all 0.2s linear;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
 
   & > svg {
     font-size: 2.5rem;
-
-    &:hover {
-      cursor: pointer;
-    }
+    margin-bottom: 0.2rem;
   }
 `;

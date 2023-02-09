@@ -142,7 +142,7 @@ const ContainerWrapper = styled.div`
   }
 
   & > button:nth-child(2) {
-    left: 7.7%;
+    left: 7.6%;
   }
 
   & > button:nth-child(3) {
