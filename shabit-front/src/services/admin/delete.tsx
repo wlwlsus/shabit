@@ -12,9 +12,9 @@ export const deleteVod = async (vodList: string): Promise<[object]> => {
     })
     .then(async () => {
       FireConfirm('삭제되었습니다.');
-      const vods = await retrieveVods();
-      store.dispatch(setVideoList(vods));
-      return Promise.resolve(vods);
+      // const vods = await retrieveVods();
+      // store.dispatch(setVideoList(vods));
+      return Promise.resolve();
     })
     .catch((err) => {
       FireAlert(

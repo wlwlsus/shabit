@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { typedUseSelector } from '../../../store';
 import VideoCard from './VideoCard';
+import VideoInfiniteScroll from './VideoInfiniteScroll';
 
-const VideoList = ({ vodsList }) => {
+const VideoList = ({ scrollProp, setScrollProp }) => {
+  const vodsList = typedUseSelector((state) => {
+    return state.admin.videoList;
+  });
   return (
     <ListWrapper>
       {vodsList.map((element, idx) => {
@@ -15,9 +20,15 @@ const VideoList = ({ vodsList }) => {
             originalLength={element.originalLength}
             videoId={element.videoId}
             vodsList={vodsList}
+            scrollProp={scrollProp}
+            setScrollProp={setScrollProp}
           />
         );
       })}
+      <VideoInfiniteScroll
+        scrollProp={scrollProp}
+        setScrollProp={setScrollProp}
+      />
     </ListWrapper>
   );
 };

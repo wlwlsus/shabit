@@ -39,6 +39,10 @@ const QuoteInputWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+  .clickable {
+    background-color: ${(props) => props.theme.color.primary};
+    cursor: 'pointer';
+  }
 `;
 
 const StyledInputTag = styled.div`
@@ -65,8 +69,4 @@ const StyledButton = styled.button`
   border-left: none;
   border-radius: 0 1rem 1rem 0;
   font-weight: bold;
-  .clickable {
-    background-color: ${(props) => props.theme.color.primary};
-    cursor: 'pointer';
-  }
 `;
