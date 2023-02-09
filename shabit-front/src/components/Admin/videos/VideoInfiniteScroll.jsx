@@ -13,7 +13,7 @@ const VideoInfiniteScroll = ({ scrollProp, setScrollProp, vodsList }) => {
   useEffect(() => {
     // alert(`트리거드${triggered} 라스트페이지${isLastPage} 로딩중${isLoading}`);
     if (!triggered) return;
-    if (isLastPage || isLoading) return;
+    if (isLastPage || isLoading) return setTriggered(false);
     retrieveVods(page, search, query).then((res) => {
       if (!res.length) setIsLastPage(true);
       setScrollProp({

@@ -22,7 +22,7 @@ const QuotesList = ({
   );
 
   useEffect(() => {
-    if (!triggered || isLastPage || isLoading) return;
+    if (!triggered || isLastPage || isLoading) return setTriggered(false);
     setIsLoading(true);
     retreivePhrases(page).then((res) => {
       if (!res.length) setIsLastPage(true);
