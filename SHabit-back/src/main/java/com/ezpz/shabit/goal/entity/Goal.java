@@ -1,11 +1,8 @@
 package com.ezpz.shabit.goal.entity;
 
-import com.ezpz.shabit.statistics.entity.Posture;
 import com.ezpz.shabit.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,4 +26,9 @@ public class Goal {
 
   @Column(name = "time", nullable = false)
   private int time;
+
+  public void setGoal(int percentage, int time) {
+    this.percentage = percentage;
+    this.time = time;
+  }
 }
