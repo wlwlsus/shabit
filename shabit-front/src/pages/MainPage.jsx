@@ -26,7 +26,7 @@ export default function MainPage() {
     } else {
       navigate('/main/analyze');
     }
-  }, [currentUrl]);
+  };
 
   return (
     <PageWrapper>
