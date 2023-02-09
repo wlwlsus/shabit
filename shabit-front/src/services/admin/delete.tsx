@@ -30,8 +30,8 @@ export const deletePhrase = async (phrases: string): Promise<[string]> => {
     .delete('/api/v1/admin/phrase', { headers: header(), data: [phrases] })
     .then(async () => {
       FireConfirm('삭제되었습니다.');
-      const phrase = await retreivePhrases().catch();
-      store.dispatch(setQuetesList(phrase));
+      // const phrase = await retreivePhrases().catch();
+      // store.dispatch(setQuetesList(phrase));
     })
     .catch((err) => {
       FireAlert(

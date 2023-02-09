@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { postQuote } from '../../../services/admin/post';
 import useDebounce from '../../../utils/useDebounce';
-const QuoteInput = () => {
+const QuoteInput = ({ setTriggered, setPage, setIsLastPage }) => {
   const [quoteInput, setQuoteInput] = useState('');
   const debouncedInput = useDebounce(quoteInput, 200);
   const onChange = (e) => {
@@ -24,6 +24,9 @@ const QuoteInput = () => {
         onClick={async () => {
           await postQuote(quoteInput);
           await setQuoteInput('');
+          setTriggered(true);
+          setIsLastPage(false);
+          setPage(0);
         }}
         className={debouncedInput && quoteInput && 'clickable'}
       >

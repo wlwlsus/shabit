@@ -49,9 +49,6 @@ export const retrieveVods = async (
   search: 'category' | 'title' | 'length' | '' = '',
   query: string = '',
 ): Promise<[object]> => {
-  console.log(
-    `/api/v1/admin/vods?search=${search}&query=${query}&page=${page}`,
-  );
   return await apiRequest
     .get(`/api/v1/admin/vods?search=${search}&query=${query}&page=${page}`, {
       headers: header(),
