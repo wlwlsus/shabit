@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 // import { setTokenState, setUserState } from '../store/authSlice';
 // import { typedUseSelector } from '../store';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 
 export default function MainPage() {
+  const location = useLocation();
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
 
@@ -25,15 +26,25 @@ export default function MainPage() {
     } else {
       navigate('/main/analyze');
     }
-  };
+  }, [currentUrl]);
 
   return (
     <PageWrapper>
       <ContainerWrapper>
-        <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
+        <Tab
+          onClick={() => {
+            navigate('/main');
+          }}
+          style={clicked[0] ? style : null}
+        >
           SHabit
         </Tab>
-        <Tab onClick={() => tabClicked(1)} style={clicked === 1 ? null : style}>
+        <Tab
+          onClick={() => {
+            navigate('/main/history');
+          }}
+          style={clicked[1] ? style : null}
+        >
           자세기록
         </Tab>
         <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>

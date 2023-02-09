@@ -17,11 +17,11 @@ const MyPose = ({
   let maxTime = '';
   let preparedLog = {};
 
-  const [isLoading, setIsLoading] = useState(true); // 로딩중이면 스핀휠을 호출
+  const [isLoading, setIsLoading] = useState(false); // 로딩중이면 스핀휠을 호출
   const [maxClassState, setMaxClassState] = useState(''); // 비율이 가장 높은 자세
   const [maxPredictionState, setMaxPredictionState] = useState(''); // 가장 높은 자세의 비율
   const [logArray, setLogArray] = useState([]); // 로그를 배열로 기록함.
-  // const [savedIntevalId,setSavedIntervalId] = useState('');
+
   
 
   // TM: 정지 버튼을 눌렀을 때에 intervalID를 기준으로 loop함수를 중단합니다.
@@ -35,7 +35,7 @@ const MyPose = ({
 
   // TM: 웹캠을 설정하고 loop함수를 interval로 등록하며, intervalID를 반환합니다.
   async function init() {
-    // setIsLoading(true);
+    setIsLoading(true);
     // load the model and metadata
     // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
     // Note: the pose library adds a tmPose object to your window (window.tmPose)
@@ -52,8 +52,8 @@ const MyPose = ({
     await webcam.setup(); // request access to the webcam
     await webcam.play();
     setIsLoading(false);
-    
-    // savedIntevalId.current = setInterval(loop, 16);
+
+    savedIntevalId.current = setInterval(loop, 16);
 
     // append/get elements to the DOM
     const canvas = canvasREF.current;
@@ -135,12 +135,8 @@ const MyPose = ({
 
   //컴포넌트가 마운트되면 TMpose를 실행합니다.
   useEffect(() => {
-    let id;
-    console.log("한번")
-    init();
-    if(isLoading==false) id = setInterval(loop,16);
-    return ()=> clearInterval(id);
-  }, [isLoading]);
+    if (isStarting) init();
+  }, []);
 
   return (
     <div>
