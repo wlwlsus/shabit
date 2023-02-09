@@ -31,7 +31,7 @@ const ListWrapper = styled.div`
   overflow-y: scroll;
   flex-wrap: wrap;
   overflow-x: hidden;
-  justify-content: space-between;
+  justify-content: start;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     display: none;
