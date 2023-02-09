@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-
-
 
 export default function QuoteInfo() {
   const navigate = useNavigate();
@@ -25,15 +23,15 @@ export default function QuoteInfo() {
         <div>{quote}</div>
       </InfoBox>
 
-      <Start>
-        <BsFillCaretRightSquareFill
-          onClick={() => {
-            // getAlarmTime().then(()=>navigate('/posture/live'));
-            // 임시 코드
-            navigate('/posture/live');
-          }}
-        />
-        <div>자세교정 시작하기</div>
+      <Start
+        onClick={() => {
+          // getAlarmTime().then(()=>navigate('/posture/live'));
+          // 임시 코드
+          navigate('/posture/live');
+        }}
+      >
+        <BsFillCaretRightSquareFill />
+        <span>자세교정 시작하기</span>
       </Start>
     </Wrapper>
   );
@@ -86,25 +84,26 @@ const Start = styled.div`
   border-radius: 1.5rem;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
   border: 0.2rem solid ${(props) => props.theme.color.secondary};
-  padding: 1.4rem;
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s linear;
+  font-size: 0.7rem;
+  font-weight: bold;
 
-  & > svg {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    transition: all 0.2s linear;
-
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-    }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
   }
 
-  & > div {
-    font-size: 0.7rem;
-    font-weight: bold;
+  &:active {
+    transform: translateY(0.3rem);
+  }
+
+  & > svg {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
   }
 `;

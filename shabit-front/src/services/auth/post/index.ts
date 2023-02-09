@@ -41,6 +41,7 @@ export const login = async (email: string, password: string) => {
       const accessToken = res.data.result.token.accessToken;
       const refreshToken = res.data.result.token.refreshToken;
       const user = res.data.result.user;
+      console.log(user);
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
@@ -73,6 +74,28 @@ export const refreshLogin = async (
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
       store.dispatch(setTokenState(accessToken));
       return Promise.resolve({ accessToken, refreshToken }).catch((err) => {});
+    });
+};
+
+export const socialLogin = async (email: string, password: string) => {
+  return await apiRequest
+    .post('/api/v1/user/login', { email, password })
+    .then((res) => {
+      const accessToken = res.data.result.token.accessToken;
+      const user = res.data.result.user;
+      console.log(user);
+      store.dispatch(setTokenState(accessToken));
+      store.dispatch(setUserState(user));
+      sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('user', JSON.stringify(user));
+      const decodedToken: DecodedJWT = jwt_decode(accessToken);
+      if (decodedToken.auth === 'ROLE_ADMIN') {
+        store.dispatch(setIsAdminState(true));
+      } else store.dispatch(setIsAdminState(false));
+      return Promise.resolve({ user, accessToken });
+    })
+    .catch((err) => {
+      return Promise.reject(err);
     });
 };
 
