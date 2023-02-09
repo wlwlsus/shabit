@@ -51,6 +51,7 @@ public class GoalServiceImpl implements GoalService {
         }
 
         goal.setGoal(req.getPercentage(), req.getTime());
+        goalRepository.save(goal);
         return GoalResDto.builder().percentage(goal.getPercentage()).time(goal.getTime()).build();
     }
 }
