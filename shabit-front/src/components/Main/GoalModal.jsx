@@ -1,12 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setGoalModal } from '../../store/goalSlice';
+import { fetchGoal } from '../../services/goal/get';
+import Goal from '../../services/goal';
+import { setPercentage, setTime } from '../../store/goalSlice';
 
 import { BsFillXCircleFill } from 'react-icons/bs';
 
 export default function Modal() {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
+  useEffect(() => {
+    if (!user.email) return;
+  }, [user.email]);
+
   const dispatch = useDispatch();
+  const [goal, setGoal] = useState({
+    percentage: useSelector((state) => {
+      return state.goal.percentage;
+    }),
+    time: useSelector((state) => {
+      return state.goal.time;
+    }),
+  });
+
+  const [inputs, setInputs] = useState({
+    percentage: goal.percentage,
+    time: goal.time,
+  });
+  const { percentage, time } = inputs;
+
+  useEffect(() => {
+    const mounted = async () => {
+      fetchGoal(user.email).then((res) => {
+        setGoal(res);
+      });
+    };
+    mounted();
+  }, []);
+
+  const onChangeHandler = (e) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  const updateGoal = () => {
+    Goal.putGoal(user.email, percentage, time);
+    dispatch(setPercentage(percentage));
+    dispatch(setTime(time));
+  };
 
   return (
     <ContainerWrapper>
@@ -18,7 +66,32 @@ export default function Modal() {
         />
       </ModalHeader>
       <Container>
-        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
+        <Title>나의 바른 자세 목표</Title>
+        <InputWrapper>
+          <P>자세 비율</P>
+          <Input
+            type="number"
+            name="percentage"
+            value={percentage}
+            onChange={onChangeHandler}
+            shadow={'shadow'}
+          />
+          <P>%</P>
+        </InputWrapper>
+        <InputWrapper>
+          <P>유지 시간</P>
+          <Input
+            type="number"
+            name="time"
+            value={time}
+            onChange={onChangeHandler}
+            shadow={'shadow'}
+          />
+          <P>분</P>
+        </InputWrapper>
+        <ButtonWrapper>
+          <Button onClick={updateGoal}>수정하기</Button>
+        </ButtonWrapper>
       </Container>
     </ContainerWrapper>
   );
@@ -39,9 +112,9 @@ const ContainerWrapper = styled.div`
 
 const ModalHeader = styled.div`
   z-index: 999;
-  width: 55rem;
+  width: 30rem;
   height: 4rem;
-  background-color: ${(props) => props.theme.color.secondary};
+  background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 1.5rem 1.5rem 0 0;
   padding: 0 1rem;
 
@@ -66,8 +139,9 @@ const Container = styled.div`
   color: ${(props) => props.theme.color.primary};
 
   background-color: ${(props) => props.theme.color.whiteColor};
-  width: 55rem;
-  height: 25rem;
+  width: 30rem;
+  height: 30rem;
+  padding: 0 0 1rem 0;
   border-radius: 0 0 1.5rem 1.5rem;
   font-weight: bold;
 
@@ -78,39 +152,60 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 1.3rem;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
 `;
 
-const ModalFooter = styled.div`
-  width: 100%;
+const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  align-self: flex-end;
-  justify-content: space-between;
 `;
 
-const VideoInfo = styled.span`
-  font-size: 1.3rem;
-  & > span {
-    margin-left: 2rem;
+const Input = styled.input`
+  padding: 0.7rem;
+  margin: 0.2rem 0;
+  width: 6rem;
+  border-radius: 0.5rem;
+  font-size: 3rem;
+  text-align: center;
+  background-color: ${(props) => props.theme.color.secondary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 
-const IconWrapper = styled.span`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 2rem;
+const P = styled.p`
+  font-size: 2rem;
+  margin: 0 1rem;
+`;
 
-  transition: all 0.2s linear;
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-self: start;
+  align-items: center;
+  margin: 1rem auto;
+`;
+
+const Button = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.color.whiteColor};
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid ${(props) => props.theme.color.primary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
   &:hover {
     cursor: pointer;
-    transform: scale(1.05);
-  }
-
-  & > svg {
-    font-size: 2.5rem;
-    margin-bottom: 0.2rem;
   }
 `;

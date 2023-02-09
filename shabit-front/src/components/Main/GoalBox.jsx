@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
+import { useSelector } from 'react-redux';
 
-import { RxThickArrowRight } from 'react-icons/rx'
+import { RxThickArrowRight } from 'react-icons/rx';
 import { HiPencilAlt } from 'react-icons/hi';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
@@ -10,26 +11,32 @@ import Logo from '../common/Logo';
 import { useDispatch } from 'react-redux';
 import { setGoalModal } from '../../store/goalSlice';
 
-export default function GoalBox({ goal, today }) {
+export default function GoalBox({ today }) {
   const dispatch = useDispatch();
+  const percentage = useSelector((state) => {
+    return state.goal.percentage;
+  });
+  const time = useSelector((state) => {
+    return state.goal.time;
+  });
 
   return (
     <Wrapper>
       <TitleWrapper>
         <Title>목표 달성</Title>
       </TitleWrapper>
-        <IconWrapper>
-          <HiPencilAlt 
-            onClick={() => {
-              dispatch(setGoalModal(true));
-            }}
-          />
-        </IconWrapper>
+      <IconWrapper>
+        <HiPencilAlt
+          onClick={() => {
+            dispatch(setGoalModal(true));
+          }}
+        />
+      </IconWrapper>
       <ContentWrapper>
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{goal.percentage}%</Goal>
+            <Goal>{percentage}%</Goal>
           </Data>
           <Arrow>
             <RxThickArrowRight />
@@ -42,7 +49,7 @@ export default function GoalBox({ goal, today }) {
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{goal.time}분</Goal>
+            <Goal>{time}분</Goal>
           </Data>
           <Arrow>
             <RxThickArrowRight />
@@ -147,7 +154,7 @@ const IconWrapper = styled.div`
   font-size: 1.5rem;
   animation: 0.8s ease-in ${loadEffect.down};
 
-  &:hover{
-    mouse: click;
+  &:hover {
+    cursor: pointer;
   }
 `;
