@@ -2,6 +2,7 @@ package com.ezpz.shabit.admin.service;
 
 import com.ezpz.shabit.admin.dto.YouTubeDto;
 import com.ezpz.shabit.info.dto.req.PhrasesReqDto;
+import com.ezpz.shabit.info.dto.req.VodListReqDto;
 import com.ezpz.shabit.info.entity.Category;
 import com.ezpz.shabit.info.entity.Phrases;
 import com.ezpz.shabit.info.entity.Vod;
@@ -59,19 +60,19 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public List<Vod> getVodList(String search, String query, Pageable pageable) {
-        if(search == null) return vodRepository.findAll(pageable).getContent();
-        List<Integer> lengthList = List.of(3, 5, 10);
-        return switch (search) {
-            case ("category") -> vodRepository.findByCategoryCategoryId(Long.parseLong(query), pageable).getContent();
-            case ("title") -> vodRepository.findByTitleIsLike("%" + query + "%", pageable).getContent();
-            case ("length") -> {
-                if(!lengthList.contains(Integer.parseInt(query)))
-                    throw new InputMismatchException("검색 가능한 영상 길이는 3, 5, 10입니다.");
-                yield vodRepository.findByLength(Integer.parseInt(query), pageable).getContent();
-            }
-            default -> vodRepository.findAll(pageable).getContent();
-        };
+    public List<Vod> getVodList(Long category, int length, Pageable pageable) {
+        if (category == 0) {
+            return switch (length) {
+                case 3, 5, 10 -> vodRepository.findByLength(length, pageable).getContent();
+                default -> vodRepository.findAll(pageable).getContent();
+            };
+        } else if (category == 1 || category == 2 || category == 3) {
+            return switch (length) {
+                case 3, 5, 10 -> vodRepository.findByLengthAndCategoryCategoryId(length, category, pageable).getContent();
+                default -> vodRepository.findByCategoryCategoryId(category, pageable).getContent();
+            };
+        }
+        return vodRepository.findAll(pageable).getContent();
     }
 
     @Override

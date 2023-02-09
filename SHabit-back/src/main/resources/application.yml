@@ -63,8 +63,8 @@ spring:
 #    url: jdbc:mariadb://shabit.site:3306/ssafy601
 #        url: jdbc:mariadb://i8a601.p.ssafy.io:3307/ssafy601
     url: jdbc:mariadb://localhost:3306/ssafy
-    username: easypeasy
-    password: lemon
+    username: root
+    password: root
 
   # Mail Sending
   mail:
@@ -88,7 +88,7 @@ spring:
     # mongo db
     mongodb:
       host: localhost
-      #      host: i8a601.p.ssafy.io
+#      host: i8a601.p.ssafy.io
       port: 27017
       authentication-database: admin
       username: root
