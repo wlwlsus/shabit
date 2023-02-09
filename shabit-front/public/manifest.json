@@ -7,17 +7,10 @@
         "service_worker": "background.js"
     },
     "permissions": [
-        "notifications",
-        "alarms",
-        "tabs"
+        "scripting",
+        "storage"
     ],
     "action": {
-        "default_popup": "popup.html"
-    },
-    "content_scripts": [
-        {
-          "matches": ["http://localhost:3000/posture/live"],
-          "js":["content.js"]
-        }
-    ]
+        "default_popup": "extension.html"
+    }
 }
