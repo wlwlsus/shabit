@@ -51,13 +51,33 @@ export default function Modal() {
   };
 
   const updateGoal = () => {
-    Goal.putGoal(user.email, percentage, time);
+    Goal.putGoal(user.email, percentage, time)
+      .then(() => {
+        setMessage('수정되었습니다.');
+      })
+      .catch((err) => {
+        setMessage('에러가 발생했습니다.');
+      });
     dispatch(setPercentage(percentage));
     dispatch(setTime(time));
   };
 
+  const [message, setCurrentMessage] = useState('');
+  const [currentTimeout, setCurrentTimeout] = useState(null);
+  //전체: 메시지을 2초 후 초기화합니다.
+  const setMessage = (str) => {
+    setCurrentMessage(str);
+    if (!str) return;
+    clearTimeout(currentTimeout);
+    const newTimeout = setTimeout(() => {
+      setCurrentMessage(' ');
+    }, 2000);
+    setCurrentTimeout(newTimeout);
+  };
+
   return (
     <ContainerWrapper>
+      <Alert>{message}</Alert>
       <ModalHeader>
         <BsFillXCircleFill
           onClick={() => {
@@ -96,6 +116,16 @@ export default function Modal() {
     </ContainerWrapper>
   );
 }
+
+const Alert = styled.div`
+  z-index: 1000;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  top: 21rem;
+  font-size: 1.2rem;
+  color: ${(props) => props.theme.color.darkGray}; ;
+`;
 
 const ContainerWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
