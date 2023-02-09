@@ -88,7 +88,11 @@ const Container = styled.div`
     transform: scale(1.05);
   }
 
-  & > img {
+  &:active {
+    transform: translateY(-0.5rem);
+  }
+
+  z & > img {
     border-radius: 0.5rem;
   }
 `;

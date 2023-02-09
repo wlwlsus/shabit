@@ -105,6 +105,14 @@ export const themeColor = {
 
 /** reset css */
 const GlobalStyle = createGlobalStyle`
+
+  @font-face {
+    font-family: 'LotteMartDream';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/assets/fonts/LotteMartDreamMedium.woff2') format('woff2');
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -113,9 +121,10 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     vertical-align: baseline;
     box-sizing: border-box;
-    font-family: inherit;
+    font-family: 'LotteMartDream';
     color: inherit;
     outline: 0;
+    
   }
   html {
     width: 100%;

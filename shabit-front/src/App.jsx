@@ -51,11 +51,7 @@ function App() {
 
   useEffect(() => {
     const themeInfo = localStorage.getItem('theme');
-    if (!themeInfo) {
-      localStorage.setItem('theme', 0);
-      setTheme(themeList[0]);
-      return;
-    }
+    if (!themeInfo) return;
     setTheme(themeList[themeInfo]);
   }, []);
 
