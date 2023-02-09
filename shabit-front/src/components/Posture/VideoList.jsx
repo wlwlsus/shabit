@@ -3,7 +3,7 @@ import styled, { ThemeContext } from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
-import { fetchVods } from '../../services/vod/get';
+import { fetchVods } from '../../services/info/get';
 
 export default function VideoList() {
   const [videoList, setVideoList] = useState(); // 비디오 리스트

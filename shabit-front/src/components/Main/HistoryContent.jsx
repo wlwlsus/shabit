@@ -17,14 +17,6 @@ export default function HistoryContent() {
   //   return state.auth.user;
   // });
 
-  // useEffect(() => {
-  //   if (!user.email) return;
-  //   Promise.allSettled([
-  //     fetchWeekly(user.email, page),
-  //     fetchMonthly(user.email, page),
-  //   ]);
-  // }, [user.email]);
-
   useEffect(() => {
     if (!user.email) return;
     if (mode === 'w') {

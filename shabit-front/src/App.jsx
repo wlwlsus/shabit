@@ -23,6 +23,7 @@ import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
 import AnalyzeContent from './components/Main/AnalyzeContent';
+import GalleryContent from './components/Main/GalleryContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
@@ -75,6 +76,7 @@ function App() {
             <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
             <Route path="analyze" element={<AnalyzeContent />} />
+            <Route path="gallery" element={<GalleryContent />} />
           </Route>
           <Route
             path="/posture"

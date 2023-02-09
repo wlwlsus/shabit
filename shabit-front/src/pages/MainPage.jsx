@@ -28,8 +28,10 @@ export default function MainPage() {
       navigate('/main');
     } else if (value === 1) {
       navigate('/main/history');
-    } else {
+    } else if (value === 2) {
       navigate('/main/analyze');
+    } else {
+      navigate('/main/gallery');
     }
   };
 
@@ -79,6 +81,9 @@ export default function MainPage() {
         <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
           자세분석
         </Tab>
+        <Tab onClick={() => tabClicked(3)} style={clicked === 3 ? null : style}>
+          갤러리
+        </Tab>
         <Container>
           <MoveToAdmin />
           <Outlet />
@@ -119,11 +124,14 @@ const ContainerWrapper = styled.div`
   }
 
   & > button:nth-child(2) {
-    left: 7.6%;
+    left: 7.8%;
   }
-
   & > button:nth-child(3) {
     left: 16%;
+  }
+
+  & > button:nth-child(4) {
+    left: 24%;
   }
 `;
 
@@ -139,6 +147,7 @@ const Container = styled.div`
 `;
 
 const Tab = styled.button`
+  width: 6rem;
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.color.secondary};
   font-size: 1.1rem;
