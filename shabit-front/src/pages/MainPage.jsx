@@ -13,22 +13,69 @@ export default function MainPage() {
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
 
+  // const dispatch = useDispatch();
+
+  // const user = typedUseSelector((state) => {
+  //   return state.auth.user;
+  // });
+
   const style = {
     backgroundColor: themeContext.color.whiteColor,
     color: themeContext.color.grayColor,
   };
-  const [clicked, setClicked] = useState(0);
+  const [clicked, setClicked] = useState([0, 1, 1]);
 
-  const tabClicked = (value) => {
-    setClicked(value);
-    if (value === 0) {
-      navigate('/main');
-    } else if (value === 1) {
-      navigate('/main/history');
-    } else {
-      navigate('/main/analyze');
+  const currentUrl = location.pathname;
+  useEffect(() => {
+    switch (currentUrl) {
+      case '/main':
+        setClicked([0, 1, 1]);
+        break;
+      case '/main/history':
+        setClicked([1, 0, 1]);
+        break;
+      case '/main/goal':
+        setClicked([1, 1, 0]);
+        break;
+      default:
+        setClicked([0, 1, 1]);
+        break;
     }
-  };
+  }, [currentUrl]);
+
+  // useEffect(() => {
+  //   const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+  //   // if (!accessToken && !user.email) {
+  //   //   return navigate('/login');
+  //   // }
+  //   dispatch(setTokenState(accessToken));
+  //   dispatch(setUserState(user));
+  // }, []);
+
+  // useEffect(() => {
+  //   let newUser;
+  //   const accessToken = sessionStorage.getItem('accessToken');
+  //   if (!accessToken && !user.email) {
+  //     return navigate('/login');
+  //   } else if (accessToken && !user.email) {
+  //     newUser = sessionStorage.getItem('user');
+  //   }
+  //   dispatch(setTokenState(accessToken));
+  //   dispatch(setUserState(newUser));
+  // }, []);
+
+  // useEffect(() => {
+  //   let newUser = user;
+  //   const _setUser = () => {
+  //     if (newUser.email) return;
+  //     else {
+  //       const localUser = JSON.parse(sessionStorage.getItem('user'));
+  //       newUser = localUser;
+  //       dispatch(setUserState(localUser));
+  //     }
+  //   };
+  //   _setUser();
+  // }, []);
 
 const goalModal = useSelector((state) => {
   return state.goal.goalModal;
@@ -54,10 +101,16 @@ const goalModal = useSelector((state) => {
         >
           자세기록
         </Tab>
-        <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
-          자세분석
+        <Tab
+          onClick={() => {
+            navigate('/main/goal');
+          }}
+          style={clicked[2] ? style : null}
+        >
+          나의목표
         </Tab>
         <Container>
+          <MoveToAdmin />
           <Outlet />
         </Container>
       </ContainerWrapper>
