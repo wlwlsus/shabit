@@ -27,6 +27,8 @@ export default function Modal() {
     }),
   });
 
+  const [changeModal, setChangeModal] = useState(false);
+
   const [inputs, setInputs] = useState({
     percentage: goal.percentage,
     time: goal.time,
@@ -54,6 +56,7 @@ export default function Modal() {
     Goal.putGoal(user.email, percentage, time)
       .then(() => {
         setMessage('수정되었습니다.');
+        setChangeModal(true);
       })
       .catch((err) => {
         setMessage('에러가 발생했습니다.');
@@ -77,53 +80,70 @@ export default function Modal() {
 
   return (
     <ContainerWrapper>
-      <Alert>{message}</Alert>
-      <ModalHeader>
-        <BsFillXCircleFill
-          onClick={() => {
-            dispatch(setGoalModal(false));
-          }}
-        />
-      </ModalHeader>
-      <Container>
-        <Title>나의 바른 자세 목표</Title>
-        <InputWrapper>
-          <P>자세 비율</P>
-          <Input
-            type="number"
-            name="percentage"
-            value={percentage}
-            onChange={onChangeHandler}
-            shadow={'shadow'}
+      {!changeModal && 
+      <EditWrapper>
+        <ModalHeader>
+          <BsFillXCircleFill
+            onClick={() => {
+              dispatch(setGoalModal(false));
+            }}
           />
-          <P>%</P>
-        </InputWrapper>
-        <InputWrapper>
-          <P>유지 시간</P>
-          <Input
-            type="number"
-            name="time"
-            value={time}
-            onChange={onChangeHandler}
-            shadow={'shadow'}
-          />
-          <P>분</P>
-        </InputWrapper>
-        <ButtonWrapper>
-          <Button onClick={updateGoal}>수정하기</Button>
-        </ButtonWrapper>
-      </Container>
+        </ModalHeader>
+        <Container>
+          <Title>나의 바른 자세 목표</Title>
+          <InputWrapper>
+            <P>자세 비율</P>
+            <Input
+              type="number"
+              name="percentage"
+              value={percentage}
+              onChange={onChangeHandler}
+              shadow={'shadow'}
+            />
+            <P>%</P>
+          </InputWrapper>
+          <InputWrapper>
+            <P>유지 시간</P>
+            <Input
+              type="number"
+              name="time"
+              value={time}
+              onChange={onChangeHandler}
+              shadow={'shadow'}
+            />
+            <P>분</P>
+          </InputWrapper>
+          <ButtonWrapper>
+            <Button onClick={updateGoal}>수정하기</Button>
+          </ButtonWrapper>
+        </Container>
+      </EditWrapper>
+      }
+      {changeModal && 
+      <EditWrapper>
+        <ContentWrapper>
+          <Content>목표 설정이 완료되었습니다.</Content>
+          <ButtonWrapper>
+            <OkButton 
+            onClick={() => {
+              dispatch(setGoalModal(false));
+            }}>확인</OkButton>
+          </ButtonWrapper>
+        </ContentWrapper>
+      </EditWrapper>
+      }
     </ContainerWrapper>
   );
 }
 
+const EditWrapper = styled.div``;
+
 const Alert = styled.div`
   z-index: 1000;
   display: flex;
-  position: absolute;
   align-items: center;
-  top: 21rem;
   font-size: 1.2rem;
+  margin: 1rem;
   color: ${(props) => props.theme.color.darkGray}; ;
 `;
 
@@ -142,7 +162,7 @@ const ContainerWrapper = styled.div`
 
 const ModalHeader = styled.div`
   z-index: 999;
-  width: 30rem;
+  width: 20rem;
   height: 4rem;
   background-color: ${(props) => props.theme.color.whiteColor};
   border-radius: 1.5rem 1.5rem 0 0;
@@ -154,7 +174,8 @@ const ModalHeader = styled.div`
 
   & > svg {
     color: ${(props) => props.theme.color.primary};
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
     transition: all 0.2s linear;
 
     &:hover {
@@ -169,8 +190,8 @@ const Container = styled.div`
   color: ${(props) => props.theme.color.primary};
 
   background-color: ${(props) => props.theme.color.whiteColor};
-  width: 30rem;
-  height: 30rem;
+  width: 20rem;
+  height: 20rem;
   padding: 0 0 1rem 0;
   border-radius: 0 0 1.5rem 1.5rem;
   font-weight: bold;
@@ -181,9 +202,31 @@ const Container = styled.div`
   justify-content: space-around;
 `;
 
+const ContentWrapper = styled.div`
+  z-index: 999;
+  color: ${(props) => props.theme.color.primary};
+
+  background-color: ${(props) => props.theme.color.whiteColor};
+  width: 30rem;
+  height: 15rem;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  font-weight: bold;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const Content = styled.div`
+  margin-top: 3rem;
+  font-size: 1.2rem;
+`;
+
 const Title = styled.div`
-  font-size: 2.5rem;
-  margin-bottom: 3rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 `;
 
 const InputWrapper = styled.div`
@@ -196,11 +239,12 @@ const Input = styled.input`
   margin: 0.2rem 0;
   width: 6rem;
   border-radius: 0.5rem;
-  font-size: 3rem;
+  font-size: 2rem;
   text-align: center;
   background-color: ${(props) => props.theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
+  // number input 옆 arrow 지우기
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
@@ -212,7 +256,7 @@ const Input = styled.input`
 `;
 
 const P = styled.p`
-  font-size: 2rem;
+  font-size: 1.2rem;
   margin: 0 1rem;
 `;
 
@@ -228,9 +272,24 @@ const Button = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.color.whiteColor};
-  font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1rem;
   padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid ${(props) => props.theme.color.primary};
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const OkButton = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.color.whiteColor};
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
   border-radius: 0.5rem;
   border: 0.1rem solid ${(props) => props.theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
