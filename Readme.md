@@ -222,7 +222,7 @@ shabit-front
 
 ## ✔ 팀원 역할 분배
 ---
-<img src="image/역할.jpg">
+<img src="image/role.jpg">
 
 ## ✔ 프로젝트 산출물
 ---
