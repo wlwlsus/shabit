@@ -24,7 +24,6 @@ import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
 import GoalContent from './components/Main/GoalContent';
 import GalleryContent from './components/Main/GalleryContent';
-import AnalyzeContent from './components/Main/AnalyzeContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
@@ -140,9 +139,8 @@ function App() {
           >
             <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
-            <Route path="analyze" element={<AnalyzeContent />} />
-            <Route path="gallery" element={<GalleryContent />} />
             <Route path="goal" element={<GoalContent />} />
+            <Route path="gallery" element={<GalleryContent />} />
           </Route>
           <Route
             path="/posture"

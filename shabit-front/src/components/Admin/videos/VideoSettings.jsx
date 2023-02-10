@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { retrieveVods } from '../../../services/admin/get';
 import { typedUseSelector } from '../../../store';
-import { loadEffect } from '../../common/animation';
+import { loadEffect } from '../../../styles/animation';
 import VideoInput from './VideoInput';
 import VideoList from './VideoList';
 

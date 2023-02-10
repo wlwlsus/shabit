@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import { useSelector } from 'react-redux';
 
 import { RxThickArrowRight } from 'react-icons/rx';
 import { HiPencilAlt } from 'react-icons/hi';
-import ThemeBox from './ThemeBox';
-import Logo from '../common/Logo';
 
 import { useDispatch } from 'react-redux';
 import { setGoalModal } from '../../store/goalSlice';
@@ -74,7 +72,7 @@ const TitleWrapper = styled.div`
   align-self: start;
   align-items: center;
   top: 4.75rem;
-  z-index:999;
+  z-index: 999;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 

@@ -13,7 +13,7 @@ export default function MainPage() {
     backgroundColor: themeContext.color.whiteColor,
     color: themeContext.color.grayColor,
   };
-  const [clicked, setClicked] = useState([0, 1, 1]);
+  const [clicked, setClicked] = useState(0);
 
   const tabClicked = (value) => {
     setClicked(value);
@@ -21,8 +21,10 @@ export default function MainPage() {
       navigate('/main');
     } else if (value === 1) {
       navigate('/main/history');
+    } else if (value === 2) {
+      navigate('/main/goal');
     } else {
-      navigate('/main/analyze');
+      navigate('/main/gallery');
     }
   };
 
@@ -34,28 +36,13 @@ export default function MainPage() {
     <PageWrapper>
       {goalModal && <GoalModal />}
       <ContainerWrapper>
-        <Tab
-          onClick={() => {
-            navigate('/main');
-          }}
-          style={clicked[0] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
           SHabit
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/history');
-          }}
-          style={clicked[1] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(1)} style={clicked === 1 ? null : style}>
           자세기록
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/goal');
-          }}
-          style={clicked[2] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
           나의목표
         </Tab>
         <Tab onClick={() => tabClicked(3)} style={clicked === 3 ? null : style}>
