@@ -45,6 +45,7 @@ const TitleWrapper = styled.div`
   align-self: start;
   align-items: center;
   top: 14.5rem;
+  z-index: 999;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
