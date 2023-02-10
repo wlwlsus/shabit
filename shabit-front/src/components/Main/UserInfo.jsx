@@ -6,11 +6,20 @@ import ThemeBox from './ThemeBox';
 import { BiUserCircle } from 'react-icons/bi';
 import { changeNickname } from '../../services/auth/put';
 import { fetchProfile } from '../../services/auth/get';
+import { FireConfirm } from '../../services';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const { email, nickname, profile } = user;
   const [changingNickname, setChangingNickname] = useState(false);
-  const [nicknameInput, setNicknameInput] = useState(() => nickname);
+  const [nicknameInput, setNicknameInput] = useState();
+  const onSubmit = () => {
+    changeNickname(email, nicknameInput).then(() => {
+      FireConfirm('닉네임이 변경되었습니다.');
+      fetchProfile(email).then(() => {
+        setChangingNickname(false);
+      });
+    });
+  };
 
   return (
     <Wrapper>
@@ -30,18 +39,12 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
                 id="nickname-input"
                 value={nicknameInput}
                 onChange={(e) => setNicknameInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') onSubmit();
+                }}
               />
             </InputWrapper>
-            <StyledButton
-              style={{ visibility: 'visible' }}
-              onClick={() => {
-                changeNickname(email, nicknameInput).then(() => {
-                  fetchProfile(email).then(() => {
-                    setChangingNickname(false);
-                  });
-                });
-              }}
-            >
+            <StyledButton style={{ visibility: 'visible' }} onClick={onSubmit}>
               변경하기
             </StyledButton>
             <span>이메일 : {email}</span>
@@ -49,6 +52,7 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
         ) : (
           <UserName
             onClick={() => {
+              setNicknameInput(nickname);
               setChangingNickname(true);
             }}
           >
