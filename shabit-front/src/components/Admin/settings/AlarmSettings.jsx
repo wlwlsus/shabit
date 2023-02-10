@@ -72,12 +72,6 @@ export default function AlarmSettings() {
           </div>
         </Content>
         <ButtonWrapper>
-          {/* {stretchingTimeInput === stretchingTime &&
-          alertTimeInput === alertTime ? (
-            <Content style={{ textAlign: 'left' }}>
-              <div style={{ padding: '0.2rem' }}>울리기</div>
-            </Content>
-          ) : ( */}
           <Content>
             <div style={{ padding: '0.2rem' }}>울리기</div>
             <StyledButton
@@ -91,7 +85,6 @@ export default function AlarmSettings() {
               수정하기
             </StyledButton>
           </Content>
-          {/* )} */}
         </ButtonWrapper>
       </ContentWrapper>
     </>
@@ -104,7 +97,6 @@ const StyledButton = styled.button`
   padding: 0.2rem 0.3rem;
   margin-left: 0.4rem;
   border-radius: 0.3rem;
-  /* font-weight: bold; */
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 

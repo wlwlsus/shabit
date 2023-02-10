@@ -150,5 +150,4 @@ const StyledButton = styled.button`
 `;
 const ButtonContainer = styled.div`
   display: flex;
-  /* justify-content: space-between; */
 `;

@@ -11,7 +11,6 @@ const VideoInfiniteScroll = ({ scrollProp, setScrollProp, vodsList }) => {
   const trigger = useRef();
   useIntersection(trigger, () => setTriggered(true));
   useEffect(() => {
-    // alert(`트리거드${triggered} 라스트페이지${isLastPage} 로딩중${isLoading}`);
     if (!triggered) return;
     if (isLastPage || isLoading) return setTriggered(false);
     retrieveVods(page, category, length).then((res) => {

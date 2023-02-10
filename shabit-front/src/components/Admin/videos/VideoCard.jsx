@@ -120,7 +120,6 @@ const StyledCardWrapper = styled.div`
   .card {
     position: relative;
     margin: 0.5rem 0.5rem;
-    /* margin-bottom: 1rem; */
     background-color: #fbfbfb;
     border-radius: 0.5rem;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
@@ -165,24 +164,6 @@ const StyledCardWrapper = styled.div`
   &:hover .delete-tag {
     display: flex;
   }
-  /* .tag-teal {
-    background-color: #47bcd4;
-  }
-  .tag-purple {
-    background-color: #5e76bf;
-  }
-  .tag-pink {
-    background-color: #cd5b9f;
-  }
-  .tag-time-dark-verdun {
-    background-color: #1d454c;
-  }
-  .tag-time-deep-sea {
-    background-color: #386168;
-  }
-  .tag-time-indian-sunset {
-    background-color: #dabd78;
-  } */
   .tag-time-dark-verdun {
     background-color: #ab9663;
   }
