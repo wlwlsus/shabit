@@ -22,6 +22,7 @@ const QuoteInput = ({ setTriggered, setPage, setIsLastPage }) => {
 
       <StyledButton
         onClick={async () => {
+          if (!debouncedInput || !quoteInput) return;
           await postQuote(quoteInput);
           await setQuoteInput('');
           setTriggered(true);

@@ -40,7 +40,7 @@ const VideoFilter = ({ scrollProp, setScrollProp }) => {
 };
 
 const FilterContainer = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
 
   display: flex;
   align-items: center;

@@ -30,7 +30,7 @@ const VideoFilterDropdown = ({ scrollProp, setScrollProp }) => {
     <DropdownWrapper ref={ref}>
       <Selected
         onClick={() => {
-          setDropped(true);
+          setDropped(!Dropped);
         }}
       >
         {typeof selected === 'number' ? categoryArray[selected] : '카테고리'}
@@ -82,13 +82,13 @@ const Selected = styled.div`
   span {
     position: absolute;
     display: flex;
-    top: 8.45rem;
+    top: 8.2rem;
     left: 4.9rem;
     font-size: 0.9rem;
     align-items: center;
     transform: translateY(-50%);
     width: 1rem;
-    opacity: 0.5;
+    opacity: 0.7;
     transition: 0.2s ease;
   }
 `;

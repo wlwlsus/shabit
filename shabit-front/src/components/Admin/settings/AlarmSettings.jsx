@@ -21,6 +21,8 @@ export default function AlarmSettings() {
   const [alertTimeInput, setAlertTimeInput] = useState(alertTime);
 
   const onClick = async (e) => {
+    if (stretchingTime === stretchingTimeInput && alertTime === alertTimeInput)
+      return;
     const newStretchingTime = stretchingTimeInput
       ? stretchingTimeInput
       : stretchingTime / 60 / 1000;
@@ -78,7 +80,16 @@ export default function AlarmSettings() {
           ) : ( */}
           <Content>
             <div style={{ padding: '0.2rem' }}>울리기</div>
-            <StyledButton onClick={onClick}>수정하기</StyledButton>
+            <StyledButton
+              onClick={onClick}
+              className={
+                stretchingTime === stretchingTimeInput &&
+                alertTime === alertTimeInput &&
+                'disabled'
+              }
+            >
+              수정하기
+            </StyledButton>
           </Content>
           {/* )} */}
         </ButtonWrapper>
@@ -114,6 +125,10 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   animation: 0.8s ease-in ${loadEffect.down};
+  .disabled {
+    background-color: ${(props) => props.theme.color.grayColor};
+    cursor: default;
+  }
 `;
 
 const I = styled.p`

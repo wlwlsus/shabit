@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { postVod } from '../../../services/admin/post';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import useDebounce from '../../../utils/useDebounce';
+import VideoInputDropbox from './VideoInputDropbox';
 
 const VideoInput = ({ scrollProp, setScrollProp }) => {
   const [categoryInput, setCategoryInput] = useState(1);
@@ -37,7 +38,8 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
   return (
     <VideoInputWrapper>
       <StyledDropBox>
-        <div className="select-box">
+        <VideoInputDropbox />
+        {/* <div className="select-box">
           <div
             className="select-box__current"
             tabIndex={1}
@@ -105,7 +107,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
               </label>
             </li>
           </ul>
-        </div>
+        </div> */}
       </StyledDropBox>
       <StyledInputTag>
         <input
@@ -183,6 +185,7 @@ const StyledDropBox = styled.div`
   border: 0.1rem solid ${(props) => props.theme.color.primary};
   border-right: none;
   border-radius: 1rem 0 0 1rem;
+  cursor: pointer;
   .select-box {
     position: relative;
     display: block;
