@@ -55,97 +55,75 @@ export default function Modal() {
   const updateGoal = () => {
     Goal.putGoal(user.email, percentage, time)
       .then(() => {
-        setMessage('수정되었습니다.');
         setChangeModal(true);
       })
-      .catch((err) => {
-        setMessage('에러가 발생했습니다.');
-      });
+      .catch((err) => {});
     dispatch(setPercentage(percentage));
     dispatch(setTime(time));
   };
 
-  const [message, setCurrentMessage] = useState('');
-  const [currentTimeout, setCurrentTimeout] = useState(null);
-  //전체: 메시지을 2초 후 초기화합니다.
-  const setMessage = (str) => {
-    setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage(' ');
-    }, 2000);
-    setCurrentTimeout(newTimeout);
-  };
-
   return (
     <ContainerWrapper>
-      {!changeModal && 
-      <EditWrapper>
-        <ModalHeader>
-          <BsFillXCircleFill
-            onClick={() => {
-              dispatch(setGoalModal(false));
-            }}
-          />
-        </ModalHeader>
-        <Container>
-          <Title>나의 바른 자세 목표</Title>
-          <InputWrapper>
-            <P>자세 비율</P>
-            <Input
-              type="number"
-              name="percentage"
-              value={percentage}
-              onChange={onChangeHandler}
-              shadow={'shadow'}
+      {!changeModal && (
+        <EditWrapper>
+          <ModalHeader>
+            <BsFillXCircleFill
+              onClick={() => {
+                dispatch(setGoalModal(false));
+              }}
             />
-            <P>%</P>
-          </InputWrapper>
-          <InputWrapper>
-            <P>유지 시간</P>
-            <Input
-              type="number"
-              name="time"
-              value={time}
-              onChange={onChangeHandler}
-              shadow={'shadow'}
-            />
-            <P>분</P>
-          </InputWrapper>
-          <ButtonWrapper>
-            <Button onClick={updateGoal}>수정하기</Button>
-          </ButtonWrapper>
-        </Container>
-      </EditWrapper>
-      }
-      {changeModal && 
-      <EditWrapper>
-        <ContentWrapper>
-          <Content>목표 설정이 완료되었습니다.</Content>
-          <ButtonWrapper>
-            <OkButton 
-            onClick={() => {
-              dispatch(setGoalModal(false));
-            }}>확인</OkButton>
-          </ButtonWrapper>
-        </ContentWrapper>
-      </EditWrapper>
-      }
+          </ModalHeader>
+          <Container>
+            <Title>나의 바른 자세 목표</Title>
+            <InputWrapper>
+              <P>자세 비율</P>
+              <Input
+                type="number"
+                name="percentage"
+                value={percentage}
+                onChange={onChangeHandler}
+                shadow={'shadow'}
+              />
+              <P>%</P>
+            </InputWrapper>
+            <InputWrapper>
+              <P>유지 시간</P>
+              <Input
+                type="number"
+                name="time"
+                value={time}
+                onChange={onChangeHandler}
+                shadow={'shadow'}
+              />
+              <P>분</P>
+            </InputWrapper>
+            <ButtonWrapper>
+              <Button onClick={updateGoal}>수정하기</Button>
+            </ButtonWrapper>
+          </Container>
+        </EditWrapper>
+      )}
+      {changeModal && (
+        <EditWrapper>
+          <ContentWrapper>
+            <Content>목표 설정이 완료되었습니다.</Content>
+            <ButtonWrapper>
+              <OkButton
+                onClick={() => {
+                  dispatch(setGoalModal(false));
+                }}
+              >
+                확인
+              </OkButton>
+            </ButtonWrapper>
+          </ContentWrapper>
+        </EditWrapper>
+      )}
     </ContainerWrapper>
   );
 }
 
 const EditWrapper = styled.div``;
-
-const Alert = styled.div`
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  font-size: 1.2rem;
-  margin: 1rem;
-  color: ${(props) => props.theme.color.darkGray}; ;
-`;
 
 const ContainerWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
