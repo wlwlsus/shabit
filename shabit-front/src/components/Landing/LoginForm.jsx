@@ -82,8 +82,14 @@ const LoginForm = () => {
     navigate('/signup');
   };
 
+  const onCheckEnter = (e) => {
+    if(e.key === 'Enter') {
+      onLogin()
+    }
+  }
+
   return (
-    <FormWrapper>
+    <FormWrapper onKeyPress={onCheckEnter}>
       <Title
         style={{
           color: 'red',
