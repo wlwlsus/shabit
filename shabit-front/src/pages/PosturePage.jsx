@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Posture/Modal';
 import VideoModal from "../components/TeachableMachineTest/VideoModal";
-import Sidebar from '../components/common/Sidebar';
+import Sidebar from '../components/Posture/Sidebar';
 import Logo from '../components/common/Logo';
 
 import { useDispatch,useSelector } from 'react-redux';
