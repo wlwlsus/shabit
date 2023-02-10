@@ -24,6 +24,7 @@ const LogoutButton = () => {
 
 export default LogoutButton;
 const Button = styled.button`
+  z-index: 2;
   margin-top: 0.5rem;
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.color.whiteColor};

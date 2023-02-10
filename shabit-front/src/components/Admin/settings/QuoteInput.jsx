@@ -30,7 +30,7 @@ const QuoteInput = ({ setTriggered, setPage, setIsLastPage }) => {
         }}
         className={debouncedInput && quoteInput && 'clickable'}
       >
-        문구 추가하기
+        추가
       </StyledButton>
     </QuoteInputWrapper>
   );

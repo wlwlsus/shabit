@@ -142,7 +142,7 @@ const VideoCard = ({
           <img src={thumbnail} alt={categoryId} />
         </div>
         <div className="card-body">
-          {categoryTag}
+          {/* {categoryTag} */}
           {videoLengthTag}
           <a href={videoURL} target="_blank" rel="noopener noreferrer">
             {title}
@@ -161,7 +161,7 @@ const StyledCardWrapper = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     font-size: small;
   }
@@ -195,10 +195,13 @@ const StyledCardWrapper = styled.div`
     justify-content: center;
     align-items: flex-start;
     padding: 1rem;
-    padding-top: 0.5rem;
+    padding-top: 0.2rem;
   }
 
   .tag {
+    position: absolute;
+    top: 4.6rem;
+    right: 0.2rem;
     background: #cccccc;
     border-radius: 50px;
     font-size: x-small;
@@ -206,7 +209,7 @@ const StyledCardWrapper = styled.div`
     color: #fff;
     padding: 0.1rem 0.5rem;
     text-transform: uppercase;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
   .delete-tag {
@@ -219,7 +222,7 @@ const StyledCardWrapper = styled.div`
   &:hover .delete-tag {
     display: flex;
   }
-  .tag-teal {
+  /* .tag-teal {
     background-color: #47bcd4;
   }
   .tag-purple {
@@ -236,6 +239,15 @@ const StyledCardWrapper = styled.div`
   }
   .tag-time-indian-sunset {
     background-color: #dabd78;
+  } */
+  .tag-time-dark-verdun {
+    background-color: #ab9663;
+  }
+  .tag-time-deep-sea {
+    background-color: #386168;
+  }
+  .tag-time-indian-sunset {
+    background-color: #1d454c;
   }
   .card-body p {
     font-size: 13px;

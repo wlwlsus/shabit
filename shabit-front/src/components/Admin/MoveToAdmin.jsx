@@ -31,7 +31,7 @@ const MoveToAdmin = () => {
       <div style={{ visibility: `${isAdmin ? 'visible' : 'hidden'}` }}>
         {pathName.startsWith('/admin') ? (
           <StyledButton onClick={() => navigate('/main')}>
-            메인으로
+            사용자 모드
           </StyledButton>
         ) : (
           <StyledButton onClick={() => navigate('/admin')}>
@@ -55,6 +55,7 @@ const StyledButton = styled.button`
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 const ButtonContainer = styled.div`
+  z-index: 2;
   position: absolute;
   top: 0.5rem;
   right: 6rem;

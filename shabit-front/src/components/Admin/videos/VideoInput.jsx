@@ -131,7 +131,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
           });
         }}
       >
-        추가하기
+        추가
       </StyledButton>
       {videoId ? (
         <ThumbNailFloat>
@@ -248,8 +248,11 @@ const StyledDropBox = styled.div`
   }
   .select-box__option {
     display: block;
+    border: 0.1rem solid ${(props) => props.theme.color.primary};
+    margin-bottom: -0.1rem;
+    border-radius: 1rem;
     padding: 15px;
-    background-color: ${(props) => props.theme.color.lightGrayColor};
+    background-color: ${(props) => props.theme.color.whiteColor};
   }
   .select-box__option:hover,
   .select-box__option:focus {
