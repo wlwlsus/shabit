@@ -8,6 +8,12 @@ import { shallowEqual } from 'react-redux';
 import { typedUseSelector } from '../../store';
 // import { typedUseSelector } from '../../store';
 
+import {
+  fetchGoal,
+  fetchTodayGoal,
+  fetchTodayPostureTime,
+} from '../../services/goal/get';
+
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);
   const [mode, setMode] = useState('w');
@@ -44,13 +50,42 @@ export default function HistoryContent() {
     const newMode = e.target.id;
     setMode(newMode);
   };
+  
+  const [total, setTotal] = useState('0분');
+  const [time, setTime] = useState('0분');
+
+  useEffect(() => {
+    const mounted = async () => {
+      fetchTodayPostureTime(user.email).then((res) => {
+        console.log(res);
+
+        // 분 -> 시
+        let hour = parseInt(res.total/60);
+        let time = res.total%60;
+
+        let str = '';
+        if(hour != 0) str += hour+"시간 ";
+        str += time+"분";
+        setTotal(str);
+        
+        hour = parseInt(res.time[0]/60);
+        time = res.time[0]%60;
+
+        str = '';
+        if(hour != 0) str += hour+"시간 ";
+        str += time+"분";
+        setTime(str);
+      });
+    };
+    mounted();
+  }, []);
 
   return (
     <Wrapper>
       <TitleWrapper>
         <Title>Today</Title>
         <Content>
-          총 <P> 6시간 32분</P> 중, <P> 3시간 29분</P> 동안 바른 자세를
+          총 <P> {total}</P> 중, <P> {time}</P> 동안 바른 자세를
           유지하셨습니다
         </Content>
       </TitleWrapper>
