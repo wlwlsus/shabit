@@ -88,8 +88,6 @@ const Selected = styled.div`
   span {
     position: absolute;
     display: flex;
-    /* top: 8.45rem;
-    left: 4.9rem; */
     top: 1.6rem;
     left: 6.7rem;
     font-size: 1.1rem;
