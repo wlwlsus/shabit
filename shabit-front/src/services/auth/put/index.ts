@@ -29,6 +29,21 @@ export const resetPassword = async (email: string): Promise<boolean> => {
     .catch(() => Promise.reject(false));
 };
 
+export const changePassword = async (
+  email: string,
+  curPassword: string,
+  changePassword: string,
+): Promise<boolean> => {
+  return await apiRequest
+    .put(
+      `/api/v1/user/password-change/${email}`,
+      { curPassword, changePassword },
+      { headers: header() },
+    )
+    .then((res) => Promise.resolve(res))
+    .catch((err) => Promise.reject(err));
+};
+
 export const changeTheme = (thema: number, email: string): Promise<boolean> => {
   return Promise.resolve(true);
 };
