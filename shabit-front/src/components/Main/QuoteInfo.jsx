@@ -5,8 +5,11 @@ import { loadEffect } from '../common/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
+import {setIsRunning, setIsStop} from '../../store/timeSlice';
+import { useDispatch } from 'react-redux';
 
 export default function QuoteInfo() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const quote = typedUseSelector((state) => {
@@ -23,15 +26,15 @@ export default function QuoteInfo() {
         <div>{quote}</div>
       </InfoBox>
 
-      <Start
-        onClick={() => {
-          // getAlarmTime().then(()=>navigate('/posture/live'));
-          // 임시 코드
-          navigate('/posture/live');
-        }}
-      >
-        <BsFillCaretRightSquareFill />
-        <span>자세교정 시작하기</span>
+      <Start>
+        <BsFillCaretRightSquareFill
+          onClick={() => {
+            dispatch(setIsRunning(true));
+            dispatch(setIsStop(false));
+            navigate('/posture/live');
+          }}
+        />
+        <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>
   );

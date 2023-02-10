@@ -9,6 +9,8 @@ import chartSlice from './chartSlice';
 import timeSlice from './timeSlice';
 import adminSlice from './adminSlice';
 import goalSlice from './goalSlice';
+import poseSlice from './poseSlice';
+import trackingSlice from './trackingSlice';
 
 const store = configureStore({
   reducer: {
@@ -18,7 +20,10 @@ const store = configureStore({
     time: timeSlice.reducer,
     admin: adminSlice.reducer,
     goal: goalSlice.reducer,
+    pose: poseSlice.reducer,
+    tracking : trackingSlice.reducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

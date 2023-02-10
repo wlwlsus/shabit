@@ -1,4 +1,4 @@
-import {getAlarmTime}  from './get/index';
+import {getAlarmTime}  from './get';
 
 const Admin = {
     getAlarmTime
