@@ -1,37 +1,66 @@
-import React from 'react';
+import React, { useEffect,useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { setVideoURL } from '../../store/videoSlice';
-
+import { useSelector,useDispatch } from 'react-redux';
 import { BiDownload } from 'react-icons/bi';
-import {BsFillXCircleFill} from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+import { setVideoModal } from '../../store/trackingSlice';
 
-export default function Modal({ setModal }) {
-  const selected = useSelector((state) => {
-    return state.video.selected;
+export default function VideoModal() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const recordedVideoRef = useRef(null);//recordedVideo
+  const recordedChunks= useSelector((state) => {
+    return state.tracking.recordedChunks;
   });
+
   const downloadVideo = ()=>{
-    
+    if (recordedChunks.length) {
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm"
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+      a.href = url;
+      a.download = "MyVideo.webm";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+    dispatch(setVideoModal(false));
+    navigate('/main');
   }
+  useEffect(()=>{
+    if(recordedChunks.length>0){
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm"
+      });
+      recordedVideoRef.current.src = window.URL.createObjectURL(blob);
+      recordedVideoRef.current.playbackRate = 10;
+      recordedVideoRef.current.play();
+    }
+  },[recordedChunks])
 
   return (
     <ContainerWrapper>
-      <ContainerHeader>
-        <BsFillXCircleFill
-          onClick={() => {
-            setModal(false);
-          }}
-        />
-      </ContainerHeader>
-      <Container>
-        <Title>내 모습을 확인하세요</Title>
-          여기에 내 모습 비디오 띄우기
+    <ContainerHeader>
+      <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
+    </ContainerHeader>
+    <Container>
+      <VideoWrapper>
+        <video autoPlay ref={recordedVideoRef} />
+      </VideoWrapper>
+      </Container>
+      <ContainerFooter>
+        <InfoWrapper>
+          다운받지 않은 영상은 사라집니다.
+        </InfoWrapper>
         <IconWrapper>
-          <BiDownload onClick={downloadVideo()} />
+          <BiDownload onClick={downloadVideo} />
           다운로드하기
         </IconWrapper>
-      </Container>
+      </ContainerFooter>
     </ContainerWrapper>
   );
 }
@@ -59,29 +88,18 @@ const ContainerHeader = styled.div`
 
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-
-  & > svg {
-    color: ${(props) => props.theme.color.primary};
-    font-size: 2.5rem;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
+  justify-content: center;
 `;
 
 const Container = styled.div`
   z-index: 999;
   background-color: ${(props) => props.theme.color.whiteColor};
   width: 55rem;
-  height: 25rem;
-  border-radius: 0 0 1.5rem 1.5rem;
+  height: 21rem;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 `;
 
 const Title = styled.div`
@@ -106,4 +124,28 @@ const IconWrapper = styled.div`
       cursor: pointer;
     }
   }
+`;
+const VideoWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+  height:90%;
+  video{
+    height:100%;
+  }
+`;
+const ContainerFooter = styled.div`
+  background-color: ${(props) => props.theme.color.whiteColor};
+  height: 4rem;
+  width: 55rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content:flex-end;
+  color: ${(props) => props.theme.color.primary};
+  padding: 0 1rem 1rem 1rem;
+`;
+const InfoWrapper = styled.div`
+  width:46%;
 `;

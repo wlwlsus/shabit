@@ -2,14 +2,16 @@ import React, {  useEffect, useState } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 import Loading from '../common/Loading';
 import {setPose} from "../../store/poseSlice";
-import {useDispatch} from 'react-redux';
+import {useDispatch,useSelector} from 'react-redux';
 import notify from '../../utils/notify';
 
 const TrackingPose = () =>{
     // 바른 자세인지 아닌지
     const [load,setLoad] = useState(false);
     const dispatch = useDispatch();
-
+    const isRunning = useSelector((state) => {
+        return state.time.isRunning;
+    });
     let model,webcam, poseCnt;
     let id;
     let maxPose; 
@@ -19,19 +21,20 @@ const TrackingPose = () =>{
     let isSetTime = true;
 
     const init = async()=>{
+        //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
         model = await tmPose.load(
             '/my_model/model.json',
             '/my_model/metadata.json',
             );
-            poseCnt = model.getTotalClasses();
-            const size = 300;
-            const flip = true; // whether to flip the webcam
-            webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
-            await webcam.play();
-            alarmSec = sessionStorage.getItem('alertTime')*3; //일단 9초
-            setLoad(true);
-            id = setInterval(tracking,16);
+        poseCnt = model.getTotalClasses();
+        const size = 300;
+        const flip = true; // whether to flip the webcam
+        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        alarmSec = sessionStorage.getItem('alertTime')*3; //일단 9초
+        setLoad(true);
+        id = setInterval(tracking,16);
     }
     const predictPose = async()=>{
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
@@ -63,8 +66,14 @@ const TrackingPose = () =>{
         }
     }
     const onStop = async () =>{
+        console.log("tracking멈ㅊㅁ");
         await clearInterval(id);
+        // TODO: data날려주기
     }
+    useEffect(()=>{
+        onStop();
+    },[isRunning]);
+
     const getElapsedTime = ()=>{
         const now = Date.now(); //
         const elapsed =Math.floor((now-time) / 1000);
@@ -84,7 +93,7 @@ const TrackingPose = () =>{
    
     return(
         <div>
-            {!load ? <Loading /> : ``}
+            {load && <Loading />}
             <button onClick={onStop}>스탑</button>
         </div>
     )

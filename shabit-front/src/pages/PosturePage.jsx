@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Posture/Modal';
@@ -6,30 +6,33 @@ import VideoModal from "../components/TeachableMachineTest/VideoModal";
 import Sidebar from '../components/common/Sidebar';
 import Logo from '../components/common/Logo';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import { setIsStop } from '../store/timeSlice';
-export default function PosturePage() {
-  const [stretchModal, setStretchModal] = useState(false);
-  const [videoModal, setVideoModal] = useState(true);
 
-  
+export default function PosturePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isVideoModalOpen = useSelector((state)=>{
+    return state.tracking.videoModal;
+  })
+  const isStretchModalOpen = useSelector((state)=>{
+    return state.video.stretchModal;
+  })
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
     const user = JSON.parse(sessionStorage.getItem('user'));
     // if (!accessToken && !user) {
     //   return navigate('/login');
     // }
+   
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, [navigate, dispatch]);
 
   return (
     <PageWrapper>
-      {stretchModal && <Modal setModal={setStretchModal} />}
-      {videoModal &&< VideoModal setModal={setVideoModal}/>}
+      {isStretchModalOpen && <Modal/>}
+      {isVideoModalOpen &&< VideoModal/>}
       <Container>
         <Logo color={'pink'} size={'sm'} />
         <Outlet />

@@ -1,50 +1,58 @@
 import React,{useState,useEffect} from 'react';
 import styled from 'styled-components';
-import {CgTimer,CgSandClock,CgPlayPause,CgPlayButton} from 'react-icons/cg';
-import {ImExit} from "react-icons/im";
-import { useDispatch } from 'react-redux';
-import {setIsRunning,setIsStop} from '../../store/timeSlice';
-import { typedUseSelector } from '../../store';
+import { useDispatch,useSelector } from 'react-redux';
 import notify from '../../utils/notify';
+import {ImExit} from "react-icons/im";
+import {CgTimer,CgSandClock,CgPlayPause,CgPlayButton} from 'react-icons/cg';
+import {setIsRunning,setIsStop} from '../../store/timeSlice';
+import { setVideoModal } from '../../store/trackingSlice';
+import { setStretchModal } from '../../store/videoSlice';
 
 const Sidebar = ()=>{
   const [toggle,setToggle] = useState(true);
   const dispatch = useDispatch();
  
-  const isRunning = typedUseSelector((state) => {
+  const isRunning = useSelector((state) => {
     return state.time.isRunning;
   });
-  const stretchingMin = typedUseSelector((state) => {
+  const stretchingMin = useSelector((state) => {
     return state.time.stretchTime.min;
   });
-  const stretchingSec  = typedUseSelector((state) => {
+  const stretchingSec  = useSelector((state) => {
     return state.time.stretchTime.sec;
   });
-  const pose =typedUseSelector((state) => {
+  const pose =useSelector((state) => {
     return state.pose.pose;
   });
 
   useEffect(()=>{
-    if(stretchingMin===0 && stretchingSec===0) notify(pose,'stretching');
+    if(stretchingMin===0 && stretchingSec===0) {
+      notify(pose,'stretching');
+      // stretching modal띄우기
+      dispatch(setStretchModal(false));
+      //timer 지우기 -> clearInterval()
+      dispatch(setIsStop(true));
+    }
   },[isRunning])
 
-  const usedTime = typedUseSelector((state) => {
+  const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
 
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
   
   const ClickStop = ()=>{
-      // 시간 같은거 모두 정지
-      dispatch(setIsStop(true));
+    // 시간 같은거 모두 정지
+    dispatch(setIsStop(true));
+    dispatch(setIsRunning(false));
     // 모달 띄워서 내 모습 play + download
-    // api날리기 stat post
+    dispatch(setVideoModal(true));
+    // TODO api날리기 stat post
   }
   const ClickPlayButton =()=>{
-    dispatch(setIsRunning());
+    dispatch(setIsRunning(true));
     setToggle(!toggle);
   }
-
   return(
       <ContainerWrapper>
           <TimeContainer>

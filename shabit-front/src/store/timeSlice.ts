@@ -5,7 +5,7 @@ const timeSlice = createSlice({
   initialState: {
     stretchTime: {min:50,sec:0},
     usedTime : {hour:0,min:0},
-    isRunning:true,
+    isRunning:false,//TODO:isStop이랑 isRunning중에 하나만 있어도되는지 확인해야됨
     isStop:false,
   },
   reducers: {
@@ -32,8 +32,8 @@ const timeSlice = createSlice({
         }
         else state.stretchTime.sec-=1;
     },
-    setIsRunning :(state)=>{
-        state.isRunning = !state.isRunning;
+    setIsRunning :(state,action)=>{
+        state.isRunning = action.payload;
     },
     setIsStop :(state,action)=>{
       state.isStop = action.payload;

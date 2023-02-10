@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import MyCapture from "../TeachableMachineTest/MyCapture";
-// import MyPose from "../TeachableMachineTest/MyPose";
 import {setInitTime,calUsedTime,calStretchTime} from '../../store/timeSlice';
 import { useDispatch } from 'react-redux';
 import { typedUseSelector } from '../../store';

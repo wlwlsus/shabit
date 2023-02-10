@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-
+import {setIsRunning, setIsStop} from '../../store/timeSlice';
+import { useDispatch } from 'react-redux';
 
 export default function QuoteInfo() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const quote = typedUseSelector((state) => {
@@ -27,8 +29,8 @@ export default function QuoteInfo() {
       <Start>
         <BsFillCaretRightSquareFill
           onClick={() => {
-            // getAlarmTime().then(()=>navigate('/posture/live'));
-            // 임시 코드
+            dispatch(setIsRunning(true));
+            dispatch(setIsStop(false));
             navigate('/posture/live');
           }}
         />

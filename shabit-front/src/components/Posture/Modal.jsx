@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVideoURL } from '../../store/videoSlice';
+import { setVideoURL,setStretchModal } from '../../store/videoSlice';
 
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
 import VideoList from './VideoList';
 
-export default function Modal({ setModal }) {
+export default function Modal() {
   const selected = useSelector((state) => {
     return state.video.selected;
   });
@@ -19,7 +19,7 @@ export default function Modal({ setModal }) {
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   const playVideo = () => {
     dispatch(setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`));
-    setModal(false);
+    dispatch(setStretchModal(false));
     navigate('/posture/stretch');
   };
 
@@ -28,7 +28,7 @@ export default function Modal({ setModal }) {
       <ContainerHeader>
         <BsFillXCircleFill
           onClick={() => {
-            setModal(false);
+            dispatch(setStretchModal(false));
           }}
         />
       </ContainerHeader>

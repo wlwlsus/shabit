@@ -8,6 +8,7 @@ import {
 import chartSlice from './chartSlice';
 import timeSlice from './timeSlice';
 import poseSlice from './poseSlice';
+import trackingSlice from './trackingSlice';
 
 const store = configureStore({
   reducer: {
@@ -15,8 +16,10 @@ const store = configureStore({
     video: videoSlice.reducer,
     chart: chartSlice.reducer,
     time:timeSlice.reducer,
-    pose: poseSlice.reducer
+    pose: poseSlice.reducer,
+    tracking : trackingSlice.reducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

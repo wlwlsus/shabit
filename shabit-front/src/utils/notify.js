@@ -20,10 +20,9 @@
         }
       });
     }
-    notification.onclick = (event) => {
-      event.preventDefault(); // prevent the browser from focusing the Notification's tab
-      // window.open('http://localhost:3000/posture/live', '_');
-      window.location.href = 'http://localhost:3000/posture/live';
+    notification.onclick = () => {
+        window.focus();
+        this.cancel();
     }
 }    
 export default notify;
