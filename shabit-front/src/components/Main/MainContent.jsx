@@ -36,8 +36,6 @@ export default function MainContent({ setTheme }) {
     setLastDate(heatmap.slice(-1)[0]?.date);
   }, [heatmap]);
 
-  // console.log(heatmapData);
-
   const isModalOpen = (boolean) => {
     if (typeof boolean === 'boolean') setIsUploading(boolean);
     else setIsUploading(!isUploading);
