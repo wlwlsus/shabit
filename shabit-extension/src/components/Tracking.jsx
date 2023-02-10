@@ -32,7 +32,7 @@ export default function Tracking() {
   }, [pause])
 
   const goSite = () => {
-    window.location.href = 'http://shabit.site/'
+    window.open('http://shabit.site/')
   }
   const setTimer = () => {
     setPause(!pause)
