@@ -1,35 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { goTo } from 'react-chrome-extension-router'
 import { HiArrowRightCircle } from 'react-icons/hi2'
+import { authLogin } from '../utils/authLogin'
 import Tracking from './Tracking'
 
 export default function Login() {
-  const goTracking = () => {
-    goTo(Tracking)
-  }
+  const [errMsg, setErrMsg] = useState()
+  const [inputs, setInputs] = useState({
+    email: '',
+    password: '',
+    autoLogin: false,
+  })
+
   const goSite = () => {
     window.location.href = 'http://shabit.site/'
   }
 
-  //   const onLogin = () => {
-  //     Auth.login(email, password)
-  //       .then(({ user, accessToken }) => {
-  //         navigate('/main');
-  //       })
-  //       .catch((err) => {
-  //         setMessage(err.message);
-  //       });
-  //   };
+  const onChangeHandler = (e) => {
+    const { value, name } = e.target
+    setInputs({
+      ...inputs,
+      [name]: value,
+    })
+  }
+
+  const onLogin = () => {
+    const { email, password } = inputs
+    authLogin(email, password)
+      .then(() => {
+        goTo(Tracking)
+      })
+      .catch((err) => {
+        setErrMsg(err.message)
+      })
+  }
+
   return (
     <Popup>
       <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
+      {errMsg ? <Err> {errMsg}</Err> : null}
       <InputWrapper>
-        <Input type="text" placeholder="아이디" />
-        <Input type="password" placeholder="비밀번호" />
+        <Input
+          type="email"
+          name="email"
+          onChange={onChangeHandler}
+          placeholder="아이디"
+        />
+        <Input
+          type="password"
+          name="password"
+          onChange={onChangeHandler}
+          placeholder="비밀번호"
+        />
       </InputWrapper>
-      <IconWrapper onClick={goTracking}>
-        로그인 <HiArrowRightCircle />
+      <IconWrapper>
+        로그인 <HiArrowRightCircle onClick={onLogin} />
       </IconWrapper>
       <Text onClick={goSite}>홈페이지로 이동하기</Text>
     </Popup>
@@ -54,6 +80,13 @@ const Popup = styled.div`
 const Logo = styled.img`
   margin-top: 1rem;
   width: 7rem;
+`
+
+const Err = styled.div`
+  color: ${(props) => props.theme.color.redColor};
+  font-size: 0.7rem;
+  position: absolute;
+  top: 9%;
 `
 
 const InputWrapper = styled.div`

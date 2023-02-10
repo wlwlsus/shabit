@@ -52,7 +52,7 @@ const Wrapper = styled.div`
 `
 
 const Logo = styled.img`
-  margin: 0.3rem 0.5rem 0 0;
+  margin: 0 1rem 0 0;
   width: 3.7rem;
   align-self: flex-end;
 `
