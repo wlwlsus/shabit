@@ -52,7 +52,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
                 name="Ben"
                 defaultChecked="checked"
               />
-              <p className="select-box__input-text">목 운동</p>
+              <p className="select-box__input-text">목</p>
             </div>
             <div className="select-box__value">
               <input
@@ -62,7 +62,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
                 defaultValue={2}
                 name="Ben"
               />
-              <p className="select-box__input-text">허리 운동</p>
+              <p className="select-box__input-text">허리</p>
             </div>
             <div className="select-box__value">
               <input
@@ -72,7 +72,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
                 defaultValue={3}
                 name="Ben"
               />
-              <p className="select-box__input-text">전신 운동</p>
+              <p className="select-box__input-text">전신</p>
             </div>
             <TiArrowSortedDown className="select-box__icon" />
           </div>
@@ -83,7 +83,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
                 htmlFor={0}
                 aria-hidden="true"
               >
-                목 운동
+                목
               </label>
             </li>
             <li>
@@ -92,7 +92,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
                 htmlFor={1}
                 aria-hidden="true"
               >
-                허리 운동
+                허리
               </label>
             </li>
             <li>
@@ -101,7 +101,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
                 htmlFor={2}
                 aria-hidden="true"
               >
-                전신 운동
+                전신
               </label>
             </li>
           </ul>

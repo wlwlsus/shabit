@@ -1,3 +1,4 @@
+import { header } from '../..';
 import store from '../../../store';
 import {
   setUserState,
@@ -45,6 +46,7 @@ export const login = async (email: string, password: string) => {
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       sessionStorage.setItem('user', JSON.stringify(user));
       const decodedToken: DecodedJWT = jwt_decode(accessToken);
       // console.log(decodedToken);
@@ -99,15 +101,18 @@ export const socialLogin = async (email: string, password: string) => {
     });
 };
 
-export const logout = async (
-  accessToken: string,
-  refreshToken: string,
-): Promise<boolean> => {
+export const logout = async (): Promise<boolean> => {
+  const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+  const refreshToken = JSON.parse(sessionStorage.getItem('refreshToken'));
   return await apiRequest
-    .post('/api/v1/user/logout', { accessToken, refreshToken })
+    .post(
+      '/api/v1/user/logout',
+      { accessToken, refreshToken },
+      { headers: header() },
+    )
     .then(() => {
       sessionStorage.clear();
-      alert('로그아웃 되었습니다.');
+      localStorage.clear();
       return Promise.resolve(true);
     })
     .catch(() => Promise.reject(false));

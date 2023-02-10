@@ -73,7 +73,14 @@ function App() {
       if (!newToken) {
         // (6) localStorage 토큰을 가져오고 sessionStorage를 업데이트 합니다.
         newToken = JSON.parse(localStorage.getItem('accessToken'));
-        sessionStorage.setItem('accessToken', JSON.stringify(newToken));
+        newToken = sessionStorage.setItem(
+          'accessToken',
+          JSON.stringify(newToken),
+        );
+        sessionStorage.setItem(
+          'refreshToken',
+          localStorage.getItem('refreshToken'),
+        );
         // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
         isAutoLogin = true;
       }

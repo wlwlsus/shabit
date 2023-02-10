@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { logout } from '../../services/auth/post';
 import { clearAuthState } from '../../store/authSlice';
 
 const LogoutButton = () => {
@@ -10,10 +11,10 @@ const LogoutButton = () => {
   return (
     <Button
       onClick={() => {
-        sessionStorage.clear();
-        localStorage.clear();
-        dispatch(clearAuthState);
-        navigate('/');
+        logout().then(() => {
+          navigate('/');
+          dispatch(clearAuthState);
+        });
       }}
     >
       로그아웃
