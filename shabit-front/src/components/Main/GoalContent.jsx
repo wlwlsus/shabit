@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { theme } from '../../styles/GlobalStyles';
 import { loadEffect } from '../common/animation';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RiDownload2Line } from 'react-icons/ri';
 
-import Goal from './Goal';
+import { setPercentage, setTime } from '../../store/goalSlice';
+import GoalBox from './GoalBox';
 import TimeData from './TimeData';
 
-import * as htmlToImage from "html-to-image";
+import * as htmlToImage from 'html-to-image';
 
 import { typedUseSelector } from '../../store';
 // import { setUserState } from '../../store/authSlice';
@@ -16,7 +18,7 @@ import {
   fetchGoal,
   fetchTodayGoal,
   fetchTodayPostureTime,
-} from '../../services/analyze/get';
+} from '../../services/goal/get';
 
 export default function GoalContent() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -27,15 +29,15 @@ export default function GoalContent() {
     if (!user.email) return;
   }, [user.email]);
 
+  const dispatch = useDispatch();
   const [todayGoal, setTodayGoal] = useState({ percentage: -1, time: -1 });
   const [todayTime, setTodayPostureTime] = useState({
     total: -1,
     time: [0, 0, 0, 0],
   });
-  const [goal, setGoal] = useState({ percentage: -1, time: -1 });
 
   useEffect(() => {
-    const mounted = async()=> {
+    const mounted = async () => {
       fetchTodayGoal(user.email).then((res) => {
         console.log(res);
         setTodayGoal(res);
@@ -46,31 +48,35 @@ export default function GoalContent() {
       });
       fetchGoal(user.email).then((res) => {
         console.log(res);
-        setGoal(res);
+
+        dispatch(setPercentage(res.percentage));
+        dispatch(setTime(res.time));
       });
-    }
-    mounted()
+    };
+    mounted();
   }, []);
 
-  const saveAs = (blob, fileName) =>{
+  const saveAs = (blob, fileName) => {
     var elem = window.document.createElement('a');
-    elem.href = blob
+    elem.href = blob;
     elem.download = fileName;
     elem.style = 'display:none;';
     (document.body || document.documentElement).appendChild(elem);
     if (typeof elem.click === 'function') {
-        elem.click();
+      elem.click();
     } else {
-        elem.target = '_blank';
-        elem.dispatchEvent(new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-        }));
+      elem.target = '_blank';
+      elem.dispatchEvent(
+        new MouseEvent('click', {
+          view: window,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
     }
     URL.revokeObjectURL(elem.href);
-    elem.remove()
-  }
+    elem.remove();
+  };
 
   const exportAsPicture = () => {
     var data = document.getElementsByTagName('body')[0];
@@ -78,23 +84,22 @@ export default function GoalContent() {
     htmlToImage.toPng(data).then((dataUrl) => {
       saveAs(dataUrl, 'SHabit.png');
     });
-  }
+  };
 
   return (
     <Wrapper>
       <HeaderWrapper>
-        <Blank></Blank><P>{user.nickname} 님</P>
+        <Blank></Blank>
+        <P>{user.nickname} 님</P>
         <ShareButton>
           <RiDownload2Line onClick={exportAsPicture} />
         </ShareButton>
       </HeaderWrapper>
       <GoalWrapper>
         <ImageWrapper>
-          <Img src={'/assets/logo-pink.png'} alt="logo"  />
+          <Img src={'/assets/logo-pink.png'} alt="logo" />
         </ImageWrapper>
-        {todayGoal.time != -1 && goal.time != -1 && (
-          <Goal goal={goal} today={todayGoal} />
-        )}
+        {todayGoal.time != -1 && <GoalBox today={todayGoal} />}
       </GoalWrapper>
       {todayTime.total != -1 && (
         <TimeData total={todayTime.total} time={todayTime.time} />
@@ -131,7 +136,7 @@ const HeaderWrapper = styled.div`
 const Img = styled.img`
   width: 100%;
   padding-top: 1rem;
-`
+`;
 
 const ImageWrapper = styled.div`
   padding-left: 1rem;
@@ -162,4 +167,4 @@ const P = styled.div`
 
 const Blank = styled.div`
   margin: 0 1.75rem;
-`
+`;

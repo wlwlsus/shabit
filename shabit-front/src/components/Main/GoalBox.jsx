@@ -1,22 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { loadEffect } from '../common/animation';
+import { useSelector } from 'react-redux';
 
 import { RxThickArrowRight } from 'react-icons/rx';
+import { HiPencilAlt } from 'react-icons/hi';
 import ThemeBox from './ThemeBox';
 import Logo from '../common/Logo';
 
-export default function GoalTime({ goal, today }) {
+import { useDispatch } from 'react-redux';
+import { setGoalModal } from '../../store/goalSlice';
+
+export default function GoalBox({ today }) {
+  const dispatch = useDispatch();
+  const percentage = useSelector((state) => {
+    return state.goal.percentage;
+  });
+  const time = useSelector((state) => {
+    return state.goal.time;
+  });
+
   return (
     <Wrapper>
       <TitleWrapper>
         <Title>목표 달성</Title>
       </TitleWrapper>
+      <IconWrapper>
+        <HiPencilAlt
+          onClick={() => {
+            dispatch(setGoalModal(true));
+          }}
+        />
+      </IconWrapper>
       <ContentWrapper>
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{goal.percentage}%</Goal>
+            <Goal>{percentage}%</Goal>
           </Data>
           <Arrow>
             <RxThickArrowRight />
@@ -29,7 +49,7 @@ export default function GoalTime({ goal, today }) {
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{goal.time}분</Goal>
+            <Goal>{time}분</Goal>
           </Data>
           <Arrow>
             <RxThickArrowRight />
@@ -53,14 +73,13 @@ const TitleWrapper = styled.div`
   position: absolute;
   align-self: start;
   align-items: center;
-  top: 4.5rem;
+  top: 4.75rem;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const Title = styled.div`
   display: flex;
   align-items: center;
-  align-self: start;
   margin-left: 3rem;
   background-color: ${(props) => props.theme.color.secondary};
   color: ${(props) => props.theme.color.primary};
@@ -121,5 +140,21 @@ const Arrow = styled.div`
 
   & > svg {
     font-size: 3rem;
+  }
+`;
+
+const IconWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  top: 6.5rem;
+  right: 3rem;
+  color: ${(props) => props.theme.color.primary};
+  font-weight: bold;
+  padding: 0.3rem;
+  font-size: 1.5rem;
+  animation: 0.8s ease-in ${loadEffect.down};
+
+  &:hover {
+    cursor: pointer;
   }
 `;
