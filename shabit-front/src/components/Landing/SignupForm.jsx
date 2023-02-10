@@ -8,7 +8,7 @@ import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { confirmEmail } from '../../services/auth/get';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({

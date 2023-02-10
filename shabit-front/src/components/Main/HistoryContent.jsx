@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';

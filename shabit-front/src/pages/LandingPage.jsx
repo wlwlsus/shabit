@@ -5,7 +5,7 @@ import Navbar from '../components/Landing/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import { loadEffect } from '../components/common/animation';
+import { loadEffect } from '../styles/animation';
 
 export default function LandingPage({ content, form }) {
   // const [content, form] = children;

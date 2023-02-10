@@ -6,7 +6,7 @@ import { HiArrowRightCircle } from 'react-icons/hi2';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 export default function PhotoList({ photoList }) {
   if (!photoList.length) {
@@ -8,12 +8,8 @@ export default function PhotoList({ photoList }) {
   } else {
     return (
       <Wrapper>
-        {photoList.map((photo, idx) => {
-          return (
-            <Container key={idx}>
-              <Img src={photo.url} />
-            </Container>
-          );
+        {photoList.map((photo) => {
+          return <Img src={photo.url} key={photo.url} />;
         })}
       </Wrapper>
     );
@@ -28,10 +24,10 @@ const Wrapper = styled.div`
   align-content: flex-start;
 `;
 
-const Container = styled.div``;
-
 const Img = styled.img`
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   margin: 0.7rem 0.9rem;
   width: 10rem;
+  box-shadow: 0 0.2rem 0.5rem ${(props) => props.theme.color.grayColor};
+  animation: 0.8s ease-in ${loadEffect.down};
 `;

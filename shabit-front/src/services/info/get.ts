@@ -1,6 +1,5 @@
 import { header } from '..';
 import store from '../../store';
-
 import apiRequest from '../../utils/apiRequest';
 import { setQuote } from '../../store/chartSlice';
 
@@ -34,7 +33,7 @@ export const fetchPhoto = async (
       headers: header(),
     })
     .then((res) => {
-      return Promise.resolve(res.data.result);
+      return Promise.resolve(res.data);
     })
     .catch((err) => Promise.reject(err.data));
 };

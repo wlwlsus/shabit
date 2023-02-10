@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PhotoList from './PhotoList';
 import { fetchPhoto } from '../../services/info/get';
-// import { loadEffect } from '../common/animation';
+// import { loadEffect } from '../../styles/animation';
 // import { useSelector } from 'react-redux';
 
 import {
@@ -12,6 +12,7 @@ import {
 
 export default function GalleryContent() {
   const [photoList, setPhotoList] = useState([]);
+  const [pageLimit, setPageLimit] = useState([]);
   const [posture, setPosture] = useState(1);
   const [page, setPage] = useState(0);
 
@@ -24,16 +25,10 @@ export default function GalleryContent() {
   useEffect(() => {
     if (!user.email) return;
     fetchPhoto(user.email, posture, page).then((res) => {
-      if (!res.length) {
-        let copy = page;
-        copy -= 1;
-        setPage(copy);
-      }
-      setPhotoList(res);
+      setPhotoList(res.result);
+      setPageLimit(res.count - 1);
     });
   }, [posture, page]);
-
-  console.log(page);
 
   const changePosture = (posture) => {
     setPosture(posture);
@@ -42,10 +37,10 @@ export default function GalleryContent() {
 
   const changePage = (value) => {
     let copy = page;
-    if (value) {
+    if (value && page < pageLimit) {
       copy += 1;
-    } else {
-      if (copy === 0) return;
+    }
+    if (!value && page > 0) {
       copy -= 1;
     }
     setPage(copy);
