@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { postVod } from '../../../services/admin/post';
-import { TiArrowSortedDown } from 'react-icons/ti';
 import useDebounce from '../../../utils/useDebounce';
 import VideoInputDropbox from './VideoInputDropbox';
 

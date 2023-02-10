@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { deleteVod } from '../../../services/admin/delete';
-import { retrieveVods } from '../../../services/admin/get';
-import { clearVideoList } from '../../../store/adminSlice';
 
 const VideoCard = ({
   thumbnail,
@@ -16,7 +13,6 @@ const VideoCard = ({
   setScrollProp,
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isDeleting) return;

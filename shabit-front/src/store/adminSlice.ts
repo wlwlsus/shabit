@@ -41,14 +41,8 @@ const adminSlice = createSlice({
     pushVideoList: (state, action) => {
       state.videoList.push(...action.payload);
     },
-    clearVideoList: (state) => {
-      state.videoList = [];
-    },
     pushQuetesList: (state, action) => {
       state.quetesList.push(...action.payload);
-    },
-    clearQuetesList: (state) => {
-      state.quetesList = [];
     },
   },
 });
@@ -61,7 +55,5 @@ export const {
   setStretchingTime,
   setAlertTime,
   pushVideoList,
-  clearVideoList,
   pushQuetesList,
-  clearQuetesList,
 } = adminSlice.actions;

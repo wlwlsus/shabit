@@ -1,8 +1,6 @@
 import { header } from '..';
 import store from '../../store';
 import {
-  clearQuetesList,
-  clearVideoList,
   pushQuetesList,
   pushVideoList,
   setAlertTime,
@@ -95,5 +93,3 @@ export const retreivePhrases = async (page: number = 0): Promise<object> => {
     })
     .catch((err) => err.data);
 };
-
-export default { fetchAlarmTime, fetchVods, retrieveVods, retreivePhrases };
