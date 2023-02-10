@@ -1,17 +1,10 @@
 import { postData } from './post';
-import {
-  fetchDaily,
-  fetchWeekly,
-  fetchMonthly,
-  fetchHeatmap,
-  fetchQuote,
-} from './get';
+import { fetchDaily, fetchWeekly, fetchMonthly, fetchHeatmap } from './get';
 const Stat = {
   fetchDaily,
   fetchWeekly,
   fetchMonthly,
   fetchHeatmap,
-  fetchQuote,
   postData,
 };
 

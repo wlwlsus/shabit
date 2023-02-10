@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
@@ -24,14 +24,6 @@ export default function HistoryContent() {
   const user = typedUseSelector((state) => {
     return state.auth.user;
   }, shallowEqual);
-
-  // useEffect(() => {
-  //   if (!user.email) return;
-  //   Promise.allSettled([
-  //     fetchWeekly(user.email, page),
-  //     fetchMonthly(user.email, page),
-  //   ]);
-  // }, [user.email]);
 
   useEffect(() => {
     if (!user.email) return;

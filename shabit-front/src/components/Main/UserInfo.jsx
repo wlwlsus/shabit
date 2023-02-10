@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 import ThemeBox from './ThemeBox';
 import { BiUserCircle } from 'react-icons/bi';
