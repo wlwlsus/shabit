@@ -12,9 +12,9 @@ export const deleteVod = async (vodList: string): Promise<[object]> => {
     })
     .then(async () => {
       FireConfirm('삭제되었습니다.');
-      const vods = await retrieveVods();
-      store.dispatch(setVideoList(vods));
-      return Promise.resolve(vods);
+      // const vods = await retrieveVods();
+      // store.dispatch(setVideoList(vods));
+      return Promise.resolve();
     })
     .catch((err) => {
       FireAlert(
@@ -30,8 +30,8 @@ export const deletePhrase = async (phrases: string): Promise<[string]> => {
     .delete('/api/v1/admin/phrase', { headers: header(), data: [phrases] })
     .then(async () => {
       FireConfirm('삭제되었습니다.');
-      const phrase = await retreivePhrases().catch();
-      store.dispatch(setQuetesList(phrase));
+      // const phrase = await retreivePhrases().catch();
+      // store.dispatch(setQuetesList(phrase));
     })
     .catch((err) => {
       FireAlert(

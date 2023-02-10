@@ -1,6 +1,10 @@
 import { header } from '..';
 import store from '../../store';
 import {
+  clearQuetesList,
+  clearVideoList,
+  pushQuetesList,
+  pushVideoList,
   setAlertTime,
   setQuetesList,
   setStretchingTime,
@@ -50,7 +54,11 @@ export const retrieveVods = async (
       headers: header(),
     })
     .then((res) => {
-      store.dispatch(setVideoList(res.data.result));
+      if (!page) {
+        store.dispatch(setVideoList(res.data.result));
+      } else {
+        store.dispatch(pushVideoList(res.data.result));
+      }
       return Promise.resolve(res.data.result);
     })
     .catch((err) => {
@@ -58,12 +66,16 @@ export const retrieveVods = async (
     });
 };
 
-export const retreivePhrases = async (): Promise<object> => {
+export const retreivePhrases = async (page: number = 0): Promise<object> => {
   return await apiRequest
-    .get(`/api/v1/admin/phrase?page=0`, { headers: header() })
+    .get(`/api/v1/admin/phrase?page=${page}`, { headers: header() })
     .then((res) => {
       // console.log(res.data.result);
-      store.dispatch(setQuetesList(res.data.result));
+      if (!page) {
+        store.dispatch(setQuetesList(res.data.result));
+      } else {
+        store.dispatch(pushQuetesList(res.data.result));
+      }
       return res.data.result;
     })
     .catch((err) => err.data);

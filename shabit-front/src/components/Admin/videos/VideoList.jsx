@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { typedUseSelector } from '../../../store';
 import VideoCard from './VideoCard';
+import VideoInfiniteScroll from './VideoInfiniteScroll';
 
-const VideoList = ({ vodsList }) => {
+const VideoList = ({ scrollProp, setScrollProp }) => {
+  const vodsList = typedUseSelector((state) => {
+    return state.admin.videoList;
+  });
   return (
     <ListWrapper>
       {vodsList.map((element, idx) => {
@@ -15,9 +20,16 @@ const VideoList = ({ vodsList }) => {
             originalLength={element.originalLength}
             videoId={element.videoId}
             vodsList={vodsList}
+            scrollProp={scrollProp}
+            setScrollProp={setScrollProp}
           />
         );
       })}
+      <VideoInfiniteScroll
+        scrollProp={scrollProp}
+        setScrollProp={setScrollProp}
+        vodsList={vodsList}
+      />
     </ListWrapper>
   );
 };
@@ -25,15 +37,23 @@ const VideoList = ({ vodsList }) => {
 export default VideoList;
 
 const ListWrapper = styled.div`
-  max-height: 22rem;
+  max-height: 24rem;
   max-width: 100%;
   display: flex;
   overflow-y: scroll;
   flex-wrap: wrap;
   overflow-x: hidden;
-  justify-content: space-between;
+  justify-content: start;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    display: none;
+    /* display: none; */
+    border-radius: 6px;
+    background: white;
+    width: 0.3rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    /* display: none; */
+    border-radius: 0.5rem;
+    background: ${(props) => props.theme.color.primary};
   }
 `;

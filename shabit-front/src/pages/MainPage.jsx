@@ -6,7 +6,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 // import { setTokenState, setUserState } from '../store/authSlice';
 // import { typedUseSelector } from '../store';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
-import GoalModal from '../components/Main/GoalModal'
+import GoalModal from '../components/Main/GoalModal';
 
 export default function MainPage() {
   const location = useLocation();
@@ -77,9 +77,9 @@ export default function MainPage() {
   //   _setUser();
   // }, []);
 
-const goalModal = useSelector((state) => {
-  return state.goal.goalModal;
-});
+  const goalModal = useSelector((state) => {
+    return state.goal.goalModal;
+  });
 
   return (
     <PageWrapper>

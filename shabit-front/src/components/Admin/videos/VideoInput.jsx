@@ -4,17 +4,11 @@ import { postVod } from '../../../services/admin/post';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import useDebounce from '../../../utils/useDebounce';
 
-const VideoInput = () => {
+const VideoInput = ({ scrollProp, setScrollProp }) => {
   const [categoryInput, setCategoryInput] = useState(1);
   const [urlInput, setUrlInput] = useState('');
   const [videoId, setVideoId] = useState('');
   const [hasImage, setHasImage] = useState(false);
-  const UploadButton = hasImage
-    ? styled(StyledButton)`
-        background-color: ${(props) => props.theme.color.primary};
-        cursor: pointer;
-      `
-    : styled(StyledButton)``;
 
   const debouncedInput = useDebounce(urlInput, 300);
   const myRef = useRef();
@@ -124,19 +118,21 @@ const VideoInput = () => {
           }}
         />
       </StyledInputTag>
-      <UploadButton
+      <StyledButton
         type="button"
+        className={hasImage && 'buttonVisible'}
         onClick={() => {
           if (!hasImage) return;
           postVod(~~categoryInput || 1, urlInput.split('&')[0]).then(() => {
             setUrlInput('');
             setCategoryInput(1);
             setHasImage(false);
+            setScrollProp({ ...scrollProp, page: 0 });
           });
         }}
       >
         추가하기
-      </UploadButton>
+      </StyledButton>
       {videoId ? (
         <ThumbNailFloat>
           <Thumbnail
@@ -160,7 +156,11 @@ export default VideoInput;
 const VideoInputWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 0rem;
+  .buttonVisible {
+    background-color: ${(props) => props.theme.color.primary};
+    cursor: pointer;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -284,7 +284,7 @@ const ThumbNailFloat = styled.div`
   display: flex;
   justify-content: space-around;
   position: absolute;
-  top: 4.35rem;
+  top: -3.9rem;
   left: 7.4rem;
 `;
 
