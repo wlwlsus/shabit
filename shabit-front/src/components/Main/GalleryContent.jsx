@@ -59,11 +59,11 @@ export default function GalleryContent() {
         </Label>
         <Label htmlFor="3" onClick={() => changePosture(3)}>
           <Radio name="posture" id="3" />
-          누운 자세
+          비스듬한 자세
         </Label>
         <Label htmlFor="4" onClick={() => changePosture(4)}>
           <Radio name="posture" id="4" />
-          비스듬한 자세
+          누운 자세
         </Label>
       </RadioWrapper>
       <Content>
