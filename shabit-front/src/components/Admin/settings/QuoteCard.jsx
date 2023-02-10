@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
 import { deletePhrase } from '../../../services/admin/delete';
-import { loadEffect } from '../../common/animation';
+import { loadEffect } from '../../../styles/animation';
 
 const QuoteCard = ({ quote, setTriggered, setPage, setIsLastPage }) => {
   const [isEditting, setIsEdditing] = useState(false);

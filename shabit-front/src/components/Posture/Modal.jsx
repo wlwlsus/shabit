@@ -2,16 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVideoURL } from '../../store/videoSlice';
+import { setVideoURL,setStretchModal } from '../../store/videoSlice';
 
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
 import VideoList from './VideoList';
 
-export default function Modal({ setModal }) {
-  // 비디오 미선택시 경고 메세지
-  const [msg, setMsg] = React.useState('');
-  // 선택한 비디오
+export default function Modal() {
   const selected = useSelector((state) => {
     return state.video.selected;
   });
@@ -22,9 +19,8 @@ export default function Modal({ setModal }) {
 
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   const playVideo = () => {
-    if (!selected) return setMsg('스트레칭 영상을 선택해주세요.');
     dispatch(setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`));
-    setModal(false);
+    dispatch(setStretchModal(false));
     navigate('/posture/stretch');
   };
 
@@ -33,16 +29,12 @@ export default function Modal({ setModal }) {
       <ModalHeader>
         <BsFillXCircleFill
           onClick={() => {
-            setModal(false);
+            dispatch(setStretchModal(false));
           }}
         />
       </ModalHeader>
       <Container>
-        {msg ? (
-          <Msg>{msg}</Msg>
-        ) : (
-          <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
-        )}
+        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <VideoList />
         <ModalFooter>
           <VideoInfo>
@@ -116,11 +108,6 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 1.3rem;
-`;
-
-const Msg = styled.div`
-  font-size: 1.3rem;
-  color: ${(props) => props.theme.color.redColor};
 `;
 
 const ModalFooter = styled.div`

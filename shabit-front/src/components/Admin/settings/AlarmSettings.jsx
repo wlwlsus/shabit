@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { fetchAlarmTime } from '../../../services/admin/get';
 import { putAlarmTime } from '../../../services/admin/put';
 import { typedUseSelector } from '../../../store';
-import { loadEffect } from '../../common/animation';
+import { loadEffect } from '../../../styles/animation';
 
 export default function AlarmSettings() {
   useEffect(() => {

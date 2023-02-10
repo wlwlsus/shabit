@@ -6,7 +6,7 @@ import { HiArrowRightCircle } from 'react-icons/hi2';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
@@ -82,18 +82,15 @@ const LoginForm = () => {
     navigate('/signup');
   };
 
+  const onCheckEnter = (e) => {
+    if (e.key === 'Enter') {
+      onLogin();
+    }
+  };
+
   return (
-    <FormWrapper>
-      <Title
-        style={{
-          color: 'red',
-          position: 'absolute',
-          left: '640px',
-          top: '20px',
-        }}
-      >
-        {message}
-      </Title>
+    <FormWrapper onKeyPress={onCheckEnter}>
+      <Msg>{message}</Msg>
       {!forgotPassword ? (
         <Title>SHabit에 로그인하고 서비스를 이용해보세요</Title>
       ) : (
@@ -105,7 +102,6 @@ const LoginForm = () => {
         value={email}
         onChange={onChangeHandler}
         placeholder={'아이디'}
-        shadow={'shadow'}
       />
       {!forgotPassword ? (
         <>
@@ -115,7 +111,6 @@ const LoginForm = () => {
             value={password}
             onChange={onChangeHandler}
             placeholder={'비밀번호'}
-            shadow={'shadow'}
           />
 
           <Wrapper>
@@ -169,10 +164,16 @@ const FormWrapper = styled.div`
   }
 `;
 
+const Msg = styled.div`
+  color: ${(props) => props.theme.color.redColor};
+  position: absolute;
+  top: 10%;
+`;
+
 const Title = styled.div`
   width: 38%;
   color: ${(props) => props.theme.color.grayColor};
-  font-size: 0.9rem;
+
   margin-bottom: 1rem;
 `;
 

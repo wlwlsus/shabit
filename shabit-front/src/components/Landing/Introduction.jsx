@@ -5,7 +5,7 @@ import Logo from '../common/Logo';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 const Introduction = () => {
   return (

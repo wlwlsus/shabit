@@ -3,8 +3,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { SiKakaotalk, SiNaver } from 'react-icons/si';
 
 export default function SocialLogin() {
-  const redirectUri = 'http://localhost:3000/oauth/redirect';
-  // const redirectUri = 'https://shabit.site/oauth/redirect';
+  const redirectUri = 'https://shabit.site/oauth/redirect';
 
   const goSocialLogin = (socialType) => {
     const url = `https://shabit.site:8080/oauth2/authorization/${socialType}?redirect_uri=${redirectUri}`;

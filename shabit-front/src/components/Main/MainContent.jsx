@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 import UserInfo from './UserInfo';
 import QuoteInfo from './QuoteInfo';
@@ -8,7 +8,8 @@ import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
 import { typedUseSelector } from '../../store';
-import { fetchHeatmap, fetchQuote } from '../../services/stat/get';
+import { fetchHeatmap } from '../../services/stat/get';
+import { fetchQuote } from '../../services/info/get';
 // import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
