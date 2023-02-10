@@ -17,52 +17,12 @@ const VideoCard = ({
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const dispatch = useDispatch();
-  const setMYScrollProp = (page, search, query) => {
-    // dispatch(clearVideoList());
-    // alert(page + search + query);
-    setScrollProp({ page, search, query });
-  };
 
   useEffect(() => {
     if (!isDeleting) return;
     setIsDeleting(false);
   }, [vodsList]);
   const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
-  let categoryTag;
-  switch (categoryId) {
-    case 1:
-      categoryTag = (
-        <span
-          className="tag tag-teal"
-          onClick={() => setMYScrollProp(0, 'category', '1')}
-        >
-          목 스트레칭
-        </span>
-      );
-      break;
-    case 2:
-      categoryTag = (
-        <span
-          className="tag tag-purple"
-          onClick={() => setMYScrollProp(0, 'category', '2')}
-        >
-          허리 스트레칭
-        </span>
-      );
-      break;
-    case 3:
-      categoryTag = (
-        <span
-          className="tag tag-pink"
-          onClick={() => setMYScrollProp(0, 'category', '3')}
-        >
-          전신 스트레칭
-        </span>
-      );
-      break;
-    default:
-      categoryTag = <div></div>;
-  }
 
   let videoLengthTag;
   const lengthArray = originalLength.split(':');
@@ -72,30 +32,15 @@ const VideoCard = ({
 
   if (originalMinuite < 4) {
     videoLengthTag = (
-      <span
-        className="tag tag-time-dark-verdun"
-        onClick={() => setMYScrollProp(0, 'length', '3')}
-      >
-        {originalLengthText}
-      </span>
+      <span className="tag tag-time-dark-verdun">{originalLengthText}</span>
     );
   } else if (originalMinuite < 8) {
     videoLengthTag = (
-      <span
-        className="tag tag-time-deep-sea"
-        onClick={() => setMYScrollProp(0, 'length', '5')}
-      >
-        {originalLengthText}
-      </span>
+      <span className="tag tag-time-deep-sea">{originalLengthText}</span>
     );
   } else if (originalMinuite < 12) {
     videoLengthTag = (
-      <span
-        className="tag tag-time-indian-sunset"
-        onClick={() => setMYScrollProp(0, 'length', '10')}
-      >
-        {originalLengthText}
-      </span>
+      <span className="tag tag-time-indian-sunset">{originalLengthText}</span>
     );
   } else {
     videoLengthTag = <div>{originalLengthText}</div>;
@@ -142,7 +87,6 @@ const VideoCard = ({
           <img src={thumbnail} alt={categoryId} />
         </div>
         <div className="card-body">
-          {/* {categoryTag} */}
           {videoLengthTag}
           <a href={videoURL} target="_blank" rel="noopener noreferrer">
             {title}
@@ -210,7 +154,6 @@ const StyledCardWrapper = styled.div`
     padding: 0.1rem 0.5rem;
     text-transform: uppercase;
     box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
   }
   .delete-tag {
     position: absolute;

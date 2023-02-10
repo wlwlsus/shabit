@@ -10,38 +10,20 @@ import VideoList from './VideoList';
 export default function VideoSettings() {
   const [scrollProp, setScrollProp] = useState({
     page: 0,
-    search: '',
-    query: '',
+    category: 0,
+    length: 0,
   });
-
-  // useEffect(() => {
-  //   retrieveVods();
-  // }, []);
 
   return (
     <VodWrapper>
       <>
-        {/* <Title>영상 추가</Title> */}
         <PostWrapper>
           <VideoInput scrollProp={scrollProp} setScrollProp={setScrollProp} />
         </PostWrapper>
       </>
       <>
         <ButtonContainer>
-          {/* <Title>영상 리스트</Title>
-           */}
-          <VideoFilter setScrollProp={setScrollProp} />
-          {/* <StyledButton
-            onClick={() => {
-              setScrollProp({
-                page: 0,
-                search: '',
-                query: '',
-              });
-            }}
-          >
-            전체 불러오기
-          </StyledButton> */}
+          <VideoFilter setScrollProp={setScrollProp} scrollProp={scrollProp} />
         </ButtonContainer>
         <VideoList scrollProp={scrollProp} setScrollProp={setScrollProp} />
       </>

@@ -2,10 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { TiArrowSortedDown } from 'react-icons/ti';
 import styled from 'styled-components';
 
-const VideoFilterDropdown = () => {
+const VideoFilterDropdown = ({ scrollProp, setScrollProp }) => {
   const [Dropped, setDropped] = useState(false);
   const [selected, setSelected] = useState('');
   const categoryArray = ['전체', '목', '허리', '전신'];
+
+  useEffect(() => {
+    if (typeof selected !== 'number') return;
+    setScrollProp({ ...scrollProp, category: selected, page: 0 });
+  }, [selected]);
 
   const ref = useRef();
   const handleClickOutSide = (e) => {

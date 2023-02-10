@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import VideoFilterDropdown from './VideoFilterDropdown';
-const VideoFilter = () => {
-  const [mode, setMode] = useState('w');
+const VideoFilter = ({ scrollProp, setScrollProp }) => {
   const handleMode = (e) => {
-    const newMode = e.target.id;
-    setMode(newMode);
+    setScrollProp({ ...scrollProp, length: Number(e.target.value), page: 0 });
   };
   return (
     <FilterContainer>
-      <VideoFilterDropdown />
+      <VideoFilterDropdown
+        scrollProp={scrollProp}
+        setScrollProp={setScrollProp}
+      />
       <RadioWrapper>
         <label htmlFor="ALL">
-          <Checkbox name="mode" id="ALL" defaultChecked onChange={handleMode} />
+          <Checkbox
+            name="mode"
+            id="ALL"
+            value="0"
+            defaultChecked
+            onChange={handleMode}
+          />
           전체
         </label>
         <label htmlFor="3분">
-          <Checkbox name="mode" id="3분" onChange={handleMode} />
+          <Checkbox name="mode" id="3분" value="3" onChange={handleMode} />
           3분
         </label>
         <label htmlFor="5분">
-          <Checkbox name="mode" id="5분" onChange={handleMode} />
+          <Checkbox name="mode" id="5분" value="5" onChange={handleMode} />
           5분
         </label>
         <label htmlFor="10분">
-          <Checkbox name="mode" id="10분" onChange={handleMode} />
+          <Checkbox name="mode" id="10분" value="10" onChange={handleMode} />
           10분
         </label>
       </RadioWrapper>

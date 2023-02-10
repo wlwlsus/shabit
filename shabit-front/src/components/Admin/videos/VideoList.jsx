@@ -13,7 +13,7 @@ const VideoList = ({ scrollProp, setScrollProp }) => {
       {vodsList.map((element, idx) => {
         return (
           <VideoCard
-            key={element.videoId}
+            key={element.videoId + Math.random()}
             thumbnail={element.thumbnail}
             categoryId={element.category.categoryId}
             title={element.title}
