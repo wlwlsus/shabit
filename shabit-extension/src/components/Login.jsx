@@ -28,7 +28,8 @@ export default function Login() {
   const onLogin = () => {
     const { email, password } = inputs
     authLogin(email, password)
-      .then(() => {
+      .then((res) => {
+        sessionStorage.setItem('user', JSON.stringify(res.user))
         goTo(Tracking)
       })
       .catch((err) => {
@@ -86,7 +87,7 @@ const Err = styled.div`
   color: ${(props) => props.theme.color.redColor};
   font-size: 0.7rem;
   position: absolute;
-  top: 9%;
+  top: 32%;
 `
 
 const InputWrapper = styled.div`

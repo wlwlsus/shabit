@@ -1,25 +1,62 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { BsFillPlayCircleFill, BsPauseCircleFill } from 'react-icons/bs'
 export default function Tracking() {
+  const [pause, setPause] = useState(false)
+  const [sec, setSec] = useState(0)
+  const [min, setMin] = useState(0)
+  const [hrs, setHrs] = useState(0)
+  const { nickname, email } = JSON.parse(sessionStorage.getItem('user'))
+  let time = { s: sec, m: min, h: hrs }
+
+  useEffect(() => {
+    if (pause) return
+    const timer = setInterval(() => {
+      time.s += 1
+      if (time.s === 59) {
+        time.s = 0
+        time.m += 1
+      }
+      if (time.m === 59) {
+        time.m = 0
+        time.h += 1
+      }
+      setSec(time.s)
+      setMin(time.m)
+      setHrs(time.h)
+    }, 1000)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [pause])
+
   const goSite = () => {
     window.location.href = 'http://shabit.site/'
+  }
+  const setTimer = () => {
+    setPause(!pause)
   }
   return (
     <>
       <Wrapper>
         <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
         <Nickname>
-          username
-          <Email>ssafy1234@gamil.com</Email>
+          {nickname}
+          <Email>{email}</Email>
         </Nickname>
 
         <Time>
           총 이용 시간
-          <Timer>00 : 00</Timer>
+          <Timer>
+            {String(hrs).padStart(2, '0')} : {String(min).padStart(2, '0')} :{' '}
+            {String(sec).padStart(2, '0')}
+          </Timer>
         </Time>
 
-        <BsPauseCircleFill />
+        <Button onClick={setTimer}>
+          {pause ? <BsFillPlayCircleFill /> : <BsPauseCircleFill />}
+        </Button>
 
         <Text onClick={goSite}>홈페이지로 이동하기</Text>
       </Wrapper>
@@ -40,14 +77,7 @@ const Wrapper = styled.div`
     cursor: default;
   }
 
-  & > svg {
-    font-size: 2.2rem;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-    }
+  
   }
 `
 
@@ -89,4 +119,15 @@ const Text = styled.div`
   &:hover {
     cursor: pointer;
   }
+`
+
+const Button = styled.button`
+  & > svg {
+    font-size: 2.2rem;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.1);
+    }
 `
