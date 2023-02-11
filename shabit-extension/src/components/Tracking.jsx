@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { BsFillPlayCircleFill, BsPauseCircleFill } from 'react-icons/bs'
-export default function Tracking() {
+export default function Tracking({ user }) {
   const [pause, setPause] = useState(false)
   const [sec, setSec] = useState(0)
   const [min, setMin] = useState(0)
   const [hrs, setHrs] = useState(0)
-  const { nickname, email } = JSON.parse(sessionStorage.getItem('user'))
   let time = { s: sec, m: min, h: hrs }
 
+  // 타이머 (pause 값에 따라 동작)
   useEffect(() => {
     if (pause) return
     const timer = setInterval(() => {
@@ -34,6 +34,7 @@ export default function Tracking() {
   const goSite = () => {
     window.open('http://shabit.site/')
   }
+
   const setTimer = () => {
     setPause(!pause)
   }
@@ -42,8 +43,8 @@ export default function Tracking() {
       <Wrapper>
         <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
         <Nickname>
-          {nickname}
-          <Email>{email}</Email>
+          {user.nickname}
+          <Email>{user.email}</Email>
         </Nickname>
 
         <Time>
