@@ -70,12 +70,12 @@ export default function GalleryContent() {
         <PhotoList photoList={photoList} />
       </Content>
       <Pagination>
-        <IconWrapper>
-          <BsFillArrowLeftSquareFill onClick={() => changePage(0)} /> 이전
+        <IconWrapper onClick={() => changePage(0)}>
+          <BsFillArrowLeftSquareFill /> 이전
         </IconWrapper>
-        <IconWrapper>
+        <IconWrapper onClick={() => changePage(1)}>
           다음
-          <BsFillArrowRightSquareFill onClick={() => changePage(1)} />
+          <BsFillArrowRightSquareFill />
         </IconWrapper>
       </Pagination>
     </Wrapper>
@@ -154,4 +154,8 @@ const Pagination = styled.div`
   }
 `;
 
-const IconWrapper = styled.div``;
+const IconWrapper = styled.div`
+  &:hover {
+    cursor: pointer;
+  }
+`;
