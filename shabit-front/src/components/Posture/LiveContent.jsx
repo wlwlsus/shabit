@@ -1,25 +1,24 @@
 import React, { useEffect } from 'react';
 import MyCapture from '../TeachableMachineTest/MyCapture';
-import MyPose from '../TeachableMachineTest/MyPose';
 import {
   setInitTime,
   calUsedTime,
   calStretchTime,
 } from '../../store/timeSlice';
-import { shallowEqual, useDispatch } from 'react-redux';
 import { typedUseSelector } from '../../store';
+import TrackingPose from '../TeachableMachineTest/TrackingPose';
+import { useDispatch } from 'react-redux';
+// import { getAlarmTime } from '../../services/admin/get';
 
 export default function LiveContent() {
-  // const user = JSON.parse(sessionStorage.getItem('user'));
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  }, shallowEqual);
-  const nickname = user.nickname;
   const isRunning = typedUseSelector((state) => {
     return state.time.isRunning;
   });
   const dispatch = useDispatch();
   useEffect(() => {
+    // TODO fetchAlarm으로 바꿔야됨
+    // getAlarmTime().then((stretchingTime)=>
+    //   dispatch(setInitTime(stretchingTime)));
     dispatch(setInitTime(50));
   }, []);
 
@@ -43,8 +42,8 @@ export default function LiveContent() {
 
   return (
     <div>
-      <MyCapture nickname={nickname} />
-      <MyPose />
+      <MyCapture />
+      <TrackingPose />
     </div>
   );
 }

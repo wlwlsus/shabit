@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import { useSelector } from 'react-redux';
 
 import { RxThickArrowRight } from 'react-icons/rx';
 import { HiPencilAlt } from 'react-icons/hi';
-import ThemeBox from './ThemeBox';
-import Logo from '../common/Logo';
 
 import { useDispatch } from 'react-redux';
 import { setGoalModal } from '../../store/goalSlice';
@@ -49,14 +47,18 @@ export default function GoalBox({ today }) {
         <DataWrapper>
           <Data>
             <P>나의 목표</P>
-            <Goal>{time}분</Goal>
+            <Goal>
+              {parseInt(time / 60)}시간 {time % 60}분
+            </Goal>
           </Data>
           <Arrow>
             <RxThickArrowRight />
           </Arrow>
           <Data>
             <P>오늘의 자세</P>
-            <Today>{today.time}분</Today>
+            <Today>
+              {parseInt(today.time / 60)}시간 {today.time % 60}분
+            </Today>
           </Data>
         </DataWrapper>
       </ContentWrapper>
@@ -74,6 +76,7 @@ const TitleWrapper = styled.div`
   align-self: start;
   align-items: center;
   top: 4.75rem;
+  z-index: 999;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
@@ -93,20 +96,27 @@ const Title = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   border-radius: 1.5rem;
   border: 0.2rem solid ${(props) => props.theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
   padding: 0 2rem;
   animation: 0.8s ease-in ${loadEffect.down};
+
+  & > div:nth-child(1) {
+    width: 30%;
+  }
+
+  & > div:nth-child(2) {
+    width: 50%;
+  }
 `;
 
 const DataWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2rem;
-  width: 45%;
+  padding: 2rem 0;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 

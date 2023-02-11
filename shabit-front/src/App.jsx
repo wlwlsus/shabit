@@ -23,13 +23,13 @@ import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
 import GoalContent from './components/Main/GoalContent';
+import GalleryContent from './components/Main/GalleryContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
 
 import AdminPage from './pages/AdminPage';
-import { Recording } from './components/Posture/Recording';
 
 import NotFound404 from './pages/NotFound404';
 
@@ -73,7 +73,14 @@ function App() {
       if (!newToken) {
         // (6) localStorage 토큰을 가져오고 sessionStorage를 업데이트 합니다.
         newToken = JSON.parse(localStorage.getItem('accessToken'));
-        sessionStorage.setItem('accessToken', JSON.stringify(newToken));
+        newToken = sessionStorage.setItem(
+          'accessToken',
+          JSON.stringify(newToken),
+        );
+        sessionStorage.setItem(
+          'refreshToken',
+          localStorage.getItem('refreshToken'),
+        );
         // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
         isAutoLogin = true;
       }
@@ -140,6 +147,7 @@ function App() {
             <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
             <Route path="goal" element={<GoalContent />} />
+            <Route path="gallery" element={<GalleryContent />} />
           </Route>
           <Route
             path="/posture"
