@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { theme } from '../../styles/GlobalStyles';
-import { loadEffect } from '../common/animation';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { RiDownload2Line } from 'react-icons/ri';
 
@@ -12,8 +10,6 @@ import TimeData from './TimeData';
 
 import * as htmlToImage from 'html-to-image';
 
-import { typedUseSelector } from '../../store';
-// import { setUserState } from '../../store/authSlice';
 import {
   fetchGoal,
   fetchTodayGoal,
@@ -22,9 +18,6 @@ import {
 
 export default function GoalContent() {
   const user = JSON.parse(sessionStorage.getItem('user'));
-  // const user = typedUseSelector((state) => {
-  //   return state.auth.user;
-  // });
   useEffect(() => {
     if (!user.email) return;
   }, [user.email]);
@@ -39,16 +32,12 @@ export default function GoalContent() {
   useEffect(() => {
     const mounted = async () => {
       fetchTodayGoal(user.email).then((res) => {
-        console.log(res);
         setTodayGoal(res);
       });
       fetchTodayPostureTime(user.email).then((res) => {
-        console.log(res);
         setTodayPostureTime(res);
       });
       fetchGoal(user.email).then((res) => {
-        console.log(res);
-
         dispatch(setPercentage(res.percentage));
         dispatch(setTime(res.time));
       });

@@ -1,6 +1,6 @@
 import { header } from '..';
 import store from '../../store';
-import { setHeatmapData, setQuote } from '../../store/chartSlice';
+import { setHeatmapData } from '../../store/chartSlice';
 import apiRequest from '../../utils/apiRequest';
 
 export const fetchDaily = async (email: string): Promise<object> => {
@@ -60,14 +60,4 @@ export const fetchHeatmap = async (email: string): Promise<object> => {
       return Promise.resolve(newArray);
     })
     .catch((err) => err.data);
-};
-
-export const fetchQuote = async (): Promise<object> => {
-  return await apiRequest
-    .get('/api/v1/info/phrases', { headers: header() })
-    .then((res) => {
-      const data = res.data.result.content;
-      store.dispatch(setQuote(data));
-      return Promise.resolve(data);
-    });
 };

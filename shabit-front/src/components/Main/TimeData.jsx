@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
-
-import ThemeBox from './ThemeBox';
-import Logo from '../common/Logo';
+import { loadEffect } from '../../styles/animation';
 
 import PostureTimeData from './PostureTimeData';
 
@@ -78,7 +75,6 @@ const ContentWrapper = styled.div`
     width: 47%;
   }
 `;
-
 
 const P = styled.div`
   color: ${(props) => props.theme.color.primary};

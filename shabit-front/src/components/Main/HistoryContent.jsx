@@ -1,37 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
 import { shallowEqual } from 'react-redux';
 import { typedUseSelector } from '../../store';
-// import { typedUseSelector } from '../../store';
-
-import {
-  fetchGoal,
-  fetchTodayGoal,
-  fetchTodayPostureTime,
-} from '../../services/goal/get';
+import { fetchTodayPostureTime } from '../../services/goal/get';
 
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);
   const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
 
-  // const user = JSON.parse(sessionStorage.getItem('user'));
-
   const user = typedUseSelector((state) => {
     return state.auth.user;
   }, shallowEqual);
-
-  // useEffect(() => {
-  //   if (!user.email) return;
-  //   Promise.allSettled([
-  //     fetchWeekly(user.email, page),
-  //     fetchMonthly(user.email, page),
-  //   ]);
-  // }, [user.email]);
 
   useEffect(() => {
     if (!user.email) return;
@@ -50,30 +34,27 @@ export default function HistoryContent() {
     const newMode = e.target.id;
     setMode(newMode);
   };
-  
-  const [total, setTotal] = useState('0분');
-  const [time, setTime] = useState('0분');
 
+  const [time, setTime] = useState(0);
+  const [total, setTotal] = useState(0);
   useEffect(() => {
     const mounted = async () => {
       fetchTodayPostureTime(user.email).then((res) => {
-        console.log(res);
-
         // 분 -> 시
-        let hour = parseInt(res.total/60);
-        let time = res.total%60;
+        let hour = parseInt(res.total / 60);
+        let time = res.total % 60;
 
         let str = '';
-        if(hour != 0) str += hour+"시간 ";
-        str += time+"분";
+        if (hour != 0) str += hour + '시간 ';
+        str += time + '분';
         setTotal(str);
-        
-        hour = parseInt(res.time[0]/60);
-        time = res.time[0]%60;
+
+        hour = parseInt(res.time[0] / 60);
+        time = res.time[0] % 60;
 
         str = '';
-        if(hour != 0) str += hour+"시간 ";
-        str += time+"분";
+        if (hour != 0) str += hour + '시간 ';
+        str += time + '분';
         setTime(str);
       });
     };
@@ -85,8 +66,7 @@ export default function HistoryContent() {
       <TitleWrapper>
         <Title>Today</Title>
         <Content>
-          총 <P> {total}</P> 중, <P> {time}</P> 동안 바른 자세를
-          유지하셨습니다
+          총 <P> {total}</P> 중, <P> {time}</P> 동안 바른 자세를 유지하셨습니다
         </Content>
       </TitleWrapper>
 

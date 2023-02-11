@@ -13,7 +13,7 @@ const VideoList = ({ scrollProp, setScrollProp }) => {
       {vodsList.map((element, idx) => {
         return (
           <VideoCard
-            key={element.videoId}
+            key={element.videoId + Math.random()}
             thumbnail={element.thumbnail}
             categoryId={element.category.categoryId}
             title={element.title}
@@ -46,13 +46,11 @@ const ListWrapper = styled.div`
   justify-content: start;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    /* display: none; */
     border-radius: 6px;
     background: white;
     width: 0.3rem;
   }
   &::-webkit-scrollbar-thumb {
-    /* display: none; */
     border-radius: 0.5rem;
     background: ${(props) => props.theme.color.primary};
   }

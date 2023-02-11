@@ -1,81 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { setTokenState, setUserState } from '../store/authSlice';
-// import { typedUseSelector } from '../store';
+import { Outlet, useNavigate } from 'react-router-dom';
 import MoveToAdmin from '../components/Admin/MoveToAdmin';
 import GoalModal from '../components/Main/GoalModal';
 
 export default function MainPage() {
-  const location = useLocation();
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
-
-  // const dispatch = useDispatch();
-
-  // const user = typedUseSelector((state) => {
-  //   return state.auth.user;
-  // });
 
   const style = {
     backgroundColor: themeContext.color.whiteColor,
     color: themeContext.color.grayColor,
   };
-  const [clicked, setClicked] = useState([0, 1, 1]);
+  const [clicked, setClicked] = useState(0);
 
-  const currentUrl = location.pathname;
-  useEffect(() => {
-    switch (currentUrl) {
-      case '/main':
-        setClicked([0, 1, 1]);
-        break;
-      case '/main/history':
-        setClicked([1, 0, 1]);
-        break;
-      case '/main/goal':
-        setClicked([1, 1, 0]);
-        break;
-      default:
-        setClicked([0, 1, 1]);
-        break;
+  const tabClicked = (value) => {
+    setClicked(value);
+    if (value === 0) {
+      navigate('/main');
+    } else if (value === 1) {
+      navigate('/main/history');
+    } else if (value === 2) {
+      navigate('/main/goal');
+    } else {
+      navigate('/main/gallery');
     }
-  }, [currentUrl]);
-
-  // useEffect(() => {
-  //   const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
-  //   // if (!accessToken && !user.email) {
-  //   //   return navigate('/login');
-  //   // }
-  //   dispatch(setTokenState(accessToken));
-  //   dispatch(setUserState(user));
-  // }, []);
-
-  // useEffect(() => {
-  //   let newUser;
-  //   const accessToken = sessionStorage.getItem('accessToken');
-  //   if (!accessToken && !user.email) {
-  //     return navigate('/login');
-  //   } else if (accessToken && !user.email) {
-  //     newUser = sessionStorage.getItem('user');
-  //   }
-  //   dispatch(setTokenState(accessToken));
-  //   dispatch(setUserState(newUser));
-  // }, []);
-
-  // useEffect(() => {
-  //   let newUser = user;
-  //   const _setUser = () => {
-  //     if (newUser.email) return;
-  //     else {
-  //       const localUser = JSON.parse(sessionStorage.getItem('user'));
-  //       newUser = localUser;
-  //       dispatch(setUserState(localUser));
-  //     }
-  //   };
-  //   _setUser();
-  // }, []);
+  };
 
   const goalModal = useSelector((state) => {
     return state.goal.goalModal;
@@ -85,29 +36,17 @@ export default function MainPage() {
     <PageWrapper>
       {goalModal && <GoalModal />}
       <ContainerWrapper>
-        <Tab
-          onClick={() => {
-            navigate('/main');
-          }}
-          style={clicked[0] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
           SHabit
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/history');
-          }}
-          style={clicked[1] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(1)} style={clicked === 1 ? null : style}>
           자세기록
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/goal');
-          }}
-          style={clicked[2] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
           나의목표
+        </Tab>
+        <Tab onClick={() => tabClicked(3)} style={clicked === 3 ? null : style}>
+          갤러리
         </Tab>
         <Container>
           <MoveToAdmin />
@@ -149,11 +88,14 @@ const ContainerWrapper = styled.div`
   }
 
   & > button:nth-child(2) {
-    left: 7.6%;
+    left: 7.8%;
   }
-
   & > button:nth-child(3) {
     left: 16%;
+  }
+
+  & > button:nth-child(4) {
+    left: 24%;
   }
 `;
 
@@ -169,6 +111,7 @@ const Container = styled.div`
 `;
 
 const Tab = styled.button`
+  width: 6rem;
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.color.secondary};
   font-size: 1.1rem;
