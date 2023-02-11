@@ -6,7 +6,7 @@ export default function Tracking() {
   const [sec, setSec] = useState(0)
   const [min, setMin] = useState(0)
   const [hrs, setHrs] = useState(0)
-  const { nickname, email } = JSON.parse(sessionStorage.getItem('user'))
+  // const { nickname, email } = JSON.parse(sessionStorage.getItem('user'))
   let time = { s: sec, m: min, h: hrs }
 
   useEffect(() => {
@@ -42,8 +42,10 @@ export default function Tracking() {
       <Wrapper>
         <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
         <Nickname>
-          {nickname}
-          <Email>{email}</Email>
+          {/* {nickname} */}
+          닉네임
+          {/* <Email>{email}</Email> */}
+          <Email>이메일</Email>
         </Nickname>
 
         <Time>
