@@ -25,44 +25,29 @@ export default function Login() {
     })
   }
 
-  // const onLogin = () => {
-  //   const { email, password } = inputs
-  //   authLogin(email, password)
-  //     .then((res) => {
-  //       // sessionStorage.setItem('user', JSON.stringify(res.user))
-  //       goTo(Tracking)
-  //     })
-  //     .catch((err) => {
-  //       setErrMsg(err.message)
-  //     })
-  // }
-
-  // const onLogin = () => {
-  //   const { email, password } = inputs
-  //   const data = { email, password }
-  //   chrome.runtime.sendMessage(
-  //     {
-  //       action: 'login',
-  //       data,
-  //     },
-  //     (res) => {
-  //       console.log(res)
-  //     }
-  //   )
-  // }
-  // const URL = 'https://shabit.site:8080/api/v1/user/login'
-
-  const onLogin = () => {
+  const onLogin = async () => {
     const { email, password } = inputs
-    fetch('https://shabit.site:8080/api/v1/user/login', {
+    const settings = {
       method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         email,
         password,
       }),
-    })
-      .then((response) => response.json())
-      .then((result) => console.log(result))
+    }
+    try {
+      const fetchesponse = await fetch(
+        'https://shabit.site:8080/api/v1/user/login',
+        settings
+      )
+      const data = await fetchesponse.json()
+      console.log(data)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
