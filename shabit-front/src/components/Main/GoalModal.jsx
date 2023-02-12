@@ -47,17 +47,6 @@ export default function Modal() {
     });
   }, []);
 
-  const changeMinToHour = (value) => {
-    // 분 -> 시
-    let hour = parseInt(value / 60);
-    let time = value % 60;
-
-    let str = '';
-    if (hour != 0) str += hour + '시간 ';
-    str += time;
-    value = str;
-  };
-
   const onChangeHandler = (e) => {
     // input 값이 바뀔 때마다 inputs에 넣음
     const { value, name } = e.target;
@@ -71,10 +60,17 @@ export default function Modal() {
       if (value >= 60) return; // 60분 이상을 입력하면 리턴
       if (parseInt(hour) * 60 + parseInt(value) > 1440) return; // 하루(1440분)에 달성할 수 있는 시간이 아니면 리턴
     }
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
+    if (value != '') {
+      setInputs({
+        ...inputs,
+        [name]: parseInt(value),
+      });
+    } else {
+      setInputs({
+        ...inputs,
+        [name]: 0,
+      });
+    }
   };
 
   const updateGoal = () => {
@@ -129,7 +125,7 @@ export default function Modal() {
               <InputWrapper>
                 <P>자세 비율</P>
                 <Input // min max 설정 필요
-                  type="number" // 한글은 들어가게됨 -> onChangeHandler에서 막음
+                  type="text" // 한글은 들어가게됨 -> onChangeHandler에서 막음
                   name="percentage"
                   value={percentage}
                   onChange={onChangeHandler}
@@ -140,7 +136,7 @@ export default function Modal() {
               <InputWrapper>
                 <P>유지 시간</P>
                 <Input
-                  type="number"
+                  type="text"
                   name="hour"
                   value={hour}
                   onChange={onChangeHandler}
@@ -148,7 +144,7 @@ export default function Modal() {
                 />
                 <P>시간</P>
                 <Input
-                  type="number"
+                  type="text"
                   name="minute"
                   value={minute}
                   onChange={onChangeHandler}
