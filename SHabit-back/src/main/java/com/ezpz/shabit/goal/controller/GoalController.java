@@ -61,9 +61,9 @@ public class GoalController {
   @PutMapping("/{email}")
   ResponseEntity<?> putGoal(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
                             @PathVariable String email,
-                            @RequestBody @Validated GoalReqDto req, Error error) {
-    if (error != null) {
-      return Response.badRequest(error.getMessage());
+                            @RequestBody @Validated GoalReqDto req, Errors errors) {
+    if (errors.hasErrors()) {
+      return Response.badRequest("입력된 값이 잘못된 형식입니다.");
     }
 
     GoalResDto res = null;
