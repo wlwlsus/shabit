@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import * as tmPose from '@teachablemachine/pose';
-import { setPose } from '../../store/poseSlice';
+import { setPose,setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
 import { setLogArray,setInitLogArray } from '../../store/trackingSlice';
-import { postData } from '../../services/stat/post';
 
 const TrackingPose = () => {
   // 바른 자세인지 아닌지
@@ -12,18 +11,18 @@ const TrackingPose = () => {
   const isRunning = useSelector((state) => {
     return state.time.isRunning;
   });
+  const userEmail = useSelector((state)=>{
+    return state.auth.user.email;
+  })
   const [id,setId] = useState();
   let log={};
   let model, webcam, poseCnt;
-  // let id;
   let maxPose;
   let prevPose;
   let time;
   let isSetTime = true;
   let startTime, endTime;
-  const logArray = useSelector((state)=>{
-    return state.tracking.logArray;
-  });
+
   // let alarmSec = useSelector((state)=>{
   //   return state.time.alertTime;
   // }) ;
@@ -59,10 +58,12 @@ const TrackingPose = () => {
           prevPose = maxPose;
           endTime = dateFormat(new Date());
           //보내기
-          log = {startTime,endTime,maxPose};
+          log = {startTime,endTime,postureId:i};
           dispatch(setLogArray(log));
           startTime = endTime;
-          dispatch(setPose(prediction[i].className)); //다를 경우만 포즈설정
+          dispatch(setPose(prediction[i].className));
+          dispatch(setPoseId(i)); //다를 경우만 포즈설정
+           //다를 경우만 포즈설정
         }
       }
     }
@@ -82,9 +83,6 @@ const TrackingPose = () => {
   const onStop = async (id) => {
     await clearInterval(id);
     // TODO: data날려주기
-    postData(logArray).then(()=>{
-      setInitLogArray();
-    });
   };
   useEffect(() => {
     console.log("ID",id)
@@ -96,7 +94,7 @@ const TrackingPose = () => {
     const elapsed = Math.floor((now - time));
     console.log(alarmSec,'초->',elapsed,'초');
     if (elapsed >= alarmSec) {
-      notify(maxPose, 'pose');
+      // notify(maxPose, 'pose');
       time = now;
     }
   };

@@ -33,12 +33,16 @@ const Sidebar = () => {
   const logArray = useSelector((state)=>{
     return state.tracking.logArray;
   });
+  const userEmail = useSelector((state)=>{
+    return state.auth.user.email;
+  })
+
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
       // stretching modal띄우기
       dispatch(setStretchModal(false));
-      postData(logArray).then(()=>{
+      postData(userEmail,logArray).then(()=>{
         setInitLogArray();
       })
       //timer 지우기 -> clearInterval()
@@ -59,6 +63,9 @@ const Sidebar = () => {
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
+    postData(userEmail,logArray).then(()=>{
+      setInitLogArray();
+    })
   };
   const ClickPlayButton = () => {
     dispatch(setIsRunning(true));
