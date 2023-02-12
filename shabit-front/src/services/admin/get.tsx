@@ -8,6 +8,7 @@ import {
   setStretchingTime,
   setVideoList,
 } from '../../store/adminSlice';
+import { setInitTime } from '../../store/timeSlice';
 import apiRequest from '../../utils/apiRequest';
 
 interface AlarmTime {
@@ -34,6 +35,7 @@ export const fetchAlarmTime = async (): Promise<AlarmTime> => {
       const { stretchingTime, alertTime } = res.data.result;
       store.dispatch(setStretchingTime(Number(stretchingTime)));
       store.dispatch(setAlertTime(Number(alertTime)));
+      store.dispatch(setInitTime({stretchingTime,alertTime}));
       return Promise.resolve({
         setStretchingTime: Number(stretchingTime),
         alertTime: Number(alertTime),
