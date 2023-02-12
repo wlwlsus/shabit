@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import styled, { ThemeContext } from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import DonutChart from './DonutChart';

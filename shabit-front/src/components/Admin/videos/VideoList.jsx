@@ -13,7 +13,7 @@ const VideoList = ({ scrollProp, setScrollProp }) => {
       {vodsList.map((element, idx) => {
         return (
           <VideoCard
-            key={element.videoId}
+            key={element.videoId + Math.random()}
             thumbnail={element.thumbnail}
             categoryId={element.category.categoryId}
             title={element.title}
@@ -28,6 +28,7 @@ const VideoList = ({ scrollProp, setScrollProp }) => {
       <VideoInfiniteScroll
         scrollProp={scrollProp}
         setScrollProp={setScrollProp}
+        vodsList={vodsList}
       />
     </ListWrapper>
   );
@@ -36,7 +37,7 @@ const VideoList = ({ scrollProp, setScrollProp }) => {
 export default VideoList;
 
 const ListWrapper = styled.div`
-  max-height: 22rem;
+  max-height: 24rem;
   max-width: 100%;
   display: flex;
   overflow-y: scroll;
@@ -45,6 +46,12 @@ const ListWrapper = styled.div`
   justify-content: start;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
-    display: none;
+    border-radius: 6px;
+    background: white;
+    width: 0.3rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0.5rem;
+    background: ${(props) => props.theme.color.primary};
   }
 `;

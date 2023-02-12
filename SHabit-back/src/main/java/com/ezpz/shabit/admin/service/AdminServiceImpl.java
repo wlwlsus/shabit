@@ -61,12 +61,16 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public List<Vod> getVodList(Long category, int length, Pageable pageable) {
-        if(category == 0 && length != 0){
-            return vodRepository.findByLength(length, pageable).getContent();
-        } else if(category != 0 && length == 0){
-            return vodRepository.findByCategoryCategoryId(category, pageable).getContent();
-        } else if(category != 0 && length != 0){
-            return vodRepository.findByLengthAndCategoryCategoryId(length, category, pageable).getContent();
+        if (category == 0) {
+            return switch (length) {
+                case 3, 5, 10 -> vodRepository.findByLength(length, pageable).getContent();
+                default -> vodRepository.findAll(pageable).getContent();
+            };
+        } else if (category == 1 || category == 2 || category == 3) {
+            return switch (length) {
+                case 3, 5, 10 -> vodRepository.findByLengthAndCategoryCategoryId(length, category, pageable).getContent();
+                default -> vodRepository.findByCategoryCategoryId(category, pageable).getContent();
+            };
         }
         return vodRepository.findAll(pageable).getContent();
     }

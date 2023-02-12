@@ -22,7 +22,22 @@ const MyPose = ({
   const [maxPredictionState, setMaxPredictionState] = useState(''); // 가장 높은 자세의 비율
   const [logArray, setLogArray] = useState([]); // 로그를 배열로 기록함.
 
-  
+  const nofity=(pose)=>{
+    if(Notification.permission==='granted'){
+      const text = `${pose}자세 3분 유지 중입니다.`;
+      const img = "./public/assets/logo-pink.png";
+      const notify = new Notification("똑바로 앉으세요",{body:text, icon:img});
+    }
+    else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          const text = `${pose}자세 3분 유지 중입니다.`;
+      const img = "./public/assets/logo-pink.png";
+      const notify = new Notification("똑바로 앉으세요",{body:text, icon:img});
+        }
+      });
+    }
+  }
 
   // TM: 정지 버튼을 눌렀을 때에 intervalID를 기준으로 loop함수를 중단합니다.
   async function onStop() {
@@ -44,7 +59,7 @@ const MyPose = ({
       '/my_model/metadata.json',
     );
     maxPredictions = model.getTotalClasses();
-
+    // console.log(maxPredictions);
     // Convenience function to setup a webcam
     const size = 200;
     const flip = true; // whether to flip the webcam
@@ -55,11 +70,11 @@ const MyPose = ({
 
     savedIntevalId.current = setInterval(loop, 16);
 
-    // append/get elements to the DOM
-    const canvas = canvasREF.current;
-    canvas.width = size;
-    canvas.height = size;
-    ctx = canvas.getContext('2d');
+    // // append/get elements to the DOM
+    // const canvas = canvasREF.current;
+    // canvas.width = size;
+    // canvas.height = size;
+    // ctx = canvas.getContext('2d');
   }
 
   // TM: Predict 함수를 호출하는 함수입니다..
@@ -79,20 +94,27 @@ const MyPose = ({
     //최대값을 저장할 변수를 선언합니다.
     let maxClass = '';
     let maxPrediction = 0;
-
     for (let i = 0; i < maxPredictions; i++) {
-      //렌더링을 진행하는 알고리즘에 최대값 비교를 추가하였습니다.
-      if (prediction[i].probability.toFixed(2) > maxPrediction) {
-        //probability가 가장 큰 값이 maxPrediction에 저장되며 그 클래스명이 maxClass에 저장됩니다.
-        maxPrediction = prediction[i].probability.toFixed(2);
-        maxClass = prediction[i].className;
-      }
+      //추정한 자세와 정확도 나타내기
+      const classPrediction = 
+      prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+      console.log(classPrediction);
     }
+    // for (let i = 0; i < maxPredictions; i++) {
+    //   //렌더링을 진행하는 알고리즘에 최대값 비교를 추가하였습니다.
+    //   console.log("MAXXXXX",prediction[i].probability.toFixed(2));
+    //   if (prediction[i].probability.toFixed(2) > maxPrediction) {
+    //     //probability가 가장 큰 값이 maxPrediction에 저장되며 그 클래스명이 maxClass에 저장됩니다.
+    //     maxPrediction = prediction[i].probability.toFixed(2);
+    //     maxClass = prediction[i].className;
+    //   }
+    // }
     // TODO: 알람으로 바꿔야함
     // //콘솔을 찍는 알고리즘입니다. -> 알람으로 바꿔야함
     // //전역변수와 비교하여 maxClass값이 변경되었을 경우,
     // //혹은 maxPrediction값이 0.1 이상 바뀌거나 1에 도달한 경우에 로그를 남깁니다.
     if (prevMaxClass !== maxClass && maxPrediction >= 0.7) {
+      
       const now = new Date();
       const timeArray = [
         now.getFullYear().toString(),
@@ -111,6 +133,7 @@ const MyPose = ({
       prevMaxClass = maxClass;
       setMaxClassState(maxClass);
       setMaxPredictionState(maxPrediction);
+      nofity(maxClass);  
       console.log('새시간', endTime);
       console.log('헌시간', maxTime);
       if (endTime !== maxTime) {
@@ -135,7 +158,7 @@ const MyPose = ({
 
   //컴포넌트가 마운트되면 TMpose를 실행합니다.
   useEffect(() => {
-    if (isStarting) init();
+    init();
   }, []);
 
   return (

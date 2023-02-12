@@ -1,8 +1,6 @@
 import { header } from '..';
 import store from '../../store';
 import {
-  clearQuetesList,
-  clearVideoList,
   pushQuetesList,
   pushVideoList,
   setAlertTime,
@@ -16,7 +14,19 @@ interface AlarmTime {
   stretchingTime: Number;
   alertTime: number;
 }
-
+// //alertTime이랑 stretchingTime 가져오기
+// export const getAlarmTime = async (): Promise<object> => {
+//   return await apiRequest
+//     .get(`/api/v1/admin/alarm`)
+//     .then((res) => {
+//         const alertTime = res.data.result.alertTime;
+//         sessionStorage.setItem('alertTime',alertTime);
+//         return res.data.result.stretchingTime ;
+//     })
+//     .catch((err) => {
+//       return err;
+//     });
+// };
 export const fetchAlarmTime = async (): Promise<AlarmTime> => {
   return await apiRequest
     .get('/api/v1/admin/alarm', { headers: header() })
@@ -45,14 +55,17 @@ export const fetchVods = async (email: string): Promise<object> => {
 };
 
 export const retrieveVods = async (
-  page: number | string = '',
-  search: 'category' | 'title' | 'length' | '' = '',
-  query: string = '',
+  page: number = 0,
+  category: 0 | 1 | 2 | 3 = 0,
+  length: 0 | 3 | 5 | 10 = 0,
 ): Promise<[object]> => {
   return await apiRequest
-    .get(`/api/v1/admin/vods?search=${search}&query=${query}&page=${page}`, {
-      headers: header(),
-    })
+    .get(
+      `/api/v1/admin/vods?category=${category}&length=${length}&page=${page}`,
+      {
+        headers: header(),
+      },
+    )
     .then((res) => {
       if (!page) {
         store.dispatch(setVideoList(res.data.result));
@@ -80,5 +93,3 @@ export const retreivePhrases = async (page: number = 0): Promise<object> => {
     })
     .catch((err) => err.data);
 };
-
-export default { fetchAlarmTime, fetchVods, retrieveVods, retreivePhrases };
