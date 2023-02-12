@@ -1,3 +1,4 @@
+// 로그인 요청
 const authLogin = async (email, password) => {
   const settings = {
     method: 'POST',
@@ -22,13 +23,31 @@ const authLogin = async (email, password) => {
   }
 }
 
-// ssafy1234@gmail.com
+// 시간
+let interval
+let time = { s: 0, m: 0, h: 0 }
+const timer = () => {
+  time.s += 1
+  if (time.s === 59) {
+    time.s = 0
+    time.m += 1
+  }
+  if (time.m === 59) {
+    time.m = 0
+    time.h += 1
+  }
+  chrome.storage.sync.set({ time })
+}
 
+// 크롬브라우저 시작시 storage 초기화
 chrome.runtime.onStartup.addListener(function () {
   chrome.storage.sync.clear()
+  chrome.storage.sync.set({ time })
+  chrome.storage.sync.set({ status: true })
 })
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  // 로그인
   if (request.action === 'login') {
     const { email, password } = request.data
     authLogin(email, password)
@@ -43,8 +62,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true
   }
 
-  if (request.action === 'fetchUser') {
-    const user = JSON.parse(sessionStorage.getItem('user'))
-    sendResponse(user)
+  // 시간
+  if (request.action === 'getTime') {
+    chrome.storage.sync.get('time', function (res) {
+      sendResponse(res.time)
+    })
+    return true
+  }
+
+  // 상태 (pause or start)
+  if (request.action === 'getStatus') {
+    chrome.storage.sync.get('status', function (res) {
+      sendResponse(res.status)
+    })
+    return true
+  }
+
+  // 타이머 start & pause
+  if (request.action === 'startTimer') {
+    chrome.storage.sync.set({ status: true })
+    clearInterval(interval)
+    interval = setInterval(timer, 1000)
+    return true
+  }
+
+  if (request.action === 'pauseTimer') {
+    chrome.storage.sync.set({ status: false })
+    clearInterval(interval)
+    return true
   }
 })

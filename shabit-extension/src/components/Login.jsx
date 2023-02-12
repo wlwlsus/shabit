@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { goTo } from 'react-chrome-extension-router'
 import { HiArrowRightCircle } from 'react-icons/hi2'
 import Tracking from './Tracking'
 
@@ -13,16 +12,12 @@ export default function Login() {
     autoLogin: false,
   })
 
+  // background에 저장된 유저정보가 있다면 불러옴 (for 로그인 유지)
   useEffect(() => {
     chrome.storage.sync.get('user', function (res) {
-      console.log(res)
       setUser(res.user)
     })
   }, [])
-
-  const goSite = () => {
-    window.open('http://shabit.site/')
-  }
 
   const onChangeHandler = (e) => {
     const { value, name } = e.target
@@ -36,20 +31,21 @@ export default function Login() {
     const { email, password } = inputs
     chrome.runtime.sendMessage(
       {
-        action: 'login',
+        action: 'login', // background에 보내는 메세지 제목
         data: {
           email,
           password,
         },
       },
       (response) => {
+        // 로그인 성공 => 유저정보 불러옴
         if (!response.length) {
           chrome.storage.sync.get('user', function (res) {
-            console.log(res.user)
             setUser(res.user)
           })
           return
         }
+        // 실패 => 에러 메세지 출력
         setErrMsg(response)
       }
     )
@@ -77,7 +73,13 @@ export default function Login() {
         <IconWrapper>
           로그인 <HiArrowRightCircle onClick={onLogin} />
         </IconWrapper>
-        <Text onClick={goSite}>홈페이지로 이동하기</Text>
+        <Text
+          onClick={() => {
+            window.open('http://shabit.site/')
+          }}
+        >
+          홈페이지로 이동하기
+        </Text>
       </Popup>
     )
   } else {
