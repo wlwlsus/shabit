@@ -21,5 +21,6 @@ public interface VodRepository extends JpaRepository<Vod, Long> {
 
   Vod findByVideoId(String videoId);
 
+  Page<Vod> findByLengthAndCategoryCategoryId(int length, long category, Pageable pageable);
   List<Vod> findByLengthAndCategoryCategoryId(int length, long category) throws SQLException;
 }

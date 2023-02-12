@@ -119,10 +119,10 @@ public class UserServiceImpl implements UserService {
       redisTemplate.opsForValue()
               .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
-      return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
+      return Response.makeResponse(HttpStatus.OK, "로그인을 성공했습니다.", 0, userInfo);
     } catch (BadCredentialsException e) {
       log.error("Login BadCredentialsException error : {}", e.getMessage());
-      return Response.badRequest("비밀번호를 틀렸습니다.");
+      return Response.badRequest("비밀번호가 일치하지 않습니다.");
     } catch (RedisConnectionFailureException e) {
       log.error("Login RedisConnectionFailureException error : {}", e.getMessage());
       return Response.serverError("레디스 서버 연결에 실패하였습니다.");

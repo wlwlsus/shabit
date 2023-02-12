@@ -87,14 +87,14 @@ public class AdminController {
   // 전체 영상 리스트 API
   @Operation(summary = "전체 영상 리스트 API")
   @GetMapping("/vods")
-  ResponseEntity<?> getVodList(@Parameter(description = "검색 분류")
-                               @RequestParam String search,
-                               @Parameter(description = "검색어")
-                               @RequestParam String query,
+  ResponseEntity<?> getVodList(@Parameter(description = "카테고리 아이디")
+                               @RequestParam(required = false, defaultValue = "0") Long category,
+                               @Parameter(description = "영상 길이(3, 5, 10)")
+                               @RequestParam(required = false, defaultValue = "0") int length,
                                @PageableDefault(size=10, page=0, sort="vodId", direction= Sort.Direction.DESC) Pageable pageable) {
     List<Vod> data = null;
     try {
-      data = adminService.getVodList(search, query, pageable);
+      data = adminService.getVodList(category, length, pageable);
     } catch (InputMismatchException e) {
       log.error(e.getMessage());
       return Response.badRequest(e.getMessage());
