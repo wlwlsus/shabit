@@ -3,17 +3,16 @@ import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
 
 export default function PhotoList({ photoList }) {
-  if (!photoList.length) {
+  if (!photoList) {
     return <div>기록이 없습니다.</div>;
-  } else {
-    return (
-      <Wrapper>
-        {photoList.map((photo) => {
-          return <Img src={photo.url} key={photo.url} />;
-        })}
-      </Wrapper>
-    );
   }
+  return (
+    <Wrapper>
+      {photoList.map((photo) => {
+        return <Img src={photo.url} key={photo.url} />;
+      })}
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`

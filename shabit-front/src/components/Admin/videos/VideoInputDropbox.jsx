@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TiArrowSortedDown } from 'react-icons/ti';
 
-const VideoInputDropbox = () => {
+const VideoInputDropbox = ({selected, setSelected}) => {
   const [Dropped, setDropped] = useState(false);
-  const [selected, setSelected] = useState(1);
   const categoryArray = ['', '목', '허리', '전신'];
   const ref = useRef();
   useEffect(() => {

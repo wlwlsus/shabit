@@ -10,7 +10,10 @@ const VideoList = ({ scrollProp, setScrollProp }) => {
   });
   return (
     <ListWrapper>
-      {vodsList.map((element, idx) => {
+      {
+        vodsList.length==0 && <EmptyBox>데이터가 존재하지 않습니다.</EmptyBox>
+      }
+      {vodsList.length!=0 && vodsList.map((element, idx) => {
         return (
           <VideoCard
             key={element.videoId + Math.random()}
@@ -54,4 +57,10 @@ const ListWrapper = styled.div`
     border-radius: 0.5rem;
     background: ${(props) => props.theme.color.primary};
   }
+`;
+
+const EmptyBox = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 120px;
 `;
