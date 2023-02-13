@@ -21,9 +21,10 @@ const store = configureStore({
     admin: adminSlice.reducer,
     goal: goalSlice.reducer,
     pose: poseSlice.reducer,
-    tracking : trackingSlice.reducer,
+    tracking: trackingSlice.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

@@ -116,17 +116,23 @@ const MyCapture = () => {
 
   return (
     <ContainerWrapper>
-      <InfoBox>현재자세 : {curPose}</InfoBox>
-      <WebcamWrapper>
-        <Webcam
-          onUserMedia={startCapture}
-          audio={false}
-          ref={webcamRef}
-          mirrored={true}
-          videoConstraints={videoConstraints}
-          screenshotFormat="image/jpg"
-        />
-      </WebcamWrapper>
+      {curPose ? (
+        <>
+          <InfoBox>현재자세 : {curPose}</InfoBox>
+          <WebcamWrapper>
+            <Webcam
+              onUserMedia={startCapture}
+              audio={false}
+              ref={webcamRef}
+              mirrored={true}
+              videoConstraints={videoConstraints}
+              screenshotFormat="image/jpg"
+            />
+          </WebcamWrapper>
+        </>
+      ) : (
+        <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
+      )}
     </ContainerWrapper>
   );
 };
@@ -136,6 +142,12 @@ const ContainerWrapper = styled.div`
   align-items: center;
   justify-content: space-evenly;
   height: 100%;
+`;
+const NoticeText = styled.div`
+  font-size: 1.2rem;
+  color: ${(props) => props.theme.color.blackColor};
+  font-weight: 100;
+  margin-left: 1rem;
 `;
 
 const InfoBox = styled.div`
@@ -153,8 +165,8 @@ const InfoBox = styled.div`
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
-  height: 80%;
-  width: 80%;
+  height: 100%;
+  width: 100%;
 `;
 
 export default MyCapture;

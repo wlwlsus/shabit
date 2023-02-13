@@ -14,9 +14,9 @@ const TrackingPose = () => {
   const isStop = useSelector((state) => {
     return state.time.isStop;
   });
+  const [setting, setSetting] = useState();
   const [id, setId] = useState();
   const [timerId, setTimerId] = useState();
-  const [isSetting, setIsSetting] = useState(false);
   let log = {};
   let model, webcam, poseCnt;
   let maxPose;
@@ -39,6 +39,8 @@ const TrackingPose = () => {
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
+    onStart();
+    setSetting(true);
   };
 
   const predictPose = async () => {
@@ -110,16 +112,14 @@ const TrackingPose = () => {
   }, [isStop]);
 
   useEffect(() => {
-    if (isRunning && isSetting === false) {
-      init();
-      setIsSetting(true);
-    } else if (isRunning === false) onPause(id, timerId);
-    else if (isSetting && isRunning) onStart();
-  }, [isRunning, isSetting]);
-
-  useEffect(() => {
     init();
   }, []);
+
+  useEffect(() => {
+    console.log(isRunning);
+    if (isRunning === false) onPause(id, timerId);
+    if (isRunning && setting) onStart();
+  }, [isRunning, setting]);
 
   const tracking = useCallback(async () => {
     webcam.update();
