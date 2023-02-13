@@ -10,8 +10,9 @@ import {
   CgPlayButton,
 } from 'react-icons/cg';
 import { setIsRunning, setIsStop } from '../../store/timeSlice';
-import { setVideoModal } from '../../store/trackingSlice';
+import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
 import { setStretchModal } from '../../store/videoSlice';
+import { postData } from '../../services/stat/post';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
@@ -29,12 +30,21 @@ const Sidebar = () => {
   const pose = useSelector((state) => {
     return state.pose.pose;
   });
+  const logArray = useSelector((state)=>{
+    return state.tracking.logArray;
+  });
+  const userEmail = useSelector((state)=>{
+    return state.auth.user.email;
+  })
 
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
       // stretching modal띄우기
       dispatch(setStretchModal(false));
+      postData(userEmail,logArray).then(()=>{
+        setInitLogArray();
+      })
       //timer 지우기 -> clearInterval()
       dispatch(setIsStop(true));
     }
@@ -53,6 +63,9 @@ const Sidebar = () => {
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
+    postData(userEmail,logArray).then(()=>{
+      setInitLogArray();
+    })
   };
   const ClickPlayButton = () => {
     dispatch(setIsRunning(true));

@@ -8,25 +8,14 @@ import {
   setStretchingTime,
   setVideoList,
 } from '../../store/adminSlice';
+import { setInitTime } from '../../store/timeSlice';
 import apiRequest from '../../utils/apiRequest';
 
 interface AlarmTime {
   stretchingTime: Number;
   alertTime: number;
 }
-// //alertTime이랑 stretchingTime 가져오기
-// export const getAlarmTime = async (): Promise<object> => {
-//   return await apiRequest
-//     .get(`/api/v1/admin/alarm`)
-//     .then((res) => {
-//         const alertTime = res.data.result.alertTime;
-//         sessionStorage.setItem('alertTime',alertTime);
-//         return res.data.result.stretchingTime ;
-//     })
-//     .catch((err) => {
-//       return err;
-//     });
-// };
+
 export const fetchAlarmTime = async (): Promise<AlarmTime> => {
   return await apiRequest
     .get('/api/v1/admin/alarm', { headers: header() })
@@ -34,6 +23,7 @@ export const fetchAlarmTime = async (): Promise<AlarmTime> => {
       const { stretchingTime, alertTime } = res.data.result;
       store.dispatch(setStretchingTime(Number(stretchingTime)));
       store.dispatch(setAlertTime(Number(alertTime)));
+      store.dispatch(setInitTime({stretchingTime,alertTime}));
       return Promise.resolve({
         setStretchingTime: Number(stretchingTime),
         alertTime: Number(alertTime),
