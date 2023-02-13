@@ -3,29 +3,47 @@ import Webcam from "react-webcam";
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {setRecordedChunks} from '../../store/trackingSlice';
+import {postImage} from '../../services/info/post';
 
 //10배속 다운로드만 구현하면 됨
 const MyCapture = () => {
   const dispatch = useDispatch();
   const webcamRef = useRef(null);//window
   const mediaRecorderRef = useRef(null);//viewRef
-  const isRunning = useSelector((state) => {
-    return state.time.isRunning;
-  });
-  console.log("isRUNNIGN",isRunning)
+
   const isStop = useSelector((state) => {
     return state.time.isStop;
   });
+  const curPoseId = useSelector((state)=>{
+    return state.pose.poseId;
+  });
+
   var chunkData =[];
   let resumeId,pauseId;
+ 
   const videoConstraints = {
     height:400,
     width:850,
   }
-  const pose =useSelector((state) => {
+  const curPose =useSelector((state) => {
     return state.pose.pose;
   });
-  
+  const userEmail = useSelector((state)=>{
+    return state.auth.user.email;
+  })
+  const dataURLtoFile = (dataurl, fileName) => {
+ 
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+        
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, {type:mime});
+}
   // 캡쳐 시작
   const startCapture = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
@@ -42,22 +60,45 @@ const MyCapture = () => {
     pauseId = setInterval(()=>{mediaRecorderRef.current.resume();},3000);
   }, [webcamRef, mediaRecorderRef]);
   // 캡쳐할 때 필요  
+ 
   useEffect(()=>{
     if(isStop) stopCapture();
   },[isStop])
+ 
+  const capturePose = useCallback((curPoseId,curPose)=>{
+    var options = { hour: "numeric", minute: "numeric", second: "numeric", hour12: false };
+    const time =new Date().toLocaleTimeString("en-US", options);
+    const imageSrc = webcamRef.current.getScreenshot();
+    let poseId;
+    if(curPoseId==0) poseId =1;
+    else if(curPoseId ==3) poseId=2;
+    else if(curPoseId == 1 || curPoseId==2) poseId =3;
+    else poseId = 4;
+    const file = dataURLtoFile(imageSrc,`${time} ${poseId}.jpeg`)
+    const formData = new FormData();
+    formData.append('image',file,`${time} ${poseId}.jpeg`);
+    console.log(`${time} ${curPose} ${poseId}.jpeg`);
+    postImage(userEmail,formData);
+  },[webcamRef])
+
+  useEffect(()=>{
+    if(curPoseId!=-1)capturePose(curPoseId,curPose);
+  },[curPoseId,curPose])
 
     // 방 나가기 클릭하면 -> 종료 버튼 누르고나면 
   const stopCapture = useCallback(() => {
     mediaRecorderRef.current.stop();
     clearInterval(resumeId);
+
     clearInterval(pauseId);
   }, [mediaRecorderRef, webcamRef]);
-  
+
   return (
     <ContainerWrapper>
-        <NoticeText>현재자세 : {pose}</NoticeText>
+        <NoticeText>현재자세 : {curPose}</NoticeText>
         <WebcamWrapper>
-            <Webcam onUserMedia={startCapture}  audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}/>
+            <Webcam onUserMedia={startCapture} audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}
+            screenshotFormat="image/jpeg" />
         </WebcamWrapper>
     </ContainerWrapper>
   );
@@ -75,53 +116,6 @@ const NoticeText = styled.div`
   font-weight: 100;
   margin-left:1rem;
 `;
-const ContainerNotice = styled.div`
-  background-color: ${(props) => props.theme.color.secondary};
-  margin: 1rem 0 1rem 0;
-  width: 40rem;
-  height: 3rem;
-  padding: 0.7rem 0.7rem 0.7rem 2rem;
-  border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
-  border: 1px solid ${(props) => props.theme.color.primary};
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 2rem;
-  color: ${(props) => props.theme.color.primary};
-  font-weight: 100;
-`;
-const ContainerHeader = styled.div`
-  width: 30rem;
-  height: 3rem;
-  background-color: ${(props) => props.theme.color.secondary};
-  border-radius: 1.5rem 1.5rem 0 0;
-  padding: 0 1rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color:${(props) => props.theme.color.primary};
-  font-size: 1.5rem;
-  font-weight: 600;
-`;
-
-const Container = styled.div`
-  background-color: ${(props) => props.theme.color.whiteColor};
-  width: 30rem;
-  height: 18.75rem;
-  border-radius: 0 0 1.5rem 1.5rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-// const InfoWrapper = styled.div`
-//   background-color: ${theme.color.primary};
-//   width: 100%;
-//   height: 20%;
-// `;
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;

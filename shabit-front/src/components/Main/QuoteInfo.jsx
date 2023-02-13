@@ -7,6 +7,7 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 import {setIsRunning, setIsStop} from '../../store/timeSlice';
 import { useDispatch } from 'react-redux';
+import { fetchAlarmTime } from '../../services/admin/get';
 
 export default function QuoteInfo() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ export default function QuoteInfo() {
           onClick={() => {
             dispatch(setIsRunning(true));
             dispatch(setIsStop(false));
+            fetchAlarmTime();
             navigate('/posture/live');
           }}
         />

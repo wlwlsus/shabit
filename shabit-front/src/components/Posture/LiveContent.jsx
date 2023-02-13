@@ -1,26 +1,18 @@
 import React, { useEffect } from 'react';
 import MyCapture from '../TeachableMachineTest/MyCapture';
 import {
-  setInitTime,
   calUsedTime,
   calStretchTime,
 } from '../../store/timeSlice';
 import { typedUseSelector } from '../../store';
 import TrackingPose from '../TeachableMachineTest/TrackingPose';
 import { useDispatch } from 'react-redux';
-// import { getAlarmTime } from '../../services/admin/get';
 
 export default function LiveContent() {
   const isRunning = typedUseSelector((state) => {
     return state.time.isRunning;
   });
   const dispatch = useDispatch();
-  useEffect(() => {
-    // TODO fetchAlarm으로 바꿔야됨
-    // getAlarmTime().then((stretchingTime)=>
-    //   dispatch(setInitTime(stretchingTime)));
-    dispatch(setInitTime(50));
-  }, []);
 
   useEffect(() => {
     let usedTimeId, stretchTimeId;
