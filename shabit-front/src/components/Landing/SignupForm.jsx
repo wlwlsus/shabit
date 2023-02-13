@@ -270,7 +270,8 @@ const SignupForm = () => {
       ) : (
         <button
           style={{
-            backgroundColor: `${(props) => props.theme.color.grayColor}`,
+            backgroundColor: `#D3D3D3`,
+            cursor: 'default',
           }}
         >
           가입하기
