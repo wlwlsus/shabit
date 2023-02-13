@@ -44,7 +44,10 @@ export default function AlarmSettings() {
             <P>{stretchingTimeInput} 분</P> 마다,
             <I>
               <TiArrowSortedDown
-                onClick={() => setStretchingTimeInput(stretchingTimeInput - 1)}
+                onClick={() => {
+                  if (stretchingTimeInput <= 1) return;
+                  setStretchingTimeInput(stretchingTimeInput - 1);
+                }}
               />
             </I>
           </div>
@@ -62,7 +65,10 @@ export default function AlarmSettings() {
             <P>{alertTimeInput} 분</P> 마다
             <I>
               <TiArrowSortedDown
-                onClick={() => setAlertTimeInput(alertTimeInput - 1)}
+                onClick={() => {
+                  if (alertTimeInput <= 1) return;
+                  setAlertTimeInput(alertTimeInput - 1);
+                }}
               />
             </I>
           </div>

@@ -124,6 +124,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'LotteMartDream';
     color: inherit;
     outline: 0;
+
     
   }
   html {
