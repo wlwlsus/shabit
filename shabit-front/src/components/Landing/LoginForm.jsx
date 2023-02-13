@@ -68,7 +68,7 @@ const LoginForm = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setPasswordMatch(false);
       } else {
         setMessage('');
@@ -134,7 +134,10 @@ const LoginForm = () => {
   // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
   useEffect(() => {
     if (message) return;
-    if (newpassword !== debouncedPasswordConfirm) {
+    if (
+      debouncedPasswordConfirm.length > 4 &&
+      newpassword !== debouncedPasswordConfirm
+    ) {
       setMessage('비밀번호가 일치하지 않습니다');
     }
     if (
@@ -150,7 +153,7 @@ const LoginForm = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
       }
     }
   }, [message]);

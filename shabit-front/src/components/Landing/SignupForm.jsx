@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useDebounce from '../../utils/useDebounce';
-import Services from '../../services';
+import Services, { FireConfirm } from '../../services';
 import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
@@ -44,7 +44,7 @@ const SignupForm = () => {
   };
 
   //비밀번호 일치 여부를 검증합니다.
-  const debouncedPasswordConfirm = useDebounce(password2, 20);
+  const debouncedPasswordConfirm = useDebounce(password2, 100);
   useEffect(() => {
     if (
       debouncedPasswordConfirm &&
@@ -55,6 +55,8 @@ const SignupForm = () => {
       } else {
         setMessage('');
       }
+    } else {
+      setMessage('');
     }
   }, [debouncedPasswordConfirm]);
 
@@ -78,7 +80,7 @@ const SignupForm = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setPasswordMatch(false);
       } else {
         setMessage('');
@@ -90,11 +92,15 @@ const SignupForm = () => {
   //닉네임 검증 로직입니다.
   const [nicknameMatch, setNicknameMatch] = useState(false);
   useEffect(() => {
+    if (nickname.length < 2) return setNicknameMatch(false);
     if (nickname.length > 1) {
-      if (
+      if (nickname.length > 16) {
+        setMessage('닉네임은 2~16글자 입니다.');
+        setNicknameMatch(false);
+      } else if (
         !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
       ) {
-        setMessage('사용 불가능한 닉네임입니다');
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
         setNicknameMatch(false);
       } else {
         setMessage('');
@@ -136,6 +142,7 @@ const SignupForm = () => {
   };
 
   const onConfirmed = () => {
+    setMessage('');
     setNeedCheck(false);
     setConfirmingEmail(false);
     setIsConfirmed(true);
@@ -143,9 +150,10 @@ const SignupForm = () => {
 
   //회원가입 진행 로직입니다.
   const onSignup = () => {
+    if (message) return;
     Auth.register(email, nickname, password).then((value) => {
       if (value) {
-        alert('회원가입이 완료되었습니다.');
+        FireConfirm('회원가입이 완료되었습니다.');
         navigate('/login');
       }
     });
@@ -154,9 +162,10 @@ const SignupForm = () => {
   // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
   useEffect(() => {
     if (message) return;
-    if (password !== password2) {
+    if (password2.length > 4 && password !== password2) {
       setMessage('비밀번호가 일치하지 않습니다');
     }
+
     if ((password.length < 8 && password.length > 0) || password.length > 16) {
       setMessage('비밀번호는 8자 이상 16자 이하입니다.');
     }
@@ -167,31 +176,21 @@ const SignupForm = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setPasswordMatch(false);
       }
     }
     if (nickname.length > 1) {
-      if (
+      if (nickname.length > 16) {
+        setMessage('닉네임은 2~16글자 입니다.');
+      } else if (
         !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
       ) {
-        setMessage('사용 불가능한 닉네임입니다');
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
       }
     }
     if (needCheck) {
       return setMessage('이메일 인증을 완료해주세요');
-    }
-    if (email.includes('@') && email.includes('.')) {
-      Services.Auth.checkEmail(email)
-        .then((res) => {
-          setMessage('');
-          setNeedCheck(true);
-        })
-        .catch((err) => {
-          console.log(err.message);
-          setMessage(err.message);
-          setNeedCheck(false);
-        });
     }
   }, [message]);
   return (
