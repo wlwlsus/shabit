@@ -23,7 +23,8 @@ const LoginForm = () => {
     clearTimeout(currentTimeout);
     const newTimeout = setTimeout(() => {
       setCurrentMessage('');
-    }, 2000);
+      // }, 2000);
+    }, 200000000);
     setCurrentTimeout(newTimeout);
   };
 

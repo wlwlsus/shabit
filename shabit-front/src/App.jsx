@@ -7,7 +7,7 @@ import {
   greenTheme,
 } from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './utils/PrivateRoute';
@@ -48,6 +48,8 @@ import { refreshLogin } from './services/auth/post';
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
   const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const themeInfo = localStorage.getItem('theme');
@@ -106,6 +108,8 @@ function App() {
         if (auth === 'ROLE_ADMIN') {
           store.dispatch(setIsAdminState(true));
         } else store.dispatch(setIsAdminState(false));
+        if (['/', '/login', 'signup'].includes(location.pathname))
+          navigate('/main');
         return;
         // store.getState().chart;
       } catch (error) {

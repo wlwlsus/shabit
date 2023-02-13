@@ -41,12 +41,12 @@ const SignupForm = () => {
   //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-    }, 2000);
-    setCurrentTimeout(newTimeout);
+    // clearTimeout(currentTimeout);
+    // const newTimeout = setTimeout(() => {
+    //   setCurrentMessage('');
+    //   // }, 2000);
+    // }, 200000000);
+    // setCurrentTimeout(newTimeout);
   };
 
   //비밀번호 일치 여부를 검증합니다.
@@ -66,14 +66,16 @@ const SignupForm = () => {
 
   //비밀번호 검증 로직입니다.
   const [passwordMatch, setPasswordMatch] = useState(false);
+  const debouncedPassword = useDebounce(password, 200);
+
   useEffect(() => {
-    // console.log(
-    //   password,
-    //   password.match(
-    //     /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
-    //     // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
-    //   ),
-    // );
+    if (password.length === 0) return setMessage('');
+    if (
+      (debouncedPassword.length < 8 && debouncedPassword.length > 0) ||
+      password.length > 16
+    ) {
+      return setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
     if (password.length >= 8) {
       if (
         !password.match(
