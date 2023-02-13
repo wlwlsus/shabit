@@ -89,9 +89,9 @@ export default function GoalContent() {
         <ImageWrapper>
           <Logo color={logoColor} size={'lg'} />
         </ImageWrapper>
-        {todayGoal.time != -1 && <GoalBox today={todayGoal} />}
+        {todayGoal.time !== -1 && <GoalBox today={todayGoal} />}
       </GoalWrapper>
-      {todayTime.total != -1 && (
+      {todayTime.total !== -1 && (
         <TimeData total={todayTime.total} time={todayTime.time} />
       )}
     </Wrapper>
