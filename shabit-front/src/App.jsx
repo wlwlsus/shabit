@@ -122,7 +122,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ToastContainer />
+      <ToastContainer newestOnTop />
       <ThemeProvider theme={theme}>
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
         <Routes>
