@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import styled from 'styled-components';
-import { fetchAlarmTime } from '../../../services/admin/get';
 import { putAlarmTime } from '../../../services/admin/put';
 import { typedUseSelector } from '../../../store';
 import { loadEffect } from '../../../styles/animation';
 
 export default function AlarmSettings() {
-  useEffect(() => {
-    fetchAlarmTime();
-  }, []);
   const stretchingTime = typedUseSelector(
-    (state) => state.admin.stretchingTime / 60 / 1000,
+    (state) => state.admin.stretchingTime / 60,
   );
-  const alertTime = typedUseSelector(
-    (state) => state.admin.alertTime / 60 / 1000,
-  );
-  const [stretchingTimeInput, setStretchingTimeInput] =
-    useState(stretchingTime);
-  const [alertTimeInput, setAlertTimeInput] = useState(alertTime);
+  const alertTime = typedUseSelector((state) => state.admin.alertTime / 60);
+  const [stretchingTimeInput, setStretchingTimeInput] = useState(0);
+  const [alertTimeInput, setAlertTimeInput] = useState(0);
+
+  useEffect(() => {
+    setStretchingTimeInput(stretchingTime);
+    setAlertTimeInput(alertTime);
+  }, [stretchingTime, alertTime]);
 
   const onClick = async (e) => {
     if (stretchingTime === stretchingTimeInput && alertTime === alertTimeInput)
       return;
     const newStretchingTime = stretchingTimeInput
       ? stretchingTimeInput
-      : stretchingTime / 60 / 1000;
-    const newAlertTime = alertTimeInput
-      ? alertTimeInput
-      : alertTime / 60 / 1000;
+      : stretchingTime / 60;
+    const newAlertTime = alertTimeInput ? alertTimeInput : alertTime / 60;
     putAlarmTime(newStretchingTime, newAlertTime).catch();
   };
 
