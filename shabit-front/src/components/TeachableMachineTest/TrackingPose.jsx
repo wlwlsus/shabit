@@ -11,22 +11,19 @@ const TrackingPose = () => {
   const isRunning = useSelector((state) => {
     return state.time.isRunning;
   });
-  const userEmail = useSelector((state)=>{
-    return state.auth.user.email;
-  })
   const [id,setId] = useState();
+  const [timerId,setTimerId] = useState();
   let log={};
   let model, webcam, poseCnt;
   let maxPose;
   let prevPose;
-  let time;
-  let isSetTime = true;
+  let time=0;
   let startTime, endTime;
 
   // let alarmSec = useSelector((state)=>{
   //   return state.time.alertTime;
   // }) ;
-  let alarmSec = 9*1000; //일단 9초
+  let alarmSec = 9; //일단 9초
   const init = async () => {
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(
@@ -41,6 +38,14 @@ const TrackingPose = () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = dateFormat(new Date());
+    setTimerId(setInterval(()=>{
+      time+=1;
+      console.log("TIME",time);
+      if(time>=alarmSec){
+        notify(maxPose,'pose');
+        time=0;
+      }
+    },1000));// 초 세는 거
     setId(setInterval(tracking, 100));
   };
 
@@ -63,25 +68,17 @@ const TrackingPose = () => {
           startTime = endTime;
           dispatch(setPose(prediction[i].className));
           dispatch(setPoseId(i)); //다를 경우만 포즈설정
-           //다를 경우만 포즈설정
         }
       }
     }
-    //바른 자세
+    // //바른 자세
     if (maxPose === '바른 자세') {
-      isSetTime = true;
-    }
-    //바르지 않은 자세
-    else {
-      // 바른 -> 바르지않은이 되었을 때 시간 기억
-      if (isSetTime) time = Date.now();
-      // 바르지않은 -> 바르지않은 시간 얼마나 지났는지 계산
-      else getElapsedTime();
-      isSetTime = false;
+      time=0;
     }
   };
   const onStop = async (id) => {
     await clearInterval(id);
+    await clearInterval(timerId);
     // TODO: data날려주기
   };
   useEffect(() => {
@@ -89,15 +86,16 @@ const TrackingPose = () => {
     if(isRunning===false) onStop(id);
   }, [isRunning]);
 
-  const getElapsedTime = () => {
-    const now = Date.now(); //
-    const elapsed = Math.floor((now - time));
-    console.log(alarmSec,'초->',elapsed,'초');
-    if (elapsed >= alarmSec) {
-      // notify(maxPose, 'pose');
-      time = now;
-    }
-  };
+  
+  // const getElapsedTime = () => {
+  //   const now = Date.now(); //
+  //   const elapsed = Math.floor((now - time));
+  //   console.log(alarmSec,'초->',elapsed,'초');
+  //   if (elapsed >= alarmSec) {
+  //     notify(maxPose, 'pose');
+  //     time = now;
+  //   }
+  // };
   useEffect(() => {
     init();
   }, []);
@@ -121,10 +119,5 @@ const TrackingPose = () => {
 
     return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
 }
-  // return (
-  //   // <div>
-  //   //   <button onClick={onStop}>{alarmSec}</button>
-  //   // </div>
-  // );
 };
 export default TrackingPose;
