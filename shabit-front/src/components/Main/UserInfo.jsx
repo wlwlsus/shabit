@@ -6,13 +6,21 @@ import ThemeBox from './ThemeBox';
 import { BiUserCircle } from 'react-icons/bi';
 import { changeNickname } from '../../services/auth/put';
 import { fetchProfile } from '../../services/auth/get';
-import { FireConfirm } from '../../services';
+import { FireAlert, FireConfirm } from '../../services';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const { email, nickname, profile } = user;
   const [changingNickname, setChangingNickname] = useState(false);
   const [nicknameInput, setNicknameInput] = useState();
   const onSubmit = () => {
+    if (nicknameInput.length < 2 || nicknameInput.length > 16) {
+      return FireAlert('닉네임은 2~16글자 입니다.');
+    }
+    if (
+      !nicknameInput.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
+    ) {
+      return FireAlert('닉네임에 특수문자를 사용할 수 없습니다.');
+    }
     changeNickname(email, nicknameInput).then(() => {
       FireConfirm('닉네임이 변경되었습니다.');
       fetchProfile(email).then(() => {
@@ -61,7 +69,9 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
             <span>이메일 : {email}</span>
           </UserName>
         )}
-        <LastLogin>마지막 접속일 : {lastDate}</LastLogin>
+        <LastLogin>
+          마지막 접속일 : {lastDate || '아직 데이터가 없습니다.'}
+        </LastLogin>
         <ThemeBox setTheme={setTheme} />
       </ContentWrapper>
     </Wrapper>

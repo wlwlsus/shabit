@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-
+import Logo from '../common/Logo';
 import { RiDownload2Line } from 'react-icons/ri';
 
 import { setPercentage, setTime } from '../../store/goalSlice';
@@ -17,6 +17,7 @@ import {
 } from '../../services/goal/get';
 
 export default function GoalContent() {
+  const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';
   const user = JSON.parse(sessionStorage.getItem('user'));
   useEffect(() => {
     if (!user.email) return;
@@ -86,7 +87,7 @@ export default function GoalContent() {
       </HeaderWrapper>
       <GoalWrapper>
         <ImageWrapper>
-          <Img src={'/assets/logo-pink.png'} alt="logo" />
+          <Logo color={logoColor} size={'lg'} />
         </ImageWrapper>
         {todayGoal.time != -1 && <GoalBox today={todayGoal} />}
       </GoalWrapper>
@@ -121,12 +122,6 @@ const HeaderWrapper = styled.div`
   float: right;
   width: 100%;
 `;
-
-const Img = styled.img`
-  width: 100%;
-  padding-top: 1rem;
-`;
-
 const ImageWrapper = styled.div`
   padding-left: 1rem;
 `;
