@@ -1,31 +1,64 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
-import { HiChatAlt } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCapture, setRecordedChunks } from '../../store/trackingSlice';
+import { postImage } from '../../services/info/post';
 
 //10배속 다운로드만 구현하면 됨
-const MyCapture = ({ nickname }) => {
+const MyCapture = () => {
+  const dispatch = useDispatch();
   const webcamRef = useRef(null); //window
   const mediaRecorderRef = useRef(null); //viewRef
-  const recordedVideoRef = useRef(null); //recordedVideo
 
-  const [capturing, setCapturing] = useState(false);
-  const [recordedChunks, setRecordedChunks] = useState([]);
+  const isStop = useSelector((state) => {
+    return state.time.isStop;
+  });
+  const curPoseId = useSelector((state) => {
+    return state.pose.poseId;
+  });
+  const isRunning = useSelector((state) => {
+    return state.time.isRunning;
+  });
+
+  var chunkData = [];
   let resumeId, pauseId;
-  const videoConstraints = {
-    height: 250,
-    width: 380,
-  };
 
-  const handleStartCaptureClick = useCallback(() => {
-    setCapturing(true);
+  const videoConstraints = {
+    height: 400,
+    width: 850,
+  };
+  const curPose = useSelector((state) => {
+    return state.pose.pose;
+  });
+  const userEmail = useSelector((state) => {
+    return state.auth.user.email;
+  });
+  const captureTiming = useSelector((state) => {
+    return state.tracking.capture;
+  });
+  const dataURLtoFile = (dataurl, fileName) => {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], fileName, { type: mime });
+  };
+  // 캡쳐 시작
+  const startCapture = useCallback(() => {
     mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
       mimeType: 'video/webm',
     });
-    mediaRecorderRef.current.addEventListener(
-      'dataavailable',
-      handleDataAvailable,
-    );
+    mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
+      chunkData = [...chunkData, event.data];
+      dispatch(setRecordedChunks(chunkData));
+    });
+
     mediaRecorderRef.current.start();
     resumeId = setInterval(() => {
       mediaRecorderRef.current.pause();
@@ -34,86 +67,72 @@ const MyCapture = ({ nickname }) => {
     pauseId = setInterval(() => {
       mediaRecorderRef.current.resume();
     }, 3000);
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
+  }, [webcamRef, mediaRecorderRef]);
+  // 캡쳐할 때 필요
 
-  const handleDataAvailable = useCallback(
-    ({ data }) => {
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-      }
+  useEffect(() => {
+    if (isStop) stopCapture();
+  }, [isStop]);
+
+  const capturePose = useCallback(
+    (curPoseId, curPose) => {
+      var options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false,
+      };
+      const time = new Date().toLocaleTimeString('en-US', options);
+      const imageSrc = webcamRef.current.getScreenshot();
+      let poseId;
+      if (curPoseId == 0) poseId = 1;
+      else if (curPoseId == 3) poseId = 2;
+      else if (curPoseId == 1 || curPoseId == 2) poseId = 3;
+      else poseId = 4;
+      const file = dataURLtoFile(imageSrc, `${time} ${poseId}.jpg`);
+      const formData = new FormData();
+      formData.append('image', file, `${time} ${poseId}.jpg`);
+      console.log(`${time} ${poseId}.jpg`);
+      postImage(userEmail, formData);
+      setCapture(false);
     },
-    [setRecordedChunks],
+    [webcamRef],
   );
-  // 방 나가기 클릭하면
-  const handleStopCaptureClick = useCallback(() => {
+
+  useEffect(() => {
+    if (captureTiming) capturePose(curPoseId, curPose);
+  }, [captureTiming]);
+
+  // 방 나가기 클릭하면 -> 종료 버튼 누르고나면
+  const stopCapture = useCallback(() => {
+    mediaRecorderRef.current.stop();
+    let stream = webcamRef.current.stream;
+    const tracks = stream.getTracks();
+    tracks.forEach((track) => track.stop());
+    webcamRef.current.stream = null;
     clearInterval(resumeId);
     clearInterval(pauseId);
-
-    // console.log(intervalId);
-    mediaRecorderRef.current.stop();
-    mediaRecorderRef.current.playbackRate = 10;
-    setCapturing(false);
-  }, [mediaRecorderRef, webcamRef, recordedChunks, setCapturing]);
-  //play후 download이기 때문에
-  const handlePlayRecorderVideo = useCallback(() => {
-    console.log(recordedChunks);
-
-    const blob = new Blob(recordedChunks, {
-      type: 'video/webm',
-    });
-    recordedVideoRef.current.src = window.URL.createObjectURL(blob);
-    recordedVideoRef.current.controls = true;
-    recordedVideoRef.current.playbackRate = 10;
-    recordedVideoRef.current.play();
-  }, [recordedChunks]);
-  //다운로드 여부 물어볼 때 클릭하면
-  const handleDownload = useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: 'video/webm',
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.style = 'display: none';
-      a.href = url;
-      a.download = 'MyVideo.webm';
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
-    }
-  }, [recordedChunks]);
+  }, [mediaRecorderRef, webcamRef]);
 
   return (
     <ContainerWrapper>
-      <ContainerNotice>
-        <HiChatAlt />
-        <NoticeText>현재 자세</NoticeText>
-      </ContainerNotice>
-      <ContainerHeader>{nickname}</ContainerHeader>
-      <Container>
-        <WebcamWrapper>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            mirrored={true}
-            videoConstraints={videoConstraints}
-          />
-        </WebcamWrapper>
-        {/* {capturing ? (
-          <button onClick={handleStopCaptureClick}>Stop Capture</button>
-        ) : (
-          <button onClick={handleStartCaptureClick}>Start Capture</button>
-        )}
-        {recordedChunks.length > 0 && (
-          <>
-          <button onClick={handlePlayRecorderVideo}>Play
-            <video autoPlay ref={recordedVideoRef} />
-          </button>
-          <button onClick={handleDownload}>Download</button>
-          </>
-        )} */}
-      </Container>
+      {curPose ? (
+        <>
+          <InfoBox>현재자세 : {curPose}</InfoBox>
+          <WebcamWrapper>
+            <Webcam
+              onUserMedia={startCapture}
+              audio={false}
+              ref={webcamRef}
+              mirrored={true}
+              videoConstraints={videoConstraints}
+              screenshotFormat="image/jpg"
+            />
+          </WebcamWrapper>
+        </>
+      ) : (
+        <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
+      )}
     </ContainerWrapper>
   );
 };
@@ -121,67 +140,33 @@ const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
 `;
 const NoticeText = styled.div`
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: ${(props) => props.theme.color.blackColor};
   font-weight: 100;
   margin-left: 1rem;
 `;
-const ContainerNotice = styled.div`
-  background-color: ${(props) => props.theme.color.secondary};
-  margin: 1rem 0 1rem 0;
-  width: 40rem;
-  height: 3rem;
-  padding: 0.7rem 0.7rem 0.7rem 2rem;
-  border-radius: 1.5rem 1.5rem 1.5rem 1.5rem;
-  border: 1px solid ${(props) => props.theme.color.primary};
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 2rem;
-  color: ${(props) => props.theme.color.primary};
-  font-weight: 100;
-`;
-const ContainerHeader = styled.div`
-  width: 30rem;
+
+const InfoBox = styled.div`
+  width: 45rem;
   height: 3rem;
   background-color: ${(props) => props.theme.color.secondary};
-  border-radius: 1.5rem 1.5rem 0 0;
-  padding: 0 1rem;
-
+  border: 0.1rem solid ${(props) => props.theme.color.primary};
+  border-radius: 1rem;
+  font-weight: bold;
+  padding: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: ${(props) => props.theme.color.primary};
-  font-size: 1.5rem;
-  font-weight: 600;
 `;
 
-const Container = styled.div`
-  background-color: ${(props) => props.theme.color.whiteColor};
-  width: 30rem;
-  height: 18.75rem;
-  border-radius: 0 0 1.5rem 1.5rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-`;
-
-// const InfoWrapper = styled.div`
-//   background-color: ${(props) => props.theme.color.primary};
-//   width: 100%;
-//   height: 20%;
-// `;
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
-  height: 80%;
-  width: 80%;
+  height: 100%;
+  width: 100%;
 `;
 
 export default MyCapture;
-
-// https://www.npmjs.com/package/react-webcam

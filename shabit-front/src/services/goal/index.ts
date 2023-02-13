@@ -1,9 +1,11 @@
 import { fetchTodayGoal, fetchTodayPostureTime, fetchGoal } from './get';
+import { putGoal } from './put'
 
-const Analyze = {
+const Goal = {
   fetchTodayGoal,
   fetchTodayPostureTime,
   fetchGoal,
+  putGoal,
 };
 
-export default Analyze;
+export default Goal;

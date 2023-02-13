@@ -1,0 +1,19 @@
+{
+  "name": "SHabit",
+  "description": "올바른 자세 습관 만들기",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "permissions": ["scripting", "storage", "alarms"],
+  "action": {
+    "default_popup": "index.html"
+  }
+}

@@ -61,11 +61,11 @@ export const darkTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
-    scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale0: '#ddc8fa',
+    scale1: '#C8B6E2',
+    scale2: '#A8A4CE',
+    scale3: '#7A86B6',
+    scale4: '#495C83',
   },
 };
 
@@ -84,11 +84,11 @@ export const greenTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
-    scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale0: '#f7f4b2',
+    scale1: '#EAE7B1',
+    scale2: '#A6BB8D',
+    scale3: '#61876E',
+    scale4: '#3C6255',
   },
 };
 
@@ -124,6 +124,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'LotteMartDream';
     color: inherit;
     outline: 0;
+
     
   }
   html {

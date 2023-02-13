@@ -1,15 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
+import { setIsRunning, setIsStop } from '../../store/timeSlice';
+import { useDispatch } from 'react-redux';
+import { fetchAlarmTime } from '../../services/admin/get';
 
 export default function QuoteInfo() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const defaultQuote =
+    'SHabit의 트래킹 기능을 사용해보세요! 바른자세가 될 수 있도록 도와드립니다.';
 
   const quote = typedUseSelector((state) => {
+    if (state.chart.quote.length === 0) return defaultQuote;
     return state.chart.quote;
   });
 
@@ -23,15 +30,16 @@ export default function QuoteInfo() {
         <div>{quote}</div>
       </InfoBox>
 
-      <Start
-        onClick={() => {
-          // getAlarmTime().then(()=>navigate('/posture/live'));
-          // 임시 코드
-          navigate('/posture/live');
-        }}
-      >
-        <BsFillCaretRightSquareFill />
-        <span>자세교정 시작하기</span>
+      <Start>
+        <BsFillCaretRightSquareFill
+          onClick={() => {
+            dispatch(setIsRunning(true));
+            dispatch(setIsStop(false));
+            fetchAlarmTime();
+            navigate('/posture/live');
+          }}
+        />
+        <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>
   );

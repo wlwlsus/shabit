@@ -1,27 +1,15 @@
 import React, { useEffect } from 'react';
 import MyCapture from '../TeachableMachineTest/MyCapture';
-import MyPose from '../TeachableMachineTest/MyPose';
-import {
-  setInitTime,
-  calUsedTime,
-  calStretchTime,
-} from '../../store/timeSlice';
-import { shallowEqual, useDispatch } from 'react-redux';
+import { calUsedTime, calStretchTime } from '../../store/timeSlice';
 import { typedUseSelector } from '../../store';
+import TrackingPose from '../TeachableMachineTest/TrackingPose';
+import { useDispatch } from 'react-redux';
 
 export default function LiveContent() {
-  // const user = JSON.parse(sessionStorage.getItem('user'));
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  }, shallowEqual);
-  const nickname = user.nickname;
   const isRunning = typedUseSelector((state) => {
     return state.time.isRunning;
   });
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setInitTime(50));
-  }, []);
 
   useEffect(() => {
     let usedTimeId, stretchTimeId;
@@ -43,8 +31,8 @@ export default function LiveContent() {
 
   return (
     <div>
-      <MyCapture nickname={nickname} />
-      <MyPose />
+      <MyCapture />
+      <TrackingPose />
     </div>
   );
 }

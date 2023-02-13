@@ -7,7 +7,7 @@ import {
   greenTheme,
 } from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './utils/PrivateRoute';
@@ -23,13 +23,13 @@ import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
 import GoalContent from './components/Main/GoalContent';
+import GalleryContent from './components/Main/GalleryContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
 
 import AdminPage from './pages/AdminPage';
-import { Recording } from './components/Posture/Recording';
 
 import NotFound404 from './pages/NotFound404';
 
@@ -44,10 +44,14 @@ import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
+import { fetchAlarmTime } from './services/admin/get';
+import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
   const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const themeInfo = localStorage.getItem('theme');
@@ -73,7 +77,14 @@ function App() {
       if (!newToken) {
         // (6) localStorage 토큰을 가져오고 sessionStorage를 업데이트 합니다.
         newToken = JSON.parse(localStorage.getItem('accessToken'));
-        sessionStorage.setItem('accessToken', JSON.stringify(newToken));
+        newToken = sessionStorage.setItem(
+          'accessToken',
+          JSON.stringify(newToken),
+        );
+        sessionStorage.setItem(
+          'refreshToken',
+          localStorage.getItem('refreshToken'),
+        );
         // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
         isAutoLogin = true;
       }
@@ -95,15 +106,28 @@ function App() {
         });
         //(추가) 토큰을 리덕스에 저장합니다.
         store.dispatch(setTokenState(newToken));
-        // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
-        if (auth === 'ROLE_ADMIN') {
-          store.dispatch(setIsAdminState(true));
-        } else store.dispatch(setIsAdminState(false));
-        return;
+
         // store.getState().chart;
+        //Promise안 배열에 라우팅 전 해야할 함수들을 넣어주세요.
+        Promise.allSettled([
+          //알람 시간을 설정합니다.
+          fetchAlarmTime(),
+          () => {
+            // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
+            if (auth === 'ROLE_ADMIN') {
+              store.dispatch(setIsAdminState(true));
+            } else store.dispatch(setIsAdminState(false));
+          },
+        ]).then(() => {
+          //할 일 끝나고 라우팅 시킬거에여
+          if (['/', '/login', 'signup'].includes(location.pathname)) {
+            navigate('/main');
+          }
+        });
+        return;
       } catch (error) {
-        return Promise.reject(error);
         // (12) 로그인이 실패하였을 때에 처리할 로직은 이곳에서 처리하면 됩니다.
+        return Promise.reject(error);
       }
     };
     loginCheck();
@@ -111,9 +135,11 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ToastContainer />
       <ThemeProvider theme={theme}>
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
+        <ToastifyStyle>
+          <ToastContainer newestOnTop />
+        </ToastifyStyle>
         <Routes>
           <Route
             path="/"
@@ -140,6 +166,7 @@ function App() {
             <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
             <Route path="goal" element={<GoalContent />} />
+            <Route path="gallery" element={<GalleryContent />} />
           </Route>
           <Route
             path="/posture"

@@ -22,6 +22,7 @@ const QuoteInput = ({ setTriggered, setPage, setIsLastPage }) => {
 
       <StyledButton
         onClick={async () => {
+          if (!debouncedInput || !quoteInput) return;
           await postQuote(quoteInput);
           await setQuoteInput('');
           setTriggered(true);
@@ -30,7 +31,7 @@ const QuoteInput = ({ setTriggered, setPage, setIsLastPage }) => {
         }}
         className={debouncedInput && quoteInput && 'clickable'}
       >
-        문구 추가하기
+        추가
       </StyledButton>
     </QuoteInputWrapper>
   );
@@ -64,7 +65,7 @@ const StyledInputTag = styled.div`
 `;
 
 const StyledButton = styled.button`
-  background-color: ${(props) => props.theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.grayColor};
   cursor: default;
   color: ${(props) => props.theme.color.whiteColor};
   width: 7rem;

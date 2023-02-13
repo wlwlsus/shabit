@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { deleteVod } from '../../../services/admin/delete';
-import { retrieveVods } from '../../../services/admin/get';
-import { clearVideoList } from '../../../store/adminSlice';
 
 const VideoCard = ({
   thumbnail,
@@ -16,53 +13,12 @@ const VideoCard = ({
   setScrollProp,
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
-  const dispatch = useDispatch();
-  const setMYScrollProp = (page, search, query) => {
-    // dispatch(clearVideoList());
-    // alert(page + search + query);
-    setScrollProp({ page, search, query });
-  };
 
   useEffect(() => {
     if (!isDeleting) return;
     setIsDeleting(false);
   }, [vodsList]);
-  const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
-  let categoryTag;
-  switch (categoryId) {
-    case 1:
-      categoryTag = (
-        <span
-          className="tag tag-teal"
-          onClick={() => setMYScrollProp(0, 'category', '1')}
-        >
-          목 스트레칭
-        </span>
-      );
-      break;
-    case 2:
-      categoryTag = (
-        <span
-          className="tag tag-purple"
-          onClick={() => setMYScrollProp(0, 'category', '2')}
-        >
-          허리 스트레칭
-        </span>
-      );
-      break;
-    case 3:
-      categoryTag = (
-        <span
-          className="tag tag-pink"
-          onClick={() => setMYScrollProp(0, 'category', '3')}
-        >
-          전신 스트레칭
-        </span>
-      );
-      break;
-    default:
-      categoryTag = <div></div>;
-  }
+  const videoURL = `https://www.youtube.com/watch?v=`;
 
   let videoLengthTag;
   const lengthArray = originalLength.split(':');
@@ -72,45 +28,37 @@ const VideoCard = ({
 
   if (originalMinuite < 4) {
     videoLengthTag = (
-      <span
-        className="tag tag-time-dark-verdun"
-        onClick={() => setMYScrollProp(0, 'length', '3')}
-      >
-        {originalLengthText}
-      </span>
+      <span className="tag tag-time-dark-verdun">{originalLengthText}</span>
     );
   } else if (originalMinuite < 8) {
     videoLengthTag = (
-      <span
-        className="tag tag-time-deep-sea"
-        onClick={() => setMYScrollProp(0, 'length', '5')}
-      >
-        {originalLengthText}
-      </span>
+      <span className="tag tag-time-deep-sea">{originalLengthText}</span>
     );
   } else if (originalMinuite < 12) {
     videoLengthTag = (
-      <span
-        className="tag tag-time-indian-sunset"
-        onClick={() => setMYScrollProp(0, 'length', '10')}
-      >
-        {originalLengthText}
-      </span>
+      <span className="tag tag-time-indian-sunset">{originalLengthText}</span>
     );
   } else {
     videoLengthTag = <div>{originalLengthText}</div>;
+  }
+
+  const moveToPage = (id) => {
+    window.open(videoURL + id);
   }
 
   return (
     <StyledCardWrapper className="container">
       <div className="card">
         {!isDeleting ? (
-          <span className="tag delete-tag" onClick={() => setIsDeleting(true)}>
+          <DeleteButton className="tag delete-tag" 
+          onClick={() => {
+            setIsDeleting(true);
+          }}>
             삭제하기
-          </span>
+          </DeleteButton>
         ) : (
           <div>
-            <span
+            <DeleteButton
               className="tag delete-tag"
               style={{
                 right: '2.7rem',
@@ -124,8 +72,8 @@ const VideoCard = ({
               }}
             >
               삭제
-            </span>
-            <span
+            </DeleteButton>
+            <DeleteButton
               className="tag delete-tag"
               style={{
                 right: '0.1rem',
@@ -135,19 +83,22 @@ const VideoCard = ({
               onClick={() => setIsDeleting(false)}
             >
               취소
-            </span>
+            </DeleteButton>
           </div>
         )}
-        <div className="card-header">
-          <img src={thumbnail} alt={categoryId} />
-        </div>
-        <div className="card-body">
-          {categoryTag}
-          {videoLengthTag}
-          <a href={videoURL} target="_blank" rel="noopener noreferrer">
-            {title}
-          </a>
-        </div>
+        <CardContent onClick={() => moveToPage(videoId)}>
+          <div className="card-header">
+            <img src={thumbnail} alt={categoryId} />
+          </div>
+          <div className="card-body">
+            {videoLengthTag}
+            <div style={{ height: '70px', overflow: 'hidden' }}>
+              <div style={{ display: '-webkit-box', whiteSpace: 'pre-wrap', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                {title}
+              </div>
+            </div>
+          </div>
+        </CardContent>
       </div>
     </StyledCardWrapper>
   );
@@ -161,7 +112,7 @@ const StyledCardWrapper = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     font-size: small;
   }
@@ -176,7 +127,6 @@ const StyledCardWrapper = styled.div`
   .card {
     position: relative;
     margin: 0.5rem 0.5rem;
-    /* margin-bottom: 1rem; */
     background-color: #fbfbfb;
     border-radius: 0.5rem;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
@@ -195,10 +145,13 @@ const StyledCardWrapper = styled.div`
     justify-content: center;
     align-items: flex-start;
     padding: 1rem;
-    padding-top: 0.5rem;
+    padding-top: 0.2rem;
   }
 
   .tag {
+    position: absolute;
+    top: 4.6rem;
+    right: 0.2rem;
     background: #cccccc;
     border-radius: 50px;
     font-size: x-small;
@@ -206,8 +159,7 @@ const StyledCardWrapper = styled.div`
     color: #fff;
     padding: 0.1rem 0.5rem;
     text-transform: uppercase;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+    box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.2);
   }
   .delete-tag {
     position: absolute;
@@ -219,26 +171,27 @@ const StyledCardWrapper = styled.div`
   &:hover .delete-tag {
     display: flex;
   }
-  .tag-teal {
-    background-color: #47bcd4;
-  }
-  .tag-purple {
-    background-color: #5e76bf;
-  }
-  .tag-pink {
-    background-color: #cd5b9f;
-  }
   .tag-time-dark-verdun {
-    background-color: #1d454c;
+    background-color: #ab9663;
   }
   .tag-time-deep-sea {
     background-color: #386168;
   }
   .tag-time-indian-sunset {
-    background-color: #dabd78;
+    background-color: #1d454c;
   }
   .card-body p {
     font-size: 13px;
     margin: 0 0 40px;
+  }
+`;
+
+const DeleteButton = styled.span`
+  cursor: pointer;
+`;
+
+const CardContent = styled.div`
+  &:hover{
+    cursor: pointer;
   }
 `;

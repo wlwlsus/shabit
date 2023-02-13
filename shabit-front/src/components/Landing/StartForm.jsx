@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { HiArrowRightCircle } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 const StartForm = () => {
   const navigate = useNavigate();

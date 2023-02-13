@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useDebounce from '../../utils/useDebounce';
-import Services from '../../services';
+import Services, { FireConfirm } from '../../services';
 import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { confirmEmail } from '../../services/auth/get';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -41,16 +41,10 @@ const SignupForm = () => {
   //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-    }, 2000);
-    setCurrentTimeout(newTimeout);
   };
 
   //비밀번호 일치 여부를 검증합니다.
-  const debouncedPasswordConfirm = useDebounce(password2, 20);
+  const debouncedPasswordConfirm = useDebounce(password2, 100);
   useEffect(() => {
     if (
       debouncedPasswordConfirm &&
@@ -61,19 +55,24 @@ const SignupForm = () => {
       } else {
         setMessage('');
       }
+    } else {
+      setMessage('');
     }
   }, [debouncedPasswordConfirm]);
 
   //비밀번호 검증 로직입니다.
   const [passwordMatch, setPasswordMatch] = useState(false);
+  const debouncedPassword = useDebounce(password, 200);
+
   useEffect(() => {
-    // console.log(
-    //   password,
-    //   password.match(
-    //     /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
-    //     // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
-    //   ),
-    // );
+    if (password.length === 0) return setMessage('');
+    if (
+      (debouncedPassword.length < 8 && debouncedPassword.length > 0) ||
+      password.length > 16
+    ) {
+      setPasswordMatch(false);
+      return setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
     if (password.length >= 8) {
       if (
         !password.match(
@@ -81,7 +80,7 @@ const SignupForm = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setPasswordMatch(false);
       } else {
         setMessage('');
@@ -93,11 +92,15 @@ const SignupForm = () => {
   //닉네임 검증 로직입니다.
   const [nicknameMatch, setNicknameMatch] = useState(false);
   useEffect(() => {
+    if (nickname.length < 2) return setNicknameMatch(false);
     if (nickname.length > 1) {
-      if (
+      if (nickname.length > 16) {
+        setMessage('닉네임은 2~16글자 입니다.');
+        setNicknameMatch(false);
+      } else if (
         !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
       ) {
-        setMessage('사용 불가능한 닉네임입니다');
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
         setNicknameMatch(false);
       } else {
         setMessage('');
@@ -121,6 +124,7 @@ const SignupForm = () => {
           setNeedCheck(false);
         });
     } else {
+      setMessage('');
       setNeedCheck(false);
     }
   }, [debouncedEmailTerm]);
@@ -138,6 +142,7 @@ const SignupForm = () => {
   };
 
   const onConfirmed = () => {
+    setMessage('');
     setNeedCheck(false);
     setConfirmingEmail(false);
     setIsConfirmed(true);
@@ -145,14 +150,49 @@ const SignupForm = () => {
 
   //회원가입 진행 로직입니다.
   const onSignup = () => {
+    if (message) return;
     Auth.register(email, nickname, password).then((value) => {
       if (value) {
-        alert('회원가입이 완료되었습니다.');
+        FireConfirm('회원가입이 완료되었습니다.');
         navigate('/login');
       }
     });
   };
   // #################################################
+  // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
+  useEffect(() => {
+    if (message) return;
+    if (password2.length > 4 && password !== password2) {
+      setMessage('비밀번호가 일치하지 않습니다');
+    }
+
+    if ((password.length < 8 && password.length > 0) || password.length > 16) {
+      setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
+    if (password.length >= 8) {
+      if (
+        !password.match(
+          // /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
+        )
+      ) {
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
+        setPasswordMatch(false);
+      }
+    }
+    if (nickname.length > 1) {
+      if (nickname.length > 16) {
+        setMessage('닉네임은 2~16글자 입니다.');
+      } else if (
+        !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
+      ) {
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
+      }
+    }
+    if (needCheck) {
+      return setMessage('이메일 인증을 완료해주세요');
+    }
+  }, [message]);
   return (
     <FormWrapper>
       {!message ? <div></div> : <div>{message}</div>}

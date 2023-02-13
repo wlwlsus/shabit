@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Input from '../common/Input';
@@ -6,21 +6,19 @@ import { HiArrowRightCircle } from 'react-icons/hi2';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
+import useDebounce from '../../utils/useDebounce';
+import { changePassword } from '../../services/auth/put';
+import { FireAlert, FireConfirm } from '../../services';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setCurrentMessage] = useState('');
   const [currentTimeout, setCurrentTimeout] = useState(null);
+  const [changingPassword, setChangingPassword] = useState(false);
   //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-    }, 2000);
-    setCurrentTimeout(newTimeout);
   };
 
   //onChange 핸들링입니다.
@@ -28,6 +26,8 @@ const LoginForm = () => {
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
+    newpassword: '',
+    newpassword2: '',
     autoLogin: false,
   });
   const onChangeHandler = (e) => {
@@ -43,15 +43,57 @@ const LoginForm = () => {
       autoLogin: !inputs.autoLogin,
     });
   };
-  const { email, password, autoLogin } = inputs;
+  const { email, password, autoLogin, newpassword, newpassword2 } = inputs;
   // ###############################
+  const debouncedPasswordConfirm = useDebounce(newpassword2, 20);
+  useEffect(() => {
+    if (
+      debouncedPasswordConfirm &&
+      debouncedPasswordConfirm.length > newpassword.length - 4
+    ) {
+      if (newpassword !== debouncedPasswordConfirm) {
+        setMessage('비밀번호가 일치하지 않습니다');
+      } else {
+        setMessage('');
+      }
+    }
+  }, [debouncedPasswordConfirm]);
+
+  //비밀번호 검증 로직입니다.
+  const [passwordMatch, setPasswordMatch] = useState(false);
+  useEffect(() => {
+    if (newpassword.length >= 8) {
+      if (
+        !newpassword.match(
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
+        )
+      ) {
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
+        setPasswordMatch(false);
+      } else {
+        setMessage('');
+        setPasswordMatch(true);
+      }
+    }
+  }, [newpassword]);
 
   const onLogin = () => {
+    if (!password) return setMessage('비밀번호를 입력해주세요');
+    if (!email) return setMessage('이메일을 입력해주세요');
     Auth.login(email, password)
-      .then(({ user, accessToken, refreshToken }) => {
+      .then(async ({ user, accessToken, refreshToken }) => {
         if (autoLogin) {
           localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
           localStorage.setItem('accessToken', JSON.stringify(accessToken));
+        }
+        if (changingPassword && passwordMatch && newpassword === newpassword2) {
+          changePassword(email, password, newpassword)
+            .then(() => {
+              FireConfirm('비밀번호가 변경되었습니다.');
+            })
+            .catch(() => {
+              FireAlert('비밀번호 변경에 실패하였습니다.');
+            });
         }
         navigate('/main');
       })
@@ -64,6 +106,7 @@ const LoginForm = () => {
     Auth.resetPassword(email)
       .then((res) => {
         setMessage('임시 비밀번호를 발송하였습니다');
+        setChangingPassword(true);
         setTimeout(() => {
           setMessage('');
           setForgotPassword(false);
@@ -82,18 +125,41 @@ const LoginForm = () => {
     navigate('/signup');
   };
 
+  const onCheckEnter = (e) => {
+    if (e.key === 'Enter' && !forgotPassword) {
+      onLogin();
+    }
+  };
+  // #################################################
+  // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
+  useEffect(() => {
+    if (message) return;
+    if (
+      debouncedPasswordConfirm.length > 4 &&
+      newpassword !== debouncedPasswordConfirm
+    ) {
+      setMessage('비밀번호가 일치하지 않습니다');
+    }
+    if (
+      (newpassword.length < 8 && newpassword.length > 0) ||
+      newpassword.length > 16
+    ) {
+      setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
+    if (newpassword.length >= 8) {
+      if (
+        !newpassword.match(
+          // /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
+        )
+      ) {
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
+      }
+    }
+  }, [message]);
   return (
-    <FormWrapper>
-      <Title
-        style={{
-          color: 'red',
-          position: 'absolute',
-          left: '640px',
-          top: '20px',
-        }}
-      >
-        {message}
-      </Title>
+    <FormWrapper onKeyPress={onCheckEnter}>
+      <Msg>{message}</Msg>
       {!forgotPassword ? (
         <Title>SHabit에 로그인하고 서비스를 이용해보세요</Title>
       ) : (
@@ -105,8 +171,8 @@ const LoginForm = () => {
         value={email}
         onChange={onChangeHandler}
         placeholder={'아이디'}
-        shadow={'shadow'}
       />
+
       {!forgotPassword ? (
         <>
           <Input
@@ -115,9 +181,27 @@ const LoginForm = () => {
             value={password}
             onChange={onChangeHandler}
             placeholder={'비밀번호'}
-            shadow={'shadow'}
           />
-
+          {changingPassword ? (
+            <>
+              <Input
+                type="password"
+                name="newpassword"
+                value={newpassword}
+                onChange={onChangeHandler}
+                placeholder={'신규 비밀번호'}
+              />
+              <Input
+                type="password"
+                name="newpassword2"
+                value={newpassword2}
+                onChange={onChangeHandler}
+                placeholder={'신규 비밀번호 확인'}
+              />
+            </>
+          ) : (
+            <></>
+          )}
           <Wrapper>
             <Checkbox>
               <input
@@ -132,6 +216,7 @@ const LoginForm = () => {
               비밀번호를 잊으셨나요?
             </Div>
           </Wrapper>
+
           <HiArrowRightCircle onClick={onLogin} />
         </>
       ) : (
@@ -139,7 +224,6 @@ const LoginForm = () => {
           <StyledButton onClick={onReset}>비밀번호 초기화</StyledButton>
         </>
       )}
-
       <Signup>
         <span>아직 계정이 없으신가요?</span>
         <Div onClick={goSignup}>회원가입</Div>
@@ -169,10 +253,16 @@ const FormWrapper = styled.div`
   }
 `;
 
+const Msg = styled.div`
+  color: ${(props) => props.theme.color.redColor};
+  position: absolute;
+  top: 10%;
+`;
+
 const Title = styled.div`
   width: 38%;
   color: ${(props) => props.theme.color.grayColor};
-  font-size: 0.9rem;
+
   margin-bottom: 1rem;
 `;
 

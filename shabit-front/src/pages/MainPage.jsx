@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-// import { setTokenState, setUserState } from '../store/authSlice';
-// import { typedUseSelector } from '../store';
-import MoveToAdmin from '../components/Admin/MoveToAdmin';
+import { Outlet, useNavigate } from 'react-router-dom';
+import GoalModal from '../components/Main/GoalModal';
 
 export default function MainPage() {
-  const location = useLocation();
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
 
@@ -23,32 +20,32 @@ export default function MainPage() {
       navigate('/main');
     } else if (value === 1) {
       navigate('/main/history');
+    } else if (value === 2) {
+      navigate('/main/goal');
     } else {
-      navigate('/main/analyze');
+      navigate('/main/gallery');
     }
   };
 
+  const goalModal = useSelector((state) => {
+    return state.goal.goalModal;
+  });
+
   return (
     <PageWrapper>
+      {goalModal && <GoalModal />}
       <ContainerWrapper>
-        <Tab
-          onClick={() => {
-            navigate('/main');
-          }}
-          style={clicked[0] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
           SHabit
         </Tab>
-        <Tab
-          onClick={() => {
-            navigate('/main/history');
-          }}
-          style={clicked[1] ? style : null}
-        >
+        <Tab onClick={() => tabClicked(1)} style={clicked === 1 ? null : style}>
           자세기록
         </Tab>
         <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
-          자세분석
+          나의목표
+        </Tab>
+        <Tab onClick={() => tabClicked(3)} style={clicked === 3 ? null : style}>
+          갤러리
         </Tab>
         <Container>
           <Outlet />
@@ -89,11 +86,14 @@ const ContainerWrapper = styled.div`
   }
 
   & > button:nth-child(2) {
-    left: 7.6%;
+    left: 7.8%;
   }
-
   & > button:nth-child(3) {
     left: 16%;
+  }
+
+  & > button:nth-child(4) {
+    left: 24%;
   }
 `;
 
@@ -109,6 +109,7 @@ const Container = styled.div`
 `;
 
 const Tab = styled.button`
+  width: 6rem;
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.color.secondary};
   font-size: 1.1rem;
