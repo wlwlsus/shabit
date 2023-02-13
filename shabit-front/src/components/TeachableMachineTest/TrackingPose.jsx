@@ -3,7 +3,8 @@ import * as tmPose from '@teachablemachine/pose';
 import { setPose,setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
-import { setLogArray,setInitLogArray } from '../../store/trackingSlice';
+import { setLogArray } from '../../store/trackingSlice';
+import dateFormat from '../../utils/dateFormat';
 
 const TrackingPose = () => {
   // 바른 자세인지 아닌지
@@ -40,12 +41,11 @@ const TrackingPose = () => {
     startTime = dateFormat(new Date());
     setTimerId(setInterval(()=>{
       time+=1;
-      console.log("TIME",time);
       if(time>=alarmSec){
         notify(maxPose,'pose');
         time=0;
       }
-    },1000));// 초 세는 거
+    },1000));// 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
   };
 
@@ -62,7 +62,8 @@ const TrackingPose = () => {
         if (prevPose !== maxPose) {
           prevPose = maxPose;
           endTime = dateFormat(new Date());
-          //보내기
+          console.log(endTime);
+          //로그 저장
           log = {startTime,endTime,postureId:i};
           dispatch(setLogArray(log));
           startTime = endTime;
@@ -79,23 +80,13 @@ const TrackingPose = () => {
   const onStop = async (id) => {
     await clearInterval(id);
     await clearInterval(timerId);
-    // TODO: data날려주기
   };
+
   useEffect(() => {
     console.log("ID",id)
     if(isRunning===false) onStop(id);
   }, [isRunning]);
-
   
-  // const getElapsedTime = () => {
-  //   const now = Date.now(); //
-  //   const elapsed = Math.floor((now - time));
-  //   console.log(alarmSec,'초->',elapsed,'초');
-  //   if (elapsed >= alarmSec) {
-  //     notify(maxPose, 'pose');
-  //     time = now;
-  //   }
-  // };
   useEffect(() => {
     init();
   }, []);
@@ -104,20 +95,5 @@ const TrackingPose = () => {
     webcam.update();
     await predictPose();
   };
-  const dateFormat=(date)=> {
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-
-    month = month >= 10 ? month : '0' + month;
-    day = day >= 10 ? day : '0' + day;
-    hour = hour >= 10 ? hour : '0' + hour;
-    minute = minute >= 10 ? minute : '0' + minute;
-    second = second >= 10 ? second : '0' + second;
-
-    return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-}
 };
 export default TrackingPose;
