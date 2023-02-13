@@ -22,6 +22,20 @@ export default function GalleryContent() {
   //   return state.auth.user;
   // });
 
+  const [month, setMonath] = useState('00월');
+  const [date, setDate] = useState('01일');
+
+  useEffect(() => {
+    const mounted = async () => {
+      let now = new Date();
+      let todayMonth = now.getMonth() + 1 + '월';
+      let todayDate = now.getDate() +'일';
+      setMonath(todayMonth);
+      setDate(todayDate);
+    };
+    mounted();
+  }, []);
+
   useEffect(() => {
     if (!user.email) return;
     fetchPhoto(user.email, posture, page).then((res) => {
@@ -48,24 +62,27 @@ export default function GalleryContent() {
 
   return (
     <Wrapper>
-      <RadioWrapper>
-        <Label htmlFor="1" onClick={() => changePosture(1)}>
-          <Radio name="posture" id="1" defaultChecked />
-          바른 자세
-        </Label>
-        <Label htmlFor="2" onClick={() => changePosture(2)}>
-          <Radio name="posture" id="2" />
-          거북목 자세
-        </Label>
-        <Label htmlFor="3" onClick={() => changePosture(3)}>
-          <Radio name="posture" id="3" />
-          비스듬한 자세
-        </Label>
-        <Label htmlFor="4" onClick={() => changePosture(4)}>
-          <Radio name="posture" id="4" />
-          누운 자세
-        </Label>
-      </RadioWrapper>
+      <Header>
+        <RadioWrapper>
+          <Label htmlFor="1" onClick={() => changePosture(1)}>
+            <Radio name="posture" id="1" defaultChecked />
+            바른 자세
+          </Label>
+          <Label htmlFor="2" onClick={() => changePosture(2)}>
+            <Radio name="posture" id="2" />
+            거북목 자세
+          </Label>
+          <Label htmlFor="3" onClick={() => changePosture(3)}>
+            <Radio name="posture" id="3" />
+            비스듬한 자세
+          </Label>
+          <Label htmlFor="4" onClick={() => changePosture(4)}>
+            <Radio name="posture" id="4" />
+            누운 자세
+          </Label>
+        </RadioWrapper>
+        <Message>{month} {date}</Message>
+      </Header>
       <Content>
         <PhotoList photoList={photoList} />
       </Content>
@@ -104,6 +121,11 @@ const RadioWrapper = styled.div`
     }
   }
 `;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 
 const Label = styled.label``;
 
@@ -118,6 +140,12 @@ const Radio = styled.input.attrs({ type: 'radio' })`
   &:checked {
     background-color: ${(props) => props.theme.color.primary};
   }
+`;
+
+const Message = styled.span`
+  font-weight: bold;
+  margin-right: 2rem;
+  color: Black;
 `;
 
 const Content = styled.div`

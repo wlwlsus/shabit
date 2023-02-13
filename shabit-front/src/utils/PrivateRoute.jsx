@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { FireAlert } from './FireAlert';
+import { FireAlert } from '../services';
 
 export default function PrivateRoute({ component }) {
   const isLogin =

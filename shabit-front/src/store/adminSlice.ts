@@ -19,7 +19,7 @@ const adminSlice = createSlice({
       },
     ],
     quetesList: [],
-    stretchingTime: 50 * 60 *1000,
+    stretchingTime: 50 * 60,
     alertTime: 3 * 60,
   },
   reducers: {
@@ -33,10 +33,10 @@ const adminSlice = createSlice({
       state.quetesList = action.payload;
     },
     setStretchingTime: (state, action) => {
-      state.stretchingTime = Number(action.payload) * 60 * 1000;
+      state.stretchingTime = Number(action.payload) * 60;
     },
     setAlertTime: (state, action) => {
-      state.alertTime = Number(action.payload) * 60 * 1000;
+      state.alertTime = Number(action.payload) * 60;
     },
     pushVideoList: (state, action) => {
       state.videoList.push(...action.payload);
