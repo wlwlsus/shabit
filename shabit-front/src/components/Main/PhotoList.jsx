@@ -4,7 +4,7 @@ import { loadEffect } from '../../styles/animation';
 
 export default function PhotoList({ photoList }) {
   if (!photoList.length) {
-    return <div>기록이 없습니다.</div>;
+    return <Message>기록이 없습니다.</Message>;
   } else {
     return (
       <Wrapper>
@@ -20,8 +20,14 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  text-align: e
   justify-content: flex-start;
   align-content: flex-start;
+`;
+
+const Message = styled.div`
+  text-align: center;
+  margin-top: 11rem;
 `;
 
 const Img = styled.img`
