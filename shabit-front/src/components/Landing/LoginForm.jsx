@@ -19,13 +19,6 @@ const LoginForm = () => {
   //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-      // }, 2000);
-    }, 200000000);
-    setCurrentTimeout(newTimeout);
   };
 
   //onChange 핸들링입니다.
@@ -85,6 +78,8 @@ const LoginForm = () => {
   }, [newpassword]);
 
   const onLogin = () => {
+    if (!password) return setMessage('비밀번호를 입력해주세요');
+    if (!email) return setMessage('이메일을 입력해주세요');
     Auth.login(email, password)
       .then(async ({ user, accessToken, refreshToken }) => {
         if (autoLogin) {
@@ -135,7 +130,30 @@ const LoginForm = () => {
       onLogin();
     }
   };
-
+  // #################################################
+  // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
+  useEffect(() => {
+    if (message) return;
+    if (newpassword !== debouncedPasswordConfirm) {
+      setMessage('비밀번호가 일치하지 않습니다');
+    }
+    if (
+      (newpassword.length < 8 && newpassword.length > 0) ||
+      newpassword.length > 16
+    ) {
+      setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
+    if (newpassword.length >= 8) {
+      if (
+        !newpassword.match(
+          // /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
+        )
+      ) {
+        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+      }
+    }
+  }, [message]);
   return (
     <FormWrapper onKeyPress={onCheckEnter}>
       <Msg>{message}</Msg>
