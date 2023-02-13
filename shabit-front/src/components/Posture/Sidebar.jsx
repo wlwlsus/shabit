@@ -41,7 +41,7 @@ const Sidebar = () => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
       // stretching modal띄우기
-      dispatch(setStretchModal(false));
+      dispatch(setStretchModal(true));
       postData(userEmail,logArray).then(()=>{
         setInitLogArray();
       })
@@ -53,7 +53,9 @@ const Sidebar = () => {
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
-
+  const usedMin = useSelector((state)=>{
+    return state.time.usedTime.min
+  });
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
 
   const clickStop = () => {
@@ -63,9 +65,11 @@ const Sidebar = () => {
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
-    postData(userEmail,logArray).then(()=>{
-      setInitLogArray();
-    })
+    if(usedMin>1){
+        postData(userEmail,logArray).then(()=>{
+        setInitLogArray();
+      })
+    }
   };
   const clickPlayButton = () => {
     dispatch(setIsRunning(true));
