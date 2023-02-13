@@ -84,11 +84,11 @@ export const greenTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
-    scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale0: '#f7f4ba',
+    scale1: '#EAE7B1',
+    scale2: '#A6BB8D',
+    scale3: '#61876E',
+    scale4: '#3C6255',
   },
 };
 
