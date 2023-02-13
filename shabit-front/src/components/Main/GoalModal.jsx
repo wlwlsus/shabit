@@ -47,6 +47,17 @@ export default function Modal() {
     });
   }, []);
 
+  const changeMinToHour = (value) => {
+    // 분 -> 시
+    let hour = parseInt(value / 60);
+    let time = value % 60;
+
+    let str = '';
+    if (hour != 0) str += hour + '시간 ';
+    str += time;
+    value = str;
+  };
+
   const onChangeHandler = (e) => {
     // input 값이 바뀔 때마다 inputs에 넣음
     const { value, name } = e.target;
@@ -125,7 +136,7 @@ export default function Modal() {
               <InputWrapper>
                 <P>자세 비율</P>
                 <Input // min max 설정 필요
-                  type="text" // 한글은 들어가게됨 -> onChangeHandler에서 막음
+                  type="text" // 한글은 들어가게됨 -> onChangeHandler에서 막음]
                   name="percentage"
                   value={percentage}
                   onChange={onChangeHandler}

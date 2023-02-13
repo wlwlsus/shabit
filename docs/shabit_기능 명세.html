@@ -1,0 +1,758 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>기능 명세 및 우선 순위</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 90%;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ce16d3f4-f2d1-4d36-ad43-b2d98a33180f" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🌴</span></div><h1 class="page-title">기능 명세 및 우선 순위</h1></header><div class="page-body"><div id="12aa4704-6d39-4da8-9b73-cecb6fdccb0d" class="collection-content"><h4 class="collection-title">기능 몇세 및 우선 순위</h4><table class="collection-content"><thead><tr><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>화면</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>세부 페이지</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M8 15.126C11.8623 15.126 15.0615 11.9336 15.0615 8.06445C15.0615 4.20215 11.8623 1.00293 7.99316 1.00293C4.13086 1.00293 0.938477 4.20215 0.938477 8.06445C0.938477 11.9336 4.1377 15.126 8 15.126ZM8 13.7383C4.85547 13.7383 2.33301 11.209 2.33301 8.06445C2.33301 4.91992 4.84863 2.39746 7.99316 2.39746C11.1377 2.39746 13.6738 4.91992 13.6738 8.06445C13.6738 11.209 11.1445 13.7383 8 13.7383ZM7.62402 10.6348C7.79492 10.915 8.20508 10.9287 8.37598 10.6348L10.666 6.73145C10.8574 6.41016 10.7002 6.04102 10.3652 6.04102H5.62793C5.29297 6.04102 5.14941 6.43066 5.32031 6.73145L7.62402 10.6348Z"></path></svg></span>Epic</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M8 15.126C11.8623 15.126 15.0615 11.9336 15.0615 8.06445C15.0615 4.20215 11.8623 1.00293 7.99316 1.00293C4.13086 1.00293 0.938477 4.20215 0.938477 8.06445C0.938477 11.9336 4.1377 15.126 8 15.126ZM8 13.7383C4.85547 13.7383 2.33301 11.209 2.33301 8.06445C2.33301 4.91992 4.84863 2.39746 7.99316 2.39746C11.1377 2.39746 13.6738 4.91992 13.6738 8.06445C13.6738 11.209 11.1445 13.7383 8 13.7383ZM7.62402 10.6348C7.79492 10.915 8.20508 10.9287 8.37598 10.6348L10.666 6.73145C10.8574 6.41016 10.7002 6.04102 10.3652 6.04102H5.62793C5.29297 6.04102 5.14941 6.43066 5.32031 6.73145L7.62402 10.6348Z"></path></svg></span>Role</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesTitle"><path d="M0.637695 13.1914C1.0957 13.1914 1.32812 13 1.47852 12.5215L2.24414 10.3887H6.14746L6.90625 12.5215C7.05664 13 7.2959 13.1914 7.74707 13.1914C8.22559 13.1914 8.5332 12.9043 8.5332 12.4531C8.5332 12.2891 8.50586 12.1523 8.44434 11.9678L5.41602 3.79199C5.2041 3.21777 4.82129 2.9375 4.19922 2.9375C3.60449 2.9375 3.21484 3.21777 3.0166 3.78516L-0.0322266 12.002C-0.09375 12.1797 -0.121094 12.3232 -0.121094 12.4668C-0.121094 12.918 0.166016 13.1914 0.637695 13.1914ZM2.63379 9.12402L4.17871 4.68066H4.21973L5.76465 9.12402H2.63379ZM12.2793 13.2324C13.3115 13.2324 14.2891 12.6787 14.7129 11.8037H14.7402V12.5762C14.7471 12.9863 15.0273 13.2393 15.4238 13.2393C15.834 13.2393 16.1143 12.9795 16.1143 12.5215V8.00977C16.1143 6.49902 14.9658 5.52148 13.1543 5.52148C11.7666 5.52148 10.6592 6.08887 10.2695 6.99121C10.1943 7.15527 10.1533 7.3125 10.1533 7.46289C10.1533 7.81152 10.4062 8.04395 10.7686 8.04395C11.0215 8.04395 11.2129 7.94824 11.3496 7.73633C11.7529 6.99121 12.2861 6.65625 13.1064 6.65625C14.0977 6.65625 14.6992 7.20996 14.6992 8.1123V8.67285L12.5664 8.7959C10.7686 8.8916 9.77734 9.69824 9.77734 11.0107C9.77734 12.3369 10.8096 13.2324 12.2793 13.2324ZM12.6621 12.1387C11.8008 12.1387 11.2129 11.667 11.2129 10.9561C11.2129 10.2725 11.7598 9.82129 12.7578 9.75977L14.6992 9.62988V10.3203C14.6992 11.3457 13.7969 12.1387 12.6621 12.1387Z"></path></svg></span>기능</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesSelect"><path d="M8 15.126C11.8623 15.126 15.0615 11.9336 15.0615 8.06445C15.0615 4.20215 11.8623 1.00293 7.99316 1.00293C4.13086 1.00293 0.938477 4.20215 0.938477 8.06445C0.938477 11.9336 4.1377 15.126 8 15.126ZM8 13.7383C4.85547 13.7383 2.33301 11.209 2.33301 8.06445C2.33301 4.91992 4.84863 2.39746 7.99316 2.39746C11.1377 2.39746 13.6738 4.91992 13.6738 8.06445C13.6738 11.209 11.1445 13.7383 8 13.7383ZM7.62402 10.6348C7.79492 10.915 8.20508 10.9287 8.37598 10.6348L10.666 6.73145C10.8574 6.41016 10.7002 6.04102 10.3652 6.04102H5.62793C5.29297 6.04102 5.14941 6.43066 5.32031 6.73145L7.62402 10.6348Z"></path></svg></span>우선순위</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>설명</th><th><span class="icon property-icon"><svg viewBox="0 0 16 16" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.45);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesText"><path d="M1.56738 3.25879H14.4258C14.7676 3.25879 15.0479 2.97852 15.0479 2.63672C15.0479 2.29492 14.7744 2.02148 14.4258 2.02148H1.56738C1.21875 2.02148 0.952148 2.29492 0.952148 2.63672C0.952148 2.97852 1.22559 3.25879 1.56738 3.25879ZM1.56738 6.84082H14.4258C14.7676 6.84082 15.0479 6.56055 15.0479 6.21875C15.0479 5.87695 14.7744 5.60352 14.4258 5.60352H1.56738C1.21875 5.60352 0.952148 5.87695 0.952148 6.21875C0.952148 6.56055 1.22559 6.84082 1.56738 6.84082ZM1.56738 10.4229H14.4258C14.7676 10.4229 15.0479 10.1426 15.0479 9.80078C15.0479 9.45898 14.7744 9.18555 14.4258 9.18555H1.56738C1.21875 9.18555 0.952148 9.45898 0.952148 9.80078C0.952148 10.1426 1.22559 10.4229 1.56738 10.4229ZM1.56738 14.0049H8.75879C9.10059 14.0049 9.38086 13.7246 9.38086 13.3828C9.38086 13.041 9.10742 12.7676 8.75879 12.7676H1.56738C1.21875 12.7676 0.952148 13.041 0.952148 13.3828C0.952148 13.7246 1.22559 14.0049 1.56738 14.0049Z"></path></svg></span>비고(논의사항)</th></tr></thead><tbody><tr id="8a2c9d83-e402-416e-81b0-3e499e94aac9"><td class="cell-ILpf">계정 등록 페이지</td><td class="cell-it}q">회원가입</td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/8a2c9d83e402416e81b03e499e94aac9">회원가입</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">홈페이지 회원가입
+- 이메일 입력, 이메일 중복확인, 이메일 인증
+- 닉네임 입력, 닉네임 중복확인
+- 비밀번호 입력, 비밀번호 확인</td><td class="cell-Ndhd"></td></tr><tr id="a6f073b3-4e01-4e0e-a39a-6c3b2f771ae8"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/a6f073b34e014e0ea39a6c3b2f771ae8">소셜 연동 회원가입</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">소셜 로그인 시 서버에서 회원가입 진행
+- Provider에서 회원정보 받은 후 DB에 저장</td><td class="cell-Ndhd"></td></tr><tr id="c9705dc7-94b0-4a3f-ba98-dbe41e9c5336"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/c9705dc794b04a3fba98dbe41e9c5336">약관 동의</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-brown">3순위</span></td><td class="cell-E}Nb">개인 정보 사용, 카메라 허용 여부</td><td class="cell-Ndhd"></td></tr><tr id="eee528c9-8a47-47b4-a9b9-d0744590df9f"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/eee528c98a4747b4a9b9d0744590df9f">이메일 중복확인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">회원가입 시 이메일 중복 확인</td><td class="cell-Ndhd"></td></tr><tr id="7fd259f8-90d3-492c-80f8-09efd3ca8e1c"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/7fd259f890d3492c80f809efd3ca8e1c">이메일 인증</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">회원가입 시 이메일 인증 확인
+- 입력 받은 이메일로 인증 코드 전송
+- 화면에서 인증 코드 일치 여부 확인</td><td class="cell-Ndhd"></td></tr><tr id="57cac085-3ee9-4d77-9d07-012baf621df8"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/57cac0853ee94d779d07012baf621df8">비밀번호 규칙 확인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">회원가입, 비밀번호 변경 시 비밀번호 규칙 체크
+- 비밀번호 규칙 : <code>8~16자 영문 대소문자, 숫자, 특수문자 포함</code>
+- regex : <code>^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&amp;*()+|=])[A-Za-z\\d~!@#$%^&amp;*()+|=]{8,16}$</code></td><td class="cell-Ndhd"></td></tr><tr id="36c53aef-63ae-40e1-bf10-3b1d6ba059e1"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/36c53aef63ae40e1bf103b1d6ba059e1">닉네임 규칙 확인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">회원가입, 닉네임 변경 시 닉네임 규칙 체크
+- 닉네임 규칙 : <code>2~16자 한글, 영문 대소문자, 숫자</code>
+- regex : <code>[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,16}</code></td><td class="cell-Ndhd"></td></tr><tr id="bd60bbe0-8805-4e13-809e-8468ad699815"><td class="cell-ILpf"></td><td class="cell-it}q">로그인</td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/bd60bbe088054e13809e8468ad699815">로그인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">홈페이지 JWT 로그인</td><td class="cell-Ndhd"></td></tr><tr id="0fbaf457-cee1-405a-a092-1c27be714db5"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-brown">ALL</span></td><td class="cell-title"><a href="https://www.notion.so/0fbaf457cee1405aa0921c27be714db5">소셜 로그인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">- 구글 로그인
+- 네이버 로그인
+- 카카오톡 로그인</td><td class="cell-Ndhd"></td></tr><tr id="85b09276-6fca-4c0d-8dc1-12314d8af952"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/85b092766fca4c0d8dc112314d8af952">자동 로그인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">유저가 자동로그인 체크 후 로그인 진행 시 로그인</td><td class="cell-Ndhd"></td></tr><tr id="8076dbbd-7bb7-4653-8efb-1dcf0253a02e"><td class="cell-ILpf">메인 페이지</td><td class="cell-it}q">유저 정보</td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/8076dbbd7bb746538efb1dcf0253a02e">유저 정보 보여주기</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">유저 정보를 보여준다.
+- 닉네임, 이메일, 프로필 사진</td><td class="cell-Ndhd"></td></tr><tr id="1aaa762e-1e68-4179-9690-79e32309d950"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/1aaa762e1e684179969079e32309d950">닉네임 변경</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">회원가입, 닉네임 변경 시 닉네임 규칙 체크
+- 닉네임 규칙 : <code>2~16자 한글, 영문 대소문자, 숫자</code>
+- regex : <code>[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,16}</code></td><td class="cell-Ndhd"></td></tr><tr id="b9b2b4f5-adef-483d-9227-d6543b41df31"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/b9b2b4f5adef483d9227d6543b41df31">비밀번호 변경</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-brown">3순위</span></td><td class="cell-E}Nb">비밀번호 변경</td><td class="cell-Ndhd"></td></tr><tr id="49acb83c-c904-4b72-899a-d7b052e3fae9"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/49acb83cc9044b72899ad7b052e3fae9">마지막 접속일</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">유저가 마지막으로 접속한 날짜를 보여준다.</td><td class="cell-Ndhd"></td></tr><tr id="9e393ab9-e49a-4cbd-8ac3-518d9844da0e"><td class="cell-ILpf"></td><td class="cell-it}q">유저 프로필</td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/9e393ab9e49a4cbd8ac3518d9844da0e">유저 프로필 수정</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">수정하려는 프로필 사진을 입력받고 변경한다.</td><td class="cell-Ndhd"></td></tr><tr id="d8538197-d3ba-4b38-a528-80f6a77dc524"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/d8538197d3ba4b38a52880f6a77dc524">테마 색상 변경</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">프로젝트 전체의 테마 색을 변경할 수 있다.
+- theme : <code>dark, blue, pink(default), green</code>
+※ 테마 색상에 맞춰 잔디 색도 변경된다.</td><td class="cell-Ndhd"></td></tr><tr id="b52b6b90-9079-4e14-9579-b037897750be"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-yellow">화면정보</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/b52b6b9090794e149579b037897750be">자세교정 문구</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">자세교정에 대한 문구를 랜덤하게 보여준다.</td><td class="cell-Ndhd"></td></tr><tr id="129a6f3d-41fb-451e-9c2a-64b26f94368b"><td class="cell-ILpf"></td><td class="cell-it}q">상단</td><td class="cell-h@Mz"><span class="selected-value select-value-color-red">회원 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/129a6f3d41fb451e9c2a64b26f94368b">로그아웃</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">로그아웃 한다.</td><td class="cell-Ndhd"></td></tr><tr id="7fb7a654-f042-49d5-8fd8-933d4426cf05"><td class="cell-ILpf">그래프</td><td class="cell-it}q">그래프</td><td class="cell-h@Mz"><span class="selected-value select-value-color-default">데이터</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Daily-7fb7a654f04249d58fd8933d4426cf05">Daily 기록 데이터 정리</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">데일리 트래킹 데이터가 계산되어 저장된다.
+→ 오전 1시에 작동한다.
+- 자세, 자세를 취한 시간, 날짜 저장</td><td class="cell-Ndhd"></td></tr><tr id="a60b38d9-098f-4e56-ae04-9c6ef0d44939"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-default">데이터</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/a60b38d9098f4e56ae049c6ef0d44939">잔디 데이터 정리</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">데일리 트래킹 데이터가 계산되어 잔디 데이터에 저장된다.
+→ 오전 4시에 작동한다.
+- 바른 자세를 취한 시간이 백분율로 계산되어 저장된다.</td><td class="cell-Ndhd"></td></tr><tr id="08b451be-5add-44ad-b85e-b09575cf2493"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-default">데이터</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Daily-08b451be5add44adb85eb09575cf2493">Daily 데이터 삭제</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">데일리 트래킹 데이터가 삭제된다.
+→ 오전 6시에 작동한다.</td><td class="cell-Ndhd"></td></tr><tr id="0c3423e3-0d2c-45eb-b2d5-a3892987c179"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-gray">그래프</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Today-0c3423e30d2c45ebb2d5a3892987c179">Today 자세 비율 그래프</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">사용자가 자세를 취한 시간을 그래프로 보여준다. 
+- x축 : 시간
+- x축 볌위 : 트래킹 시작 시간 ~ 트래킹 끝 시간
+- 자세별로 색상을 달리해서 보여준다.</td><td class="cell-Ndhd"></td></tr><tr id="02e39c46-47a8-4554-b968-d71e0cfb7aec"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-gray">그래프</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Daily-02e39c4647a84554b968d71e0cfb7aec">Daily 분석 파이 그래프</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">트래킹 전체 시간 대비 사용자가 취한 자세의 비율을 그래프로 표시해준다.
+- 자세별로 색상을 달리해서 보여준다.
+※ 일정시간 이상 트래킹을 진행했을 때 표시해준다.</td><td class="cell-Ndhd"></td></tr><tr id="d94df56d-2cdc-4825-bd9a-7b1d02a59cf5"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-gray">그래프</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Weekly-d94df56d2cdc4825bd9a7b1d02a59cf5">Weekly 분석 그래프</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">사용자가 그 날 취한 바른자세의 비율을 선 그래프로 일주일 데이터를 보여준다.
+- x축 : 날짜
+- y축 : 비율(%)
+- x축 범위 : 해당 일를 기준으로 일요일 ~ 토요일 </td><td class="cell-Ndhd"></td></tr><tr id="cd19d099-142f-4358-9d93-d31a2b324a6d"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-gray">그래프</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Monthly-cd19d099142f43589d93d31a2b324a6d">Monthly 분석 그래프</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">사용자가 그 날 취한 바른자세의 비율을 선 그래프로 한 달 데이터를 보여준다.
+- x축 : 날짜
+- y축 : 비율(%)
+- x축 범위 : 해당 월의 1일~마지막일</td><td class="cell-Ndhd"></td></tr><tr id="ac4b69e7-77c0-4962-8f58-ffb98b2d610c"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-gray">그래프</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/ac4b69e777c049628f58ffb98b2d610c">그래프 저장</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">Today 그래프, Weekly 그래프, Monthly 그래프 저장
+- svg, png, csv 파일 형식으로 저장이 가능하다.</td><td class="cell-Ndhd"></td></tr><tr id="b539c418-9237-41e3-b32a-85ab0f9c60f3"><td class="cell-ILpf"></td><td class="cell-it}q">잔디</td><td class="cell-h@Mz"><span class="selected-value select-value-color-pink">잔디 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/Daily-b539c418923741e3b32a85ab0f9c60f3">Daily 자세 교정 잔디</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">바른 자세 비율을 잔디 유무 및 농도 표시
+→ 0~25, 25~50, 50~75, 75~100
+→ 진할 수록 비율 높게
+- 테마에 따라 색상이 변경된다.</td><td class="cell-Ndhd"></td></tr><tr id="a41e21c5-a901-4766-a6b4-b9705afd74ba"><td class="cell-ILpf">트래킹 페이지</td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/a41e21c5a9014766a6b4b9705afd74ba">자세 트래킹</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">실시간으로 자세 트래킹(Teachable Machine으로 자세 식별) 
+※ 카메라가 켜져있어야함.
+- 트래킹 시간 기록
+- 사용자가 자세를 취한지 1초 이상 지나고, 취한 자세가 70%이상으로 판단될 때 타임 스탬프로 기록</td><td class="cell-Ndhd"></td></tr><tr id="ecc50383-9a85-4d3e-9d97-d03a79a31c70"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/ecc503839a854d3e9d97d03a79a31c70">트래킹 정보 저장</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">- 50분마다 트래킹 데이터를 서버로 넘긴다.
+- 트래킹을 중지하면 트래킹 데이터를 서버로 넘긴다.
+- 자세 별로 유지한 시간을 계산하여 저장한다.</td><td class="cell-Ndhd"></td></tr><tr id="020a7c12-c758-454c-b6be-3d512239626d"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/020a7c12c758454cb6be3d512239626d">알람</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">바르지 않은 자세가 3분 이상 유지되면 알람 푸쉬
+※ 크롬 알람 푸쉬 허용을 해야한다.</td><td class="cell-Ndhd"><a href="https://mingule.tistory.com/68">React에서 Browser Notification (푸시 알림) 구현하기 (tistory.com)</a></td></tr><tr id="ab08922b-4459-43e7-b4ee-54916e654d9f"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-green">스트레칭</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/ab08922b445943e7b4ee54916e654d9f">스트레칭 추천</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb"> 50분마다 자세에 따라서 필요한 스트레칭 추천
+- 사용자가 취한 자세의 시간을 계산하여 가장 오래 취한 자세를 개선 할 수 있는 스트레칭 영상을 추천해준다.
+- 3분, 5분, 10분으로 나눠서 추천</td><td class="cell-Ndhd">setTimeout(50분 후에 : post(자세 정보 서버로 보내기).then(get(스트레칭 추천 받기))</td></tr><tr id="85ed4ecc-58e6-42e0-8ab1-afeddaec1171"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-green">스트레칭</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/85ed4ecc58e642e08ab1afeddaec1171">스트레칭 영상 고르기</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">추천 스트레칭 중 영상길이 선택
+- 사용자에게 대략적인 영상의 길이와 섬네일을 보여준다.
+- 사용자가 영상을 선택하면 영상 재생이 가능하다.</td><td class="cell-Ndhd"></td></tr><tr id="0a199fa8-c64c-45f6-8a68-b3afffce6d93"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-green">스트레칭</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/0a199fa8c64c45f68a68b3afffce6d93">스트레칭 영상 보여주기</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">사용자가 재생 버튼을 누르면 스트레칭 영상이 재생된다.</td><td class="cell-Ndhd"></td></tr><tr id="97f4f3c3-8653-40b8-a652-2f930ed3cb91"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/97f4f3c3865340b8a6522f930ed3cb91">사용 시간 보여주기</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">프로그램 사용하는 총 시간
+→ 트래킹 진행 시간을 HH:mm:ss 형식으로 보여준다.</td><td class="cell-Ndhd"></td></tr><tr id="f46dbb6c-451b-4807-9745-8ac9883b44c9"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/f46dbb6c451b480797458ac9883b44c9">사용 시간 일시정지</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">트래킹 중단
+→ 스트레칭 시 
+→ 일시정지 버튼 눌렀을 시</td><td class="cell-Ndhd"></td></tr><tr id="895faeed-136c-489e-9d69-922f319282de"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/895faeed136c489e9d69922f319282de">자세 영상 기록</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">1분 단위로 사용자의 자세를 1초영상으로 기록
+→ video chunk 단위로 배열에 저장 후 영상으로 만듦</td><td class="cell-Ndhd"></td></tr><tr id="2d369d09-c5e0-4718-8114-1a966863d8bf"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/2d369d09c5e0471881141a966863d8bf">시스템 종료</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">서비스(자세 트래킹) 종료버튼 누르기
+→ 트래킹 종료 및 트래킹 데이터 전송</td><td class="cell-Ndhd"></td></tr><tr id="18bbd5e9-9bf2-4603-b54b-3e2c3ad4c4c6"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/18bbd5e99bf24603b54b3e2c3ad4c4c6">트래킹 영상 보여주기</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">트래킹 10배속 영상을 사용자에게 보여준다.</td><td class="cell-Ndhd"></td></tr><tr id="03674a2d-c61a-4384-aaad-c18075e69904"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">자세 트래킹</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/03674a2dc61a4384aaadc18075e69904">영상 다운로드</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">트래킹 영상 사용자 컴퓨터(로컬)에 저장
+- 트래킹 원본 영상 다운로드
+※ 저장 안누르면 삭제된다고 알림창을 보여준다.</td><td class="cell-Ndhd"></td></tr><tr id="f737dbb4-649b-42ce-9b1a-2de74d03280b"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-orange">데이터 분석</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/f737dbb4649b42ce9b1a2de74d03280b">자세 사진 저장</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">트래킹 기록이 저장될 때 해당 자세 사진으로 저장</td><td class="cell-Ndhd"></td></tr><tr id="162cf67e-a870-4382-ab1c-d3d3be3faea4"><td class="cell-ILpf">크롬 익스텐션</td><td class="cell-it}q">크롬 알람</td><td class="cell-h@Mz"><span class="selected-value select-value-color-orange">알람</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/162cf67ea8704382ab1cd3d3be3faea4">스트레칭 알람</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">50분마다 추천 스트레칭을 유도하는 크롬 알람 푸쉬
+
+- 메세지 : <code>N시간 중 N분동안 00자세를 하셨습니다. 혹시 000가 불편하신가요?? 지금 00 스트레칭을 시작하시겠습니까?
+※ 크롬 알람 푸쉬 허용을 해야한다.</code></td><td class="cell-Ndhd"></td></tr><tr id="ec6094a6-c1b6-4fb3-b4f6-f033f8cedaec"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-orange">알람</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/ec6094a6c1b64fb3b4f6f033f8cedaec">자세 경고 알람</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-orange">0순위</span></td><td class="cell-E}Nb">바르지 않은 자세를 3분동안 유지하면 경고 알람 푸쉬
+
+- 메세지 : <code>혹시 자세가 흐트러지셨나요? 올바른 자세는 척추 건강에 도움이 됩니다. :)</code>
+※ 크롬 알람 푸쉬 허용을 해야한다.</td><td class="cell-Ndhd"></td></tr><tr id="1a99a34b-c07c-41a0-a1dd-32fc102d4fc9"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/1a99a34bc07c41a0a1dd32fc102d4fc9">빠른 페이지 이동</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">크롬 익스텐션으로 페이지 이동</td><td class="cell-Ndhd"></td></tr><tr id="af1480a0-8810-4621-9eac-06e701e9cc84"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/af1480a0881046219eac06e701e9cc84">빠른 트래킹 시작</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-brown">3순위</span></td><td class="cell-E}Nb"></td><td class="cell-Ndhd"></td></tr><tr id="e0b4e75f-95d1-451b-90ee-fde1ed214cf2"><td class="cell-ILpf">관리자 페이지</td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-brown">영상 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/e0b4e75f95d1451b90eefde1ed214cf2">영상 등록</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">스트레칭 영상 등록
+- 스트레칭 분류, 스트레칭 영상 url 입력
+- 유튜브 API 이용해서 영상 이름, 영상 아이디, 영상 길이, 썸네일 url DB 저장
+- 영상길이
+   • 4분 미만 → length에 3으로 저장
+   • 8분 미만 → length에 5로 저장
+   • 12분 미만 → length에 10으로 저장</td><td class="cell-Ndhd"></td></tr><tr id="a972e7f7-1805-40eb-a167-bea2dc601a67"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-brown">영상 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/a972e7f7180540eba167bea2dc601a67">영상 조회</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">등록되어있는 스트레칭 영상 조회
+- 조회 분류 : 전체, <code>category</code>, <code>title</code>, <code>length</code>
+- pagnation 적용(<code>default page: 0, size : 10</code>)</td><td class="cell-Ndhd"></td></tr><tr id="9ac8e3d7-e1ef-438e-9575-f5b63cbd7a2e"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-brown">영상 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/9ac8e3d7e1ef438e9575f5b63cbd7a2e">영상 삭제</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">등록되어있는 스트레칭 영상 삭제
+- 체크박스로 여러 개 삭제가능</td><td class="cell-Ndhd"></td></tr><tr id="ed330dce-c701-488a-aa64-8483d3380a0d"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">알람 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/ed330dcec701488aaa648483d3380a0d">스트레칭 알람 시간 업데이트</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">스트레칭 알람 시간 주기 수정
+- default : 50분</td><td class="cell-Ndhd"></td></tr><tr id="93341c3f-41a2-4871-ab10-e55398150b92"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-purple">알람 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/93341c3f41a24871ab10e55398150b92">자세 알람 시간 업데이트</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">자세 알람 시간 주기 수정
+- default : 3분</td><td class="cell-Ndhd"></td></tr><tr id="07db58b9-9389-4d62-8500-c33bc5de5113"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-blue">건강 문구 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/07db58b993894d628500c33bc5de5113">건강 문구 등록</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">메인 페이지에 보여줄 건강 문구 등록</td><td class="cell-Ndhd"></td></tr><tr id="99b579eb-2224-4969-b519-dccf64af6f08"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-blue">건강 문구 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/99b579eb22244969b519dccf64af6f08">건강 문구 리스트 조회</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">등록된 문구들 전체 조회
+- pagnation 적용 (<code>default page: 0, size: 10</code>)</td><td class="cell-Ndhd"></td></tr><tr id="c7d322cf-4588-408f-96e7-c6550aad4b16"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-blue">건강 문구 관리</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-purple">관리자</span></td><td class="cell-title"><a href="https://www.notion.so/c7d322cf4588408f96e7c6550aad4b16">건강 문구 삭제</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-blue">2순위</span></td><td class="cell-E}Nb">특정 건강 문구 제거</td><td class="cell-Ndhd"></td></tr><tr id="cf1d3e83-b496-4742-8dcc-cc1a8a76ac1a"><td class="cell-ILpf">자세 분석</td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-orange">데이터 분석</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/cf1d3e83b49647428dcccc1a8a76ac1a">자세 사진 조회</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">트래킹 자세 사진 조회
+- 전체 조회, 자세별로 분류해서 조회</td><td class="cell-Ndhd"></td></tr><tr id="6d7fb10e-255c-4f53-a87c-87a69c071fc3"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-orange">데이터 분석</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/6d7fb10e255c4f53a87c87a69c071fc3">바른 자세 비율 목표</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">바른자세 비율 목표
+- 지난주 평균 바른자세 비율 vs. 이번주 평균 바른자세 비율</td><td class="cell-Ndhd"></td></tr><tr id="75c839b9-3446-4539-a5bf-1cdf0ca3a3e6"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"><span class="selected-value select-value-color-orange">데이터 분석</span></td><td class="cell-P^=g"><span class="selected-value select-value-color-blue">회원</span></td><td class="cell-title"><a href="https://www.notion.so/75c839b934464539a5bf1cdf0ca3a3e6">바른 자세 유지 시간 목표</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">최근 7일 데이터와 오늘 데이터 비교
+- 최근 7일 평균 바른자세 유지 시간 vs. 오늘 평균 바른자세 유지 시간</td><td class="cell-Ndhd"></td></tr><tr id="72333b34-06c0-4767-afa4-990838a7cecb"><td class="cell-ILpf">나의 목표</td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/72333b3406c04767afa4990838a7cecb">목표 설정</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">- 바른자세 비율 목표 설정
+- 바른자세 유지 시간 목표 설정</td><td class="cell-Ndhd"></td></tr><tr id="cff5c3d6-4dad-4de4-aab2-8418b3620926"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/cff5c3d64dad4de4aab28418b3620926">바른자세 비율 목표 확인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">바른자세 비율 목표 확인
+- 목표했던 바른자세 비율 확인
+- 오늘 달성한 바른자세 비율 확인</td><td class="cell-Ndhd"></td></tr><tr id="70c70cb4-a9b4-4821-b07d-50789a0faa8f"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/70c70cb4a9b44821b07d50789a0faa8f">바른자세 유지 목표 확인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">바른자세 유지 목표 확인
+- 목표했던 바른자세 유지 확인
+- 오늘 달성한 바른자세 유지 확인</td><td class="cell-Ndhd"></td></tr><tr id="7ecc3e98-8bcf-48e2-bd04-84bacd2a202a"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/7ecc3e988bcf48e2bd0484bacd2a202a">자세 별 시간 확인</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">자세 별로 트래킹 시간동안 시간 확인
+- 막대그래프로 총 트래킹 시간과 자세 시간 확인
+- 자세 별로 그래프 확인</td><td class="cell-Ndhd"></td></tr><tr id="dfe0b717-c51d-40c6-9718-ea7237bbc0ff"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/dfe0b717c51d40c69718ea7237bbc0ff">목표 페이지 이미지 다운로드</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">목표 페이지 이미지화 및 다운로드</td><td class="cell-Ndhd"></td></tr><tr id="8ede1965-6541-456b-8cd0-1cc30e75d2af"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/SNS-8ede19656541456b8cd01cc30e75d2af">SNS 공유</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">목표 페이지 SNS 공유</td><td class="cell-Ndhd"></td></tr><tr id="ea929a54-db0e-4c8f-b8ec-9434e551e2c3"><td class="cell-ILpf"></td><td class="cell-it}q"></td><td class="cell-h@Mz"></td><td class="cell-P^=g"></td><td class="cell-title"><a href="https://www.notion.so/ea929a54db0e4c8fb8ec9434e551e2c3">자세 점수</a></td><td class="cell-]dOV"><span class="selected-value select-value-color-pink">1순위</span></td><td class="cell-E}Nb">자세 점수 계산하는 방법
+- 출석
+- 1시간 이상 사용
+- 2시간 이상 사용
+- 3시간 이상 사용
+- 바른자세 유지비율
+- 바른자세를 유지한 시간</td><td class="cell-Ndhd"></td></tr></tbody></table></div><p id="dbb3208a-42ae-45c7-b704-5b14869ecb7e" class="">
+</p></div></article></body></html>
