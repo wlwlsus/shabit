@@ -206,13 +206,16 @@ const SignupForm = () => {
         ) : (
           <></>
         )}
-        <Input
-          placeholder={'이메일 아이디'}
-          type="email"
-          name="email"
-          value={email}
-          onChange={onChangeHandler}
-        />
+        <RequiredWrapper>
+          <Input
+            placeholder={'이메일 아이디'}
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
         <RightTag>
           {needCheck ? (
             <button type="button" onClick={() => onChekingEmail()}>
@@ -239,27 +242,36 @@ const SignupForm = () => {
             <></>
           )}
         </RightTag>
-        <Input
-          placeholder={'닉네임'}
-          type="text"
-          name="nickname"
-          value={nickname}
-          onChange={onChangeHandler}
-        />
-        <Input
-          placeholder={'비밀번호'}
-          type="password"
-          name="password"
-          value={password}
-          onChange={onChangeHandler}
-        />
-        <Input
-          placeholder={'비밀번호 확인'}
-          type="password"
-          name="password2"
-          value={password2}
-          onChange={onChangeHandler}
-        />
+        <RequiredWrapper>
+          <Input
+            placeholder={'닉네임'}
+            type="text"
+            name="nickname"
+            value={nickname}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
+        <RequiredWrapper>
+          <Input
+            placeholder={'비밀번호'}
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
+        <RequiredWrapper>
+          <Input
+            placeholder={'비밀번호 확인'}
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
       </InputWrapper>
       {isConfirmed &&
       nicknameMatch &&
@@ -355,6 +367,14 @@ const ConfirmModal = styled.div`
 const StyledMessage = styled.div`
   position: absolute;
   top: 3.2rem;
+`;
+
+const RequiredWrapper = styled.div`
+  display: flex;
+  & > span {
+    position: absolute;
+    color: ${(props) => props.theme.color.primary};
+  }
 `;
 
 export default SignupForm;
