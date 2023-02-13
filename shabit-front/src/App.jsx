@@ -45,6 +45,7 @@ import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
 import { fetchAlarmTime } from './services/admin/get';
+import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
@@ -124,8 +125,11 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ToastContainer />
       <ThemeProvider theme={theme}>
+        <ToastifyStyle>
+          <ToastContainer newestOnTop />
+        </ToastifyStyle>
+
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
         <Routes>
           <Route
