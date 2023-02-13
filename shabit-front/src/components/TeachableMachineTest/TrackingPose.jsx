@@ -14,9 +14,9 @@ const TrackingPose = () => {
   const isStop = useSelector((state)=>{
     return state.time.isStop;
   })
+  const [setting,setSetting] = useState();
   const [id,setId] = useState();
   const [timerId,setTimerId] = useState();
-  const [isSetting, setIsSetting] = useState(false);
   let log={};
   let model, webcam, poseCnt;
   let maxPose;
@@ -39,6 +39,8 @@ const TrackingPose = () => {
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
+    onStart();
+    setSetting(true);
   };
 
   const predictPose = async () => {
@@ -83,7 +85,7 @@ const TrackingPose = () => {
   const onStart = useCallback(async() => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
-    startTime = dateFormat  (new Date());
+    startTime = dateFormat(new Date());
     setTimerId(setInterval(()=>{
       time+=1;
       if(time>=alarmSec){
@@ -101,23 +103,20 @@ const TrackingPose = () => {
     if(isStop) onStop(id,timerId);
   }, [isStop]);
 
-  useEffect(() => {
-    console.log(isRunning,isSetting);
-    if(isRunning && isSetting===false) {
-      init();
-      setIsSetting(true);
-    }
-    else if(isRunning===false) onPause(id,timerId);
-    else if(isSetting && isRunning) onStart();
-  }, [isRunning,isSetting]);
-
   useEffect(()=>{
     init();
   },[])
+
+  useEffect(() => {
+    console.log(isRunning);
+    if(isRunning===false) onPause(id,timerId);
+    if(isRunning && setting) onStart();
+  }, [isRunning,setting]);
 
   const tracking = useCallback(async () => {
     webcam.update();
     await predictPose();
   },[webcam]);
+
 };
 export default TrackingPose;
