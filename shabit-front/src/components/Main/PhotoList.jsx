@@ -14,13 +14,6 @@ export default function PhotoList({ photoList }) {
       </Wrapper>
     );
   }
-  return (
-    <Wrapper>
-      {photoList.map((photo) => {
-        return <Img src={photo.url} key={photo.url} />;
-      })}
-    </Wrapper>
-  );
 }
 
 const Wrapper = styled.div`
