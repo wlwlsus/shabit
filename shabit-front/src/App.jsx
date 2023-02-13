@@ -66,7 +66,7 @@ function App() {
   useEffect(() => {
     const loginCheck = async () => {
       // (2) 스토어에 유저정보가 있다면 이미 로그인 된 것으로 판단합니다.
-      if (!currentUserEmail) return;
+      if (currentUserEmail) return fetchAlarmTime();
       // (3) 스토어에 유저 정보가 없으면
       let newToken = accessToken;
       let isAutoLogin = false;
