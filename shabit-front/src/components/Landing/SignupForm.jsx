@@ -38,8 +38,7 @@ const SignupForm = () => {
 
   //전체: API 통신 내용 혹은 메시지를 관리합니다.
   const [message, setCurrentMessage] = useState('');
-  const [currentTimeout, setCurrentTimeout] = useState(null);
-  //전체: 메시지을 2초 후 초기화합니다.
+
   const setMessage = (str) => {
     setCurrentMessage(str);
   };
