@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { putAlarmTime } from '../../../services/admin/put';
 import { typedUseSelector } from '../../../store';
 import { loadEffect } from '../../../styles/animation';
+import { useDispatch } from 'react-redux';
+import { setAlertTime, setStretchingTime } from '../../../store/adminSlice';
 
 export default function AlarmSettings() {
   const stretchingTime = typedUseSelector(
@@ -19,8 +21,8 @@ export default function AlarmSettings() {
   }, [stretchingTime, alertTime]);
 
   const onClick = async (e) => {
-    if (stretchingTime === stretchingTimeInput && alertTime === alertTimeInput)
-      return;
+    if (stretchingTime === stretchingTimeInput && alertTime === alertTimeInput) return;
+
     const newStretchingTime = stretchingTimeInput
       ? stretchingTimeInput
       : stretchingTime / 60;
@@ -73,25 +75,12 @@ export default function AlarmSettings() {
             </I>
           </div>
         </Content>
-        <ButtonWrapper>
-          <Content>
-            <div style={{ padding: '0.2rem' }}>울리기</div>
-            <StyledButton
-              onClick={onClick}
-              className={
-                stretchingTime === stretchingTimeInput &&
-                alertTime === alertTimeInput &&
-                'disabled'
-              }
-            >
-              수정하기
-            </StyledButton>
-          </Content>
-        </ButtonWrapper>
-      </ContentWrapper>
-    </>
+      </ButtonWrapper>
+    </ContentWrapper>
   );
 }
+
+const Wrapper = styled.div``;
 
 const StyledButton = styled.button`
   background-color: ${(props) => props.theme.color.primary};
@@ -126,14 +115,16 @@ const Content = styled.div`
 `;
 
 const I = styled.p`
-  color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   margin-left: 0.7rem;
   margin-top: 0.3rem;
   font-size: 1.5rem;
   cursor: pointer;
   user-select: none;
+  transition: all 0.2s ease-in-out;
+  
   &:hover {
-    color: ${(props) => props.theme.color.primary};
+    transform: scale(1.05);
   }
 `;
 

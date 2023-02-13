@@ -1,64 +1,92 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { BsFillPlayCircleFill, BsPauseCircleFill } from 'react-icons/bs'
-export default function Tracking() {
-  const [pause, setPause] = useState(false)
-  const [sec, setSec] = useState(0)
-  const [min, setMin] = useState(0)
-  const [hrs, setHrs] = useState(0)
-  const { nickname, email } = JSON.parse(sessionStorage.getItem('user'))
-  let time = { s: sec, m: min, h: hrs }
 
-  useEffect(() => {
-    if (pause) return
-    const timer = setInterval(() => {
-      time.s += 1
-      if (time.s === 59) {
-        time.s = 0
-        time.m += 1
+export default function Tracking({ user }) {
+  const [start, setStart] = useState()
+  const [time, setTime] = useState()
+  let interval = useRef(null)
+  // background storage에서 시간 정보 가져옴
+  const getTime = () => {
+    chrome.runtime.sendMessage(
+      {
+        action: 'getTime',
+      },
+      (response) => {
+        setTime(response)
       }
-      if (time.m === 59) {
-        time.m = 0
-        time.h += 1
-      }
-      setSec(time.s)
-      setMin(time.m)
-      setHrs(time.h)
-    }, 1000)
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [pause])
-
-  const goSite = () => {
-    window.open('http://shabit.site/')
+    )
   }
+  // status : pause or start
+  const getStatus = () => {
+    chrome.runtime.sendMessage(
+      {
+        action: 'getStatus',
+      },
+      (response) => {
+        setStart(response)
+      }
+    )
+  }
+
+  // 첫 렌더링시 storage에 저장된 time, status 불러오기
+  useEffect(() => {
+    getTime()
+    getStatus()
+  }, [])
+
+  // background stop & pause 메세지 보냄
+  useEffect(() => {
+    if (start) {
+      chrome.runtime.sendMessage({
+        action: 'startTimer',
+      })
+      interval.current = setInterval(getTime, 900)
+    } else {
+      chrome.runtime.sendMessage({
+        action: 'pauseTimer',
+      })
+    }
+    return () => {
+      clearInterval(interval.current)
+    }
+  }, [start])
+
+  // 타이머 멈춤 & 재생
   const setTimer = () => {
-    setPause(!pause)
+    setStart(!start)
   }
   return (
     <>
       <Wrapper>
         <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
         <Nickname>
-          {nickname}
-          <Email>{email}</Email>
+          {user.nickname}
+          <Email>{user.email}</Email>
         </Nickname>
 
         <Time>
           총 이용 시간
-          <Timer>
-            {String(hrs).padStart(2, '0')} : {String(min).padStart(2, '0')} :{' '}
-            {String(sec).padStart(2, '0')}
-          </Timer>
+          {time && (
+            <Timer>
+              {String(time?.h).padStart(2, '0')} :
+              {String(time?.m).padStart(2, '0')} :
+              {String(time?.s).padStart(2, '0')}
+            </Timer>
+          )}
         </Time>
 
         <Button onClick={setTimer}>
-          {pause ? <BsFillPlayCircleFill /> : <BsPauseCircleFill />}
+          {start ? <BsPauseCircleFill /> : <BsFillPlayCircleFill />}
         </Button>
 
-        <Text onClick={goSite}>홈페이지로 이동하기</Text>
+        <Text
+          onClick={() => {
+            window.open('http://shabit.site/')
+          }}
+        >
+          홈페이지로 이동하기
+        </Text>
       </Wrapper>
     </>
   )
@@ -103,6 +131,7 @@ const Email = styled.div`
 
 const Time = styled.div`
   display: flex;
+  height: 1.5rem;
   flex-direction: column;
   align-items: center;
   font-size: 0.8rem;
@@ -130,4 +159,5 @@ const Button = styled.button`
       cursor: pointer;
       transform: scale(1.1);
     }
+  }
 `

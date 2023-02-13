@@ -47,13 +47,18 @@ export default MoveToAdmin;
 
 const StyledButton = styled.button`
   margin-top: 0.5rem;
-  background-color: ${(props) => props.theme.color.secondary};
+  background-color: ${(props) => props.theme.color.darkGrayColor};
   color: ${(props) => props.theme.color.whiteColor};
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: bold;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+
+  &:hover{
+    background-color: ${(props) => props.theme.color.primary};
+  }
 `;
+
 const ButtonContainer = styled.div`
   z-index: 2;
   position: absolute;

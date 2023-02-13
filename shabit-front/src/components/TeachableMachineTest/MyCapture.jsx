@@ -2,7 +2,7 @@ import React,{useRef,useCallback,useEffect } from "react";
 import Webcam from "react-webcam";
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
-import {setRecordedChunks} from '../../store/trackingSlice';
+import {setCapture, setRecordedChunks} from '../../store/trackingSlice';
 import {postImage} from '../../services/info/post';
 
 //10배속 다운로드만 구현하면 됨
@@ -17,10 +17,13 @@ const MyCapture = () => {
   const curPoseId = useSelector((state)=>{
     return state.pose.poseId;
   });
+  const isRunning = useSelector((state) => {
+    return state.time.isRunning;
+  });
 
   var chunkData =[];
   let resumeId,pauseId;
- 
+
   const videoConstraints = {
     height:400,
     width:850,
@@ -30,6 +33,9 @@ const MyCapture = () => {
   });
   const userEmail = useSelector((state)=>{
     return state.auth.user.email;
+  })
+  const captureTiming = useSelector((state)=>{
+    return state.tracking.capture;
   })
   const dataURLtoFile = (dataurl, fileName) => {
  
@@ -58,6 +64,7 @@ const MyCapture = () => {
     resumeId = setInterval(()=>{mediaRecorderRef.current.pause();},1000);
     //TODO:나중에 1분으로 수정해야됨
     pauseId = setInterval(()=>{mediaRecorderRef.current.resume();},3000);
+    
   }, [webcamRef, mediaRecorderRef]);
   // 캡쳐할 때 필요  
  
@@ -74,22 +81,26 @@ const MyCapture = () => {
     else if(curPoseId ==3) poseId=2;
     else if(curPoseId == 1 || curPoseId==2) poseId =3;
     else poseId = 4;
-    const file = dataURLtoFile(imageSrc,`${time} ${poseId}.jpeg`)
+    const file = dataURLtoFile(imageSrc,`${time} ${poseId}.jpg`)
     const formData = new FormData();
-    formData.append('image',file,`${time} ${poseId}.jpeg`);
-    console.log(`${time} ${curPose} ${poseId}.jpeg`);
+    formData.append('image',file,`${time} ${poseId}.jpg`);
+    console.log(`${time} ${poseId}.jpg`);
     postImage(userEmail,formData);
+    setCapture(false);
   },[webcamRef])
 
   useEffect(()=>{
-    if(curPoseId!=-1)capturePose(curPoseId,curPose);
-  },[curPoseId,curPose])
+    if(captureTiming) capturePose(curPoseId,curPose);
+  },[captureTiming])
 
     // 방 나가기 클릭하면 -> 종료 버튼 누르고나면 
   const stopCapture = useCallback(() => {
     mediaRecorderRef.current.stop();
+    let stream = webcamRef.current.stream;
+    const tracks = stream.getTracks();
+    tracks.forEach(track => track.stop());
+    webcamRef.current.stream = null;
     clearInterval(resumeId);
-
     clearInterval(pauseId);
   }, [mediaRecorderRef, webcamRef]);
 
@@ -98,7 +109,7 @@ const MyCapture = () => {
         <NoticeText>현재자세 : {curPose}</NoticeText>
         <WebcamWrapper>
             <Webcam onUserMedia={startCapture} audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}
-            screenshotFormat="image/jpeg" />
+            screenshotFormat="image/jpg" />
         </WebcamWrapper>
     </ContainerWrapper>
   );
@@ -124,5 +135,3 @@ const WebcamWrapper = styled.div`
 `;
 
 export default MyCapture;
-
-// https://www.npmjs.com/package/react-webcam

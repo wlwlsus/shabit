@@ -1,29 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback} from 'react';
 import * as tmPose from '@teachablemachine/pose';
 import { setPose,setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
-import { setLogArray,setInitLogArray } from '../../store/trackingSlice';
+import { setLogArray,setCapture } from '../../store/trackingSlice';
+import dateFormat from '../../utils/dateFormat';
 
 const TrackingPose = () => {
-  // 바른 자세인지 아닌지
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => {
     return state.time.isRunning;
   });
+  const isStop = useSelector((state)=>{
+    return state.time.isStop;
+  })
   const [id,setId] = useState();
   const [timerId,setTimerId] = useState();
+  const [isSetting, setIsSetting] = useState(false);
   let log={};
   let model, webcam, poseCnt;
   let maxPose;
   let prevPose;
   let time=0;
   let startTime, endTime;
-
-  // let alarmSec = useSelector((state)=>{
-  //   return state.time.alertTime;
-  // }) ;
-  let alarmSec = 9; //일단 9초
+  const DURATION_TIME = 60;
+  let alarmSec = useSelector((state)=>{
+    return state.admin.alertTime;
+  })
+  // let alarmSec = 9;
   const init = async () => {
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(
@@ -35,18 +39,6 @@ const TrackingPose = () => {
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
-    await webcam.play();
-    // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
-    startTime = dateFormat(new Date());
-    setTimerId(setInterval(()=>{
-      time+=1;
-      console.log("TIME",time);
-      if(time>=alarmSec){
-        notify(maxPose,'pose');
-        time=0;
-      }
-    },1000));// 초 세는 거
-    setId(setInterval(tracking, 100));
   };
 
   const predictPose = async () => {
@@ -62,7 +54,7 @@ const TrackingPose = () => {
         if (prevPose !== maxPose) {
           prevPose = maxPose;
           endTime = dateFormat(new Date());
-          //보내기
+          //로그 저장
           log = {startTime,endTime,postureId:i};
           dispatch(setLogArray(log));
           startTime = endTime;
@@ -71,53 +63,61 @@ const TrackingPose = () => {
         }
       }
     }
-    // //바른 자세
+    //바른 자세
     if (maxPose === '바른 자세') {
       time=0;
     }
   };
-  const onStop = async (id) => {
-    await clearInterval(id);
-    await clearInterval(timerId);
-    // TODO: data날려주기
-  };
-  useEffect(() => {
-    console.log("ID",id)
-    if(isRunning===false) onStop(id);
-  }, [isRunning]);
+  const onStop = useCallback( (id,timerId) => {
+    clearInterval(id);
+    clearInterval(timerId);
+    webcam.stop();
+  },[webcam]); 
 
+  const onPause = useCallback((id,timerId)=>{
+    clearInterval(id);
+    clearInterval(timerId);
+    webcam.pause();
+  },[webcam]); 
   
-  // const getElapsedTime = () => {
-  //   const now = Date.now(); //
-  //   const elapsed = Math.floor((now - time));
-  //   console.log(alarmSec,'초->',elapsed,'초');
-  //   if (elapsed >= alarmSec) {
-  //     notify(maxPose, 'pose');
-  //     time = now;
-  //   }
-  // };
-  useEffect(() => {
-    init();
-  }, []);
+  const onStart = useCallback(async() => {
+    await webcam.play();
+    // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
+    startTime = dateFormat  (new Date());
+    setTimerId(setInterval(()=>{
+      time+=1;
+      if(time>=alarmSec){
+        notify(maxPose,'pose');
+        time=0;
+      }
+      if(time===DURATION_TIME){
+        dispatch(setCapture(true));
+      }
+    },1000));// 초 세는 거 -> 지속시간 확인
+    setId(setInterval(tracking, 100));
+  },[webcam]); 
 
-  const tracking = async () => {
+  useEffect(() => {
+    if(isStop) onStop(id,timerId);
+  }, [isStop]);
+
+  useEffect(() => {
+    console.log(isRunning,isSetting);
+    if(isRunning && isSetting===false) {
+      init();
+      setIsSetting(true);
+    }
+    else if(isRunning===false) onPause(id,timerId);
+    else if(isSetting && isRunning) onStart();
+  }, [isRunning,isSetting]);
+
+  useEffect(()=>{
+    init();
+  },[])
+
+  const tracking = useCallback(async () => {
     webcam.update();
     await predictPose();
-  };
-  const dateFormat=(date)=> {
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-
-    month = month >= 10 ? month : '0' + month;
-    day = day >= 10 ? day : '0' + day;
-    hour = hour >= 10 ? hour : '0' + hour;
-    minute = minute >= 10 ? minute : '0' + minute;
-    second = second >= 10 ? second : '0' + second;
-
-    return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-}
+  },[webcam]);
 };
 export default TrackingPose;
