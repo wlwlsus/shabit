@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVideoURL,setStretchModal } from '../../store/videoSlice';
-
+import { setVideoURL, setStretchModal } from '../../store/videoSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
 import VideoList from './VideoList';
@@ -71,6 +70,7 @@ const ModalHeader = styled.div`
   width: 55rem;
   height: 4rem;
   background-color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   border-radius: 1.5rem 1.5rem 0 0;
   padding: 0 1rem;
 
@@ -79,8 +79,8 @@ const ModalHeader = styled.div`
   justify-content: flex-end;
 
   & > svg {
-    color: ${(props) => props.theme.color.primary};
     font-size: 2.5rem;
+    margin-left: 12rem;
     transition: all 0.2s linear;
 
     &:hover {
@@ -103,7 +103,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 
 const Title = styled.div`
@@ -114,7 +114,6 @@ const ModalFooter = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  align-self: flex-end;
   justify-content: space-between;
 `;
 
