@@ -21,7 +21,6 @@ export const register = async (
       password,
     })
     .then((res) => {
-      alert('회원가입이 완료되었습니다');
       return Promise.resolve(true);
     })
     .catch(() => {
