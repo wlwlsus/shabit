@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import MyCapture from '../TeachableMachineTest/MyCapture';
-import {
-  calUsedTime,
-  calStretchTime,
-} from '../../store/timeSlice';
+import { calUsedTime, calStretchTime } from '../../store/timeSlice';
 import { typedUseSelector } from '../../store';
 import TrackingPose from '../TeachableMachineTest/TrackingPose';
 import { useDispatch } from 'react-redux';

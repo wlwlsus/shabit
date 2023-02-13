@@ -125,11 +125,5 @@ key:
 
 app:
   oauth2:
-    # authorizedRedirectUris: http://localhost:3000/oauth/redirect
-    authorizedRedirectUris: https://shabit.site/oauth/redirect
-
-server:
-  ssl:
-    key-store: classpath:keystore.p12
-    key-store-password: ssafy
-    key-store-type: PKCS12
+    authorizedRedirectUris: http://localhost:3000/oauth/redirect
+#    authorizedRedirectUris: https://shabit.site/oauth/redirect
