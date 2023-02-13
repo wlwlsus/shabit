@@ -22,6 +22,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeFormatter;
@@ -59,7 +61,11 @@ public class GoalController {
   @PutMapping("/{email}")
   ResponseEntity<?> putGoal(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
                             @PathVariable String email,
-                            @RequestBody GoalReqDto req) {
+                            @RequestBody @Validated GoalReqDto req, Errors errors) {
+    if (errors.hasErrors()) {
+      return Response.badRequest("입력된 값이 잘못된 형식입니다.");
+    }
+
     GoalResDto res = null;
     try {
       res = goalService.putGoalData(email, req);

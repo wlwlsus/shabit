@@ -50,6 +50,9 @@ public class InfoController {
       PhrasesResDto phrase = infoService.getPhrase();
       log.info("phrase : {}", phrase);
       return Response.makeResponse(HttpStatus.OK, "구문 가져오기 성공", 1, phrase);
+    } catch (IllegalArgumentException e) {
+      log.error("error : {}", e.getMessage());
+      return Response.makeResponse(HttpStatus.BAD_REQUEST, "저장된 문구가 없습니다.");
     } catch (Exception e) {
       log.error("error : {}", e.getMessage());
       return Response.serverError("서버 에러");
