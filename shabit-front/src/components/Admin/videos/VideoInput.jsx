@@ -38,7 +38,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
   return (
     <VideoInputWrapper>
       <StyledDropBox>
-        <VideoInputDropbox selected={selected} setSelected={setSelected}/>
+        <VideoInputDropbox selected={selected} setSelected={setSelected} />
       </StyledDropBox>
       <StyledInputTag>
         <input
@@ -56,8 +56,8 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
         className={hasImage && 'buttonVisible'}
         onClick={() => {
           if (!hasImage) return;
-          console.log(selected)
-          postVod(~~categoryInput || 1, urlInput.split('&')[0]).then(() => {
+          // console.log(selected);
+          postVod(~~selected || 1, urlInput.split('&')[0]).then(() => {
             setUrlInput('');
             setCategoryInput(selected);
             setHasImage(false);
