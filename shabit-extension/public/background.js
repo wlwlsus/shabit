@@ -23,26 +23,32 @@ const authLogin = async (email, password) => {
   }
 }
 
-// 시간
-let interval
-let time = { s: 0, m: 0, h: 0 }
+// 1초마다 갱신하는 알람
 const timer = () => {
-  time.s += 1
-  if (time.s === 59) {
-    time.s = 0
-    time.m += 1
-  }
-  if (time.m === 59) {
-    time.m = 0
-    time.h += 1
-  }
-  chrome.storage.sync.set({ time })
+  chrome.alarms.create({
+    periodInMinutes: 1 / 60,
+  })
+  chrome.alarms.onAlarm.addListener((alarm) => {
+    chrome.storage.sync.get(['time'], (res) => {
+      let time = res.time
+      time.s += 1
+      if (time.s === 59) {
+        time.s = 0
+        time.m += 1
+      }
+      if (time.m === 59) {
+        time.m = 0
+        time.h += 1
+      }
+      chrome.storage.sync.set({ time })
+    })
+  })
 }
 
 // 크롬브라우저 시작시 storage 초기화
 chrome.runtime.onStartup.addListener(function () {
   chrome.storage.sync.clear()
-  chrome.storage.sync.set({ time })
+  chrome.storage.sync.set({ time: { s: 0, m: 0, h: 0 } })
   chrome.storage.sync.set({ status: true })
 })
 
@@ -78,17 +84,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true
   }
 
-  // 타이머 start & pause
+  // 타이머 start
   if (request.action === 'startTimer') {
     chrome.storage.sync.set({ status: true })
-    clearInterval(interval)
-    interval = setInterval(timer, 1000)
+    timer()
     return true
   }
 
+  // 타이머 pause
   if (request.action === 'pauseTimer') {
     chrome.storage.sync.set({ status: false })
-    clearInterval(interval)
+    chrome.alarms.clearAll()
     return true
   }
 })

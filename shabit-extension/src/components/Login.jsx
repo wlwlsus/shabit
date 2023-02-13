@@ -12,7 +12,7 @@ export default function Login() {
     autoLogin: false,
   })
 
-  // background에 저장된 유저정보가 있다면 불러옴 (for 로그인 유지)
+  // background에 저장된 유저정보가 있다면 불러옴 (로그인 유지)
   useEffect(() => {
     chrome.storage.sync.get('user', function (res) {
       setUser(res.user)
@@ -46,7 +46,7 @@ export default function Login() {
           return
         }
         // 실패 => 에러 메세지 출력
-        setErrMsg(response)
+        setErrMsg('아이디와 비밀번호를 확인해주세요.')
       }
     )
   }

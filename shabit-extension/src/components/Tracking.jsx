@@ -6,6 +6,7 @@ export default function Tracking({ user }) {
   const [start, setStart] = useState()
   const [time, setTime] = useState()
   let interval = useRef(null)
+  // background storage에서 시간 정보 가져옴
   const getTime = () => {
     chrome.runtime.sendMessage(
       {
