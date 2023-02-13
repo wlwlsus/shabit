@@ -196,7 +196,11 @@ const SignupForm = () => {
   }, [message]);
   return (
     <FormWrapper>
-      {!message ? <div></div> : <div>{message}</div>}
+      {!message ? (
+        <StyledMessage></StyledMessage>
+      ) : (
+        <StyledMessage>{message}</StyledMessage>
+      )}
       <InputWrapper>
         {isLoading ? (
           <img alt="Spinner" src="/assets/spinner.gif" className="Spinner" />
@@ -346,6 +350,11 @@ const ConfirmModal = styled.div`
   width: 22rem;
   height: 22rem;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+`;
+
+const StyledMessage = styled.div`
+  position: absolute;
+  top: 3.2rem;
 `;
 
 export default SignupForm;
