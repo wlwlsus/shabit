@@ -106,11 +106,12 @@ const MyCapture = () => {
 
   return (
     <ContainerWrapper>
-        <NoticeText>현재자세 : {curPose}</NoticeText>
-        <WebcamWrapper>
-            <Webcam onUserMedia={startCapture} audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}
-            screenshotFormat="image/jpg" />
-        </WebcamWrapper>
+      {curPose?<><NoticeText>현재자세 : {curPose}</NoticeText>
+       <WebcamWrapper>
+       <Webcam onUserMedia={startCapture} audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}
+       screenshotFormat="image/jpg" />
+   </WebcamWrapper></>
+   :<NoticeText>로딩중..잠시만 기다려주세요</NoticeText>}
     </ContainerWrapper>
   );
 };
@@ -130,8 +131,8 @@ const NoticeText = styled.div`
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
-  height:80%;
-  width:80%;
+  height:100%;
+  width:100%;
 `;
 
 export default MyCapture;

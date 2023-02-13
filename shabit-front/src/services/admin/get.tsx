@@ -23,7 +23,8 @@ export const fetchAlarmTime = async (): Promise<AlarmTime> => {
       const { stretchingTime, alertTime } = res.data.result;
       store.dispatch(setStretchingTime(Number(stretchingTime)));
       store.dispatch(setAlertTime(Number(alertTime)));
-      store.dispatch(setInitTime(Number(stretchingTime)));
+      store.dispatch(setInitTime(1));
+      // store.dispatch(setInitTime(Number(stretchingTime)));
       return Promise.resolve({
         setStretchingTime: Number(stretchingTime),
         setAlertTime: Number(alertTime),
