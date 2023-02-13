@@ -81,6 +81,9 @@ public class InfoServiceImpl implements InfoService {
   private PhrasesResDto getRandomPhrases(List<Phrases> list) {
     Random random = new Random();
 
+    if (list.size() == 0) {
+      throw new IllegalArgumentException("저장된 문구가 없습니다.");
+    }
     int index = random.nextInt(list.size());
     log.info("random phrases index : {}", index);
     log.info("random phrases : {}", list.get(index));
