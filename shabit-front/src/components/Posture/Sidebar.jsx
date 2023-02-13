@@ -30,21 +30,21 @@ const Sidebar = () => {
   const pose = useSelector((state) => {
     return state.pose.pose;
   });
-  const logArray = useSelector((state)=>{
+  const logArray = useSelector((state) => {
     return state.tracking.logArray;
   });
-  const userEmail = useSelector((state)=>{
+  const userEmail = useSelector((state) => {
     return state.auth.user.email;
-  })
+  });
 
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
       // stretching modal띄우기
       dispatch(setStretchModal(false));
-      postData(userEmail,logArray).then(()=>{
+      postData(userEmail, logArray).then(() => {
         setInitLogArray();
-      })
+      });
       //timer 지우기 -> clearInterval()
       dispatch(setIsStop(true));
     }
@@ -63,18 +63,18 @@ const Sidebar = () => {
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
-    postData(userEmail,logArray).then(()=>{
+    postData(userEmail, logArray).then(() => {
       setInitLogArray();
-    })
+    });
   };
   const clickPlayButton = () => {
     dispatch(setIsRunning(true));
     setToggle(!toggle);
   };
-  const clickPauseButton = () =>{
+  const clickPauseButton = () => {
     dispatch(setIsRunning(false));
     setToggle(!toggle);
-  }
+  };
   return (
     <ContainerWrapper>
       <TimeContainer>
@@ -125,7 +125,17 @@ const ContainerWrapper = styled.div`
   padding: 3rem 0;
 `;
 const TimeContainer = styled.div``;
-const CapturingContainer = styled.div``;
+const CapturingContainer = styled.div`
+  & > div {
+    & > svg {
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+      }
+    }
+  }
+`;
 
 const IconWrapper = styled.div`
   display: flex;

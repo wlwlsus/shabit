@@ -28,7 +28,7 @@ export const fetchAlarmTime = async (): Promise<AlarmTime> => {
       return Promise.resolve({
         setStretchingTime: Number(stretchingTime),
         setAlertTime: Number(alertTime),
-        setInitTime : Number(stretchingTime)
+        setInitTime: Number(stretchingTime),
       });
     })
     .catch((err) => Promise.reject(err));
