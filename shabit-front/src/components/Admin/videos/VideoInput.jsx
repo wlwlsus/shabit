@@ -56,7 +56,6 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
         className={hasImage && 'buttonVisible'}
         onClick={() => {
           if (!hasImage) return;
-          // console.log(selected);
           postVod(~~selected || 1, urlInput.split('&')[0]).then(() => {
             setUrlInput('');
             setCategoryInput(selected);

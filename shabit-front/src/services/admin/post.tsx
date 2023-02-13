@@ -8,13 +8,10 @@ export const postVod = async (
   categoryId: number,
   url: string,
 ): Promise<[Object]> => {
-  // console.log(categoryId, url);
   return await apiRequest
     .post('/api/v1/admin/vods', { categoryId, url }, { headers: header() })
     .then(async () => {
       FireConfirm('추가되었습니다.');
-      // const vods = await retrieveVods().catch();
-      // store.dispatch(setVideoList(vods));
       return Promise.resolve();
     })
     .catch((err) => {
