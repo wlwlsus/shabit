@@ -45,6 +45,7 @@ import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
 import { fetchAlarmTime } from './services/admin/get';
+import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
@@ -125,8 +126,8 @@ function App() {
         });
         return;
       } catch (error) {
-        return Promise.reject(error);
         // (12) 로그인이 실패하였을 때에 처리할 로직은 이곳에서 처리하면 됩니다.
+        return Promise.reject(error);
       }
     };
     loginCheck();
@@ -134,9 +135,11 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ToastContainer newestOnTop />
       <ThemeProvider theme={theme}>
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
+        <ToastifyStyle>
+          <ToastContainer newestOnTop />
+        </ToastifyStyle>
         <Routes>
           <Route
             path="/"
