@@ -5,7 +5,6 @@ import useDebounce from '../../../utils/useDebounce';
 import VideoInputDropbox from './VideoInputDropbox';
 
 const VideoInput = ({ scrollProp, setScrollProp }) => {
-  const [categoryInput, setCategoryInput] = useState(1);
   const [urlInput, setUrlInput] = useState('');
   const [videoId, setVideoId] = useState('');
   const [hasImage, setHasImage] = useState(false);
@@ -58,7 +57,6 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
           if (!hasImage) return;
           postVod(~~selected || 1, urlInput.split('&')[0]).then(() => {
             setUrlInput('');
-            setCategoryInput(selected);
             setHasImage(false);
             setScrollProp({ ...scrollProp, page: 0 });
           });
