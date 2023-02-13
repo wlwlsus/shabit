@@ -19,13 +19,6 @@ const LoginForm = () => {
   //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-      // }, 2000);
-    }, 200000000);
-    setCurrentTimeout(newTimeout);
   };
 
   //onChange 핸들링입니다.
