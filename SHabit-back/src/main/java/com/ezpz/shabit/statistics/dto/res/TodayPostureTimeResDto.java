@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class TodayPostureTimeResDto {
     Long total;
-    List<Integer> time = List.of(0, 0, 0, 0);
+    @Builder.Default List<Integer> time = List.of(0, 0, 0, 0);
 }

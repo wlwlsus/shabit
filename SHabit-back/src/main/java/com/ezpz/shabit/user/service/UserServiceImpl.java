@@ -75,13 +75,14 @@ public class UserServiceImpl implements UserService {
       return Response.badRequest("이미 회원가입된 이메일입니다.");
     }
 
+    String nickname = signUp.getNickname();
     Users users = Users.builder()
-                          .email(signUp.getEmail())
-                          .nickname(signUp.getNickname())
-                          .password(passwordEncoder.encode(signUp.getPassword()))
-                          .roles(Collections.singletonList(Authority.ROLE_USER.name()))
-                          .providerType(ProviderType.LOCAL)
-                          .build();
+        .email(signUp.getEmail())
+        .nickname(nickname.substring(0, Math.min(15, nickname.length())))
+        .password(passwordEncoder.encode(signUp.getPassword()))
+        .roles(Collections.singletonList(Authority.ROLE_USER.name()))
+        .providerType(ProviderType.LOCAL)
+        .build();
 
     userRepository.save(users);
 
@@ -95,6 +96,11 @@ public class UserServiceImpl implements UserService {
       if (userRepository.findByEmail(login.getEmail()).orElse(null) == null) {
         return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
       }
+      Users users = userRepository.findUserByEmail(login.getEmail());
+
+      if (users.getProviderType() != ProviderType.LOCAL) {
+        return Response.badRequest("소셜 로그인을 이용해주세요.");
+      }
 
       UsernamePasswordAuthenticationToken authenticationToken = login.toAuthentication();
 
@@ -103,26 +109,25 @@ public class UserServiceImpl implements UserService {
       UserTestResDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
       UserTestResDto.UserInfo userInfo = new UserTestResDto.UserInfo();
 
-      Users users = userRepository.findUserByEmail(login.getEmail());
 
       UserTestResDto.LoginUserRes loginUserRes =
-              UserTestResDto.LoginUserRes.builder()
-                      .email(users.getEmail())
-                      .nickname(users.getNickname())
-                      .theme(users.getTheme())
-                      .profile(users.getProfile())
-                      .build();
+          UserTestResDto.LoginUserRes.builder()
+              .email(users.getEmail())
+              .nickname(users.getNickname())
+              .theme(users.getTheme())
+              .profile(users.getProfile())
+              .build();
 
       userInfo.setToken(tokenInfo);
       userInfo.setUser(loginUserRes);
 
       redisTemplate.opsForValue()
-              .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+          .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
-      return Response.makeResponse(HttpStatus.OK, "로그인에 성공했습니다.", 0, userInfo);
+      return Response.makeResponse(HttpStatus.OK, "로그인을 성공했습니다.", 0, userInfo);
     } catch (BadCredentialsException e) {
       log.error("Login BadCredentialsException error : {}", e.getMessage());
-      return Response.badRequest("비밀번호를 틀렸습니다.");
+      return Response.badRequest("비밀번호가 일치하지 않습니다.");
     } catch (RedisConnectionFailureException e) {
       log.error("Login RedisConnectionFailureException error : {}", e.getMessage());
       return Response.serverError("레디스 서버 연결에 실패하였습니다.");
@@ -150,7 +155,7 @@ public class UserServiceImpl implements UserService {
     // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
     Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
     redisTemplate.opsForValue()
-            .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+        .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
     return Response.ok("로그아웃 되었습니다.");
   }
@@ -180,7 +185,7 @@ public class UserServiceImpl implements UserService {
 
     // 5. RefreshToken Redis 업데이트
     redisTemplate.opsForValue()
-            .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
 
     return Response.makeResponse(HttpStatus.OK, "토큰 재발급을 성공하였습니다.", 0, tokenInfo);
   }
@@ -194,12 +199,12 @@ public class UserServiceImpl implements UserService {
     Users users = userRepository.findUserByEmail(email);
 
     UserTestResDto.LoginUserRes loginUserRes =
-            UserTestResDto.LoginUserRes.builder()
-                    .email(users.getEmail())
-                    .nickname(users.getNickname())
-                    .theme(users.getTheme())
-                    .profile(users.getProfile())
-                    .build();
+        UserTestResDto.LoginUserRes.builder()
+            .email(users.getEmail())
+            .nickname(users.getNickname())
+            .theme(users.getTheme())
+            .profile(users.getProfile())
+            .build();
 
     return Response.makeResponse(HttpStatus.OK, "회원 정보 요청을 성공하였습니다.", 0, loginUserRes);
   }
@@ -292,10 +297,10 @@ public class UserServiceImpl implements UserService {
     String url = s3File.upload(image, "gallery/" + email, email);
     log.info("posture image uploaded successfully");
     Gallery gallery = Gallery.builder()
-                              .user(user)
-                              .url(url)
-                              .posture(posture)
-                              .build();
+        .user(user)
+        .url(url)
+        .posture(posture)
+        .build();
     galleryRepository.save(gallery);
   }
 

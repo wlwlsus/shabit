@@ -124,8 +124,8 @@ key:
 
 app:
   oauth2:
-    authorizedRedirectUris: http://localhost:3000/oauth/redirect
-#    authorizedRedirectUris: https://shabit.site/oauth/redirect
+    # authorizedRedirectUris: http://localhost:3000/oauth/redirect
+    authorizedRedirectUris: https://shabit.site/oauth/redirect
 
 server:
   ssl:

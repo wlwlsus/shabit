@@ -62,8 +62,9 @@ export default function VideoList() {
 }
 
 const VideoContainer = styled.div`
+  margin-top: 2rem;
   width: 100%;
-  height: 45%;
+  height: 48%;
   display: flex;
   justify-content: space-evenly;
 `;
