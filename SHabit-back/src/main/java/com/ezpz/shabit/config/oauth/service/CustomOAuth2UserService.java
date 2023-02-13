@@ -26,7 +26,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-	private static final String ALREADY_SIGNED_UP = "already_signed_up";
+	private static final String ALREADY_SIGNED_UP_SOCIAL = "already_signed_up_social";
+	private static final String ALREADY_SIGNED_UP_LOCAL = "already_signed_up_local";
 
 	private final UserRepository userRepository;
 
@@ -51,9 +52,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		Users savedUser = userRepository.findUserByEmail(userInfo.getEmail());
 
 		if (savedUser != null) {
+			if (savedUser.getProviderType() == ProviderType.LOCAL){
+				log.error("CustomOAuth2UserService process Error: 기존 회원입니다. 자체 로그인을 이용해 주세요. ");
+				throw new OAuthProviderMissMatchException(ALREADY_SIGNED_UP_LOCAL);
+			}
+
 			if (providerType != savedUser.getProviderType()) {
-				log.error("CustomOAuth2UserService process Error: 이미 가입한 이메일 입니다. ");
-				throw new OAuthProviderMissMatchException(ALREADY_SIGNED_UP);
+				log.error("CustomOAuth2UserService process Error: 다른 소셜에서 가입된 이메일 입니다. 해당 소셜 로그인을 이용해 주세요.");
+				throw new OAuthProviderMissMatchException(ALREADY_SIGNED_UP_SOCIAL);
 			}
 			updateUser(savedUser, userInfo);
 		} else {
