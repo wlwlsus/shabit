@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { goTo } from 'react-chrome-extension-router'
 import { HiArrowRightCircle } from 'react-icons/hi2'
-import { authLogin } from '../utils/authLogin'
 import Tracking from './Tracking'
 
 export default function Login() {
+  const [user, setUser] = useState({})
   const [errMsg, setErrMsg] = useState()
   const [inputs, setInputs] = useState({
     email: '',
@@ -13,9 +12,12 @@ export default function Login() {
     autoLogin: false,
   })
 
-  const goSite = () => {
-    window.open('http://shabit.site/')
-  }
+  // background에 저장된 유저정보가 있다면 불러옴 (로그인 유지)
+  useEffect(() => {
+    chrome.storage.sync.get('user', function (res) {
+      setUser(res.user)
+    })
+  }, [])
 
   const onChangeHandler = (e) => {
     const { value, name } = e.target
@@ -25,42 +27,91 @@ export default function Login() {
     })
   }
 
+  // const onLogin = () => {
+  //   const { email, password } = inputs
+  //   authLogin(email, password)
+  //     .then((res) => {
+  //       // sessionStorage.setItem('user', JSON.stringify(res.user))
+  //       goTo(Tracking)
+  //     })
+  //     .catch((err) => {
+  //       setErrMsg(err.message)
+  //     })
+  // }
+
+  // const onLogin = () => {
+  //   const { email, password } = inputs
+  //   const data = { email, password }
+  //   chrome.runtime.sendMessage(
+  //     {
+  //       action: 'login',
+  //       data,
+  //     },
+  //     (res) => {
+  //       console.log(res)
+  //     }
+  //   )
+  // }
+  // const URL = 'https://shabit.site:8080/api/v1/user/login'
+
   const onLogin = () => {
     const { email, password } = inputs
-    authLogin(email, password)
-      .then((res) => {
-        sessionStorage.setItem('user', JSON.stringify(res.user))
-        goTo(Tracking)
-      })
-      .catch((err) => {
-        setErrMsg(err.message)
-      })
+    chrome.runtime.sendMessage(
+      {
+        action: 'login', // background에 보내는 메세지 제목
+        data: {
+          email,
+          password,
+        },
+      },
+      (response) => {
+        // 로그인 성공 => 유저정보 불러옴
+        if (!response.length) {
+          chrome.storage.sync.get('user', function (res) {
+            setUser(res.user)
+          })
+          return
+        }
+        // 실패 => 에러 메세지 출력
+        setErrMsg('아이디와 비밀번호를 확인해주세요.')
+      }
+    )
   }
 
-  return (
-    <Popup>
-      <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
-      {errMsg ? <Err> {errMsg}</Err> : null}
-      <InputWrapper>
-        <Input
-          type="email"
-          name="email"
-          onChange={onChangeHandler}
-          placeholder="아이디"
-        />
-        <Input
-          type="password"
-          name="password"
-          onChange={onChangeHandler}
-          placeholder="비밀번호"
-        />
-      </InputWrapper>
-      <IconWrapper>
-        로그인 <HiArrowRightCircle onClick={onLogin} />
-      </IconWrapper>
-      <Text onClick={goSite}>홈페이지로 이동하기</Text>
-    </Popup>
-  )
+  if (!user) {
+    return (
+      <Popup>
+        <Logo src={`${process.env.PUBLIC_URL}/assets/logo-pink.png`} />
+        {errMsg ? <Err> {errMsg}</Err> : null}
+        <InputWrapper>
+          <Input
+            type="email"
+            name="email"
+            onChange={onChangeHandler}
+            placeholder="아이디"
+          />
+          <Input
+            type="password"
+            name="password"
+            onChange={onChangeHandler}
+            placeholder="비밀번호"
+          />
+        </InputWrapper>
+        <IconWrapper>
+          로그인 <HiArrowRightCircle onClick={onLogin} />
+        </IconWrapper>
+        <Text
+          onClick={() => {
+            window.open('http://shabit.site/')
+          }}
+        >
+          홈페이지로 이동하기
+        </Text>
+      </Popup>
+    )
+  } else {
+    return <Tracking user={user} />
+  }
 }
 
 const Popup = styled.div`
