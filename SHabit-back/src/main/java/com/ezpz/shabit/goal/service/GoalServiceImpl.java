@@ -44,13 +44,13 @@ public class GoalServiceImpl implements GoalService {
         Goal goal = goalRepository.findGoalByUser(user).orElse(null);
         if (goal == null) {
             log.info("목표가 등록되어있지 않습니다.");
-            goal = Goal.builder().percentage(req.getPercentage()).time(req.getTime()).user(user).build();
+            goal = Goal.builder().percentage(Integer.parseInt(req.getPercentage())).time(Integer.parseInt(req.getTime())).user(user).build();
             goalRepository.save(goal);
 
             return GoalResDto.builder().percentage(goal.getPercentage()).time(goal.getTime()).build();
         }
 
-        goal.setGoal(req.getPercentage(), req.getTime());
+        goal.setGoal(Integer.parseInt(req.getPercentage()), Integer.parseInt(req.getTime()));
         goalRepository.save(goal);
         return GoalResDto.builder().percentage(goal.getPercentage()).time(goal.getTime()).build();
     }
