@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
-import MoveToAdmin from '../components/Admin/MoveToAdmin';
 import GoalModal from '../components/Main/GoalModal';
 
 export default function MainPage() {
@@ -49,7 +48,6 @@ export default function MainPage() {
           갤러리
         </Tab>
         <Container>
-          <MoveToAdmin />
           <Outlet />
         </Container>
       </ContainerWrapper>

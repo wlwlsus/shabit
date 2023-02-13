@@ -9,6 +9,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
   const [urlInput, setUrlInput] = useState('');
   const [videoId, setVideoId] = useState('');
   const [hasImage, setHasImage] = useState(false);
+  const [selected, setSelected] = useState(1);
 
   const debouncedInput = useDebounce(urlInput, 300);
   const myRef = useRef();
@@ -37,7 +38,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
   return (
     <VideoInputWrapper>
       <StyledDropBox>
-        <VideoInputDropbox />
+        <VideoInputDropbox selected={selected} setSelected={setSelected}/>
       </StyledDropBox>
       <StyledInputTag>
         <input
@@ -55,9 +56,10 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
         className={hasImage && 'buttonVisible'}
         onClick={() => {
           if (!hasImage) return;
+          console.log(selected)
           postVod(~~categoryInput || 1, urlInput.split('&')[0]).then(() => {
             setUrlInput('');
-            setCategoryInput(1);
+            setCategoryInput(selected);
             setHasImage(false);
             setScrollProp({ ...scrollProp, page: 0 });
           });
