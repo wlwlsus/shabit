@@ -18,7 +18,7 @@ const VideoCard = ({
     if (!isDeleting) return;
     setIsDeleting(false);
   }, [vodsList]);
-  const videoURL = `https://www.youtube.com/watch?v=${videoId}`;
+  const videoURL = `https://www.youtube.com/watch?v=`;
 
   let videoLengthTag;
   const lengthArray = originalLength.split(':');
@@ -42,16 +42,23 @@ const VideoCard = ({
     videoLengthTag = <div>{originalLengthText}</div>;
   }
 
+  const moveToPage = (id) => {
+    window.open(videoURL + id);
+  }
+
   return (
     <StyledCardWrapper className="container">
       <div className="card">
         {!isDeleting ? (
-          <span className="tag delete-tag" onClick={() => setIsDeleting(true)}>
+          <DeleteButton className="tag delete-tag" 
+          onClick={() => {
+            setIsDeleting(true);
+          }}>
             삭제하기
-          </span>
+          </DeleteButton>
         ) : (
           <div>
-            <span
+            <DeleteButton
               className="tag delete-tag"
               style={{
                 right: '2.7rem',
@@ -65,8 +72,8 @@ const VideoCard = ({
               }}
             >
               삭제
-            </span>
-            <span
+            </DeleteButton>
+            <DeleteButton
               className="tag delete-tag"
               style={{
                 right: '0.1rem',
@@ -76,18 +83,22 @@ const VideoCard = ({
               onClick={() => setIsDeleting(false)}
             >
               취소
-            </span>
+            </DeleteButton>
           </div>
         )}
-        <div className="card-header">
-          <img src={thumbnail} alt={categoryId} />
-        </div>
-        <div className="card-body">
-          {videoLengthTag}
-          <a href={videoURL} target="_blank" rel="noopener noreferrer">
-            {title}
-          </a>
-        </div>
+        <CardContent onClick={() => moveToPage(videoId)}>
+          <div className="card-header">
+            <img src={thumbnail} alt={categoryId} />
+          </div>
+          <div className="card-body">
+            {videoLengthTag}
+            <div style={{ height: '70px', overflow: 'hidden' }}>
+              <div style={{ display: '-webkit-box', whiteSpace: 'pre-wrap', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                {title}
+              </div>
+            </div>
+          </div>
+        </CardContent>
       </div>
     </StyledCardWrapper>
   );
@@ -172,5 +183,15 @@ const StyledCardWrapper = styled.div`
   .card-body p {
     font-size: 13px;
     margin: 0 0 40px;
+  }
+`;
+
+const DeleteButton = styled.span`
+  cursor: pointer;
+`;
+
+const CardContent = styled.div`
+  &:hover{
+    cursor: pointer;
   }
 `;

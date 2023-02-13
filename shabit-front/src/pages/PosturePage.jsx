@@ -31,7 +31,7 @@ export default function PosturePage() {
 
   return (
     <PageWrapper>
-      {isStretchModalOpen && <Modal/>}
+      {isStretchModalOpen&&<Modal/>}
       {isVideoModalOpen &&< VideoModal/>}
       <Container>
         <Logo color={'pink'} size={'sm'} />

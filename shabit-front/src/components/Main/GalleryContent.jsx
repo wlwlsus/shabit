@@ -144,7 +144,6 @@ const Radio = styled.input.attrs({ type: 'radio' })`
 
 const Message = styled.span`
   font-weight: bold;
-  margin-left: 1rem;
   margin-right: 2rem;
   color: Black;
 `;

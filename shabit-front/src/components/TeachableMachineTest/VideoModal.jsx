@@ -5,6 +5,8 @@ import { BiDownload } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { setVideoModal } from '../../store/trackingSlice';
 
+import { BsFillXCircleFill } from 'react-icons/bs';
+
 export default function VideoModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,6 +15,10 @@ export default function VideoModal() {
   const recordedChunks= useSelector((state) => {
     return state.tracking.recordedChunks;
   });
+
+  const goMain= () => {
+    navigate('/main');
+  };
 
   const downloadVideo = ()=>{
     if (recordedChunks.length) {
@@ -44,9 +50,15 @@ export default function VideoModal() {
 
   return (
     <ContainerWrapper>
-    <ContainerHeader>
-      <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
-    </ContainerHeader>
+      <ModalHeader>
+        <div></div>
+        <Title>종료되었습니다.</Title>
+        <CloseBtn>
+          <BsFillXCircleFill
+            onClick={goMain}
+          />
+        </CloseBtn>
+      </ModalHeader>
     <Container>
       <VideoWrapper>
         <video autoPlay ref={recordedVideoRef} />
@@ -78,17 +90,35 @@ const ContainerWrapper = styled.div`
   flex-direction: column;
 `;
 
-const ContainerHeader = styled.div`
-  z-index: 999;
-  width: 55rem;
-  height: 4rem;
-  background-color: ${(props) => props.theme.color.secondary};
-  border-radius: 1.5rem 1.5rem 0 0;
-  padding: 0 1rem;
+const ModalHeader = styled.div`
+display: flex;
+justify-content: space-between;
+z-index: 999;
+width: 55rem;
+height: 4rem;
+background-color: ${(props) => props.theme.color.secondary};
+border-radius: 1.5rem 1.5rem 0 0;
+padding: 0 1rem;
+padding-top: 0.3rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+`;
+
+const CloseBtn = styled.div`
+  text-align: center;
+
+  & > svg {
+    color: ${(props) => props.theme.color.primary};
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    transition: all 0.2s linear;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -103,6 +133,8 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
+  text-align: center;
+  margin-left: 1.5rem;
   color: ${(props) => props.theme.color.primary};
   font-weight: bold;
   font-size: 1.3rem;

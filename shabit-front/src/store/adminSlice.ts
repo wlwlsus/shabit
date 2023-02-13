@@ -19,8 +19,8 @@ const adminSlice = createSlice({
       },
     ],
     quetesList: [],
-    stretchingTime: 50 * 60 * 1000,
-    alertTime: 3 * 60 * 1000,
+    stretchingTime: 50 * 60 *1000,
+    alertTime: 3 * 60,
   },
   reducers: {
     setVideoList: (state, action) => {

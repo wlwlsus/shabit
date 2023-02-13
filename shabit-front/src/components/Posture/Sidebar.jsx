@@ -56,7 +56,7 @@ const Sidebar = () => {
 
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
 
-  const ClickStop = () => {
+  const clickStop = () => {
     // 시간 같은거 모두 정지
     dispatch(setIsStop(true));
     dispatch(setIsRunning(false));
@@ -67,10 +67,14 @@ const Sidebar = () => {
       setInitLogArray();
     })
   };
-  const ClickPlayButton = () => {
+  const clickPlayButton = () => {
     dispatch(setIsRunning(true));
     setToggle(!toggle);
   };
+  const clickPauseButton = () =>{
+    dispatch(setIsRunning(false));
+    setToggle(!toggle);
+  }
   return (
     <ContainerWrapper>
       <TimeContainer>
@@ -88,17 +92,17 @@ const Sidebar = () => {
       <CapturingContainer>
         {toggle ? (
           <IconWrapper>
-            <CgPlayPause onClick={ClickPlayButton} />
+            <CgPlayPause onClick={clickPauseButton} />
             <Text>일시정지</Text>
           </IconWrapper>
         ) : (
           <IconWrapper>
-            <CgPlayButton onClick={ClickPlayButton} />
+            <CgPlayButton onClick={clickPlayButton} />
             <Text>시작</Text>
           </IconWrapper>
         )}
         <IconWrapper>
-          <ImExit onClick={ClickStop} />
+          <ImExit onClick={clickStop} />
           <Text>종료하기</Text>
         </IconWrapper>
       </CapturingContainer>
