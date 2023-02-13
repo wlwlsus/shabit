@@ -77,7 +77,6 @@ const MyCapture = () => {
     const file = dataURLtoFile(imageSrc,`${time} ${poseId}.jpeg`)
     const formData = new FormData();
     formData.append('image',file,`${time} ${poseId}.jpeg`);
-    console.log(`${time} ${curPose} ${poseId}.jpeg`);
     postImage(userEmail,formData);
   },[webcamRef])
 
@@ -88,8 +87,11 @@ const MyCapture = () => {
     // 방 나가기 클릭하면 -> 종료 버튼 누르고나면 
   const stopCapture = useCallback(() => {
     mediaRecorderRef.current.stop();
+    let stream = webcamRef.current.stream;
+    const tracks = stream.getTracks();
+    tracks.forEach(track => track.stop());
+    webcamRef.current.stream = null;
     clearInterval(resumeId);
-
     clearInterval(pauseId);
   }, [mediaRecorderRef, webcamRef]);
 
@@ -98,7 +100,7 @@ const MyCapture = () => {
         <NoticeText>현재자세 : {curPose}</NoticeText>
         <WebcamWrapper>
             <Webcam onUserMedia={startCapture} audio={false} ref={webcamRef} mirrored={true} videoConstraints={videoConstraints}
-            screenshotFormat="image/jpeg" />
+            screenshotFormat="image/jpg" />
         </WebcamWrapper>
     </ContainerWrapper>
   );
@@ -124,5 +126,3 @@ const WebcamWrapper = styled.div`
 `;
 
 export default MyCapture;
-
-// https://www.npmjs.com/package/react-webcam

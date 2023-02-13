@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback} from 'react';
 import * as tmPose from '@teachablemachine/pose';
 import { setPose,setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,6 @@ import { setLogArray } from '../../store/trackingSlice';
 import dateFormat from '../../utils/dateFormat';
 
 const TrackingPose = () => {
-  // 바른 자세인지 아닌지
   const dispatch = useDispatch();
   const isRunning = useSelector((state) => {
     return state.time.isRunning;
@@ -22,9 +21,9 @@ const TrackingPose = () => {
   let startTime, endTime;
 
   // let alarmSec = useSelector((state)=>{
-  //   return state.time.alertTime;
-  // }) ;
-  let alarmSec = 9; //일단 9초
+  //   return state.admin.alertTime;
+  // })
+  let alarmSec = 9;
   const init = async () => {
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(
@@ -42,11 +41,13 @@ const TrackingPose = () => {
     setTimerId(setInterval(()=>{
       time+=1;
       if(time>=alarmSec){
-        notify(maxPose,'pose');
+        // notify(maxPose,'pose');
+        console.log("알람");
         time=0;
       }
     },1000));// 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
+    console.log(id);
   };
 
   const predictPose = async () => {
@@ -62,7 +63,6 @@ const TrackingPose = () => {
         if (prevPose !== maxPose) {
           prevPose = maxPose;
           endTime = dateFormat(new Date());
-          console.log(endTime);
           //로그 저장
           log = {startTime,endTime,postureId:i};
           dispatch(setLogArray(log));
@@ -77,14 +77,15 @@ const TrackingPose = () => {
       time=0;
     }
   };
-  const onStop = async (id) => {
-    await clearInterval(id);
-    await clearInterval(timerId);
-  };
+  const onStop = useCallback( (id,timerId) => {
+    console.log(id,timerId);
+    clearInterval(id);
+    clearInterval(timerId);
+    webcam.stop();
+  },[webcam]); 
 
   useEffect(() => {
-    console.log("ID",id)
-    if(isRunning===false) onStop(id);
+    if(isRunning===false) onStop(id,timerId);
   }, [isRunning]);
   
   useEffect(() => {
