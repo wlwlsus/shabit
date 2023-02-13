@@ -25,8 +25,8 @@ const MyCapture = () => {
   let resumeId, pauseId;
 
   const videoConstraints = {
-    height: 400,
-    width: 850,
+    height: 500,
+    width: 800,
   };
   const curPose = useSelector((state) => {
     return state.pose.pose;
@@ -165,8 +165,9 @@ const InfoBox = styled.div`
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
-  height: 100%;
-  width: 100%;
+  margin-top: 1rem;
+  width:80%;
+  height:80%;
 `;
 
 export default MyCapture;

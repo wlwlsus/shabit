@@ -87,8 +87,11 @@ export const logout = async (): Promise<boolean> => {
       { headers: header() },
     )
     .then(() => {
-      sessionStorage.clear();
-      localStorage.clear();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('user');
       return Promise.resolve(true);
     })
     .catch(() => Promise.reject(false));
