@@ -25,9 +25,6 @@ export default function GoalBox({ today }) {
       </TitleWrapper>
       <IconWrapper>
         <HiPencilAlt
-          onClick={() => {
-            dispatch(setGoalModal(true));
-          }}
         />
       </IconWrapper>
       <ContentWrapper>

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
 import GoalModal from '../components/Main/GoalModal';
+import PasswordModal from '../components/Main/PasswordModal';
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -30,10 +31,14 @@ export default function MainPage() {
   const goalModal = useSelector((state) => {
     return state.goal.goalModal;
   });
+  const passwordModal = useSelector((state) => {
+    return state.auth.passwordModal;
+  });
 
   return (
     <PageWrapper>
       {goalModal && <GoalModal />}
+      {passwordModal && <PasswordModal />}
       <ContainerWrapper>
         <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
           SHabit
