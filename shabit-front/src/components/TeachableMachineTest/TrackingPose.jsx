@@ -77,14 +77,11 @@ const TrackingPose = () => {
   const onPause = useCallback((id,timerId)=>{
     clearInterval(id);
     clearInterval(timerId);
-    console.log(webcam);
     webcam.pause();
   },[webcam]); 
   
   const onStart = useCallback(async() => {
     await webcam.play();
-    console.log("PLAY:",webcam);
-
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = dateFormat  (new Date());
     setTimerId(setInterval(()=>{
