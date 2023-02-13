@@ -27,6 +27,7 @@ export default function Modal() {
   return (
     <ContainerWrapper>
       <ModalHeader>
+        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <BsFillXCircleFill
           onClick={() => {
             dispatch(setStretchModal(false));
@@ -34,7 +35,6 @@ export default function Modal() {
         />
       </ModalHeader>
       <Container>
-        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <VideoList />
         <ModalFooter>
           <VideoInfo>
