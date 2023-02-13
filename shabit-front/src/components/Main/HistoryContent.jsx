@@ -37,7 +37,6 @@ export default function HistoryContent() {
 
   const [total, setTotal] = useState('0분');
   const [time, setTime] = useState('0분');
-
   useEffect(() => {
     const mounted = async () => {
       fetchTodayPostureTime(user.email).then((res) => {
