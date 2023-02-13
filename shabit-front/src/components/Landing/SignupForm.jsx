@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { confirmEmail } from '../../services/auth/get';
 
 import { loadEffect } from '../../styles/animation';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -219,6 +220,13 @@ const SignupForm = () => {
           )}
           {confirmingEmail ? (
             <ConfirmModal>
+              <StyledIcon
+                onClick={() => {
+                  setConfirmingEmail(false);
+                }}
+              >
+                <AiOutlineClose />
+              </StyledIcon>
               <ConfirmForm
                 onConfirmed={onConfirmed}
                 confirmCode={confirmCode}
@@ -294,6 +302,15 @@ const FormWrapper = styled.div`
     font-weight: bold;
     box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
   }
+`;
+
+const StyledIcon = styled.div`
+  position: absolute;
+  font-size: large;
+  right: 0.7rem;
+  top: 0.7rem;
+  color: ${(props) => props.theme.color.primary};
+  cursor: pointer;
 `;
 
 const InputWrapper = styled.div`

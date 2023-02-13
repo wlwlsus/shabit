@@ -45,7 +45,6 @@ import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
 import { fetchAlarmTime } from './services/admin/get';
-import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
@@ -106,40 +105,28 @@ function App() {
         });
         //(추가) 토큰을 리덕스에 저장합니다.
         store.dispatch(setTokenState(newToken));
-
-        // store.getState().chart;
-        //Promise안 배열에 라우팅 전 해야할 함수들을 넣어주세요.
-        Promise.allSettled([
-          //알람 시간을 설정합니다.
-          fetchAlarmTime(),
-          () => {
-            // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
-            if (auth === 'ROLE_ADMIN') {
-              store.dispatch(setIsAdminState(true));
-            } else store.dispatch(setIsAdminState(false));
-          },
-        ]).then(() => {
-          //할 일 끝나고 라우팅 시킬거에여
-          if (['/', '/login', 'signup'].includes(location.pathname)) {
-            navigate('/main');
-          }
-        });
+        // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
+        fetchAlarmTime();
+        if (auth === 'ROLE_ADMIN') {
+          store.dispatch(setIsAdminState(true));
+        } else store.dispatch(setIsAdminState(false));
+        if (['/', '/login', 'signup'].includes(location.pathname))
+          navigate('/main');
         return;
+        // store.getState().chart;
       } catch (error) {
-        // (12) 로그인이 실패하였을 때에 처리할 로직은 이곳에서 처리하면 됩니다.
         return Promise.reject(error);
+        // (12) 로그인이 실패하였을 때에 처리할 로직은 이곳에서 처리하면 됩니다.
       }
     };
     loginCheck();
-  }, []);
+  });
 
   return (
     <Provider store={store}>
+      <ToastContainer />
       <ThemeProvider theme={theme}>
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
-        <ToastifyStyle>
-          <ToastContainer newestOnTop />
-        </ToastifyStyle>
         <Routes>
           <Route
             path="/"
