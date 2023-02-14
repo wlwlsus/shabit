@@ -6,8 +6,12 @@ const authSlice = createSlice({
     accessToken: '',
     user: { email: '', nickname: '', profile: '', theme: 0 },
     isAdmin: false,
+    passwordModal: false,
   },
   reducers: {
+    setPasswordModal: (state, action) => {
+      state.passwordModal = action.payload;
+    },
     setTokenState: (state, action) => {
       state.accessToken = action.payload;
     },
@@ -22,11 +26,17 @@ const authSlice = createSlice({
         accessToken: '',
         user: { email: '', nickname: '', profile: '', theme: 0 },
         isAdmin: false,
+        passwordModal: false,
       };
     },
   },
 });
 
 export default authSlice;
-export const { setTokenState, setUserState, setIsAdminState, clearAuthState } =
-  authSlice.actions;
+export const {
+  setPasswordModal,
+  setTokenState,
+  setUserState,
+  setIsAdminState,
+  clearAuthState,
+} = authSlice.actions;
