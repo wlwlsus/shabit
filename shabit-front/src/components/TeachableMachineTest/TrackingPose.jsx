@@ -75,6 +75,7 @@ const TrackingPose = () => {
       clearInterval(id);
       clearInterval(timerId);
       webcam.stop();
+      setSetting(false);
     },
     [webcam],
   );
@@ -108,10 +109,15 @@ const TrackingPose = () => {
   }, [webcam]);
 
   useEffect(() => {
-    if (isStop) onStop(id, timerId);
+    console.log(isStop);
+    if (isStop) {
+      console.log(isStop);
+      onStop(id, timerId);
+    }
   }, [isStop]);
 
   useEffect(() => {
+    console.log("START TRACKING",isStop)
     init();
   }, []);
 

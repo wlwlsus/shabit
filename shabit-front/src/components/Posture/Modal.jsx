@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVideoURL, setStretchModal } from '../../store/videoSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
-
+import { setIsRunning, setIsStop } from '../../store/timeSlice';
+import {setStretchingMode} from "../../store/videoSlice";
 import VideoList from './VideoList';
 
 export default function Modal() {
@@ -13,13 +14,19 @@ export default function Modal() {
     return state.video.selected;
   });
   const titleTable = [0, '목', '허리', '전신'];
-
+  const isStop = useSelector((state)=>{
+    return state.tracking.isStop; 
+  })
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   const playVideo = () => {
     if (selected) {
+       // 시간 같은거 모두 정지
+      dispatch(setIsStop(true));
+      dispatch(setIsRunning(false));
+      dispatch(setStretchingMode(true));
       dispatch(
         setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`),
       );
