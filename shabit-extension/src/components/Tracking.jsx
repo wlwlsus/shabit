@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { BsFillPlayCircleFill, BsPauseCircleFill } from 'react-icons/bs'
+// import Pose from './Pose';
 
 export default function Tracking({ user }) {
   const [start, setStart] = useState()
@@ -64,7 +65,6 @@ export default function Tracking({ user }) {
           {user.nickname}
           <Email>{user.email}</Email>
         </Nickname>
-
         <Time>
           총 이용 시간
           {time && (
@@ -75,11 +75,9 @@ export default function Tracking({ user }) {
             </Timer>
           )}
         </Time>
-
         <Button onClick={setTimer}>
           {start ? <BsPauseCircleFill /> : <BsFillPlayCircleFill />}
         </Button>
-
         <Text
           onClick={() => {
             window.open('http://shabit.site/')
@@ -87,6 +85,7 @@ export default function Tracking({ user }) {
         >
           홈페이지로 이동하기
         </Text>
+        {/* <Pose start={start}/> */}
       </Wrapper>
     </>
   )
