@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { confirmEmail } from '../../services/auth/get';
 
 import { loadEffect } from '../../styles/animation';
-import { AiOutlineClose } from 'react-icons/ai';
+import { BsFillXCircleFill } from 'react-icons/bs';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -44,13 +44,9 @@ const SignupForm = () => {
   };
 
   //비밀번호 일치 여부를 검증합니다.
-  const debouncedPasswordConfirm = useDebounce(password2, 100);
   useEffect(() => {
-    if (
-      debouncedPasswordConfirm &&
-      debouncedPasswordConfirm.length > password.length - 4
-    ) {
-      if (password !== debouncedPasswordConfirm) {
+    if (password2 && password2.length > password.length - 4) {
+      if (password !== password2) {
         setMessage('비밀번호가 일치하지 않습니다');
       } else {
         setMessage('');
@@ -58,18 +54,14 @@ const SignupForm = () => {
     } else {
       setMessage('');
     }
-  }, [debouncedPasswordConfirm]);
+  }, [password2]);
 
   //비밀번호 검증 로직입니다.
   const [passwordMatch, setPasswordMatch] = useState(false);
-  const debouncedPassword = useDebounce(password, 200);
 
   useEffect(() => {
     if (password.length === 0) return setMessage('');
-    if (
-      (debouncedPassword.length < 8 && debouncedPassword.length > 0) ||
-      password.length > 16
-    ) {
+    if (password.length < 8 || password.length > 16) {
       setPasswordMatch(false);
       return setMessage('비밀번호는 8자 이상 16자 이하입니다.');
     }
@@ -92,15 +84,14 @@ const SignupForm = () => {
   //닉네임 검증 로직입니다.
   const [nicknameMatch, setNicknameMatch] = useState(false);
   useEffect(() => {
-    if (nickname.length < 2) return setNicknameMatch(false);
-    if (nickname.length > 1) {
-      if (nickname.length > 16) {
+    if (nickname.length) {
+      if (nickname.length > 16 || nickname.length < 2) {
         setMessage('닉네임은 2~16글자 입니다.');
         setNicknameMatch(false);
       } else if (
         !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
       ) {
-        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
+        setMessage('닉네임에 특수문자/영대문자를 사용할 수 없습니다.');
         setNicknameMatch(false);
       } else {
         setMessage('');
@@ -162,6 +153,7 @@ const SignupForm = () => {
   // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
   useEffect(() => {
     if (message) return;
+    if (!password && !password2 && !nickname && !email) return;
     if (password2.length > 4 && password !== password2) {
       setMessage('비밀번호가 일치하지 않습니다');
     }
@@ -180,16 +172,16 @@ const SignupForm = () => {
         setPasswordMatch(false);
       }
     }
-    if (nickname.length > 1) {
-      if (nickname.length > 16) {
+    if (nickname.length) {
+      if (nickname.length > 16 || nickname.length < 2) {
         setMessage('닉네임은 2~16글자 입니다.');
       } else if (
         !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
       ) {
-        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
+        setMessage('닉네임에 특수문자/영대문자를 사용할 수 없습니다.');
       }
     }
-    if (needCheck) {
+    if (!isConfirmed) {
       return setMessage('이메일 인증을 완료해주세요');
     }
   }, [message]);
@@ -231,7 +223,7 @@ const SignupForm = () => {
                   setConfirmingEmail(false);
                 }}
               >
-                <AiOutlineClose />
+                <BsFillXCircleFill />
               </StyledIcon>
               <ConfirmForm
                 onConfirmed={onConfirmed}
@@ -362,6 +354,7 @@ const ConfirmModal = styled.div`
   width: 22rem;
   height: 22rem;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+  z-index: 3;
 `;
 
 const StyledMessage = styled.div`

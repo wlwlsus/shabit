@@ -10,6 +10,7 @@ apiRequest.interceptors.response.use(
     return response;
   },
   (error) => {
+    console.log(error.response);
     const status = error.response.status;
     if (status < 400 || status > 500) alert('알 수 없는 오류가 발생했습니다');
     else if (status === 500) alert('서버에서 오류가 발생했습니다');

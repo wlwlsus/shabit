@@ -44,7 +44,6 @@ import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
-import { fetchAlarmTime } from './services/admin/get';
 import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
@@ -107,7 +106,6 @@ function App() {
         //(추가) 토큰을 리덕스에 저장합니다.
         store.dispatch(setTokenState(newToken));
         // (11) 토큰에 auth가 관리자라면 유저 정보에 관리자임을 업데이트합니다.
-        fetchAlarmTime();
         if (auth === 'ROLE_ADMIN') {
           store.dispatch(setIsAdminState(true));
         } else store.dispatch(setIsAdminState(false));
