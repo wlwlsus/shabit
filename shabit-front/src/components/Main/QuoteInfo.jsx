@@ -8,6 +8,7 @@ import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 import { fetchAlarmTime } from '../../services/admin/get';
 import { setMode } from '../../store/modeSlice';
 import { useDispatch } from 'react-redux';
+import { setInitUsedTime } from '../../store/timeSlice';
 
 export default function QuoteInfo() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function QuoteInfo() {
             //TODO 처리(시작)
             fetchAlarmTime();
             dispatch(setMode('startLive'));
+            dispatch(setInitUsedTime());
             navigate('/posture/live');
           }}
         />

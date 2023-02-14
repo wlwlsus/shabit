@@ -18,9 +18,8 @@ export default function LiveContent() {
     if (mode==='startLive') {
       usedTimeId = setInterval(() => {
         dispatch(calUsedTime());
-      }, 1000);
+      }, 60000);
 
-      // TODO: 1분으로 바꿔야 함
       stretchTimeId = setInterval(() => {
         dispatch(calStretchTime());
       }, 1000);
@@ -33,8 +32,8 @@ export default function LiveContent() {
 
   return (
     <div>
-      {/* <MyCapture /> */}
-      <TrackingPose />
+      <MyCapture />
+      {/* <TrackingPose /> */}
     </div>
   );
 }

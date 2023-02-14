@@ -7,11 +7,13 @@ const timeSlice = createSlice({
     usedTime : {hour:0,min:0}
   },
   reducers: {
-    setInitTime: (state,action)=>{
-        state.stretchTime.min = action.payload;
-        state.stretchTime.sec = 0;
-        state.usedTime.hour =0;
-        state.usedTime.min =0;
+    setInitStretchingTime : (state,action) =>{
+      state.stretchTime.min = action.payload;
+      state.stretchTime.sec = 0;
+    },
+    setInitUsedTime : (state) =>{
+      state.usedTime.hour = 0;
+      state.usedTime.min = 0;
     },
     calUsedTime :(state) =>{
         if(state.usedTime.min===59){
@@ -31,5 +33,5 @@ const timeSlice = createSlice({
 });
 
 export default timeSlice;
-export const { setInitTime,calStretchTime,calUsedTime } = timeSlice.actions;
+export const { setInitStretchingTime,calStretchTime,calUsedTime,setInitUsedTime } = timeSlice.actions;
 

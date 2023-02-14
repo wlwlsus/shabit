@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCapture, setRecordedChunks } from '../../store/trackingSlice';
 import { postImage } from '../../services/info/post';
+import {setVideoSetting} from '../../store/modeSlice';
 
 //10배속 다운로드만 구현하면 됨
 const MyCapture = () => {
   const dispatch = useDispatch();
   const webcamRef = useRef(null); //window
   const mediaRecorderRef = useRef(null); //viewRef
-  const [setting, setSetting] = useState(false);
+  // const [setting, setSetting] = useState(false);
 
   const curPoseId = useSelector((state) => {
     return state.pose.poseId;
@@ -20,7 +21,13 @@ const MyCapture = () => {
     return state.mode.mode;
   })
 
-  var chunkData = [];
+  const videoSetting = useSelector((state)=>{
+    return state.mode.videoSetting;
+  })
+
+  var chunkData = useSelector((state)=>{
+    return state.tracking.recordedChunks;
+  });
   let resumeId, pauseId;
 
   const videoConstraints = {
@@ -38,14 +45,19 @@ const MyCapture = () => {
   });
   // 캡쳐 시작
   const init = useCallback(() => {
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm',
-    });
-    mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
-      chunkData = [...chunkData, event.data];
-      dispatch(setRecordedChunks(chunkData));
-    });
-    setSetting(true);
+    if(videoSetting===false){
+      mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
+        mimeType: 'video/webm',
+      });
+      mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
+        chunkData = [...chunkData, event.data];
+        console.log(chunkData);
+        dispatch(setRecordedChunks(chunkData));
+      });
+      // setSetting(true);
+      dispatch(setVideoSetting(true));
+    }
+    onStart();
   }, [webcamRef, mediaRecorderRef]);
 
   const dataURLtoFile = (dataurl, fileName) => {
@@ -119,10 +131,10 @@ const MyCapture = () => {
   }, [webcamRef, mediaRecorderRef])
 
   useEffect(()=>{
-    if(setting && mode === 'startLive') onStart();
+    if(mode === 'startLive') onStart();
     if(mode === 'stopLive') onStop();
     else if(mode === 'pausedLive') onPause();
-    else if(mode==='stretching') onStop();
+    else if(mode==='stretching') onPause();
   },[mode])
 
   useEffect(() => {
@@ -131,7 +143,7 @@ const MyCapture = () => {
 
   return (
     <ContainerWrapper>
-      {curPose ? (
+      {/* {curPose ? (
         <>
           <InfoBox>현재자세 : {curPose}</InfoBox>
           <WebcamWrapper>
@@ -147,7 +159,20 @@ const MyCapture = () => {
         </>
       ) : (
         <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
-      )}
+      )} */}
+      
+          <InfoBox>현재자세 : {curPose}</InfoBox>
+          <WebcamWrapper>
+            <Webcam
+              onUserMedia={init}
+              audio={false}
+              ref={webcamRef}
+              mirrored={true}
+              videoConstraints={videoConstraints}
+              screenshotFormat="image/jpg"
+            />
+          </WebcamWrapper>
+        
     </ContainerWrapper>
   );
 };

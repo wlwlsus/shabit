@@ -11,12 +11,11 @@ import {
   CgRedo
 } from 'react-icons/cg';
 import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
-import { setStretchModal } from '../../store/videoSlice';
+import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
 import { postData } from '../../services/stat/post';
 import { useNavigate } from 'react-router-dom';
-import { fetchAlarmTime } from '../../services/admin/get';
 import { setMode } from '../../store/modeSlice';
-import { setInitTime } from '../../store/timeSlice';
+import { setInitStretchingTime } from '../../store/timeSlice';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
@@ -41,42 +40,19 @@ const Sidebar = () => {
   const stretchMode = useSelector((state)=>{
     return state.video.stretchingMode;
   })
-  const mode = useSelector((state)=>{
-    return state.mode.mode;
-  })
-    
 
-  // TODO stretching mode로 바꾸기
-  useEffect(()=>{
-    console.log(stretchingMin);
-    const stretchingTimer = ()=>{
-      setTimeout(()=>{
-        notify(pose, 'stretching');
-        postData(userEmail,logArray).then(()=>{
-          setInitLogArray();
-        });
-        // TODO 스트레칭 시간 setting
-        dispatch(setStretchModal(true));
-      },(stretchingMin*60+stretchingSec)*1000)
+  useEffect(() => {
+    if (stretchingMin === 0 && stretchingSec === 0) {
+      notify(pose, 'stretching');
+      dispatch(setMode('stretching'));
+      postData(userEmail,logArray).then(()=>{
+        setInitLogArray();
+      });
+      // TODO 스트레칭 시간 setting
+      dispatch(setInitStretchingTime(1));
+      dispatch(setStretchModal(true));
     }
-    if(mode==='startLive'){
-       stretchingTimer();
-    }
-  },[mode])
-  useEffect(()=>{
-    console.log(stretchingMin)
-},[stretchingMin])
-  // useEffect(() => {
-  //   if (stretchingMin === 0 && stretchingSec === 0) {
-  //     notify(pose, 'stretching');
-  //     dispatch(setMode('stretching'));
-  //     postData(userEmail,logArray).then(()=>{
-  //       setInitLogArray();
-  //     });
-  //     // TODO 스트레칭 시간 setting
-  //     dispatch(setInitTime(50));
-  //   }
-  // }, []);
+  }, [stretchingMin,stretchingSec]);
 
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
@@ -88,8 +64,6 @@ const Sidebar = () => {
   // 방 나가기 버튼 누를 때
   const clickStop = () => {
     // 시간 같은거 모두 정지
-    // dispatch(setIsStop(true));
-    // dispatch(setIsRunning(false));
     dispatch(setMode('stopLive'))
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
@@ -110,6 +84,7 @@ const Sidebar = () => {
   // 돌아가기 버튼 누를 때 TODO 라이브 모드로 변경
   const goToLive = ()=>{
     dispatch(setStretchModal(false));
+    dispatch(setStretchingMode(false));
     dispatch(setMode('startLive'));
     navigate('/posture/live');
   }

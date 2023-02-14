@@ -43,11 +43,23 @@ export default function VideoModal() {
     navigate('/main');
   }
   useEffect(()=>{
+    console.log("여기요여기")
+    //TODO video blob 합치기
     if(recordedChunks.length>0){
       const blob = new Blob(recordedChunks, {
         type: "video/webm"
       });
+      if(recordedChunks.length>=2){
+        const mergedBlob = new Blob(
+          blob,
+          { type: blob.type }
+          );
+          console.log(mergedBlob);
+        recordedVideoRef.current.src = window.URL.createObjectURL(mergedBlob);
+      }else{
       recordedVideoRef.current.src = window.URL.createObjectURL(blob);
+
+      }
       recordedVideoRef.current.playbackRate = 10;
       recordedVideoRef.current.play();
     }

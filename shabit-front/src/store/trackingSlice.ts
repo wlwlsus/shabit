@@ -20,7 +20,6 @@ const trackingSlice = createSlice({
     },
     setLogArray : (state,action) =>{
       state.logArray = [...state.logArray,action.payload];
-      console.log(state.logArray);
     },
     setInitLogArray :(state)=>{
       state.logArray =[];
