@@ -7,28 +7,20 @@ import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
 import { loadEffect } from '../../styles/animation';
-// import useDebounce from '../../utils/useDebounce';
-// import { changePassword } from '../../services/auth/put';
 import { FireAlert, FireConfirm } from '../../services';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setCurrentMessage] = useState('');
-  // const [currentTimeout, setCurrentTimeout] = useState(null);
-  // const [changingPassword, setChangingPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //전체: 메시지을 2초 후 초기화합니다.
   const setMessage = (str) => {
     setCurrentMessage(str);
   };
 
-  //onChange 핸들링입니다.
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
-    // newpassword: '',
-    // newpassword2: '',
     autoLogin: false,
   });
   const onChangeHandler = (e) => {
@@ -45,38 +37,6 @@ const LoginForm = () => {
     });
   };
   const { email, password, autoLogin } = inputs;
-  // ###############################
-  // const debouncedPasswordConfirm = useDebounce(newpassword2, 20);
-  // useEffect(() => {
-  //   if (
-  //     debouncedPasswordConfirm &&
-  //     debouncedPasswordConfirm.length > newpassword.length - 4
-  //   ) {
-  //     if (newpassword !== debouncedPasswordConfirm) {
-  //       setMessage('비밀번호가 일치하지 않습니다');
-  //     } else {
-  //       setMessage('');
-  //     }
-  //   }
-  // }, [debouncedPasswordConfirm]);
-
-  //비밀번호 검증 로직입니다.
-  // const [passwordMatch, setPasswordMatch] = useState(false);
-  // useEffect(() => {
-  //   if (newpassword.length >= 8) {
-  //     if (
-  //       !newpassword.match(
-  //         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
-  //       )
-  //     ) {
-  //       setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
-  //       setPasswordMatch(false);
-  //     } else {
-  //       setMessage('');
-  //       setPasswordMatch(true);
-  //     }
-  //   }
-  // }, [newpassword]);
 
   const onLogin = () => {
     if (!email) return setMessage('이메일을 입력해주세요');
@@ -87,15 +47,6 @@ const LoginForm = () => {
           localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
           localStorage.setItem('accessToken', JSON.stringify(accessToken));
         }
-        // if (changingPassword && passwordMatch && newpassword === newpassword2) {
-        //   changePassword(email, password, newpassword)
-        //     .then(() => {
-        //       FireConfirm('비밀번호가 변경되었습니다.');
-        //     })
-        //     .catch(() => {
-        //       FireAlert('비밀번호 변경에 실패하였습니다.');
-        //     });
-        // }
         navigate('/main');
       })
       .catch((err) => {
@@ -113,21 +64,11 @@ const LoginForm = () => {
       .then((res) => {
         setIsLoading(false);
         FireConfirm('임시 비밀번호를 발송하였습니다');
-        // setMessage('임시 비밀번호로 로그인해주세요');
         setForgotPassword(false);
-        // setChangingPassword(true);
-        // setTimeout(() => {
-        //   setMessage('');
-        // }, 2000);
       })
       .catch((err) => {
         setIsLoading(false);
         FireAlert(err.message || '비밀번호 초기화에 실패하였습니다.');
-        // setMessage(err.message || '비밀번호 초기화에 실패하였습니다.');
-        // setTimeout(() => {
-        //   setMessage('');
-        //   // setForgotPassword(false);
-        // }, 1000);
       });
   };
 
@@ -140,32 +81,6 @@ const LoginForm = () => {
       onLogin();
     }
   };
-  // #################################################
-  // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
-  // useEffect(() => {
-  //   if (message) return;
-  // if (
-  //   debouncedPasswordConfirm.length > 4 &&
-  //   newpassword !== debouncedPasswordConfirm
-  // ) {
-  //   setMessage('비밀번호가 일치하지 않습니다');
-  // }
-  // if (
-  //   (newpassword.length < 8 && newpassword.length > 0) ||
-  //   newpassword.length > 16
-  // ) {
-  //   setMessage('비밀번호는 8자 이상 16자 이하입니다.');
-  // }
-  // if (newpassword.length >= 8) {
-  //   if (
-  //     !newpassword.match(
-  //       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
-  //     )
-  //   ) {
-  //     setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
-  //   }
-  // }
-  // }, [message]);
   return (
     <FormWrapper onKeyPress={onCheckEnter}>
       <Msg>{message}</Msg>
@@ -191,26 +106,6 @@ const LoginForm = () => {
             onChange={onChangeHandler}
             placeholder={'비밀번호'}
           />
-          {/* {changingPassword ? (
-            <>
-              <Input
-                type="password"
-                name="newpassword"
-                value={newpassword}
-                onChange={onChangeHandler}
-                placeholder={'신규 비밀번호'}
-              />
-              <Input
-                type="password"
-                name="newpassword2"
-                value={newpassword2}
-                onChange={onChangeHandler}
-                placeholder={'신규 비밀번호 확인'}
-              />
-            </>
-          ) : (
-            <></>
-          )} */}
           <Wrapper>
             <Checkbox>
               <input
