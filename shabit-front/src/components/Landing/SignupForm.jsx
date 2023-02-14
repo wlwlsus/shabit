@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { confirmEmail } from '../../services/auth/get';
 
 import { loadEffect } from '../../styles/animation';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -37,8 +38,7 @@ const SignupForm = () => {
 
   //전체: API 통신 내용 혹은 메시지를 관리합니다.
   const [message, setCurrentMessage] = useState('');
-  const [currentTimeout, setCurrentTimeout] = useState(null);
-  //전체: 메시지을 2초 후 초기화합니다.
+
   const setMessage = (str) => {
     setCurrentMessage(str);
   };
@@ -195,20 +195,27 @@ const SignupForm = () => {
   }, [message]);
   return (
     <FormWrapper>
-      {!message ? <div></div> : <div>{message}</div>}
+      {!message ? (
+        <StyledMessage></StyledMessage>
+      ) : (
+        <StyledMessage>{message}</StyledMessage>
+      )}
       <InputWrapper>
         {isLoading ? (
           <img alt="Spinner" src="/assets/spinner.gif" className="Spinner" />
         ) : (
           <></>
         )}
-        <Input
-          placeholder={'이메일 아이디'}
-          type="email"
-          name="email"
-          value={email}
-          onChange={onChangeHandler}
-        />
+        <RequiredWrapper>
+          <Input
+            placeholder={'이메일 아이디'}
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
         <RightTag>
           {needCheck ? (
             <button type="button" onClick={() => onChekingEmail()}>
@@ -219,6 +226,13 @@ const SignupForm = () => {
           )}
           {confirmingEmail ? (
             <ConfirmModal>
+              <StyledIcon
+                onClick={() => {
+                  setConfirmingEmail(false);
+                }}
+              >
+                <AiOutlineClose />
+              </StyledIcon>
               <ConfirmForm
                 onConfirmed={onConfirmed}
                 confirmCode={confirmCode}
@@ -228,27 +242,36 @@ const SignupForm = () => {
             <></>
           )}
         </RightTag>
-        <Input
-          placeholder={'닉네임'}
-          type="text"
-          name="nickname"
-          value={nickname}
-          onChange={onChangeHandler}
-        />
-        <Input
-          placeholder={'비밀번호'}
-          type="password"
-          name="password"
-          value={password}
-          onChange={onChangeHandler}
-        />
-        <Input
-          placeholder={'비밀번호 확인'}
-          type="password"
-          name="password2"
-          value={password2}
-          onChange={onChangeHandler}
-        />
+        <RequiredWrapper>
+          <Input
+            placeholder={'닉네임'}
+            type="text"
+            name="nickname"
+            value={nickname}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
+        <RequiredWrapper>
+          <Input
+            placeholder={'비밀번호'}
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
+        <RequiredWrapper>
+          <Input
+            placeholder={'비밀번호 확인'}
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
       </InputWrapper>
       {isConfirmed &&
       nicknameMatch &&
@@ -258,7 +281,8 @@ const SignupForm = () => {
       ) : (
         <button
           style={{
-            backgroundColor: `${(props) => props.theme.color.grayColor}`,
+            backgroundColor: `#D3D3D3`,
+            cursor: 'default',
           }}
         >
           가입하기
@@ -296,6 +320,15 @@ const FormWrapper = styled.div`
   }
 `;
 
+const StyledIcon = styled.div`
+  position: absolute;
+  font-size: large;
+  right: 0.7rem;
+  top: 0.7rem;
+  color: ${(props) => props.theme.color.primary};
+  cursor: pointer;
+`;
+
 const InputWrapper = styled.div`
   height: 55%;
   display: flex;
@@ -329,6 +362,19 @@ const ConfirmModal = styled.div`
   width: 22rem;
   height: 22rem;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+`;
+
+const StyledMessage = styled.div`
+  position: absolute;
+  top: 3.2rem;
+`;
+
+const RequiredWrapper = styled.div`
+  display: flex;
+  & > span {
+    position: absolute;
+    color: ${(props) => props.theme.color.primary};
+  }
 `;
 
 export default SignupForm;

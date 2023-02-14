@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 import VideoList from './VideoList';
 
 export default function Modal() {
+  const [err, setErr] = useState();
   const selected = useSelector((state) => {
     return state.video.selected;
   });
@@ -18,9 +19,15 @@ export default function Modal() {
 
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   const playVideo = () => {
-    dispatch(setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`));
-    dispatch(setStretchModal(false));
-    navigate('/posture/stretch');
+    if (selected) {
+      dispatch(
+        setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`),
+      );
+      dispatch(setStretchModal(false));
+      navigate('/posture/stretch');
+    } else {
+      setErr('스트레칭 영상을 선택해주세요.');
+    }
   };
 
   return (
@@ -37,6 +44,7 @@ export default function Modal() {
         <VideoList />
         <ModalFooter>
           <VideoInfo>
+            {err && !selected && <Err>{err}</Err>}
             <span>
               스트레칭 종류 : {titleTable[selected?.category?.categoryId]}
             </span>
@@ -108,6 +116,14 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 1.3rem;
+`;
+
+const Err = styled.div`
+  z-index: 999;
+  color: ${(props) => props.theme.color.redColor};
+  position: absolute;
+  top: 37%;
+  left: 43%;
 `;
 
 const ModalFooter = styled.div`

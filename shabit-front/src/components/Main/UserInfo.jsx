@@ -7,6 +7,7 @@ import { BiUserCircle } from 'react-icons/bi';
 import { changeNickname } from '../../services/auth/put';
 import { fetchProfile } from '../../services/auth/get';
 import { FireAlert, FireConfirm } from '../../services';
+import { themeColor } from '../../styles/GlobalStyles';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const { email, nickname, profile } = user;
@@ -53,8 +54,19 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
               />
             </InputWrapper>
             <StyledButton style={{ visibility: 'visible' }} onClick={onSubmit}>
-              변경하기
+              변경
             </StyledButton>
+            <Dark
+              style={{
+                visibility: 'visible',
+                marginLeft: '2.7rem',
+              }}
+              onClick={() => {
+                setChangingNickname(false);
+              }}
+            >
+              취소
+            </Dark>
             <span>이메일 : {email}</span>
           </UserName>
         ) : (
@@ -103,6 +115,12 @@ const StyledButton = styled.button`
   font-weight: 600;
   display: flex;
   align-items: center;
+`;
+
+const Dark = styled(StyledButton)`
+  border: 0.1rem solid ${themeColor.darkPrim};
+  color: ${themeColor.darkPrim};
+  background-color: ${themeColor.darkSec};
 `;
 
 const ImgWrapper = styled.div`
