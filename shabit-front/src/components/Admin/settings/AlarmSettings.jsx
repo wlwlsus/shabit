@@ -3,6 +3,7 @@ import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import styled from 'styled-components';
 import { fetchAlarmTime } from '../../../services/admin/get';
 import { putAlarmTime } from '../../../services/admin/put';
+import { fetchAlarmTime } from '../../../services/admin/get';
 import { typedUseSelector } from '../../../store';
 import { loadEffect } from '../../../styles/animation';
 
