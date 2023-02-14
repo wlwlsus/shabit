@@ -44,7 +44,6 @@ import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
-import { fetchAlarmTime } from './services/admin/get';
 import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
