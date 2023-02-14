@@ -70,6 +70,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public ResponseEntity<?> getSocialType(String email) {
+    if (userRepository.findByEmail(email).orElse(null) == null) {
+      return Response.badRequest("해당하는 유저가 존재하지 않습니다.");
+    }
+    Users users = userRepository.findUserByEmail(email);
+
+    return Response.makeResponse(HttpStatus.OK, "소셜 가입 여부 확인 성공", 1, users.getProviderType());
+  }
+
+  @Override
   public ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp) {
     if (userRepository.existsByEmail(signUp.getEmail())) {
       return Response.badRequest("이미 회원가입된 이메일입니다.");
