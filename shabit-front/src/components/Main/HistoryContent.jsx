@@ -9,7 +9,12 @@ import { typedUseSelector } from '../../store';
 import { fetchTodayPostureTime } from '../../services/goal/get';
 
 export default function HistoryContent() {
-  const [lineData, setLineData] = useState([]);
+  // const [lineData, setLineData] = useState([]);
+  const [lineData, setLineData] = useState(() => {
+    const initalLineData = JSON.parse(sessionStorage.getItem('initalLineData'));
+    alert(initalLineData);
+    return initalLineData?.length ? initalLineData : [];
+  });
   const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
 
@@ -35,8 +40,17 @@ export default function HistoryContent() {
     setMode(newMode);
   };
 
-  const [total, setTotal] = useState('0분');
-  const [time, setTime] = useState('0분');
+  // const [total, setTotal] = useState('0분');
+  // const [time, setTime] = useState('0분');
+  const [total, setTotal] = useState(() => {
+    const initialTotal = JSON.parse(sessionStorage.getItem('initialTotal'));
+    return initialTotal ? initialTotal : '0분';
+  });
+  const [time, setTime] = useState(() => {
+    const initialTime = JSON.parse(sessionStorage.getItem('initialTime'));
+    return initialTime ? initialTime : '0분';
+  });
+
   useEffect(() => {
     const mounted = async () => {
       fetchTodayPostureTime(user.email).then((res) => {
@@ -60,6 +74,19 @@ export default function HistoryContent() {
     };
     mounted();
   }, []);
+
+  // const [isInitial, setIsInitial] = useState(true);
+  // const { initialLineData, initialTotal, initialTime } = typedUseSelector(
+  //   (state) => {
+  //     return state.chart.initalChart;
+  //   },
+  //   shallowEqual,
+  // );
+  // useEffect(() => {
+  //   if (!initialLineData || initialTotal || initialTime) return;
+  //   if (lineData.length || total !== '0분' || time !== '0분') return;
+  //   setLineData(initialLineData)
+  // }, [initialLineData, initialTotal, initialTime]);
 
   return (
     <Wrapper>

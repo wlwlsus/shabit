@@ -1,13 +1,59 @@
-import React, { useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
 import GoalModal from '../components/Main/GoalModal';
 import PasswordModal from '../components/Main/PasswordModal';
+import { typedUseSelector } from '../store';
+import { fetchWeekly } from '../services/stat/get';
+import { fetchTodayPostureTime } from '../services/goal/get';
 
 export default function MainPage() {
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
+
+  // 메인 페이지에 접속했을 때 미리 디스패치하기
+  const dispatch = useDispatch();
+  const email = typedUseSelector((state) => state.auth.user.email);
+  useEffect(() => {
+    if (!email) return;
+    let initialLineData;
+    let initialTotal;
+    let initialTime;
+    const mounted = async () => {
+      await Promise.allSettled([
+        fetchWeekly(email, 0).then((res) => {
+          initialLineData = res;
+        }),
+        fetchTodayPostureTime(email).then((res) => {
+          // 분 -> 시
+          let hour = parseInt(res.total / 60);
+          let time = res.total % 60;
+
+          let str = '';
+          if (hour != 0) str += hour + '시간 ';
+          str += time + '분';
+          initialTotal = str;
+
+          hour = parseInt(res.time[0] / 60);
+          time = res.time[0] % 60;
+
+          str = '';
+          if (hour != 0) str += hour + '시간 ';
+          str += time + '분';
+          initialTime = str;
+
+          sessionStorage.setItem(
+            'initialLineData',
+            JSON.stringify(initialLineData),
+          );
+          sessionStorage.setItem('initialTotal', JSON.stringify(initialTotal));
+          sessionStorage.setItem('initialTime', JSON.stringify(initialTime));
+        }),
+      ]);
+    };
+    mounted();
+  }, [email]);
 
   const style = {
     backgroundColor: themeContext.color.whiteColor,
