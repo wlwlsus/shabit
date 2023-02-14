@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const timeSlice = createSlice({
   name: 'timeSlice',
   initialState: {
-    stretchTime: {min:50,sec:0},
+    stretchTime: {min:35,sec:0},
     usedTime : {hour:0,min:0}
   },
   reducers: {

@@ -7,8 +7,8 @@ import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 import { fetchAlarmTime } from '../../services/admin/get';
 import { setMode } from '../../store/modeSlice';
-import { useDispatch } from 'react-redux';
-import { setInitUsedTime } from '../../store/timeSlice';
+import { useDispatch,useSelector } from 'react-redux';
+import { setInitUsedTime,setInitStretchingTime } from '../../store/timeSlice';
 
 export default function QuoteInfo() {
   const navigate = useNavigate();
@@ -20,6 +20,21 @@ export default function QuoteInfo() {
     if (state.chart.quote.length === 0) return defaultQuote;
     return state.chart.quote;
   });
+  const initStretchingMin = useSelector((state)=>{
+    return state.admin.stretchingTime/60;
+  }) 
+  const onStart = () =>{
+    //TODO 처리(시작)
+    fetchAlarmTime().then(()=>{
+      dispatch(setInitStretchingTime(1));
+
+      // dispatch(setInitStretchingTime(initStretchingMin));
+    dispatch(setMode('startLive'));
+    dispatch(setInitUsedTime());
+    
+    navigate('/posture/live');
+    });
+  }
 
   return (
     <Wrapper>
@@ -33,13 +48,7 @@ export default function QuoteInfo() {
 
       <Start>
         <BsFillCaretRightSquareFill
-          onClick={() => {
-            //TODO 처리(시작)
-            fetchAlarmTime();
-            dispatch(setMode('startLive'));
-            dispatch(setInitUsedTime());
-            navigate('/posture/live');
-          }}
+          onClick={onStart}
         />
         <div>자세교정 시작하기</div>
       </Start>

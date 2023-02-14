@@ -7,6 +7,7 @@ const trackingSlice = createSlice({
     videoModal : false,
     logArray:[],
     capture:false,
+    trackingSetting:false,
   },
   reducers: {
     setRecordedChunks : (state,action) =>{
@@ -26,10 +27,13 @@ const trackingSlice = createSlice({
     },
     setCapture :(state,action)=>{
       state.capture = action.payload;
+    },
+    setTrackingSetting : (state,action)=>{
+      state.trackingSetting = action.payload;
     }
   },
 });
 
 export default trackingSlice;
-export const { setRecordedChunks,clearRecordedChunks,setVideoModal,setLogArray,setInitLogArray,setCapture } = trackingSlice.actions;
+export const { setRecordedChunks,clearRecordedChunks,setVideoModal,setLogArray,setInitLogArray,setCapture,setTrackingSetting } = trackingSlice.actions;
 

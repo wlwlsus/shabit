@@ -3,14 +3,13 @@ import * as tmPose from '@teachablemachine/pose';
 import { setPose, setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
-import { setLogArray, setCapture } from '../../store/trackingSlice';
+import { setLogArray, setCapture,setTrackingSetting } from '../../store/trackingSlice';
 import dateFormat from '../../utils/dateFormat';
 import { setMode } from '../../store/modeSlice';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();
   //트래킹을 위한 webcam setting의 완료 여부
-  const [setting, setSetting] = useState();
   const [id, setId] = useState();
   const [timerId, setTimerId] = useState();
   let log = {};
@@ -29,9 +28,13 @@ const TrackingPose = () => {
   const mode = useSelector((state)=>{
     return state.mode.mode;
   })
+  const trackingSetting = useSelector((state)=>{
+    return state.tracking.trackingSetting;
+  })
 
   // let alarmSec = 9;
   const init = async () => {
+    console.log("INIT")
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(
       '/my_model/model.json',
@@ -43,7 +46,7 @@ const TrackingPose = () => {
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     onStart();
-    setSetting(true);
+    dispatch(setTrackingSetting(true));
   };
 
   const predictPose = async () => {
@@ -61,6 +64,7 @@ const TrackingPose = () => {
           endTime = dateFormat(new Date());
           //로그 저장
           log = { startTime, endTime, postureId: i };
+          console.log(log);
           dispatch(setLogArray(log));
           startTime = endTime;
           dispatch(setPose(prediction[i].className));
@@ -76,12 +80,13 @@ const TrackingPose = () => {
     webcam.update();
     await predictPose();
   }, [webcam]);
+
   const onStop = useCallback(
     (id, timerId) => {
+      webcam.stop();
       clearInterval(id);
       clearInterval(timerId);
-      webcam.stop();
-      setSetting(false);
+      dispatch(setTrackingSetting(false));      
     },
     [webcam],
   );
@@ -99,6 +104,7 @@ const TrackingPose = () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = dateFormat(new Date());
+    console.log(startTime);
     setTimerId(
       setInterval(() => {
         time += 1;
@@ -114,33 +120,20 @@ const TrackingPose = () => {
       }, 1000),
     ); // 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
-  }, [webcam]);
+    console.log(id);
+  }, [webcam,setTimerId,setId]);
 
-  // TODO mode가 stopLive로 바뀔 때
-  // useEffect(() => {
-  //   if (isStop) {
-  //     onStop(id, timerId);
-  //   }
-  // }, [isStop]);
 
   useEffect(() => {
     init();
-    dispatch(setMode("startLive"));
   }, []);
-  useEffect(()=>{
-    console.log(mode);
-    if(setting && mode==='startLive') onStart();
-    else if(mode === 'stopLive') onStop();
-    else if(mode === 'pausedLive') onPause();
-    else if(mode==='stretching') onStop();
-  },[mode])
-  // TODO : startLive mode일 때 , pauseMode일 때
-  // useEffect(() => {
-  //   console.log(isRunning);
-  //   if (isRunning === false) onPause(id, timerId);
-  //   if (isRunning && setting) onStart();
-  // }, [isRunning, setting]);
 
+  useEffect(()=>{
+    if(trackingSetting&&mode==='startLive') onStart();
+    else if(mode === 'stopLive') onStop(id,timerId);
+    else if(mode === 'pausedLive') onPause();
+    else if(mode==='stretching') onStop(id,timerId);
+  },[mode])
 
 };
 export default TrackingPose;

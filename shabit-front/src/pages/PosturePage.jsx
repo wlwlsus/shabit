@@ -8,6 +8,7 @@ import Logo from '../components/common/Logo';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
+import Webcam from '../components/TeachableMachineTest/Webcam';
 
 export default function PosturePage() {
   const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';
@@ -34,6 +35,7 @@ export default function PosturePage() {
       <Container>
         <Logo color={logoColor} size={'sm'} />
         <Outlet />
+        <Webcam/>
       </Container>
       <Sidebar />
     </PageWrapper>

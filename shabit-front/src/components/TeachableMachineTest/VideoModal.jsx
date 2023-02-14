@@ -3,9 +3,8 @@ import styled from 'styled-components';
 import { useSelector,useDispatch } from 'react-redux';
 import { BiDownload } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { setVideoModal } from '../../store/trackingSlice';
+import { setVideoModal,clearRecordedChunks } from '../../store/trackingSlice';
 import {setMode} from '../../store/modeSlice';
-
 import { BsFillXCircleFill } from 'react-icons/bs';
 
 export default function VideoModal() {
@@ -19,6 +18,7 @@ export default function VideoModal() {
 
   const goMain= () => {
     dispatch(setMode('stopLive'));
+    dispatch(clearRecordedChunks());
     dispatch(setVideoModal(false));
     navigate('/main');
   };
@@ -37,29 +37,19 @@ export default function VideoModal() {
       a.click();
       window.URL.revokeObjectURL(url);
     }
+    dispatch(clearRecordedChunks());
     dispatch(setVideoModal(false));
     dispatch(setMode('main'));
     dispatch(setVideoModal(false));
     navigate('/main');
   }
   useEffect(()=>{
-    console.log("여기요여기")
     //TODO video blob 합치기
     if(recordedChunks.length>0){
       const blob = new Blob(recordedChunks, {
         type: "video/webm"
       });
-      if(recordedChunks.length>=2){
-        const mergedBlob = new Blob(
-          blob,
-          { type: blob.type }
-          );
-          console.log(mergedBlob);
-        recordedVideoRef.current.src = window.URL.createObjectURL(mergedBlob);
-      }else{
       recordedVideoRef.current.src = window.URL.createObjectURL(blob);
-
-      }
       recordedVideoRef.current.playbackRate = 10;
       recordedVideoRef.current.play();
     }

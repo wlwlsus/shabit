@@ -16,12 +16,16 @@ import { postData } from '../../services/stat/post';
 import { useNavigate } from 'react-router-dom';
 import { setMode } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
+import {setVideoSetting} from '../../store/modeSlice';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const initStretchingMin = useSelector((state)=>{
+    return state.admin.stretchingTime/60;
+  })
   const stretchingMin = useSelector((state) => {
     return state.time.stretchTime.min;
   });
@@ -44,12 +48,14 @@ const Sidebar = () => {
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
-      dispatch(setMode('stretching'));
-      postData(userEmail,logArray).then(()=>{
-        setInitLogArray();
-      });
+      // dispatch(setMode('stretching'));
+      dispatch(setMode('pausedLive'));
+      // postData(userEmail,logArray).then(()=>{
+      //   setInitLogArray();
+      // });
       // TODO 스트레칭 시간 setting
-      dispatch(setInitStretchingTime(1));
+      dispatch(setInitStretchingTime(initStretchingMin));
+      // dispatch(setInitStretchingTime(initStretchingMin));
       dispatch(setStretchModal(true));
     }
   }, [stretchingMin,stretchingSec]);
@@ -64,7 +70,8 @@ const Sidebar = () => {
   // 방 나가기 버튼 누를 때
   const clickStop = () => {
     // 시간 같은거 모두 정지
-    dispatch(setMode('stopLive'))
+    dispatch(setMode('stopLive'));
+    dispatch(setVideoSetting(false));
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
@@ -73,11 +80,16 @@ const Sidebar = () => {
         setInitLogArray();
       })
     }
+    else{
+      setInitLogArray();
+    }
   };
   const clickPlayButton = () => {
+    dispatch(setMode('startLive'))
     setToggle(!toggle);
   };
   const clickPauseButton = () => {
+    dispatch(setMode('pausedLive'))
     setToggle(!toggle);
   };
 
