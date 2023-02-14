@@ -153,6 +153,7 @@ const SignupForm = () => {
   // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
   useEffect(() => {
     if (message) return;
+    if (!password && !password2 && !nickname && !email) return;
     if (password2.length > 4 && password !== password2) {
       setMessage('비밀번호가 일치하지 않습니다');
     }
