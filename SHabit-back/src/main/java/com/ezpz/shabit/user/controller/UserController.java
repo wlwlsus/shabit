@@ -40,6 +40,22 @@ public class UserController {
   private final UserService userService;
   private final EmailService emailService;
 
+  @Operation(summary = "소셜 가입 여부 확인 API")
+  @GetMapping(value = "/social/{email}")
+  public ResponseEntity<?> getSocialType(@Parameter(description = "회원 이메일", required = true, example = "ssafy123@gmail.com")
+                                         @PathVariable String email) {
+    try {
+      log.info("소셜 여부 확인 API");
+      return userService.getSocialType(email);
+    } catch (NoSuchElementException e) {
+      log.error(e.getMessage());
+      return Response.notFound("잘못된 요청입니다.");
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Response.serverError("서버 에러");
+    }
+  }
+
   // 프로필 사진 변경 API
   @Operation(summary = "프로필 사진 변경 API")
   @PutMapping(value = "/profile/{email}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -275,8 +291,8 @@ public class UserController {
   }
 
   @Operation(summary = "회원가입 API", responses = {
-          @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-          @ApiResponse(responseCode = "400", description = "회원가입 실패"),
+      @ApiResponse(responseCode = "200", description = "회원가입 성공"),
+      @ApiResponse(responseCode = "400", description = "회원가입 실패"),
   })
   @PostMapping("")
   public ResponseEntity<?> signUp(@RequestBody @Validated UserTestReqDto.SignUp signUp, Errors errors) {
@@ -292,9 +308,9 @@ public class UserController {
 
 
   @Operation(summary = "로그인 API", responses = {
-          @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
-          @Schema(implementation = UserTestResDto.UserInfo.class))),
-          @ApiResponse(responseCode = "400", description = "로그인 실패"),
+      @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema =
+      @Schema(implementation = UserTestResDto.UserInfo.class))),
+      @ApiResponse(responseCode = "400", description = "로그인 실패"),
   })
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody @Validated UserTestReqDto.Login login, Errors errors) {
@@ -310,8 +326,8 @@ public class UserController {
 
 
   @Operation(summary = "로그아웃 API", responses = {
-          @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
-          @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
+      @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+      @ApiResponse(responseCode = "400", description = "로그아웃 실패"),
   })
   @PostMapping("/logout")
   public ResponseEntity<?> logout(@RequestBody @Validated UserTestReqDto.Logout logout, Errors errors) {
@@ -323,9 +339,9 @@ public class UserController {
 
 
   @Operation(summary = "토큰 재발급 API", responses = {
-          @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
-          @Schema(implementation = UserTestResDto.TokenInfo.class))),
-          @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
+      @ApiResponse(responseCode = "200", description = "토큰 재발급 성공", content = @Content(schema =
+      @Schema(implementation = UserTestResDto.TokenInfo.class))),
+      @ApiResponse(responseCode = "400", description = "토큰 재발급 실패"),
   })
   @PostMapping("/token")
   public ResponseEntity<?> reissue(@RequestBody @Validated UserTestReqDto.Reissue reissue, Errors errors) {
@@ -337,9 +353,9 @@ public class UserController {
   }
 
   @Operation(summary = "회원 정보 API", responses = {
-          @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
-          @Schema(implementation = UserTestResDto.LoginUserRes.class))),
-          @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
+      @ApiResponse(responseCode = "200", description = "회원 정보 요청 성공", content = @Content(schema =
+      @Schema(implementation = UserTestResDto.LoginUserRes.class))),
+      @ApiResponse(responseCode = "400", description = "회원 정보 요청 실패"),
   })
 
   @GetMapping("/{email}")
