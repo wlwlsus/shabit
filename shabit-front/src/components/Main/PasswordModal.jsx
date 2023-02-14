@@ -64,7 +64,6 @@ export default function Modal() {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        console.log('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setPasswordMatch(false);
       } else {

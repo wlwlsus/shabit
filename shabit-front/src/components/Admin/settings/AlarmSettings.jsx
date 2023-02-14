@@ -15,9 +15,7 @@ export default function AlarmSettings() {
   const [alertTimeInput, setAlertTimeInput] = useState(0);
 
   useEffect(() => {
-    if (stretchingTime === 50 * 60 && alertTimeInput === 3 * 60) {
-      fetchAlarmTime();
-    }
+    fetchAlarmTime();
   }, []);
 
   useEffect(() => {
