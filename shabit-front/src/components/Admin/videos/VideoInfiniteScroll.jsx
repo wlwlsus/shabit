@@ -6,7 +6,7 @@ const VideoInfiniteScroll = ({ scrollProp, setScrollProp, vodsList }) => {
   const { page, category, length } = scrollProp;
   const [isLastPage, setIsLastPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [triggered, setTriggered] = useState(false);
+  const [triggered, setTriggered] = useState(true);
 
   const trigger = useRef();
   useIntersection(trigger, () => setTriggered(true));
@@ -30,7 +30,11 @@ const VideoInfiniteScroll = ({ scrollProp, setScrollProp, vodsList }) => {
   }, [category, length]);
 
   useEffect(() => {
-    if (!page) setTriggered(true);
+    if (!page) {
+      setIsLastPage(false);
+      setIsLoading(false);
+      setTriggered(true);
+    }
   }, [page]);
 
   useEffect(() => {
