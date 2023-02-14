@@ -5,7 +5,6 @@ import { fetchAlarmTime } from '../../../services/admin/get';
 import { putAlarmTime } from '../../../services/admin/put';
 import { typedUseSelector } from '../../../store';
 import { loadEffect } from '../../../styles/animation';
-import { fetchAlarmTime } from '../../../services/admin/get';
 
 export default function AlarmSettings() {
   const stretchingTime = typedUseSelector(

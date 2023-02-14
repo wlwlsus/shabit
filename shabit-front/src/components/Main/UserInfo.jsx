@@ -132,16 +132,7 @@ const ButtonWrapper = styled.div`
   position: absolute;
   right: 42rem;
   top: 4.5rem;
-`;
-
-const InputWrapper = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: ${(props) => props.theme.color.primary};
-`;
-
-const StyledInput = styled.input`
-  text-align: right;
+  animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const StyledButton = styled.button`
