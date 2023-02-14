@@ -67,15 +67,6 @@ const Pose = (start) => {
     setId(setInterval(tracking, 100));
   }, [webcam]);
 
-  const onStop = useCallback(
-    (id, timerId) => {
-      clearInterval(id);
-      clearInterval(timerId);
-      webcam.stop();
-    },
-    [webcam],
-  );
-
   const onPause = useCallback(
     (id, timerId) => {
       clearInterval(id);
@@ -91,10 +82,6 @@ const Pose = (start) => {
     if(kind==='pose'){
       text = `혹시 자세가 흐트러지셨나요? 올바른 자세는 척추 건강에 도움이 됩니다. :)`;
     }
-    else if(kind ==='stretching'){
-      text = `N시간 중 N분동안 00자세를 하셨습니다. 혹시 000가 불편하신가요?? 지금 00 스트레칭을 시작하시겠습니까?`;
-
-    }  
     if(Notification.permission==='granted'){
       notification = new Notification(`현재 자세 :${pose}`,{body:text, icon:img});
     }
@@ -104,10 +91,6 @@ const Pose = (start) => {
             notification = new Notification(`현재 자세 :${pose}`,{body:text, icon:img});
         }
       });
-    }
-    notification.onclick = () => {
-        window.focus();
-        this.cancel();
     }
 }   
 

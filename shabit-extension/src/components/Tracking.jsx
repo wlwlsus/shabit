@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { BsFillPlayCircleFill, BsPauseCircleFill } from 'react-icons/bs'
-// import Pose from './Pose';
+import Pose from './Pose';
 
 export default function Tracking({ user }) {
   const [start, setStart] = useState()
@@ -85,7 +85,7 @@ export default function Tracking({ user }) {
         >
           홈페이지로 이동하기
         </Text>
-        {/* <Pose start={start}/> */}
+        <Pose start={start}/>
       </Wrapper>
     </>
   )
