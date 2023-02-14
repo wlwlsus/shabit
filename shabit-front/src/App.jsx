@@ -60,12 +60,12 @@ function App() {
 
   //최초 접속시에 실행되는 자동 로그인 로직입니다.
   // (1) 리덕스 스토어에 토큰과 유저정보가 있는지 확인합니다.
-  const accessToken = store.getState().auth.accessToken;
-  const currentUserEmail = store.getState().auth.user.email;
   useEffect(() => {
     const loginCheck = async () => {
+      const accessToken = store.getState().auth.accessToken;
+      const currentUserEmail = store.getState().auth.user.email;
       // (2) 스토어에 유저정보가 있다면 이미 로그인 된 것으로 판단합니다.
-      if (currentUserEmail) return;
+      if (currentUserEmail && accessToken) return;
       // (3) 스토어에 유저 정보가 없으면
       let newToken = accessToken;
       let isAutoLogin = false;
