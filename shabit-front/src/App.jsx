@@ -44,7 +44,6 @@ import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
-import { fetchAlarmTime } from './services/admin/get';
 import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
@@ -66,7 +65,7 @@ function App() {
   useEffect(() => {
     const loginCheck = async () => {
       // (2) 스토어에 유저정보가 있다면 이미 로그인 된 것으로 판단합니다.
-      if (currentUserEmail) return fetchAlarmTime();
+      if (currentUserEmail) return;
       // (3) 스토어에 유저 정보가 없으면
       let newToken = accessToken;
       let isAutoLogin = false;
