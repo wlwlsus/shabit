@@ -23,6 +23,11 @@ const authLogin = async (email, password) => {
   }
 }
 
+// 크롬브라우저 시작시 storage 초기화
+chrome.runtime.onStartup.addListener(function () {
+  chrome.storage.sync.clear()
+})
+
 // 1초마다 갱신하는 알람
 const timer = () => {
   chrome.alarms.create({
@@ -31,6 +36,9 @@ const timer = () => {
   chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.storage.sync.get(['time'], (res) => {
       let time = res.time
+      if (!time) {
+        time = {s:0, m:0,h:0}
+      }
       time.s += 1
       if (time.s === 59) {
         time.s = 0
@@ -45,12 +53,6 @@ const timer = () => {
   })
 }
 
-// 크롬브라우저 시작시 storage 초기화
-chrome.runtime.onStartup.addListener(function () {
-  chrome.storage.sync.clear()
-  chrome.storage.sync.set({ time: { s: 0, m: 0, h: 0 } })
-  chrome.storage.sync.set({ status: true })
-})
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // 로그인
