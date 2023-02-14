@@ -209,7 +209,7 @@ const LoginForm = () => {
                 name="autoLogin"
                 checked={autoLogin}
                 onChange={onChecked}
-              />
+              />&nbsp;
               <span>자동 로그인</span>
             </Checkbox>
             <Div onClick={() => setForgotPassword(true)}>

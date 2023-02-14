@@ -82,7 +82,7 @@ export default function GoalContent() {
         <Blank></Blank>
         <P>{user.nickname} 님</P>
         <ShareButton>
-          <RiDownload2Line onClick={exportAsPicture} />
+          <RiDownload2Line title="이미지 다운로드" onClick={exportAsPicture} />
         </ShareButton>
       </HeaderWrapper>
       <GoalWrapper>

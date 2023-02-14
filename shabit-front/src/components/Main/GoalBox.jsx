@@ -24,7 +24,8 @@ export default function GoalBox({ today }) {
         <Title>목표 달성</Title>
       </TitleWrapper>
       <IconWrapper>
-        <HiPencilAlt
+        <HiPencilAlt 
+          title="목표 설정"
           onClick={() => {
             dispatch(setGoalModal(true));
           }}
@@ -163,8 +164,10 @@ const IconWrapper = styled.div`
   padding: 0.3rem;
   font-size: 1.5rem;
   animation: 0.8s ease-in ${loadEffect.down};
+  transition: all 0.1s linear;
 
   &:hover {
     cursor: pointer;
+    transform: scale(1.15);
   }
 `;
