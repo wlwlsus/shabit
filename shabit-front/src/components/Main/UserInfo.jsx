@@ -193,6 +193,10 @@ const ImgWrapper = styled.div`
     text-shadow: 0px 0px 3px black;
     cursor: pointer;
   }
+
+  &:hover span {
+    visibility: visible;
+  }
 `;
 
 const ContentWrapper = styled.div`
