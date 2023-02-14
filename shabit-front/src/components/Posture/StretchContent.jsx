@@ -21,7 +21,7 @@ export default function StretchContent() {
 }
 
 const InfoBox = styled.div`
-  width: 45rem;
+  width: 90%;
   height: 3rem;
   background-color: ${(props) => props.theme.color.secondary};
   border: 0.1rem solid ${(props) => props.theme.color.primary};

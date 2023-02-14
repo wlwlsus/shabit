@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVideoURL, setStretchModal } from '../../store/videoSlice';
+import { setOnTracking } from '../../store/trackingSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
 
 import VideoList from './VideoList';
@@ -24,6 +25,7 @@ export default function Modal() {
         setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`),
       );
       dispatch(setStretchModal(false));
+      dispatch(setOnTracking(false)); //true 는 tracking중
       navigate('/posture/stretch');
     } else {
       setErr('스트레칭 영상을 선택해주세요.');
@@ -41,14 +43,22 @@ export default function Modal() {
         />
       </ModalHeader>
       <Container>
+        {err && !selected && <Err>{err}</Err>}
         <VideoList />
         <ModalFooter>
           <VideoInfo>
-            {err && !selected && <Err>{err}</Err>}
             <span>
               스트레칭 종류 : {titleTable[selected?.category?.categoryId]}
             </span>
-            <span>소요 시간 : {selected?.originalLength}</span>
+            {selected ? (
+              <span>
+                소요 시간 :{' '}
+                {selected?.originalLength?.split(':')[0].padStart('2', 0)}분{' '}
+                {selected?.originalLength?.split(':')[1].padStart('2', 0)}초
+              </span>
+            ) : (
+              <span>소요 시간 : 00분 00초</span>
+            )}
           </VideoInfo>
           <IconWrapper>
             <BsPlayCircleFill onClick={playVideo} />
@@ -112,6 +122,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -122,8 +134,8 @@ const Err = styled.div`
   z-index: 999;
   color: ${(props) => props.theme.color.redColor};
   position: absolute;
-  top: 37%;
-  left: 43%;
+  top: 5%;
+  left: 39%;
 `;
 
 const ModalFooter = styled.div`

@@ -38,7 +38,7 @@ const MyCapture = () => {
     return state.tracking.capture;
   });
   const dataURLtoFile = (dataurl, fileName) => {
-    var arr = dataurl.split(','),
+    var arr = dataurl?.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
       bstr = atob(arr[1]),
       n = bstr.length,
@@ -85,9 +85,9 @@ const MyCapture = () => {
       const time = new Date().toLocaleTimeString('en-US', options);
       const imageSrc = webcamRef.current.getScreenshot();
       let poseId;
-      if (curPoseId == 0) poseId = 1;
-      else if (curPoseId == 3) poseId = 2;
-      else if (curPoseId == 1 || curPoseId == 2) poseId = 3;
+      if (curPoseId === 0) poseId = 1;
+      else if (curPoseId === 3) poseId = 2;
+      else if (curPoseId === 1 || curPoseId === 2) poseId = 3;
       else poseId = 4;
       const file = dataURLtoFile(imageSrc, `${time} ${poseId}.jpg`);
       const formData = new FormData();
@@ -151,7 +151,7 @@ const NoticeText = styled.div`
 `;
 
 const InfoBox = styled.div`
-  width: 45rem;
+  width: 90%;
   height: 3rem;
   background-color: ${(props) => props.theme.color.secondary};
   border: 0.1rem solid ${(props) => props.theme.color.primary};
@@ -166,8 +166,8 @@ const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
   margin-top: 1rem;
-  width:80%;
-  height:80%;
+  width: 80%;
+  height: 80%;
 `;
 
 export default MyCapture;

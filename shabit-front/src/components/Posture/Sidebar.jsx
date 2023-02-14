@@ -8,15 +8,22 @@ import {
   CgSandClock,
   CgPlayPause,
   CgPlayButton,
+  CgRedo,
 } from 'react-icons/cg';
 import { setIsRunning, setIsStop } from '../../store/timeSlice';
-import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
+import {
+  setInitLogArray,
+  setOnTracking,
+  setVideoModal,
+} from '../../store/trackingSlice';
 import { setStretchModal } from '../../store/videoSlice';
 import { postData } from '../../services/stat/post';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isRunning = useSelector((state) => {
     return state.time.isRunning;
@@ -36,25 +43,28 @@ const Sidebar = () => {
   const userEmail = useSelector((state) => {
     return state.auth.user.email;
   });
+  const onTracking = useSelector((state) => {
+    return state.tracking.onTracking;
+  });
 
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
-      notify(pose, 'stretching');
       // stretching modal띄우기
       dispatch(setStretchModal(true));
-      postData(userEmail,logArray).then(()=>{
+      postData(userEmail, logArray).then(() => {
         setInitLogArray();
       });
       //timer 지우기 -> clearInterval()
       dispatch(setIsStop(true));
+      notify(pose, 'stretching');
     }
   }, [isRunning]);
 
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
-  const usedMin = useSelector((state)=>{
-    return state.time.usedTime.min
+  const usedMin = useSelector((state) => {
+    return state.time.usedTime.min;
   });
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
 
@@ -65,10 +75,10 @@ const Sidebar = () => {
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
-    if(usedMin>1){
-        postData(userEmail,logArray).then(()=>{
+    if (usedMin > 1) {
+      postData(userEmail, logArray).then(() => {
         setInitLogArray();
-      })
+      });
     }
   };
   const clickPlayButton = () => {
@@ -79,34 +89,49 @@ const Sidebar = () => {
     dispatch(setIsRunning(false));
     setToggle(!toggle);
   };
+
+  const goToLive = () => {
+    dispatch(setOnTracking(true));
+    dispatch(setIsRunning(true));
+    dispatch(setIsStop(false));
+    navigate('/posture/live');
+  };
   return (
     <ContainerWrapper>
-      <TimeContainer>
+      {onTracking && (
+        <TimeContainer>
+          <IconWrapper>
+            <CgTimer />
+            <Text>총 이용 시간</Text>
+            <Text>{usedTime}</Text>
+          </IconWrapper>
+          <IconWrapper>
+            <CgSandClock />
+            <Text>스트레칭 시간</Text>
+            <Text>{stretchingTime}</Text>
+          </IconWrapper>
+        </TimeContainer>
+      )}
+      {!onTracking && (
         <IconWrapper>
-          <CgTimer />
-          <Text>총 이용 시간</Text>
-          <Text>{usedTime}</Text>
+          <CgRedo onClick={goToLive} />
+          <Text>돌아가기</Text>
         </IconWrapper>
-        <IconWrapper>
-          <CgSandClock />
-          <Text>스트레칭 시간</Text>
-          <Text>{stretchingTime}</Text>
-        </IconWrapper>
-      </TimeContainer>
+      )}
       <CapturingContainer>
         {toggle ? (
-          <IconWrapper>
-            <CgPlayPause onClick={clickPauseButton} />
+          <IconWrapper onClick={clickPauseButton}>
+            <CgPlayPause />
             <Text>일시정지</Text>
           </IconWrapper>
         ) : (
-          <IconWrapper>
-            <CgPlayButton onClick={clickPlayButton} />
+          <IconWrapper onClick={clickPlayButton}>
+            <CgPlayButton />
             <Text>시작</Text>
           </IconWrapper>
         )}
-        <IconWrapper>
-          <ImExit onClick={clickStop} />
+        <IconWrapper onClick={clickStop} r>
+          <ImExit />
           <Text>종료하기</Text>
         </IconWrapper>
       </CapturingContainer>
@@ -127,6 +152,8 @@ const ContainerWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 3rem 0;
+
+  }
 `;
 const TimeContainer = styled.div``;
 const CapturingContainer = styled.div`
