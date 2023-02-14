@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  accessToken: '',
+  user: { email: '', nickname: '', profile: '', theme: 0 },
+  isAdmin: false,
+  passwordModal: false,
+};
+
 const authSlice = createSlice({
   name: 'authSlice',
-  initialState: {
-    accessToken: '',
-    user: { email: '', nickname: '', profile: '', theme: 0 },
-    isAdmin: false,
-    passwordModal: false,
-  },
+  initialState,
   reducers: {
     setPasswordModal: (state, action) => {
       state.passwordModal = action.payload;
@@ -21,13 +23,8 @@ const authSlice = createSlice({
     setIsAdminState: (state, action) => {
       state.isAdmin = action.payload;
     },
-    clearAuthState: (state) => {
-      state = {
-        accessToken: '',
-        user: { email: '', nickname: '', profile: '', theme: 0 },
-        isAdmin: false,
-        passwordModal: false,
-      };
+    clearAuthState: () => {
+      return initialState;
     },
   },
 });

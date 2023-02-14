@@ -110,7 +110,6 @@ const SignupForm = () => {
           setNeedCheck(true);
         })
         .catch((err) => {
-          console.log(err.message);
           setMessage(err.message);
           setNeedCheck(false);
         });

@@ -44,16 +44,18 @@ const VideoCard = ({
 
   const moveToPage = (id) => {
     window.open(videoURL + id);
-  }
+  };
 
   return (
     <StyledCardWrapper className="container">
       <div className="card">
         {!isDeleting ? (
-          <DeleteButton className="tag delete-tag" 
-          onClick={() => {
-            setIsDeleting(true);
-          }}>
+          <DeleteButton
+            className="tag delete-tag"
+            onClick={() => {
+              setIsDeleting(true);
+            }}
+          >
             삭제하기
           </DeleteButton>
         ) : (
@@ -66,9 +68,10 @@ const VideoCard = ({
                 backgroundColor: '#ffa200',
               }}
               onClick={() => {
-                deleteVod(videoId);
-                setScrollProp({ ...scrollProp, page: 0 });
-                setIsDeleting(false);
+                deleteVod(videoId).then(() => {
+                  setScrollProp({ ...scrollProp, page: 0 });
+                  setIsDeleting(false);
+                });
               }}
             >
               삭제
@@ -93,7 +96,16 @@ const VideoCard = ({
           <div className="card-body">
             {videoLengthTag}
             <div style={{ height: '70px', overflow: 'hidden' }}>
-              <div style={{ display: '-webkit-box', whiteSpace: 'pre-wrap', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+              <div
+                style={{
+                  display: '-webkit-box',
+                  whiteSpace: 'pre-wrap',
+                  WebkitLineClamp: '3',
+                  WebkitBoxOrient: 'vertical',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                }}
+              >
                 {title}
               </div>
             </div>
@@ -191,7 +203,7 @@ const DeleteButton = styled.span`
 `;
 
 const CardContent = styled.div`
-  &:hover{
+  &:hover {
     cursor: pointer;
   }
 `;
