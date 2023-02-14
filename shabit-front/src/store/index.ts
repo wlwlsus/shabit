@@ -11,6 +11,7 @@ import adminSlice from './adminSlice';
 import goalSlice from './goalSlice';
 import poseSlice from './poseSlice';
 import trackingSlice from './trackingSlice';
+import modeSlice from './modeSlice';
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     goal: goalSlice.reducer,
     pose: poseSlice.reducer,
     tracking: trackingSlice.reducer,
+    mode:modeSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

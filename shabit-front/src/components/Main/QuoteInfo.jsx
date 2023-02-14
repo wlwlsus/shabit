@@ -5,13 +5,13 @@ import { loadEffect } from '../../styles/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { setIsRunning, setIsStop } from '../../store/timeSlice';
-import { useDispatch } from 'react-redux';
 import { fetchAlarmTime } from '../../services/admin/get';
+import { setMode } from '../../store/modeSlice';
+import { useDispatch } from 'react-redux';
 
 export default function QuoteInfo() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const defaultQuote =
     'SHabit의 트래킹 기능을 사용해보세요! 바른자세가 될 수 있도록 도와드립니다.';
 
@@ -33,9 +33,9 @@ export default function QuoteInfo() {
       <Start>
         <BsFillCaretRightSquareFill
           onClick={() => {
-            dispatch(setIsRunning(true));
-            dispatch(setIsStop(false));
+            //TODO 처리(시작)
             fetchAlarmTime();
+            dispatch(setMode('startLive'));
             navigate('/posture/live');
           }}
         />

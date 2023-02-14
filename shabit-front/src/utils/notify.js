@@ -22,7 +22,7 @@
     }
     notification.onclick = () => {
         window.focus();
-        this.cancel();
+        // this.cancel();
     }
 }    
 export default notify;

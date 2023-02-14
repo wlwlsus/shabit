@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect,useState } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,16 +10,15 @@ const MyCapture = () => {
   const dispatch = useDispatch();
   const webcamRef = useRef(null); //window
   const mediaRecorderRef = useRef(null); //viewRef
+  const [setting, setSetting] = useState(false);
 
-  const isStop = useSelector((state) => {
-    return state.time.isStop;
-  });
   const curPoseId = useSelector((state) => {
     return state.pose.poseId;
   });
-  const isRunning = useSelector((state) => {
-    return state.time.isRunning;
-  });
+
+  const mode = useSelector((state)=>{
+    return state.mode.mode;
+  })
 
   var chunkData = [];
   let resumeId, pauseId;
@@ -37,6 +36,18 @@ const MyCapture = () => {
   const captureTiming = useSelector((state) => {
     return state.tracking.capture;
   });
+  // 캡쳐 시작
+  const init = useCallback(() => {
+    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
+      mimeType: 'video/webm',
+    });
+    mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
+      chunkData = [...chunkData, event.data];
+      dispatch(setRecordedChunks(chunkData));
+    });
+    setSetting(true);
+  }, [webcamRef, mediaRecorderRef]);
+
   const dataURLtoFile = (dataurl, fileName) => {
     var arr = dataurl.split(','),
       mime = arr[0].match(/:(.*?);/)[1],
@@ -49,31 +60,7 @@ const MyCapture = () => {
     }
     return new File([u8arr], fileName, { type: mime });
   };
-  // 캡쳐 시작
-  const startCapture = useCallback(() => {
-    mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-      mimeType: 'video/webm',
-    });
-    mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
-      chunkData = [...chunkData, event.data];
-      dispatch(setRecordedChunks(chunkData));
-    });
-
-    mediaRecorderRef.current.start();
-    resumeId = setInterval(() => {
-      mediaRecorderRef.current.pause();
-    }, 1000);
-    //TODO:나중에 1분으로 수정해야됨
-    pauseId = setInterval(() => {
-      mediaRecorderRef.current.resume();
-    }, 3000);
-  }, [webcamRef, mediaRecorderRef]);
-  // 캡쳐할 때 필요
-
-  useEffect(() => {
-    if (isStop) stopCapture();
-  }, [isStop]);
-
+  
   const capturePose = useCallback(
     (curPoseId, curPose) => {
       var options = {
@@ -92,19 +79,16 @@ const MyCapture = () => {
       const file = dataURLtoFile(imageSrc, `${time} ${poseId}.jpg`);
       const formData = new FormData();
       formData.append('image', file, `${time} ${poseId}.jpg`);
-      console.log(`${time} ${poseId}.jpg`);
+      console.loga(`${time} ${poseId}.jpg`);
       postImage(userEmail, formData);
       setCapture(false);
     },
     [webcamRef],
   );
 
-  useEffect(() => {
-    if (captureTiming) capturePose(curPoseId, curPose);
-  }, [captureTiming]);
 
   // 방 나가기 클릭하면 -> 종료 버튼 누르고나면
-  const stopCapture = useCallback(() => {
+  const onStop = useCallback(() => {
     mediaRecorderRef.current.stop();
     let stream = webcamRef.current.stream;
     const tracks = stream.getTracks();
@@ -114,6 +98,37 @@ const MyCapture = () => {
     clearInterval(pauseId);
   }, [mediaRecorderRef, webcamRef]);
 
+  const onPause = useCallback(()=>{
+    if(mediaRecorderRef.current.state!=='paused'){
+      mediaRecorderRef.current.pause();
+    }
+    clearInterval(resumeId);
+    clearInterval(pauseId);
+  }, [mediaRecorderRef])
+
+  const onStart = useCallback(()=>{
+    mediaRecorderRef.current.start();
+    resumeId = setInterval(() => {
+      mediaRecorderRef.current.pause();
+    }, 1000);
+
+    //TODO:나중에 1분으로 수정해야됨
+    pauseId = setInterval(() => {
+      mediaRecorderRef.current.resume();
+    }, 3000);
+  }, [webcamRef, mediaRecorderRef])
+
+  useEffect(()=>{
+    if(setting && mode === 'startLive') onStart();
+    if(mode === 'stopLive') onStop();
+    else if(mode === 'pausedLive') onPause();
+    else if(mode==='stretching') onStop();
+  },[mode])
+
+  useEffect(() => {
+    if (captureTiming) capturePose(curPoseId, curPose);
+  }, [captureTiming]);
+
   return (
     <ContainerWrapper>
       {curPose ? (
@@ -121,7 +136,7 @@ const MyCapture = () => {
           <InfoBox>현재자세 : {curPose}</InfoBox>
           <WebcamWrapper>
             <Webcam
-              onUserMedia={startCapture}
+              onUserMedia={init}
               audio={false}
               ref={webcamRef}
               mirrored={true}

@@ -10,24 +10,19 @@ import {
   CgPlayButton,
   CgRedo
 } from 'react-icons/cg';
-import { setIsRunning, setIsStop } from '../../store/timeSlice';
 import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
-import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
+import { setStretchModal } from '../../store/videoSlice';
 import { postData } from '../../services/stat/post';
 import { useNavigate } from 'react-router-dom';
 import { fetchAlarmTime } from '../../services/admin/get';
+import { setMode } from '../../store/modeSlice';
+import { setInitTime } from '../../store/timeSlice';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isRunning = useSelector((state) => {
-    return state.time.isRunning;
-  });
-  const isStop = useSelector((state) => {
-    return state.time.isStop;
-  });
   const stretchingMin = useSelector((state) => {
     return state.time.stretchTime.min;
   });
@@ -46,18 +41,42 @@ const Sidebar = () => {
   const stretchMode = useSelector((state)=>{
     return state.video.stretchingMode;
   })
-  useEffect(() => {
-    if (stretchingMin === 0 && stretchingSec === 0) {
-      notify(pose, 'stretching');
-      // stretching modal띄우기
-      dispatch(setStretchModal(true));
-      postData(userEmail,logArray).then(()=>{
-        setInitLogArray();
-      });
-      //timer 지우기 -> clearInterval()
-      dispatch(setIsStop(true));
+  const mode = useSelector((state)=>{
+    return state.mode.mode;
+  })
+    
+
+  // TODO stretching mode로 바꾸기
+  useEffect(()=>{
+    console.log(stretchingMin);
+    const stretchingTimer = ()=>{
+      setTimeout(()=>{
+        notify(pose, 'stretching');
+        postData(userEmail,logArray).then(()=>{
+          setInitLogArray();
+        });
+        // TODO 스트레칭 시간 setting
+        dispatch(setStretchModal(true));
+      },(stretchingMin*60+stretchingSec)*1000)
     }
-  }, [isRunning]);
+    if(mode==='startLive'){
+       stretchingTimer();
+    }
+  },[mode])
+  useEffect(()=>{
+    console.log(stretchingMin)
+},[stretchingMin])
+  // useEffect(() => {
+  //   if (stretchingMin === 0 && stretchingSec === 0) {
+  //     notify(pose, 'stretching');
+  //     dispatch(setMode('stretching'));
+  //     postData(userEmail,logArray).then(()=>{
+  //       setInitLogArray();
+  //     });
+  //     // TODO 스트레칭 시간 setting
+  //     dispatch(setInitTime(50));
+  //   }
+  // }, []);
 
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
@@ -69,8 +88,9 @@ const Sidebar = () => {
   // 방 나가기 버튼 누를 때
   const clickStop = () => {
     // 시간 같은거 모두 정지
-    dispatch(setIsStop(true));
-    dispatch(setIsRunning(false));
+    // dispatch(setIsStop(true));
+    // dispatch(setIsRunning(false));
+    dispatch(setMode('stopLive'))
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
@@ -81,21 +101,17 @@ const Sidebar = () => {
     }
   };
   const clickPlayButton = () => {
-    dispatch(setIsRunning(true));
     setToggle(!toggle);
   };
   const clickPauseButton = () => {
-    dispatch(setIsRunning(false));
     setToggle(!toggle);
   };
 
-  // 돌아가기 버튼 누를 때
+  // 돌아가기 버튼 누를 때 TODO 라이브 모드로 변경
   const goToLive = ()=>{
-    dispatch(setStretchingMode(false));
-    dispatch(setIsRunning(true));
-    fetchAlarmTime().then(()=>navigate('/posture/live'));
-    dispatch(setIsStop(false));
-    console.log("GOTOLIVE",isStop);
+    dispatch(setStretchModal(false));
+    dispatch(setMode('startLive'));
+    navigate('/posture/live');
   }
   return (
     <ContainerWrapper>

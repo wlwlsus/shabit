@@ -19,13 +19,10 @@ export default function PosturePage() {
   const isStretchModalOpen = useSelector((state) => {
     return state.video.stretchModal;
   });
+
   useEffect(() => {
     const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
     const user = JSON.parse(sessionStorage.getItem('user'));
-    // if (!accessToken && !user) {
-    //   return navigate('/login');
-    // }
-
     dispatch(setTokenState(accessToken));
     dispatch(setUserState(user));
   }, [navigate, dispatch]);
