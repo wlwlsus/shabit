@@ -26,7 +26,7 @@ export const resetPassword = async (email: string): Promise<boolean> => {
     .then(() => {
       return Promise.resolve(true);
     })
-    .catch(() => Promise.reject(false));
+    .catch((err) => Promise.reject(err));
 };
 
 export const changePassword = async (
