@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVideoURL, setStretchModal } from '../../store/videoSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
-
+import { setStretchingMode } from '../../store/videoSlice';
 import VideoList from './VideoList';
+import { setMode } from '../../store/modeSlice';
 
 export default function Modal() {
   const [err, setErr] = useState();
@@ -18,8 +19,13 @@ export default function Modal() {
   const navigate = useNavigate();
 
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
+  // TODO stretching mode로 바꿔야됨
+  // 스트레칭 시작할 때 -> post
   const playVideo = () => {
     if (selected) {
+      dispatch(setMode('stretching'));
+      // 시간 같은거 모두 정지
+      dispatch(setStretchingMode(true));
       dispatch(
         setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`),
       );
@@ -37,6 +43,9 @@ export default function Modal() {
         <BsFillXCircleFill
           onClick={() => {
             dispatch(setStretchModal(false));
+            dispatch(setStretchingMode(false));
+            dispatch(setMode('startLive'));
+            navigate('/posture/live');
           }}
         />
       </ModalHeader>
@@ -112,6 +121,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -122,8 +133,8 @@ const Err = styled.div`
   z-index: 999;
   color: ${(props) => props.theme.color.redColor};
   position: absolute;
-  top: 37%;
-  left: 43%;
+  top: 5%;
+  left: 35%;
 `;
 
 const ModalFooter = styled.div`

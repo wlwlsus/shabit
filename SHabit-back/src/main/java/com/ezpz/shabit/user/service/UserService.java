@@ -14,6 +14,8 @@ public interface UserService {
 
   boolean checkOAuthAccount(String email);
 
+  ResponseEntity<?> getSocialType(String email);
+
   ResponseEntity<?> signUp(UserTestReqDto.SignUp signUp);
 
   ResponseEntity<?> login(UserTestReqDto.Login login);

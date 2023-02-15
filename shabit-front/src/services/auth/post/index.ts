@@ -4,6 +4,7 @@ import {
   setUserState,
   setTokenState,
   setIsAdminState,
+  clearAuthState,
 } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 import jwt_decode from 'jwt-decode';
@@ -92,6 +93,7 @@ export const logout = async (): Promise<boolean> => {
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
       sessionStorage.removeItem('user');
+      store.dispatch(clearAuthState());
       return Promise.resolve(true);
     })
     .catch(() => Promise.reject(false));

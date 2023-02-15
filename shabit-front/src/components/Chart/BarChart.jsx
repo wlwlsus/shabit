@@ -15,7 +15,7 @@ const BarChart = ({ user }) => {
     themeContext.color.redColor,
     themeContext.color.yellowColor,
   ];
-  const nameTable = [0, '바른 자세', '거북목', '누운 자세', '비스듬한 자세'];
+  const nameTable = [0, '바른 자세', '거북목', '비스듬한 자세', '누운 자세'];
 
   useEffect(() => {
     fetchDaily(user.email).then((res) => {

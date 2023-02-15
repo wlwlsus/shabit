@@ -4,8 +4,6 @@ import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
-import { shallowEqual } from 'react-redux';
-import { typedUseSelector } from '../../store';
 import { fetchTodayPostureTime } from '../../services/goal/get';
 
 export default function HistoryContent() {
@@ -13,9 +11,7 @@ export default function HistoryContent() {
   const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
 
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  }, shallowEqual);
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
     if (!user.email) return;
@@ -37,7 +33,6 @@ export default function HistoryContent() {
 
   const [total, setTotal] = useState('0분');
   const [time, setTime] = useState('0분');
-
   useEffect(() => {
     const mounted = async () => {
       fetchTodayPostureTime(user.email).then((res) => {
@@ -124,16 +119,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: start;
   margin-left: 3.5rem;
   background-color: ${(props) => props.theme.color.secondary};
   color: ${(props) => props.theme.color.primary};
   font-weight: bold;
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
