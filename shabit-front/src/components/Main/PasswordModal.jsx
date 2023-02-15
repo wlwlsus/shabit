@@ -64,14 +64,14 @@ export default function Modal() {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
+        setMessage('비밀번호는 영대소문자/숫자/\n특수문자를 사용해주세요.');
         setPasswordMatch(false);
       } else {
         setMessage('');
         setPasswordMatch(true);
       }
     }
-  }, [newpassword, newpassword2]);
+  }, [newpassword, newpassword2, password]);
 
   // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function Modal() {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
+        setMessage('비밀번호는 영대소문자/숫자/\n특수문자를 사용해주세요.');
       }
     }
   }, [message]);
@@ -110,8 +110,9 @@ export default function Modal() {
           FireConfirm('비밀번호가 변경되었습니다.');
           dispatch(setPasswordModal(false));
         })
-        .catch(() => {
-          FireAlert('비밀번호 변경에 실패하였습니다.');
+        .catch((err) => {
+          console.log(err);
+          setMessage(err.message || '비밀번호 변경에 실패하였습니다.');
         });
     }
   };
@@ -295,7 +296,13 @@ const OkButton = styled.div`
 `;
 
 const Msg = styled.div`
+  white-space: pre-wrap;
   color: ${(props) => props.theme.color.redColor};
   position: absolute;
+  padding-top: 0.5rem;
+  width: 15rem;
+  font-size: small;
+  text-align: center;
+  word-break: keep-all;
   top: 12rem;
 `;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCapture, setRecordedChunks } from '../../store/trackingSlice';
 import { postImage } from '../../services/info/post';
-import {setVideoSetting} from '../../store/modeSlice';
+import { setVideoSetting } from '../../store/modeSlice';
 
 // posture page에 배치하고 어떻게 배치해야할지 모르겟음
 const MyCapture = () => {
@@ -14,19 +14,23 @@ const MyCapture = () => {
   const [deviceId, setDeviceId] = useState({});
   const [devices, setDevices] = useState([]);
 
+  const stretchingMode = useSelector((state) => {
+    return state.video.stretchingMode;
+  });
+
   const curPoseId = useSelector((state) => {
     return state.pose.poseId;
   });
 
-  const mode = useSelector((state)=>{
+  const mode = useSelector((state) => {
     return state.mode.mode;
-  })
+  });
 
-  const videoSetting = useSelector((state)=>{
+  const videoSetting = useSelector((state) => {
     return state.mode.videoSetting;
-  })
+  });
 
-  var chunkData = useSelector((state)=>{
+  var chunkData = useSelector((state) => {
     return state.tracking.recordedChunks;
   });
   let resumeId, pauseId;
@@ -47,7 +51,7 @@ const MyCapture = () => {
 
   // 캡쳐 시작
   const init = useCallback(() => {
-    if(videoSetting===false){
+    if (videoSetting === false) {
       mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
         mimeType: 'video/webm',
       });
@@ -74,7 +78,7 @@ const MyCapture = () => {
     }
     return new File([u8arr], fileName, { type: mime });
   };
-  
+
   const capturePose = useCallback(
     (curPoseId, curPose) => {
       var options = {
@@ -99,7 +103,6 @@ const MyCapture = () => {
     [webcamRef],
   );
 
-
   // 방 나가기 클릭하면 -> 종료 버튼 누르고나면
   const onStop = useCallback(() => {
     mediaRecorderRef.current.stop();
@@ -112,15 +115,15 @@ const MyCapture = () => {
     clearInterval(pauseId);
   }, [mediaRecorderRef, webcamRef]);
 
-  const onPause = useCallback(()=>{
-    if(mediaRecorderRef.current.state!=='paused'){
+  const onPause = useCallback(() => {
+    if (mediaRecorderRef.current.state !== 'paused') {
       mediaRecorderRef.current.pause();
     }
     clearInterval(resumeId);
     clearInterval(pauseId);
-  }, [mediaRecorderRef])
+  }, [mediaRecorderRef]);
 
-  const onStart = useCallback(()=>{
+  const onStart = useCallback(() => {
     mediaRecorderRef.current.start();
     // mediaRecorderRef.start();
     resumeId = setInterval(() => {
@@ -131,11 +134,11 @@ const MyCapture = () => {
     pauseId = setInterval(() => {
       mediaRecorderRef.current.resume();
     }, 3000);
-  }, [webcamRef, mediaRecorderRef])
-  
-  const onResume = useCallback(()=>{
+  }, [webcamRef, mediaRecorderRef]);
+
+  const onResume = useCallback(() => {
     mediaRecorderRef.current.resume();
-   
+
     resumeId = setInterval(() => {
       mediaRecorderRef.current.pause();
     }, 1000);
@@ -144,7 +147,7 @@ const MyCapture = () => {
     pauseId = setInterval(() => {
       mediaRecorderRef.current.resume();
     }, 3000);
-  }, [webcamRef, mediaRecorderRef])
+  }, [webcamRef, mediaRecorderRef]);
 
     const handleDevices = useCallback((mediaDevices) => {
         setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput"));
@@ -155,46 +158,53 @@ const MyCapture = () => {
         navigator.mediaDevices.enumerateDevices().then(handleDevices);
     },[handleDevices]);
 
-  useEffect(()=>{
-    if(videoSetting && mode==='startLive') onResume();
-    if(mode === 'stopLive') onStop();
-    else if(mode === 'pausedLive') onPause();
-    else if(mode==='stretching') onPause();
-  },[mode])
+  useEffect(() => {
+    if (videoSetting && mode === 'startLive') onResume();
+    if (mode === 'stopLive') onStop();
+    else if (mode === 'pausedLive') onPause();
+    else if (mode === 'stretching') onPause();
+  }, [mode]);
 
   useEffect(() => {
     if (captureTiming) capturePose(curPoseId, curPose);
   }, [captureTiming]);
 
+  const resize = {
+    width: '47%',
+    height: '60%',
+    position: 'absolute',
+    right: '3%',
+    top: '25%',
+    borderRadius: '1rem',
+  };
+
   return (
     <ContainerWrapper>
       {curPose ? (
-        <>
-          <WebcamWrapper>
-            <Webcam
-              onUserMedia={init}
-              audio={false}
-              ref={webcamRef}
-              mirrored={true}
-              videoConstraints={{deviceId}}
-              screenshotFormat="image/jpg"
-            />
-          </WebcamWrapper>
-          {devices.length && <DropDown>
-            <DropBtn>카메라 선택하기</DropBtn>
-            <DropDownContent>
-                {devices.map((device, key) => (
-                  <button
-                    key={device.deviceId}
-                    onClick={() => setDeviceId(device.deviceId)}
-                  >
-                    {device.label || `Device ${key + 1}`}
-                  </button>
-                ))}
-            </DropDownContent>
-          </DropDown>
-          }
-      </>
+        <WebcamWrapper style={stretchingMode ? resize : null}>
+          <Webcam
+            onUserMedia={init}
+            audio={false}
+            ref={webcamRef}
+            mirrored={true}
+            videoConstraints={deviceId}
+            screenshotFormat="image/jpg"
+          />
+        </WebcamWrapper>
+         {devices.length && <DropDown>
+          <DropBtn>카메라 선택하기</DropBtn>
+          <DropDownContent>
+              {devices.map((device, key) => (
+                <button
+                  key={device.deviceId}
+                  onClick={() => setDeviceId(device.deviceId)}
+                >
+                  {device.label || `Device ${key + 1}`}
+                </button>
+              ))}
+          </DropDownContent>
+        </DropDown>
+        }
       ) : (
         <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
       )}
@@ -218,8 +228,8 @@ const NoticeText = styled.div`
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
-  width:100%;
-  height:80%;
+  width: 90%;
+  height: 80%;
   display: flex;
   align-items: center;
   justify-content: center;

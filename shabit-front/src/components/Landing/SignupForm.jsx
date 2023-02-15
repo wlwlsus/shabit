@@ -85,13 +85,15 @@ const SignupForm = () => {
   const [nicknameMatch, setNicknameMatch] = useState(false);
   useEffect(() => {
     if (nickname.length) {
-      if (nickname.length > 16 || nickname.length < 2) {
-        setMessage('닉네임은 2~16글자 입니다.');
+      if (nickname.length > 14 || nickname.length < 2) {
+        setMessage('닉네임은 2~14글자 입니다.');
         setNicknameMatch(false);
       } else if (
-        !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
+        !nickname.match(
+          /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[a-zA-Z0-9ㄱ-ㅎ가-힣]{2,14}$/,
+        )
       ) {
-        setMessage('닉네임에 특수문자/영대문자를 사용할 수 없습니다.');
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
         setNicknameMatch(false);
       } else {
         setMessage('');
@@ -172,12 +174,14 @@ const SignupForm = () => {
       }
     }
     if (nickname.length) {
-      if (nickname.length > 16 || nickname.length < 2) {
-        setMessage('닉네임은 2~16글자 입니다.');
+      if (nickname.length > 14 || nickname.length < 2) {
+        setMessage('닉네임은 2~14글자 입니다.');
       } else if (
-        !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
+        !nickname.match(
+          /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[a-zA-Z0-9ㄱ-ㅎ가-힣]{2,14}$/,
+        )
       ) {
-        setMessage('닉네임에 특수문자/영대문자를 사용할 수 없습니다.');
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
       }
     }
     if (!isConfirmed) {
