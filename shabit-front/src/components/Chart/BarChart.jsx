@@ -57,8 +57,11 @@ const BarChart = ({ user }) => {
         });
         colorList.push(colorTable[element.postureId]);
       }
+
       setData(newData);
+      sessionStorage.setItem('initialBarData', JSON.stringify(newData));
       setColors(colorList);
+      sessionStorage.setItem('initialColorList', JSON.stringify(colorList));
     });
   }, []);
 

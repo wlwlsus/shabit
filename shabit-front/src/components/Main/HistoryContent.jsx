@@ -30,6 +30,7 @@ export default function HistoryContent() {
     if (mode === 'w') {
       fetchWeekly(user.email, page).then((res) => {
         setLineData(res);
+        sessionStorage.setItem('initalLineData', JSON.stringify(res));
       });
     } else {
       fetchMonthly(user.email, page).then((res) => {
@@ -73,6 +74,7 @@ export default function HistoryContent() {
         if (hour != 0) str += hour + '시간 ';
         str += time + '분';
         setTotal(str);
+        sessionStorage.setItem('initialTotal', JSON.stringify(str));
 
         hour = parseInt(res.time[0] / 60);
         time = res.time[0] % 60;
@@ -81,23 +83,11 @@ export default function HistoryContent() {
         if (hour != 0) str += hour + '시간 ';
         str += time + '분';
         setTime(str);
+        sessionStorage.setItem('initialTime', JSON.stringify(str));
       });
     };
     mounted();
   }, []);
-
-  // const [isInitial, setIsInitial] = useState(true);
-  // const { initialLineData, initialTotal, initialTime } = typedUseSelector(
-  //   (state) => {
-  //     return state.chart.initalChart;
-  //   },
-  //   shallowEqual,
-  // );
-  // useEffect(() => {
-  //   if (!initialLineData || initialTotal || initialTime) return;
-  //   if (lineData.length || total !== '0분' || time !== '0분') return;
-  //   setLineData(initialLineData)
-  // }, [initialLineData, initialTotal, initialTime]);
 
   return (
     <Wrapper>
