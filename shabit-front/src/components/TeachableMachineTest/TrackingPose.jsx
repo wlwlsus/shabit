@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import * as tmPose from '@teachablemachine/pose';
 import { setPose, setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';

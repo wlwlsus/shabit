@@ -55,7 +55,6 @@ const Sidebar = () => {
       });
       // TODO 스트레칭 시간 setting
       dispatch(setInitStretchingTime(initStretchingMin));
-      // dispatch(setInitStretchingTime(initStretchingMin));
       dispatch(setStretchModal(true));
     }
   }, [stretchingMin,stretchingSec]);

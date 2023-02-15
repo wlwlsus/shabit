@@ -26,9 +26,7 @@ export default function QuoteInfo() {
   const onStart = () =>{
     //TODO 처리(시작)
     fetchAlarmTime().then(()=>{
-      dispatch(setInitStretchingTime(1));
-
-      // dispatch(setInitStretchingTime(initStretchingMin));
+    dispatch(setInitStretchingTime(initStretchingMin));
     dispatch(setMode('startLive'));
     dispatch(setInitUsedTime());
     
