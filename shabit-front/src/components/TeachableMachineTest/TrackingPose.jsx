@@ -24,7 +24,8 @@ const TrackingPose = () => {
   let captureTime = 0;
   let startTime, endTime, movingStartTime;
   let movingLog = {};
-  const movingArray = [0, 0, 0, 0, 0];
+  let movingArray = [0, 0, 0, 0, 0];
+  let movingArraySnapshot = [0, 0, 0, 0, 0];
 
   // 특정 자세 유지 시간
   const DURATION_TIME = 60;
@@ -60,38 +61,37 @@ const TrackingPose = () => {
     let res;
 
     for (let i = 0; i < poseCnt; i++) {
-      // 예외처리 어떻게 할 지
-      // 30초 움직임
-      // 17초 움직임
-      // 30초 바른자세
-      //###########로그 남기는 로직#########
-      //자세가 바꼈을 때 감지를 해서...
       res = prediction[i].probability.toFixed(2);
       // 최초 시작 포즈를 설정함
       if (!prevPose) prevPose = prediction[i].className;
       if (!movingStartTime) movingStartTime = startTime;
-      // 무빙 어레이에서 현재 포즈의 자세를 1 올림
+      // 움직이는 상태 배열에 현재 포즈의 자세를 1 올림
       if (res > 0.7) {
         movingArray[i] += 1;
         maxPose = prediction[i].className;
-        //자세 바뀜 -> data저장해서 보내줘야됨
         if (prevPose !== maxPose) {
-          // prevPose = maxPose;
           endTime = new Date();
-          //30초가 유지됐을 때 로그가 남고 (지금 한 단계식 앞서있음. 수정할 걸.)
-          // if (getSeconds(endTime) - getSeconds(startTime) > 30) {
-          if (getSeconds(endTime) - getSeconds(startTime) > 5) {
-            //로그 저장
-            if (getSeconds(startTime) - getSeconds(movingStartTime) > 5) {
-              console.log(movingArray);
+          //자세가 30초 유지됐을 때 로그 저장
+          const timeLimit = 30;
+          if (getSeconds(endTime) - getSeconds(startTime) > timeLimit) {
+            //움직이는 상태가 30초 이상 지속됐으면 snapshot에서 가장 큰 값을 로그 남김
+            if (
+              getSeconds(startTime) - getSeconds(movingStartTime) >
+              timeLimit
+            ) {
               movingLog = {
                 startTime: dateFormat(movingStartTime),
                 endTime: dateFormat(startTime),
-                postureId: movingArray.indexOf(Math.max(...movingArray)),
+                postureId: movingArraySnapshot.indexOf(
+                  Math.max(...movingArraySnapshot),
+                ),
               };
               dispatch(setLogArray(movingLog));
+              // console.log(movingArraySnapshot);
+              // console.log(prediction[movingLog.postureId]);
               // console.log(movingLog);
             } else {
+              //움직이는 상태가 30초 미만이면 로그 안남기고 그냥 통합시킴
               startTime = movingStartTime;
             }
             log = {
@@ -100,11 +100,14 @@ const TrackingPose = () => {
               postureId: prediction.findIndex((e) => e.className === prevPose),
             };
             dispatch(setLogArray(log));
+            // console.log(prediction[log.postureId]);
             // console.log(log);
 
+            //로그를 남긴 후, 움직이는 상태 배열을 초기화
             movingStartTime = endTime;
-            // dispatch(setLogArray(log));
+            movingArray = [0, 0, 0, 0, 0];
           }
+          movingArraySnapshot = [...movingArray]; //포즈가 바뀔 때, 지금까지의 움직이는 상태를 얕은 복사
           prevPose = maxPose;
           startTime = endTime;
           dispatch(setPose(prediction[i].className));
