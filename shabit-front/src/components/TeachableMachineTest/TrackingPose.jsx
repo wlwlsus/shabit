@@ -127,6 +127,18 @@ const TrackingPose = () => {
   const onStop = useCallback(
     (id, timerId) => {
       webcam.stop();
+
+      // ##### 맨 마지막에 movingLog에 남아있는 데이터들을 서버로 던지고
+      // array를 초기화하고 종료합니다.
+      movingLog = {
+        startTime: dateFormat(movingStartTime),
+        endTime: dateFormat(startTime),
+        postureId: movingArray.indexOf(Math.max(...movingArray)),
+      };
+      dispatch(setLogArray(movingLog));
+      //
+
+      movingLog = [0, 0, 0, 0, 0];
       clearInterval(id);
       clearInterval(timerId);
       dispatch(setTrackingSetting(false));
