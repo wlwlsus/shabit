@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useSelector,useDispatch } from 'react-redux';
 import { BiDownload } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { setVideoModal } from '../../store/trackingSlice';
-
+import { setVideoModal,clearRecordedChunks } from '../../store/trackingSlice';
+import {setMode} from '../../store/modeSlice';
 import { BsFillXCircleFill } from 'react-icons/bs';
 
 export default function VideoModal() {
@@ -17,6 +17,9 @@ export default function VideoModal() {
   });
 
   const goMain= () => {
+    dispatch(setMode('stopLive'));
+    dispatch(clearRecordedChunks());
+    dispatch(setVideoModal(false));
     navigate('/main');
   };
 
@@ -34,10 +37,14 @@ export default function VideoModal() {
       a.click();
       window.URL.revokeObjectURL(url);
     }
+    dispatch(clearRecordedChunks());
+    dispatch(setVideoModal(false));
+    dispatch(setMode('main'));
     dispatch(setVideoModal(false));
     navigate('/main');
   }
   useEffect(()=>{
+    //TODO video blob 합치기
     if(recordedChunks.length>0){
       const blob = new Blob(recordedChunks, {
         type: "video/webm"

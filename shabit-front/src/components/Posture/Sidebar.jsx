@@ -8,19 +8,24 @@ import {
   CgSandClock,
   CgPlayPause,
   CgPlayButton,
+  CgRedo
 } from 'react-icons/cg';
-import { setIsRunning, setIsStop } from '../../store/timeSlice';
 import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
-import { setStretchModal } from '../../store/videoSlice';
+import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
 import { postData } from '../../services/stat/post';
+import { useNavigate } from 'react-router-dom';
+import { setMode } from '../../store/modeSlice';
+import { setInitStretchingTime } from '../../store/timeSlice';
+import {setVideoSetting} from '../../store/modeSlice';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const isRunning = useSelector((state) => {
-    return state.time.isRunning;
-  });
+  const initStretchingMin = useSelector((state)=>{
+    return state.admin.stretchingTime/60;
+  })
   const stretchingMin = useSelector((state) => {
     return state.time.stretchTime.min;
   });
@@ -36,19 +41,23 @@ const Sidebar = () => {
   const userEmail = useSelector((state) => {
     return state.auth.user.email;
   });
+  const stretchMode = useSelector((state)=>{
+    return state.video.stretchingMode;
+  })
 
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
-      // stretching modal띄우기
-      dispatch(setStretchModal(true));
+      // dispatch(setMode('stretching'));
+      dispatch(setMode('pausedLive'));
       postData(userEmail,logArray).then(()=>{
         setInitLogArray();
       });
-      //timer 지우기 -> clearInterval()
-      dispatch(setIsStop(true));
+      // TODO 스트레칭 시간 setting
+      dispatch(setInitStretchingTime(initStretchingMin));
+      dispatch(setStretchModal(true));
     }
-  }, [isRunning]);
+  }, [stretchingMin,stretchingSec]);
 
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
@@ -57,11 +66,11 @@ const Sidebar = () => {
     return state.time.usedTime.min
   });
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
-
+  // 방 나가기 버튼 누를 때
   const clickStop = () => {
     // 시간 같은거 모두 정지
-    dispatch(setIsStop(true));
-    dispatch(setIsRunning(false));
+    dispatch(setMode('stopLive'));
+    dispatch(setVideoSetting(false));
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
@@ -70,29 +79,47 @@ const Sidebar = () => {
         setInitLogArray();
       })
     }
+    else{
+      setInitLogArray();
+    }
   };
   const clickPlayButton = () => {
-    dispatch(setIsRunning(true));
+    dispatch(setMode('startLive'))
     setToggle(!toggle);
   };
   const clickPauseButton = () => {
-    dispatch(setIsRunning(false));
+    dispatch(setMode('pausedLive'))
     setToggle(!toggle);
   };
+
+  // 돌아가기 버튼 누를 때 TODO 라이브 모드로 변경
+  const goToLive = ()=>{
+    dispatch(setStretchModal(false));
+    dispatch(setStretchingMode(false));
+    dispatch(setMode('startLive'));
+    navigate('/posture/live');
+  }
   return (
     <ContainerWrapper>
-      <TimeContainer>
+      {stretchMode ?(
         <IconWrapper>
-          <CgTimer />
-          <Text>총 이용 시간</Text>
-          <Text>{usedTime}</Text>
+          <CgRedo onClick={goToLive} />
+          <Text>돌아가기</Text>
         </IconWrapper>
-        <IconWrapper>
-          <CgSandClock />
-          <Text>스트레칭 시간</Text>
-          <Text>{stretchingTime}</Text>
-        </IconWrapper>
-      </TimeContainer>
+      ): (
+        <TimeContainer>
+          <IconWrapper>
+            <CgTimer />
+            <Text>총 이용 시간</Text>
+            <Text>{usedTime}</Text>
+          </IconWrapper>
+          <IconWrapper>
+            <CgSandClock />
+            <Text>스트레칭 시간</Text>
+            <Text>{stretchingTime}</Text>
+          </IconWrapper>
+        </TimeContainer>
+      )}
       <CapturingContainer>
         {toggle ? (
           <IconWrapper>
