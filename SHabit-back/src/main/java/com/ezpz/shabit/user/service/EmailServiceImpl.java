@@ -59,12 +59,12 @@ public class EmailServiceImpl implements EmailService {
                            "\t\t\t\t\t\t\t\t\t로그인을 완료해 주세요.\n" +
                            "\t\t\t\t\t\t\t\t</td>\n" +
                            "\t\t\t\t\t\t\t\t<td rowspan=\"3\"><img style=\"width: 200px;\"\n" +
-                           "\t\t\t\t\t\t\t\t\t\tsrc=\"https://shabit.s3.ap-northeast-2.amazonaws.com/shabit_logo_pink.png\"\n" +
+                           "\t\t\t\t\t\t\t\t\t\tsrc=\"https://ssafy601.s3.ap-northeast-2.amazonaws.com/shabit_logo_pink.png\"\n" +
                            "\t\t\t\t\t\t\t\t\t\tloading=\"lazy\"></td>\n" +
                            "\t\t\t\t\t\t\t</tr>\n" +
                            "\t\t\t\t\t\t\t<tr>\n" +
                            "\t\t\t\t\t\t\t\t<td height=\"39\"><img style=\"width: 60px;\"\n" +
-                           "\t\t\t\t\t\t\t\t\t\tsrc=\"https://shabit.s3.ap-northeast-2.amazonaws.com/shabit_bar.PNG\"\n" +
+                           "\t\t\t\t\t\t\t\t\t\tsrc=\"https://ssafy601.s3.ap-northeast-2.amazonaws.com/shabit_bar.png\"\n" +
                            "\t\t\t\t\t\t\t\t\t\tloading=\"lazy\"></td>\n" +
                            "\t\t\t\t\t\t\t</tr>\n" +
                            "\t\t\t\t\t\t\t<tr>\n" +
