@@ -85,11 +85,10 @@ const InfoTitle = styled.div`
   width: fit-content;
   margin-bottom: 1rem;
   font-size: 0.8rem;
-  padding: 0.3rem 0.5rem;
+  padding: 0.5rem;
   background-color: ${(props) => props.theme.color.secondary};
-  border-radius: 1.5rem;
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
-  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
+  border-radius: 0.5rem;
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
   display: flex;
   align-items: center;

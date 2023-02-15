@@ -123,16 +123,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: start;
   margin-left: 3.5rem;
   background-color: ${(props) => props.theme.color.secondary};
   color: ${(props) => props.theme.color.primary};
   font-weight: bold;
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 
