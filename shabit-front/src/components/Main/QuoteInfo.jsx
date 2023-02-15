@@ -8,6 +8,9 @@ import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 import { setIsRunning, setIsStop } from '../../store/timeSlice';
 import { useDispatch } from 'react-redux';
 import { fetchAlarmTime } from '../../services/admin/get';
+import WebSocketComponent from './WebSocketComponent';
+
+const wsc = new WebSocketComponent();
 
 export default function QuoteInfo() {
   const dispatch = useDispatch();
@@ -19,6 +22,18 @@ export default function QuoteInfo() {
     if (state.chart.quote.length === 0) return defaultQuote;
     return state.chart.quote;
   });
+
+  const handleClick = () => {
+    if (wsc.connected === false) {
+      console.log('연결 시도');
+      wsc.connect();
+    } else {
+      console.log('이미 연결되어 있습니다.');
+      // wsc.disconnect();
+      wsc.stopHeartbeat();
+      // wsc.ping('메시지 전송 내용..');
+    }
+  };
 
   return (
     <Wrapper>
@@ -32,12 +47,14 @@ export default function QuoteInfo() {
 
       <Start>
         <BsFillCaretRightSquareFill
-          onClick={() => {
-            dispatch(setIsRunning(true));
-            dispatch(setIsStop(false));
-            fetchAlarmTime();
-            navigate('/posture/live');
-          }}
+          onClick={handleClick}
+          // onClick={() => {
+          //   console.log('자세 교정 시작하기!');
+          //   // dispatch(setIsRunning(true));
+          //   // dispatch(setIsStop(false));
+          //   // fetchAlarmTime();
+          //   // navigate('/posture/live');
+          // }}
         />
         <div>자세교정 시작하기</div>
       </Start>
