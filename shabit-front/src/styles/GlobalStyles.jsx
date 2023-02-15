@@ -48,8 +48,8 @@ export const blueTheme = {
 
 export const darkTheme = {
   color: {
-    primary: '#2C3333',
-    secondary: '#DDDDDD',
+    primary: '#7A86B6',
+    secondary: '#e9e9f5',
     whiteColor: '#fff',
     blackColor: '#000000',
     darkGrayColor: '#828282',
@@ -61,7 +61,7 @@ export const darkTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#ddc8fa',
+    scale0: '#e9e9f5',
     scale1: '#C8B6E2',
     scale2: '#A8A4CE',
     scale3: '#7A86B6',
@@ -95,8 +95,8 @@ export const greenTheme = {
 export const themeColor = {
   pinkPrim: '#C57A84',
   pinkSec: '#F2E4E6',
-  darkPrim: '#2C3333',
-  darkSec: '#DDDDDD',
+  darkPrim: '#7A86B6',
+  darkSec: '#e9e9f5',
   bluePrim: '#5584AC',
   blueSec: '#E3EFF3',
   greenPrim: '#749F82',

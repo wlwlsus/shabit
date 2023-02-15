@@ -15,19 +15,6 @@ export default function MainPage() {
   };
   const [clicked, setClicked] = useState(0);
 
-  const tabClicked = (value) => {
-    setClicked(value);
-    if (value === 0) {
-      navigate('/main');
-    } else if (value === 1) {
-      navigate('/main/history');
-    } else if (value === 2) {
-      navigate('/main/goal');
-    } else {
-      navigate('/main/gallery');
-    }
-  };
-
   const goalModal = useSelector((state) => {
     return state.goal.goalModal;
   });
@@ -40,16 +27,40 @@ export default function MainPage() {
       {goalModal && <GoalModal />}
       {passwordModal && <PasswordModal />}
       <ContainerWrapper>
-        <Tab onClick={() => tabClicked(0)} style={clicked === 0 ? null : style}>
+        <Tab
+          onClick={() => {
+            navigate('/main');
+            setClicked(0);
+          }}
+          style={clicked === 0 ? null : style}
+        >
           SHabit
         </Tab>
-        <Tab onClick={() => tabClicked(1)} style={clicked === 1 ? null : style}>
+        <Tab
+          onClick={() => {
+            navigate('/main/history');
+            setClicked(1);
+          }}
+          style={clicked === 1 ? null : style}
+        >
           자세기록
         </Tab>
-        <Tab onClick={() => tabClicked(2)} style={clicked === 2 ? null : style}>
+        <Tab
+          onClick={() => {
+            navigate('/main/goal');
+            setClicked(2);
+          }}
+          style={clicked === 2 ? null : style}
+        >
           나의목표
         </Tab>
-        <Tab onClick={() => tabClicked(3)} style={clicked === 3 ? null : style}>
+        <Tab
+          onClick={() => {
+            navigate('/main/gallery');
+            setClicked(3);
+          }}
+          style={clicked === 3 ? null : style}
+        >
           갤러리
         </Tab>
         <Container>
