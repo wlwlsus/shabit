@@ -93,6 +93,7 @@ export const logout = async (): Promise<boolean> => {
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
       sessionStorage.removeItem('user');
+      sessionStorage.removeItem('initialStatus');
       store.dispatch(clearAuthState());
       return Promise.resolve(true);
     })

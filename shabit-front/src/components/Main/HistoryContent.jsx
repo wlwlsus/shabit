@@ -12,8 +12,11 @@ export default function HistoryContent() {
   // const [lineData, setLineData] = useState([]);
   const [lineData, setLineData] = useState(() => {
     const initalLineData = JSON.parse(sessionStorage.getItem('initalLineData'));
-    alert(initalLineData);
-    return initalLineData?.length ? initalLineData : [];
+    if (initalLineData?.length) {
+      return initalLineData;
+    } else {
+      return [];
+    }
   });
   const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
@@ -44,11 +47,19 @@ export default function HistoryContent() {
   // const [time, setTime] = useState('0분');
   const [total, setTotal] = useState(() => {
     const initialTotal = JSON.parse(sessionStorage.getItem('initialTotal'));
-    return initialTotal ? initialTotal : '0분';
+    if (initialTotal) {
+      return initialTotal;
+    } else {
+      return '0분';
+    }
   });
   const [time, setTime] = useState(() => {
     const initialTime = JSON.parse(sessionStorage.getItem('initialTime'));
-    return initialTime ? initialTime : '0분';
+    if (initialTime) {
+      return initialTime;
+    } else {
+      return '0분';
+    }
   });
 
   useEffect(() => {

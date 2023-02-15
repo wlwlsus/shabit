@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import GoalModal from '../components/Main/GoalModal';
 import PasswordModal from '../components/Main/PasswordModal';
 import { typedUseSelector } from '../store';
-import { fetchWeekly } from '../services/stat/get';
+import { fetchDaily, fetchWeekly } from '../services/stat/get';
 import { fetchTodayPostureTime } from '../services/goal/get';
 
 export default function MainPage() {
@@ -17,10 +17,14 @@ export default function MainPage() {
   const email = typedUseSelector((state) => state.auth.user.email);
   useEffect(() => {
     if (!email) return;
-    let initialLineData;
-    let initialTotal;
-    let initialTime;
+    const status = JSON.parse(sessionStorage.getItem('initialStatus'));
+    if (status) return;
     const mounted = async () => {
+      let initialLineData;
+      let initialTotal;
+      let initialTime;
+      let initialBarData;
+      let initialColorList;
       await Promise.allSettled([
         fetchWeekly(email, 0).then((res) => {
           initialLineData = res;
@@ -42,15 +46,69 @@ export default function MainPage() {
           if (hour != 0) str += hour + '시간 ';
           str += time + '분';
           initialTime = str;
-
-          sessionStorage.setItem(
-            'initialLineData',
-            JSON.stringify(initialLineData),
-          );
-          sessionStorage.setItem('initialTotal', JSON.stringify(initialTotal));
-          sessionStorage.setItem('initialTime', JSON.stringify(initialTime));
         }),
-      ]);
+
+        fetchDaily(email).then((res) => {
+          const colorTable = [
+            0,
+            themeContext.color.blueColor,
+            themeContext.color.greenColor,
+            themeContext.color.redColor,
+            themeContext.color.yellowColor,
+          ];
+          const nameTable = [
+            0,
+            '바른 자세',
+            '거북목',
+            '누운 자세',
+            '비스듬한 자세',
+          ];
+          const jsonData = res;
+          const newData = [];
+          const colorList = [];
+
+          for (let element of jsonData) {
+            newData.push({
+              name: nameTable[element.postureId],
+              data: [
+                {
+                  x: '시간',
+                  //  시차 조정 (8시간 만큼 제외)
+                  y: [
+                    new Date(element.startTime).getTime() -
+                      new Date(element.startTime).getTimezoneOffset() *
+                        60 *
+                        1000,
+                    new Date(element.endTime).getTime() -
+                      new Date(element.startTime).getTimezoneOffset() *
+                        60 *
+                        1000,
+                  ],
+                },
+              ],
+            });
+            colorList.push(colorTable[element.postureId]);
+          }
+          initialBarData = newData;
+          initialColorList = colorList;
+        }),
+      ]).then((res) => {
+        sessionStorage.setItem(
+          'initialLineData',
+          JSON.stringify(initialLineData),
+        );
+        sessionStorage.setItem('initialTotal', JSON.stringify(initialTotal));
+        sessionStorage.setItem('initialTime', JSON.stringify(initialTime));
+        sessionStorage.setItem(
+          'initialBarData',
+          JSON.stringify(initialBarData),
+        );
+        sessionStorage.setItem(
+          'initialColorList',
+          JSON.stringify(initialColorList),
+        );
+        sessionStorage.setItem('initialStatus', JSON.stringify('settled'));
+      });
     };
     mounted();
   }, [email]);

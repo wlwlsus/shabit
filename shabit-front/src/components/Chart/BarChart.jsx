@@ -4,8 +4,24 @@ import { ThemeContext } from 'styled-components';
 import { fetchDaily } from '../../services/stat/get';
 
 const BarChart = ({ user }) => {
-  const [data, setData] = useState([]);
-  const [colors, setColors] = useState([]);
+  const [data, setData] = useState(() => {
+    const initialBarData = JSON.parse(sessionStorage.getItem('initialBarData'));
+    if (initialBarData?.length) {
+      return initialBarData;
+    } else {
+      return [];
+    }
+  });
+  const [colors, setColors] = useState(() => {
+    const initialColorList = JSON.parse(
+      sessionStorage.getItem('initialColorList'),
+    );
+    if (initialColorList?.length) {
+      return initialColorList;
+    } else {
+      return [];
+    }
+  });
   const themeContext = useContext(ThemeContext);
   // 자세에 따른 색상, 이름 지정
   const colorTable = [
