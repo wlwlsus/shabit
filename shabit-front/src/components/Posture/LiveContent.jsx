@@ -1,21 +1,19 @@
 import React, { useEffect } from 'react';
 import { calUsedTime, calStretchTime } from '../../store/timeSlice';
 import TrackingPose from '../TeachableMachineTest/TrackingPose';
-import { useDispatch,useSelector } from 'react-redux';
-import MyCapture from '../TeachableMachineTest/MyCapture';
+import { useDispatch, useSelector } from 'react-redux';
+// import MyCapture from '../TeachableMachineTest/MyCapture';
 
 export default function LiveContent() {
-
   const dispatch = useDispatch();
-  const mode = useSelector((state)=>{
+  const mode = useSelector((state) => {
     return state.mode.mode;
-  })
-
+  });
 
   // ---밑에 코드 ) TODO Mode 바뀔 때로 바꿔야됨 ---
   useEffect(() => {
     let usedTimeId, stretchTimeId;
-    if (mode==='startLive') {
+    if (mode === 'startLive') {
       usedTimeId = setInterval(() => {
         dispatch(calUsedTime());
       }, 60000);
@@ -32,7 +30,6 @@ export default function LiveContent() {
 
   return (
     <div>
-      <MyCapture />
       <TrackingPose />
     </div>
   );

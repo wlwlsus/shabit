@@ -7,7 +7,7 @@ const DonutChart = ({ jsonData, day }) => {
 
   // 자세 정보와 Label을 잇는 테이블
   // 순서 맞춤 필수 : 같은 자세, 같은 color
-  const labels = ['바른 자세', '거북목', '비스듬한 자세', '누운 자세'];
+  const labels = ['바른 자세', '거북목', '누운 자세', '비스듬한 자세'];
 
   useEffect(() => {
     // 오늘 날짜 데이터 필터링
