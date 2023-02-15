@@ -44,8 +44,8 @@ export default function QuoteInfo() {
         <div>{quote}</div>
       </InfoBox>
 
-      <Start>
-        <BsFillCaretRightSquareFill onClick={onStart} />
+      <Start onClick={onStart}>
+        <BsFillCaretRightSquareFill />
         <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>
