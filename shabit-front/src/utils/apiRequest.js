@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const apiRequest = axios;
 
-apiRequest.defaults.baseURL = 'http://localhost:8080';
-// apiRequest.defaults.baseURL = 'https://shabit.site:8080';
+apiRequest.defaults.baseURL = 'https://shabit.site:8080';
 apiRequest.defaults.withCredentials = true;
 
 apiRequest.interceptors.response.use(
