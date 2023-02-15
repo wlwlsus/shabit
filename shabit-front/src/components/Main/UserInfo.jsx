@@ -7,7 +7,6 @@ import { BiUserCircle } from 'react-icons/bi';
 import { changeNickname } from '../../services/auth/put';
 import { fetchProfile } from '../../services/auth/get';
 import { FireAlert, FireConfirm } from '../../services';
-import { themeColor } from '../../styles/GlobalStyles';
 
 import { useDispatch } from 'react-redux';
 import { setPasswordModal } from '../../store/authSlice';
@@ -19,11 +18,11 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const [changingNickname, setChangingNickname] = useState(false);
 
   const onSubmit = () => {
-    if (nicknameInput.length < 2 || nicknameInput.length > 16) {
-      return FireAlert('닉네임은 2~16글자 입니다.');
+    if (nicknameInput.length < 2 || nicknameInput.length > 14) {
+      return FireAlert('닉네임은 2~14글자 입니다.');
     }
     if (
-      !nicknameInput.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
+      !nicknameInput.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,14}$/)
     ) {
       return FireAlert('닉네임에 특수문자를 사용할 수 없습니다.');
     }
@@ -51,7 +50,7 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
     // input 값이 바뀔 때마다 inputs에 넣음
     const { value, name } = e.target;
 
-    if (value.length > 16) return;
+    if (value.length > 14) return;
     setInputs(value);
   };
 
@@ -139,21 +138,21 @@ const StyledButton = styled.button`
   width: fit-content;
   margin-bottom: 1rem;
   font-size: 0.8rem;
+  line-height: 0.8rem;
   padding: 0.1rem 0.5rem;
   background-color: ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem;
   border: 0.1rem solid ${(props) => props.theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
   color: ${(props) => props.theme.color.primary};
-  font-weight: 600;
   display: flex;
   align-items: center;
 `;
 
 const Dark = styled(StyledButton)`
-  border: 0.1rem solid ${themeColor.darkPrim};
-  color: ${themeColor.darkPrim};
-  background-color: ${themeColor.darkSec};
+  border: 0.1rem solid ${(props) => props.theme.color.darkGrayColor};
+  color: ${(props) => props.theme.color.darkGrayColor};
+  background-color: ${(props) => props.theme.color.grayColor};
 `;
 
 const ImgWrapper = styled.div`
@@ -230,9 +229,8 @@ const LastLogin = styled.div`
 `;
 
 const Input = styled.input`
-  width: 10rem;
+  width: 15rem;
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
   text-align: right;
   font-size: 1.2rem;
