@@ -122,6 +122,11 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
         colors: [themeContext.color.whiteColor, 'transparent'],
         opacity: 0.5,
       },
+      xaxis: {
+        lines: {
+          show: false,
+        },
+      },
     },
     xaxis: {
       categories: axisX,
@@ -214,10 +219,10 @@ const Title = styled.div`
 
 const IconWrapper = styled.div`
   font-size: 1.4rem;
-  color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   position: absolute;
-  top: -1.5%;
-  right: 0%;
+  top: -1.2%;
+  right: 5%;
 
   &:hover {
     cursor: pointer;
