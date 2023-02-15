@@ -3,7 +3,9 @@ import styled, { ThemeContext } from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../common/Logo';
 
-import { RiUser3Line, RiUserAddLine, RiBookmark2Line } from 'react-icons/ri';
+import { RiUser3Line } from '@react-icons/all-files/ri/RiUser3Line';
+import { RiUserAddLine } from '@react-icons/all-files/ri/RiUserAddLine';
+import { RiBookmark2Line } from '@react-icons/all-files/ri/RiBookmark2Line';
 
 const Navbar = () => {
   const [clicked, setClicked] = useState([0, 0, 0]);

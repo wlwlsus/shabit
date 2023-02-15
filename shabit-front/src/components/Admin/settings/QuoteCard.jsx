@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from '@react-icons/all-files/ai/AiOutlineClose';
 import styled from 'styled-components';
 import { deletePhrase } from '../../../services/admin/delete';
 import { loadEffect } from '../../../styles/animation';

@@ -1,52 +1,51 @@
-import React, { useEffect,useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useSelector,useDispatch } from 'react-redux';
-import { BiDownload } from 'react-icons/bi';
+import { useSelector, useDispatch } from 'react-redux';
+import { BiDownload } from '@react-icons/all-files/bi/BiDownload';
 import { useNavigate } from 'react-router-dom';
 import { setVideoModal } from '../../store/trackingSlice';
-
 import { BsFillXCircleFill } from 'react-icons/bs';
 
 export default function VideoModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const recordedVideoRef = useRef(null);//recordedVideo
-  const recordedChunks= useSelector((state) => {
+  const recordedVideoRef = useRef(null); //recordedVideo
+  const recordedChunks = useSelector((state) => {
     return state.tracking.recordedChunks;
   });
 
-  const goMain= () => {
+  const goMain = () => {
     navigate('/main');
   };
 
-  const downloadVideo = ()=>{
+  const downloadVideo = () => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
-        type: "video/webm"
+        type: 'video/webm',
       });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       document.body.appendChild(a);
-      a.style = "display: none";
+      a.style = 'display: none';
       a.href = url;
-      a.download = "MyVideo.webm";
+      a.download = 'MyVideo.webm';
       a.click();
       window.URL.revokeObjectURL(url);
     }
     dispatch(setVideoModal(false));
     navigate('/main');
-  }
-  useEffect(()=>{
-    if(recordedChunks.length>0){
+  };
+  useEffect(() => {
+    if (recordedChunks.length > 0) {
       const blob = new Blob(recordedChunks, {
-        type: "video/webm"
+        type: 'video/webm',
       });
       recordedVideoRef.current.src = window.URL.createObjectURL(blob);
       recordedVideoRef.current.playbackRate = 10;
       recordedVideoRef.current.play();
     }
-  },[recordedChunks])
+  }, [recordedChunks]);
 
   return (
     <ContainerWrapper>
@@ -54,20 +53,16 @@ export default function VideoModal() {
         <div></div>
         <Title>종료되었습니다.</Title>
         <CloseBtn>
-          <BsFillXCircleFill
-            onClick={goMain}
-          />
+          <BsFillXCircleFill onClick={goMain} />
         </CloseBtn>
       </ModalHeader>
-    <Container>
-      <VideoWrapper>
-        <video autoPlay ref={recordedVideoRef} />
-      </VideoWrapper>
+      <Container>
+        <VideoWrapper>
+          <video autoPlay ref={recordedVideoRef} />
+        </VideoWrapper>
       </Container>
       <ContainerFooter>
-        <InfoWrapper>
-          다운받지 않은 영상은 사라집니다.
-        </InfoWrapper>
+        <InfoWrapper>다운받지 않은 영상은 사라집니다.</InfoWrapper>
         <IconWrapper>
           <BiDownload onClick={downloadVideo} />
           다운로드하기
@@ -91,18 +86,18 @@ const ContainerWrapper = styled.div`
 `;
 
 const ModalHeader = styled.div`
-display: flex;
-justify-content: space-between;
-z-index: 999;
-width: 55rem;
-height: 4rem;
-background-color: ${(props) => props.theme.color.secondary};
-border-radius: 1.5rem 1.5rem 0 0;
-padding: 0 1rem;
-padding-top: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  z-index: 999;
+  width: 55rem;
+  height: 4rem;
+  background-color: ${(props) => props.theme.color.secondary};
+  border-radius: 1.5rem 1.5rem 0 0;
+  padding: 0 1rem;
+  padding-top: 0.3rem;
 
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const CloseBtn = styled.div`
@@ -162,9 +157,9 @@ const VideoWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   align-self: center;
-  height:90%;
-  video{
-    height:100%;
+  height: 90%;
+  video {
+    height: 100%;
   }
 `;
 const ContainerFooter = styled.div`
@@ -174,10 +169,10 @@ const ContainerFooter = styled.div`
   border-radius: 0 0 1.5rem 1.5rem;
   display: flex;
   align-items: center;
-  justify-content:flex-end;
+  justify-content: flex-end;
   color: ${(props) => props.theme.color.primary};
   padding: 0 1rem 1rem 1rem;
 `;
 const InfoWrapper = styled.div`
-  width:46%;
+  width: 46%;
 `;

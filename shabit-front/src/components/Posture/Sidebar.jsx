@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
-import { ImExit } from 'react-icons/im';
-import {
-  CgTimer,
-  CgSandClock,
-  CgPlayPause,
-  CgPlayButton,
-} from 'react-icons/cg';
+import { ImExit } from '@react-icons/all-files/im/ImExit';
+import { CgTimer } from '@react-icons/all-files/cg/CgTimer';
+import { CgSandClock } from '@react-icons/all-files/cg/CgSandClock';
+import { CgPlayPause } from '@react-icons/all-files/cg/CgPlayPause';
+import { CgPlayButton } from '@react-icons/all-files/cg/CgPlayButton';
 import { setIsRunning, setIsStop } from '../../store/timeSlice';
 import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
 import { setStretchModal } from '../../store/videoSlice';
@@ -42,7 +40,7 @@ const Sidebar = () => {
       notify(pose, 'stretching');
       // stretching modal띄우기
       dispatch(setStretchModal(true));
-      postData(userEmail,logArray).then(()=>{
+      postData(userEmail, logArray).then(() => {
         setInitLogArray();
       });
       //timer 지우기 -> clearInterval()
@@ -53,8 +51,8 @@ const Sidebar = () => {
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
-  const usedMin = useSelector((state)=>{
-    return state.time.usedTime.min
+  const usedMin = useSelector((state) => {
+    return state.time.usedTime.min;
   });
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
 
@@ -65,10 +63,10 @@ const Sidebar = () => {
     // 모달 띄워서 내 모습 play + download
     dispatch(setVideoModal(true));
     // TODO api날리기 stat post
-    if(usedMin>1){
-        postData(userEmail,logArray).then(()=>{
+    if (usedMin > 1) {
+      postData(userEmail, logArray).then(() => {
         setInitLogArray();
-      })
+      });
     }
   };
   const clickPlayButton = () => {

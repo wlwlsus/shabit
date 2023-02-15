@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Input from '../common/Input';
-
 import { HiArrowRightCircle } from 'react-icons/hi2';
 
 const ConfirmForm = ({ onConfirmed, confirmCode }) => {

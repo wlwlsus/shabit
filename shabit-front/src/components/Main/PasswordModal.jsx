@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import useDebounce from '../../utils/useDebounce';
 import { changePassword } from '../../services/auth/put';
 import { FireAlert, FireConfirm } from '../../services';
-
 import { BsFillXCircleFill } from 'react-icons/bs';
 import { setPasswordModal } from '../../store/authSlice';
 

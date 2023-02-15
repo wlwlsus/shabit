@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
 import { typedUseSelector } from '../../store';
-import { FiAlertCircle } from 'react-icons/fi';
+import { FiAlertCircle } from '@react-icons/all-files/fi/FiAlertCircle';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 import { setIsRunning, setIsStop } from '../../store/timeSlice';
 import { useDispatch } from 'react-redux';

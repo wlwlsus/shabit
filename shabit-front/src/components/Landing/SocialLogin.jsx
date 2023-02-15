@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { FcGoogle } from 'react-icons/fc';
-import { SiKakaotalk, SiNaver } from 'react-icons/si';
+import { FcGoogle } from '@react-icons/all-files/fc/FcGoogle';
+import { SiKakaotalk } from 'react-icons/si';
+import { SiNaver } from 'react-icons/si';
 
 export default function SocialLogin() {
   const redirectUri = 'https://shabit.site/oauth/redirect';

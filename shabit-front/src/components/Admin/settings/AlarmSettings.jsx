@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
+import { TiArrowSortedDown } from '@react-icons/all-files/ti/TiArrowSortedDown';
+import { TiArrowSortedUp } from '@react-icons/all-files/ti/TiArrowSortedUp';
 import styled from 'styled-components';
 import { fetchAlarmTime } from '../../../services/admin/get';
 import { putAlarmTime } from '../../../services/admin/put';

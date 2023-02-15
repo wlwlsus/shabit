@@ -4,7 +4,6 @@ import PhotoList from './PhotoList';
 import { fetchPhoto } from '../../services/info/get';
 // import { loadEffect } from '../../styles/animation';
 // import { useSelector } from 'react-redux';
-
 import {
   BsFillArrowLeftSquareFill,
   BsFillArrowRightSquareFill,
@@ -29,7 +28,7 @@ export default function GalleryContent() {
     const mounted = async () => {
       let now = new Date();
       let todayMonth = now.getMonth() + 1 + '월';
-      let todayDate = now.getDate() +'일';
+      let todayDate = now.getDate() + '일';
       setMonath(todayMonth);
       setDate(todayDate);
     };
@@ -81,7 +80,9 @@ export default function GalleryContent() {
             누운 자세
           </Label>
         </RadioWrapper>
-        <Message>{month} {date}</Message>
+        <Message>
+          {month} {date}
+        </Message>
       </Header>
       <Content>
         <PhotoList photoList={photoList} />

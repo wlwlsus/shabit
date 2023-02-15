@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import Logo from '../common/Logo';
-import { RiDownload2Line } from 'react-icons/ri';
+import { RiDownload2Line } from '@react-icons/all-files/ri/RiDownload2Line';
 
 import { setPercentage, setTime } from '../../store/goalSlice';
 import GoalBox from './GoalBox';

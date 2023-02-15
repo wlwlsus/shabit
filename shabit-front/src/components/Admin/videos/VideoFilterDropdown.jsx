@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TiArrowSortedDown } from 'react-icons/ti';
+import { TiArrowSortedDown } from '@react-icons/all-files/ti/TiArrowSortedDown';
 import styled from 'styled-components';
 
 const VideoFilterDropdown = ({ scrollProp, setScrollProp }) => {

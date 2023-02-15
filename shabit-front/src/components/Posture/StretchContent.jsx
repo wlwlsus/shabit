@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { AiFillNotification } from 'react-icons/ai';
+import { AiFillNotification } from '@react-icons/all-files/ai/AiFillNotification';
 import styled from 'styled-components';
 
 export default function StretchContent() {

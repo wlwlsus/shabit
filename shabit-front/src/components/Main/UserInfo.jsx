@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
 
 import ThemeBox from './ThemeBox';
-import { BiUserCircle } from 'react-icons/bi';
+import { BiUserCircle } from '@react-icons/all-files/bi/BiUserCircle';
 import { changeNickname } from '../../services/auth/put';
 import { fetchProfile } from '../../services/auth/get';
 import { FireAlert, FireConfirm } from '../../services';

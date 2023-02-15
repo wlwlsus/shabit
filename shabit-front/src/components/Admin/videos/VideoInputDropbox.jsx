@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { TiArrowSortedDown } from 'react-icons/ti';
+import { TiArrowSortedDown } from '@react-icons/all-files/ti/TiArrowSortedDown';
 
 const VideoInputDropbox = ({ selected, setSelected }) => {
   const [Dropped, setDropped] = useState(false);

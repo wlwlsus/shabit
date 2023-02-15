@@ -24,7 +24,7 @@ export default function GoalBox({ today }) {
         <Title>목표 달성</Title>
       </TitleWrapper>
       <IconWrapper>
-        <HiPencilAlt 
+        <HiPencilAlt
           title="목표 설정"
           onClick={() => {
             dispatch(setGoalModal(true));

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { changeImage } from '../../services/auth/put';
 import { typedUseSelector } from '../../store';
-import { BiUserCircle } from 'react-icons/bi';
+import { BiUserCircle } from '@react-icons/all-files/bi/BiUserCircle';
 
 const UploadingModal = ({ isModalOpen }) => {
   const [hasPreview, setHasPreview] = useState(false);
