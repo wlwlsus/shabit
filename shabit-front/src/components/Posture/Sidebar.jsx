@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-// import notify from '../../utils/notify';
+import notify from '../../utils/notify';
 import { ImExit } from 'react-icons/im';
 import {
   CgTimer,
@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { setMode } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
+import { setSelected } from '../../store/videoSlice';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
@@ -47,8 +48,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
-      // notify(pose, 'stretching');
-      // dispatch(setMode('stretching'));
+      notify(pose, 'stretching');
       dispatch(setMode('pausedLive'));
       postData(userEmail, logArray).then(() => {
         setInitLogArray();
@@ -68,6 +68,8 @@ const Sidebar = () => {
   const stretchingTime = `${stretchingMin}:${stretchingSec}`;
   // 방 나가기 버튼 누를 때
   const clickStop = () => {
+    // 선택된 비디오 리덕스에서 제거
+    dispatch(setSelected(null));
     // 시간 같은거 모두 정지
     dispatch(setMode('stopLive'));
     dispatch(setVideoSetting(false));
@@ -96,6 +98,7 @@ const Sidebar = () => {
     dispatch(setStretchModal(false));
     dispatch(setStretchingMode(false));
     dispatch(setMode('startLive'));
+    dispatch(setSelected(null));
     navigate('/posture/live');
   };
   return (
