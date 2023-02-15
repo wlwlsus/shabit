@@ -180,17 +180,21 @@ const MyCapture = () => {
               screenshotFormat="image/jpg"
             />
           </WebcamWrapper>
-          <div>
-        {devices.map((device, key) => (
-          <button
-            key={device.deviceId}
-            onClick={() => setDeviceId(device.deviceId)}
-          >
-            {device.label || `Device ${key + 1}`}
-          </button>
-        ))}
-      </div>
-        </>
+          {devices.length && <DropDown>
+            <DropBtn>카메라 선택하기</DropBtn>
+            <DropDownContent>
+                {devices.map((device, key) => (
+                  <button
+                    key={device.deviceId}
+                    onClick={() => setDeviceId(device.deviceId)}
+                  >
+                    {device.label || `Device ${key + 1}`}
+                  </button>
+                ))}
+            </DropDownContent>
+          </DropDown>
+          }
+      </>
       ) : (
         <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
       )}
@@ -220,5 +224,22 @@ const WebcamWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
+const DropDown = styled.div`
+  &:hover{
+    background-color:${(props) => props.theme.heatMap.scale4};
+  }
+`;
+const DropBtn = styled.button`
+  background-color:${(props) => props.theme.heatMap.scale3};
+  color: white;
+  padding: 1rem;
+  border-radius:1rem;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+`;
+const DropDownContent = styled.div`
+  display:none;
+  background-color:${(props) => props.theme.heatMap.scale3};
+`;
 export default MyCapture;
