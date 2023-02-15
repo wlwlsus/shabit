@@ -3,10 +3,13 @@ import * as tmPose from '@teachablemachine/pose';
 import { setPose, setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
-import { setLogArray, setCapture,setTrackingSetting } from '../../store/trackingSlice';
-import {dateFormat} from '../../utils/dateFormat';
-import {getSeconds} from '../../utils/dateFormat';
-
+import {
+  setLogArray,
+  setCapture,
+  setTrackingSetting,
+} from '../../store/trackingSlice';
+import { dateFormat } from '../../utils/dateFormat';
+import { getSeconds } from '../../utils/dateFormat';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();
@@ -19,19 +22,22 @@ const TrackingPose = () => {
   let prevPose;
   let time = 0;
   let captureTime = 0;
-  let startTime, endTime;
+  let startTime, endTime, movingStartTime;
+  let movingLog = {};
+  const movingArray = [0, 0, 0, 0, 0];
+
   // 특정 자세 유지 시간
   const DURATION_TIME = 60;
-  
+
   let alarmSec = useSelector((state) => {
     return state.admin.alertTime;
   });
-  const mode = useSelector((state)=>{
+  const mode = useSelector((state) => {
     return state.mode.mode;
-  })
-  const trackingSetting = useSelector((state)=>{
+  });
+  const trackingSetting = useSelector((state) => {
     return state.tracking.trackingSetting;
-  })
+  });
 
   const init = async () => {
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
@@ -54,18 +60,52 @@ const TrackingPose = () => {
     let res;
 
     for (let i = 0; i < poseCnt; i++) {
+      // 예외처리 어떻게 할 지
+      // 30초 움직임
+      // 17초 움직임
+      // 30초 바른자세
+      //###########로그 남기는 로직#########
+      //자세가 바꼈을 때 감지를 해서...
       res = prediction[i].probability.toFixed(2);
+      // 최초 시작 포즈를 설정함
+      if (!prevPose) prevPose = prediction[i].className;
+      if (!movingStartTime) movingStartTime = startTime;
+      // 무빙 어레이에서 현재 포즈의 자세를 1 올림
       if (res > 0.7) {
+        movingArray[i] += 1;
         maxPose = prediction[i].className;
         //자세 바뀜 -> data저장해서 보내줘야됨
         if (prevPose !== maxPose) {
-          prevPose = maxPose;
+          // prevPose = maxPose;
           endTime = new Date();
-          if(getSeconds(endTime)-getSeconds(startTime)>60){
-             //로그 저장
-              log = { startTime:dateFormat(startTime), endTime:dateFormat(endTime), postureId: i };
-              dispatch(setLogArray(log));
+          //30초가 유지됐을 때 로그가 남고 (지금 한 단계식 앞서있음. 수정할 걸.)
+          // if (getSeconds(endTime) - getSeconds(startTime) > 30) {
+          if (getSeconds(endTime) - getSeconds(startTime) > 5) {
+            //로그 저장
+            if (getSeconds(startTime) - getSeconds(movingStartTime) > 5) {
+              console.log(movingArray);
+              movingLog = {
+                startTime: dateFormat(movingStartTime),
+                endTime: dateFormat(startTime),
+                postureId: movingArray.indexOf(Math.max(...movingArray)),
+              };
+              dispatch(setLogArray(movingLog));
+              // console.log(movingLog);
+            } else {
+              startTime = movingStartTime;
+            }
+            log = {
+              startTime: dateFormat(startTime),
+              endTime: dateFormat(endTime),
+              postureId: prediction.findIndex((e) => e.className === prevPose),
+            };
+            dispatch(setLogArray(log));
+            // console.log(log);
+
+            movingStartTime = endTime;
+            // dispatch(setLogArray(log));
           }
+          prevPose = maxPose;
           startTime = endTime;
           dispatch(setPose(prediction[i].className));
           dispatch(setPoseId(i)); //다를 경우만 포즈설정
@@ -86,7 +126,7 @@ const TrackingPose = () => {
       webcam.stop();
       clearInterval(id);
       clearInterval(timerId);
-      dispatch(setTrackingSetting(false));      
+      dispatch(setTrackingSetting(false));
     },
     [webcam],
   );
@@ -108,7 +148,7 @@ const TrackingPose = () => {
     setTimerId(
       setInterval(() => {
         time += 1;
-        captureTime+=1;
+        captureTime += 1;
         if (time >= alarmSec) {
           notify(maxPose, 'pose');
           time = 0;
@@ -121,19 +161,17 @@ const TrackingPose = () => {
     ); // 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
     console.log(id);
-  }, [webcam,setTimerId,setId]);
-
+  }, [webcam, setTimerId, setId]);
 
   useEffect(() => {
     init();
   }, []);
 
-  useEffect(()=>{
-    if(trackingSetting&&mode==='startLive') onStart();
-    else if(mode === 'stopLive') onStop(id,timerId);
-    else if(mode === 'pausedLive') onPause();
-    else if(mode==='stretching') onStop(id,timerId);
-  },[mode])
-
+  useEffect(() => {
+    if (trackingSetting && mode === 'startLive') onStart();
+    else if (mode === 'stopLive') onStop(id, timerId);
+    else if (mode === 'pausedLive') onPause();
+    else if (mode === 'stretching') onStop(id, timerId);
+  }, [mode]);
 };
 export default TrackingPose;
