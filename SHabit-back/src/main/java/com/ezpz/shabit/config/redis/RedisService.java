@@ -17,14 +17,26 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RedisService {
 
-	private final RedisTemplate<String, String> redisTemplate;
+  private final RedisTemplate<String, String> redisTemplate;
 
-	public boolean checkDuplicateLogins(String email) {
-		// 관리자 권한은 중복 허용, 일반 유저는 로그인한 적이 있는 경우 중복 로그인 방지
-		if (!email.equals("ssafyezpz@gmail.com") && redisTemplate.opsForValue().get("RT:" + email) != null) {
-			log.error("이미 로그인 되어 있습니다. : {}", email);
-			return true;
-		}
-		return false;
-	}
+  public boolean checkDuplicateLogins(String email) {
+    // 관리자 권한은 중복 허용, 일반 유저는 중복 트래킹 방지
+    if (!email.equals("ssafyezpz@gmail.com") && redisTemplate.opsForValue().get("tracking:" + email) != null) {
+      log.error("이미 이용 중인 계정입니다. : {}", email);
+      return true;
+    }
+    return false;
+  }
+
+  public void saveTrackingUserSession(String email) {
+    if (!checkDuplicateLogins(email))
+      redisTemplate.opsForValue().set("tracking:" + email, "tracking");
+
+  }
+
+  public void removeTrackingUserSession(String email) {
+    if (redisTemplate.opsForValue().get("tracking:" + email) != null) {
+      redisTemplate.delete("tracking:" + email);
+    }
+  }
 }
