@@ -22,7 +22,9 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
       return FireAlert('닉네임은 2~14글자 입니다.');
     }
     if (
-      !nicknameInput.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,14}$/)
+      !nicknameInput.match(
+        /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[a-zA-Z0-9ㄱ-ㅎ가-힣]{2,14}$/,
+      )
     ) {
       return FireAlert('닉네임에 특수문자를 사용할 수 없습니다.');
     }
