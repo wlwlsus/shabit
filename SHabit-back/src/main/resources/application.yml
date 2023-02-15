@@ -99,14 +99,14 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: shabit
+      bucket: ssafy601
     region:
       static: ap-northeast-2 #Asia Pacific -> seoul
     stack:
       auto: false
     credentials:
-      access-key: AKIARYFPHUBQGRUEKLLL
-      secret-key: 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
+      access-key: AKIA4KMX2KNB3Q5COKEX
+      secret-key: 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
 
 # Hibernate loggin
 logging:
