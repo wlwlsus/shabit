@@ -4,8 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVideoURL, setStretchModal } from '../../store/videoSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
-
+import {setStretchingMode} from "../../store/videoSlice";
 import VideoList from './VideoList';
+import { setMode } from '../../store/modeSlice';
+import { postData } from '../../services/stat/post';
+import { setInitLogArray } from '../../store/trackingSlice';
+
 
 export default function Modal() {
   const [err, setErr] = useState();
@@ -16,10 +20,20 @@ export default function Modal() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const logArray = useSelector((state) => {
+    return state.tracking.logArray;
+  });
+  const userEmail = useSelector((state) => {
+    return state.auth.user.email;
+  });
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
+  // TODO stretching mode로 바꿔야됨
+  // 스트레칭 시작할 때 -> post
   const playVideo = () => {
     if (selected) {
+      dispatch(setMode('stretching'));
+       // 시간 같은거 모두 정지
+      dispatch(setStretchingMode(true));
       dispatch(
         setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`),
       );
@@ -37,6 +51,9 @@ export default function Modal() {
         <BsFillXCircleFill
           onClick={() => {
             dispatch(setStretchModal(false));
+            dispatch(setStretchingMode(false));
+            dispatch(setMode('startLive'));
+            navigate('/posture/live');
           }}
         />
       </ModalHeader>

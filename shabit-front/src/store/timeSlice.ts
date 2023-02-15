@@ -4,16 +4,16 @@ const timeSlice = createSlice({
   name: 'timeSlice',
   initialState: {
     stretchTime: {min:50,sec:0},
-    usedTime : {hour:0,min:0},
-    isRunning:false,//TODO:isStop이랑 isRunning중에 하나만 있어도되는지 확인해야됨
-    isStop:false,
+    usedTime : {hour:0,min:0}
   },
   reducers: {
-    setInitTime: (state,action)=>{
-        state.stretchTime.min = action.payload;
-        state.stretchTime.sec = 0;
-        state.usedTime.hour =0;
-        state.usedTime.min =0;
+    setInitStretchingTime : (state,action) =>{
+      state.stretchTime.min = action.payload;
+      state.stretchTime.sec = 0;
+    },
+    setInitUsedTime : (state) =>{
+      state.usedTime.hour = 0;
+      state.usedTime.min = 0;
     },
     calUsedTime :(state) =>{
         if(state.usedTime.min===59){
@@ -23,24 +23,15 @@ const timeSlice = createSlice({
         else state.usedTime.min+=1;
     },
     calStretchTime :(state) =>{
-        if(state.stretchTime.min===0 && state.stretchTime.sec===0){
-          state.isRunning = false;
-        }
-        else if(state.stretchTime.sec===0){
+        if(state.stretchTime.sec===0){
             state.stretchTime.sec =59;
             state.stretchTime.min-=1;
         }
         else state.stretchTime.sec-=1;
-    },
-    setIsRunning :(state,action)=>{
-        state.isRunning = action.payload;
-    },
-    setIsStop :(state,action)=>{
-      state.isStop = action.payload;
     }
   },
 });
 
 export default timeSlice;
-export const { setInitTime,calStretchTime,calUsedTime,setIsRunning,setIsStop } = timeSlice.actions;
+export const { setInitStretchingTime,calStretchTime,calUsedTime,setInitUsedTime } = timeSlice.actions;
 
