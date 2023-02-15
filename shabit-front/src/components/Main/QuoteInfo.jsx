@@ -38,13 +38,13 @@ export default function QuoteInfo() {
 
     await wsc.checkDuplicated().then((res) => {
       if (res === 'Not Duplicated') {
-        wsc.startHeartbeat();
         //TODO 처리(시작)
         fetchAlarmTime().then(() => {
           dispatch(setInitStretchingTime(initStretchingMin));
           dispatch(setMode('startLive'));
           dispatch(setInitUsedTime());
 
+          wsc.startHeartbeat();
           navigate('/posture/live');
         });
       } else FireAlert(duplicate);
