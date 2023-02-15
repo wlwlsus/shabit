@@ -45,7 +45,9 @@ const Sidebar = () => {
   const stretchMode = useSelector((state) => {
     return state.video.stretchingMode;
   });
-
+  const curPose = useSelector((state) => {
+    return state.pose.pose;
+  });
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       notify(pose, 'stretching');
@@ -58,7 +60,9 @@ const Sidebar = () => {
       dispatch(setStretchModal(true));
     }
   }, [stretchingMin, stretchingSec]);
-
+  useEffect(()=>{
+    dispatch(setInitStretchingTime(initStretchingMin));
+  },[]);
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
