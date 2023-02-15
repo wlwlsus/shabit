@@ -3,7 +3,11 @@ import { loadEffect } from '../../styles/animation';
 import styled, { ThemeContext } from 'styled-components';
 import ReactApexChart from 'react-apexcharts';
 import DonutChart from './DonutChart';
-import { BsFillCaretLeftFill, BsFillCaretRightFill } from 'react-icons/bs';
+import {
+  BsFillCaretLeftFill,
+  BsFillCaretRightFill,
+  BsFillQuestionCircleFill,
+} from 'react-icons/bs';
 
 const LineChart = ({ mode, lineData, page, setPage }) => {
   const [axisX, setAxisX] = useState([]);
@@ -152,6 +156,9 @@ const LineChart = ({ mode, lineData, page, setPage }) => {
       <DonutWrapper>
         <Title>
           {day?.split('-')[0]}년 {day?.split('-')[1]}월 {day?.split('-')[2]}일
+          <IconWrapper title="오늘 데이터는 다음날 오전 1시에 반영됩니다.">
+            <BsFillQuestionCircleFill />
+          </IconWrapper>
         </Title>
         <DonutChart jsonData={lineData} day={day} />
       </DonutWrapper>
@@ -197,9 +204,22 @@ const DonutWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 const Title = styled.div`
   font-weight: bold;
   color: ${(props) => props.theme.color.blackColor};
+`;
+
+const IconWrapper = styled.div`
+  font-size: 1.4rem;
+  color: ${(props) => props.theme.color.secondary};
+  position: absolute;
+  top: -1.5%;
+  right: 0%;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
