@@ -6,7 +6,6 @@ export const postData = async (
   data: any,
 ): Promise<boolean> => {
   const { Authorization } = header();
-  console.log(data);
   return await apiRequest
     .post(`/api/v1/statistics/${email}`, data, {
       headers: { Authorization, 'Content-Type': 'application/json' },

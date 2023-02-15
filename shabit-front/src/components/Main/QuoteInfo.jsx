@@ -5,13 +5,14 @@ import { loadEffect } from '../../styles/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { setIsRunning, setIsStop } from '../../store/timeSlice';
-import { useDispatch } from 'react-redux';
 import { fetchAlarmTime } from '../../services/admin/get';
+import { setMode } from '../../store/modeSlice';
+import { useDispatch,useSelector } from 'react-redux';
+import { setInitUsedTime,setInitStretchingTime } from '../../store/timeSlice';
 
 export default function QuoteInfo() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const defaultQuote =
     'SHabit의 트래킹 기능을 사용해보세요! 바른자세가 될 수 있도록 도와드립니다.';
 
@@ -19,6 +20,21 @@ export default function QuoteInfo() {
     if (state.chart.quote.length === 0) return defaultQuote;
     return state.chart.quote;
   });
+  const initStretchingMin = useSelector((state)=>{
+    return state.admin.stretchingTime/60;
+  }) 
+  const onStart = () =>{
+    //TODO 처리(시작)
+    fetchAlarmTime().then(()=>{
+      dispatch(setInitStretchingTime(1));
+
+      // dispatch(setInitStretchingTime(initStretchingMin));
+    dispatch(setMode('startLive'));
+    dispatch(setInitUsedTime());
+    
+    navigate('/posture/live');
+    });
+  }
 
   return (
     <Wrapper>
@@ -32,12 +48,7 @@ export default function QuoteInfo() {
 
       <Start>
         <BsFillCaretRightSquareFill
-          onClick={() => {
-            dispatch(setIsRunning(true));
-            dispatch(setIsStop(false));
-            fetchAlarmTime();
-            navigate('/posture/live');
-          }}
+          onClick={onStart}
         />
         <div>자세교정 시작하기</div>
       </Start>

@@ -6,6 +6,7 @@ const videoSlice = createSlice({
     selected: '', // 유저가 선택한 비디오
     videoURL: '',
     stretchModal : false,
+    stretchingMode:false,
   },
   reducers: {
     setSelected: (state, action) => {
@@ -16,9 +17,12 @@ const videoSlice = createSlice({
     },
     setStretchModal :(state,action)=>{
       state.stretchModal = action.payload;
+    },
+    setStretchingMode : (state,action) =>{
+      state.stretchingMode = action.payload;
     }
   },
 });
 
 export default videoSlice;
-export const { setSelected, setVideoURL,setStretchModal } = videoSlice.actions;
+export const { setSelected, setVideoURL,setStretchModal,setStretchingMode } = videoSlice.actions;
