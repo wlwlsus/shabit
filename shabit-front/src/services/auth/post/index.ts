@@ -1,8 +1,10 @@
+import { header } from '../..';
 import store from '../../../store';
 import {
   setUserState,
   setTokenState,
   setIsAdminState,
+  clearAuthState,
 } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 import jwt_decode from 'jwt-decode';
@@ -20,7 +22,6 @@ export const register = async (
       password,
     })
     .then((res) => {
-      alert('회원가입이 완료되었습니다');
       return Promise.resolve(true);
     })
     .catch(() => {
@@ -41,10 +42,10 @@ export const login = async (email: string, password: string) => {
       const accessToken = res.data.result.token.accessToken;
       const refreshToken = res.data.result.token.refreshToken;
       const user = res.data.result.user;
-      console.log(user);
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
+      sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       sessionStorage.setItem('user', JSON.stringify(user));
       const decodedToken: DecodedJWT = jwt_decode(accessToken);
       // console.log(decodedToken);
@@ -77,37 +78,22 @@ export const refreshLogin = async (
     });
 };
 
-export const socialLogin = async (email: string, password: string) => {
+export const logout = async (): Promise<boolean> => {
+  const accessToken = JSON.parse(sessionStorage.getItem('accessToken'));
+  const refreshToken = JSON.parse(sessionStorage.getItem('refreshToken'));
   return await apiRequest
-    .post('/api/v1/user/login', { email, password })
-    .then((res) => {
-      const accessToken = res.data.result.token.accessToken;
-      const user = res.data.result.user;
-      console.log(user);
-      store.dispatch(setTokenState(accessToken));
-      store.dispatch(setUserState(user));
-      sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
-      sessionStorage.setItem('user', JSON.stringify(user));
-      const decodedToken: DecodedJWT = jwt_decode(accessToken);
-      if (decodedToken.auth === 'ROLE_ADMIN') {
-        store.dispatch(setIsAdminState(true));
-      } else store.dispatch(setIsAdminState(false));
-      return Promise.resolve({ user, accessToken });
-    })
-    .catch((err) => {
-      return Promise.reject(err);
-    });
-};
-
-export const logout = async (
-  accessToken: string,
-  refreshToken: string,
-): Promise<boolean> => {
-  return await apiRequest
-    .post('/api/v1/user/logout', { accessToken, refreshToken })
+    .post(
+      '/api/v1/user/logout',
+      { accessToken, refreshToken },
+      { headers: header() },
+    )
     .then(() => {
-      sessionStorage.clear();
-      alert('로그아웃 되었습니다.');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('user');
+      store.dispatch(clearAuthState());
       return Promise.resolve(true);
     })
     .catch(() => Promise.reject(false));

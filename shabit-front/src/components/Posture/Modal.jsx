@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVideoURL } from '../../store/videoSlice';
-
+import { setVideoURL, setStretchModal } from '../../store/videoSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
-
+import { setStretchingMode } from '../../store/videoSlice';
 import VideoList from './VideoList';
+import { setMode } from '../../store/modeSlice';
 
-export default function Modal({ setModal }) {
+export default function Modal() {
+  const [err, setErr] = useState();
   const selected = useSelector((state) => {
     return state.video.selected;
   });
@@ -18,26 +19,41 @@ export default function Modal({ setModal }) {
   const navigate = useNavigate();
 
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
+  // TODO stretching mode로 바꿔야됨
+  // 스트레칭 시작할 때 -> post
   const playVideo = () => {
-    dispatch(setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`));
-    setModal(false);
-    navigate('/posture/stretch');
+    if (selected) {
+      dispatch(setMode('stretching'));
+      // 시간 같은거 모두 정지
+      dispatch(setStretchingMode(true));
+      dispatch(
+        setVideoURL(`https://www.youtube.com/embed/${selected.videoId}`),
+      );
+      dispatch(setStretchModal(false));
+      navigate('/posture/stretch');
+    } else {
+      setErr('스트레칭 영상을 선택해주세요.');
+    }
   };
 
   return (
     <ContainerWrapper>
       <ModalHeader>
+        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <BsFillXCircleFill
           onClick={() => {
-            setModal(false);
+            dispatch(setStretchModal(false));
+            dispatch(setStretchingMode(false));
+            dispatch(setMode('startLive'));
+            navigate('/posture/live');
           }}
         />
       </ModalHeader>
       <Container>
-        <Title>원하시는 스트레칭 영상 길이를 선택해주세요.</Title>
         <VideoList />
         <ModalFooter>
           <VideoInfo>
+            {err && !selected && <Err>{err}</Err>}
             <span>
               스트레칭 종류 : {titleTable[selected?.category?.categoryId]}
             </span>
@@ -71,6 +87,7 @@ const ModalHeader = styled.div`
   width: 55rem;
   height: 4rem;
   background-color: ${(props) => props.theme.color.secondary};
+  color: ${(props) => props.theme.color.primary};
   border-radius: 1.5rem 1.5rem 0 0;
   padding: 0 1rem;
 
@@ -79,8 +96,8 @@ const ModalHeader = styled.div`
   justify-content: flex-end;
 
   & > svg {
-    color: ${(props) => props.theme.color.primary};
     font-size: 2.5rem;
+    margin-left: 12rem;
     transition: all 0.2s linear;
 
     &:hover {
@@ -103,18 +120,27 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
+
+  position: relative;
 `;
 
 const Title = styled.div`
   font-size: 1.3rem;
 `;
 
+const Err = styled.div`
+  z-index: 999;
+  color: ${(props) => props.theme.color.redColor};
+  position: absolute;
+  top: 5%;
+  left: 35%;
+`;
+
 const ModalFooter = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  align-self: flex-end;
   justify-content: space-between;
 `;
 

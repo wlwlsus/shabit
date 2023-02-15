@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useDebounce from '../../utils/useDebounce';
-import Services from '../../services';
+import Services, { FireConfirm } from '../../services';
 import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { confirmEmail } from '../../services/auth/get';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
+import { BsFillXCircleFill } from 'react-icons/bs';
 
 const SignupForm = () => {
   const [inputs, setInputs] = useState({
@@ -37,43 +38,33 @@ const SignupForm = () => {
 
   //전체: API 통신 내용 혹은 메시지를 관리합니다.
   const [message, setCurrentMessage] = useState('');
-  const [currentTimeout, setCurrentTimeout] = useState(null);
-  //전체: 메시지을 2초 후 초기화합니다.
+
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-    }, 2000);
-    setCurrentTimeout(newTimeout);
   };
 
   //비밀번호 일치 여부를 검증합니다.
-  const debouncedPasswordConfirm = useDebounce(password2, 20);
   useEffect(() => {
-    if (
-      debouncedPasswordConfirm &&
-      debouncedPasswordConfirm.length > password.length - 4
-    ) {
-      if (password !== debouncedPasswordConfirm) {
+    if (password2 && password2.length > password.length - 4) {
+      if (password !== password2) {
         setMessage('비밀번호가 일치하지 않습니다');
       } else {
         setMessage('');
       }
+    } else {
+      setMessage('');
     }
-  }, [debouncedPasswordConfirm]);
+  }, [password2]);
 
   //비밀번호 검증 로직입니다.
   const [passwordMatch, setPasswordMatch] = useState(false);
+
   useEffect(() => {
-    // console.log(
-    //   password,
-    //   password.match(
-    //     /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
-    //     // /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
-    //   ),
-    // );
+    if (password.length === 0) return setMessage('');
+    if (password.length < 8 || password.length > 16) {
+      setPasswordMatch(false);
+      return setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
     if (password.length >= 8) {
       if (
         !password.match(
@@ -81,7 +72,7 @@ const SignupForm = () => {
           /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
         )
       ) {
-        setMessage('영문 대소문자, 숫자, 특수문자를 사용하세요.');
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
         setPasswordMatch(false);
       } else {
         setMessage('');
@@ -93,11 +84,16 @@ const SignupForm = () => {
   //닉네임 검증 로직입니다.
   const [nicknameMatch, setNicknameMatch] = useState(false);
   useEffect(() => {
-    if (nickname.length > 1) {
-      if (
-        !nickname.match(/^(?=.*[a-z0-9ㄱ-ㅎ가-힣])[a-z0-9ㄱ-ㅎ가-힣]{2,16}$/)
+    if (nickname.length) {
+      if (nickname.length > 14 || nickname.length < 2) {
+        setMessage('닉네임은 2~14글자 입니다.');
+        setNicknameMatch(false);
+      } else if (
+        !nickname.match(
+          /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[a-zA-Z0-9ㄱ-ㅎ가-힣]{2,14}$/,
+        )
       ) {
-        setMessage('사용 불가능한 닉네임입니다');
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
         setNicknameMatch(false);
       } else {
         setMessage('');
@@ -116,11 +112,11 @@ const SignupForm = () => {
           setNeedCheck(true);
         })
         .catch((err) => {
-          console.log(err.message);
           setMessage(err.message);
           setNeedCheck(false);
         });
     } else {
+      setMessage('');
       setNeedCheck(false);
     }
   }, [debouncedEmailTerm]);
@@ -138,6 +134,7 @@ const SignupForm = () => {
   };
 
   const onConfirmed = () => {
+    setMessage('');
     setNeedCheck(false);
     setConfirmingEmail(false);
     setIsConfirmed(true);
@@ -145,30 +142,75 @@ const SignupForm = () => {
 
   //회원가입 진행 로직입니다.
   const onSignup = () => {
+    if (message) return;
     Auth.register(email, nickname, password).then((value) => {
       if (value) {
-        alert('회원가입이 완료되었습니다.');
+        FireConfirm('회원가입이 완료되었습니다.');
         navigate('/login');
       }
     });
   };
   // #################################################
+  // 전체 검증 로직입니다. 하위 호환을 위해 아래와 같이 추가 작성하였습니다.
+  useEffect(() => {
+    if (message) return;
+    if (!password && !password2 && !nickname && !email) return;
+    if (password2.length > 4 && password !== password2) {
+      setMessage('비밀번호가 일치하지 않습니다');
+    }
+
+    if ((password.length < 8 && password.length > 0) || password.length > 16) {
+      setMessage('비밀번호는 8자 이상 16자 이하입니다.');
+    }
+    if (password.length >= 8) {
+      if (
+        !password.match(
+          // /^(?=.*[A-Za-z])(?=.*d)(?=.*[$@$!%*?&])[A-Za-zd$@$!%*?&]{8,16}/,
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/,
+        )
+      ) {
+        setMessage('비밀번호는 영대소문자/숫자/특수문자를 사용해주세요.');
+        setPasswordMatch(false);
+      }
+    }
+    if (nickname.length) {
+      if (nickname.length > 14 || nickname.length < 2) {
+        setMessage('닉네임은 2~14글자 입니다.');
+      } else if (
+        !nickname.match(
+          /^(?=.*[a-zA-Z0-9ㄱ-ㅎ가-힣])[a-zA-Z0-9ㄱ-ㅎ가-힣]{2,14}$/,
+        )
+      ) {
+        setMessage('닉네임에 특수문자를 사용할 수 없습니다.');
+      }
+    }
+    if (!isConfirmed) {
+      return setMessage('이메일 인증을 완료해주세요');
+    }
+  }, [message]);
   return (
     <FormWrapper>
-      {!message ? <div></div> : <div>{message}</div>}
+      {!message ? (
+        <StyledMessage></StyledMessage>
+      ) : (
+        <StyledMessage>{message}</StyledMessage>
+      )}
       <InputWrapper>
         {isLoading ? (
           <img alt="Spinner" src="/assets/spinner.gif" className="Spinner" />
         ) : (
           <></>
         )}
-        <Input
-          placeholder={'이메일 아이디'}
-          type="email"
-          name="email"
-          value={email}
-          onChange={onChangeHandler}
-        />
+        <RequiredWrapper>
+          <Input
+            placeholder={'이메일 아이디'}
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
         <RightTag>
           {needCheck ? (
             <button type="button" onClick={() => onChekingEmail()}>
@@ -179,6 +221,13 @@ const SignupForm = () => {
           )}
           {confirmingEmail ? (
             <ConfirmModal>
+              <StyledIcon
+                onClick={() => {
+                  setConfirmingEmail(false);
+                }}
+              >
+                <BsFillXCircleFill />
+              </StyledIcon>
               <ConfirmForm
                 onConfirmed={onConfirmed}
                 confirmCode={confirmCode}
@@ -188,27 +237,36 @@ const SignupForm = () => {
             <></>
           )}
         </RightTag>
-        <Input
-          placeholder={'닉네임'}
-          type="text"
-          name="nickname"
-          value={nickname}
-          onChange={onChangeHandler}
-        />
-        <Input
-          placeholder={'비밀번호'}
-          type="password"
-          name="password"
-          value={password}
-          onChange={onChangeHandler}
-        />
-        <Input
-          placeholder={'비밀번호 확인'}
-          type="password"
-          name="password2"
-          value={password2}
-          onChange={onChangeHandler}
-        />
+        <RequiredWrapper>
+          <Input
+            placeholder={'닉네임'}
+            type="text"
+            name="nickname"
+            value={nickname}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
+        <RequiredWrapper>
+          <Input
+            placeholder={'비밀번호'}
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
+        <RequiredWrapper>
+          <Input
+            placeholder={'비밀번호 확인'}
+            type="password"
+            name="password2"
+            value={password2}
+            onChange={onChangeHandler}
+          />
+          <span>*</span>
+        </RequiredWrapper>
       </InputWrapper>
       {isConfirmed &&
       nicknameMatch &&
@@ -218,7 +276,8 @@ const SignupForm = () => {
       ) : (
         <button
           style={{
-            backgroundColor: `${(props) => props.theme.color.grayColor}`,
+            backgroundColor: `#D3D3D3`,
+            cursor: 'default',
           }}
         >
           가입하기
@@ -256,6 +315,15 @@ const FormWrapper = styled.div`
   }
 `;
 
+const StyledIcon = styled.div`
+  position: absolute;
+  font-size: large;
+  right: 0.7rem;
+  top: 0.7rem;
+  color: ${(props) => props.theme.color.primary};
+  cursor: pointer;
+`;
+
 const InputWrapper = styled.div`
   height: 55%;
   display: flex;
@@ -289,6 +357,20 @@ const ConfirmModal = styled.div`
   width: 22rem;
   height: 22rem;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+  z-index: 3;
+`;
+
+const StyledMessage = styled.div`
+  position: absolute;
+  top: 3.2rem;
+`;
+
+const RequiredWrapper = styled.div`
+  display: flex;
+  & > span {
+    position: absolute;
+    color: ${(props) => props.theme.color.primary};
+  }
 `;
 
 export default SignupForm;

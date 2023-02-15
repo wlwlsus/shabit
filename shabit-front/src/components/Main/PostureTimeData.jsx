@@ -1,29 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
-import {
-  GlobalStyle,
-  pinkTheme,
-  blueTheme,
-  darkTheme,
-  greenTheme,
-} from '../../styles/GlobalStyles';
-
+import React, { useContext } from 'react';
 import Chart from 'react-apexcharts';
-import ThemeBox from './ThemeBox';
-import Logo from '../common/Logo';
-
+import { ThemeContext } from 'styled-components';
 export default function PostureTimeData({ total, time }) {
-  const user = JSON.parse(sessionStorage.getItem('user'));
-  const [theme, setTheme] = useState(pinkTheme);
-  const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
-
-  useEffect(() => {
-    const themeInfo = localStorage.getItem('theme');
-    if (!themeInfo) return;
-    setTheme(themeList[themeInfo]);
-  }, []);
-
+  const themeContext = useContext(ThemeContext);
   const options = {
     chart: {
       type: 'bar',
@@ -31,7 +10,7 @@ export default function PostureTimeData({ total, time }) {
       zoom: {
         enabled: false,
       },
-      toolbar:{
+      toolbar: {
         show: false,
       },
     },
@@ -41,24 +20,24 @@ export default function PostureTimeData({ total, time }) {
         dataLabels: {
           position: 'top',
         },
-      }
+      },
     },
     fill: {
       type: 'solid',
-      colors: theme.color.primary,
+      colors: themeContext.color.primary,
     },
     dataLabels: {
       enabled: true,
       offsetX: -6,
       style: {
         fontSize: '12px',
-        colors: ['#fff']
-      }
+        colors: ['#fff'],
+      },
     },
     stroke: {
       show: true,
       width: 1,
-      colors: ['#fff']
+      colors: ['#fff'],
     },
     legend: {
       show: false,
@@ -81,9 +60,11 @@ export default function PostureTimeData({ total, time }) {
     <Chart
       type={'bar'}
       options={options}
-      series={[{
-        data: [time]
-      }]}
+      series={[
+        {
+          data: [time],
+        },
+      ]}
       height={90}
       style={{ fontSize: '0.7rem' }}
     />

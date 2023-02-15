@@ -20,7 +20,7 @@ export default function ThemeBox({ setTheme }) {
     <Wrapper>
       <span>테마</span>
       <Pink onClick={() => changeTheme(0)}>PINK</Pink>
-      <Dark onClick={() => changeTheme(1)}>BLACK</Dark>
+      <Dark onClick={() => changeTheme(1)}>PURPLE</Dark>
       <Blue onClick={() => changeTheme(2)}>BLUE</Blue>
       <Green onClick={() => changeTheme(3)}>GREEN</Green>
     </Wrapper>

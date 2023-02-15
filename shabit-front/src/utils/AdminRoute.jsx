@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import { FireAlert } from './FireAlert';
+import { FireAlert } from '../services';
 
 export default function AdminRoute({ component }) {
   const token =

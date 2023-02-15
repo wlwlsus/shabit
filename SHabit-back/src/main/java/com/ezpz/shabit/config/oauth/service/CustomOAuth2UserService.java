@@ -73,7 +73,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		Users user = Users.builder()
 						.email(userInfo.getEmail())
 						.nickname(userInfo.getName())
-						.profile(userInfo.getImageUrl())
 						.providerType(providerType)
 						.roles(Collections.singletonList(Authority.ROLE_USER.name()))
 						.build();
@@ -85,9 +84,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		if (userInfo.getName() != null && !user.getUsername().equals(userInfo.getName())) {
 			user.setNickname(userInfo.getName());
 		}
-
-		if (userInfo.getImageUrl() != null && !user.getProfile().equals(userInfo.getImageUrl())) {
-			user.setProfile(userInfo.getImageUrl());
-		}
+		user.setProfile(user.getProfile());
 	}
 }

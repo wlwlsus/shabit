@@ -1,17 +1,38 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
+import { fetchAlarmTime } from '../../services/admin/get';
+import { setMode } from '../../store/modeSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInitUsedTime, setInitStretchingTime } from '../../store/timeSlice';
 
 export default function QuoteInfo() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const defaultQuote =
+    'SHabit의 트래킹 기능을 사용해보세요! 바른자세가 될 수 있도록 도와드립니다.';
 
   const quote = typedUseSelector((state) => {
+    if (state.chart.quote.length === 0) return defaultQuote;
     return state.chart.quote;
   });
+  const initStretchingMin = useSelector((state) => {
+    return state.admin.stretchingTime / 60;
+  });
+  const onStart = () => {
+    //TODO 처리(시작)
+    fetchAlarmTime().then(() => {
+      dispatch(setInitStretchingTime(initStretchingMin));
+      dispatch(setMode('startLive'));
+      dispatch(setInitUsedTime());
+
+      navigate('/posture/live');
+    });
+  };
 
   return (
     <Wrapper>
@@ -23,15 +44,9 @@ export default function QuoteInfo() {
         <div>{quote}</div>
       </InfoBox>
 
-      <Start
-        onClick={() => {
-          // getAlarmTime().then(()=>navigate('/posture/live'));
-          // 임시 코드
-          navigate('/posture/live');
-        }}
-      >
+      <Start onClick={onStart}>
         <BsFillCaretRightSquareFill />
-        <span>자세교정 시작하기</span>
+        <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>
   );
@@ -68,11 +83,10 @@ const InfoTitle = styled.div`
   width: fit-content;
   margin-bottom: 1rem;
   font-size: 0.8rem;
-  padding: 0.3rem 0.5rem;
+  padding: 0.5rem;
   background-color: ${(props) => props.theme.color.secondary};
-  border-radius: 1.5rem;
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
-  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
+  border-radius: 0.5rem;
+  box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
   display: flex;
   align-items: center;

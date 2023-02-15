@@ -3,13 +3,12 @@ import styled, { ThemeContext } from 'styled-components';
 import { shallowEqual, useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
-import { fetchVods } from '../../services/vod/get';
+import { fetchVods } from '../../services/info/get';
 import { typedUseSelector } from '../../store';
 
 export default function VideoList() {
   const [videoList, setVideoList] = useState(); // 비디오 리스트
   const [isClicked, setIsClicked] = useState();
-  // const user = JSON.parse(sessionStorage.getItem('user'));
   const user = typedUseSelector((state) => {
     return state.auth.user;
   }, shallowEqual);
@@ -63,8 +62,9 @@ export default function VideoList() {
 }
 
 const VideoContainer = styled.div`
+  margin-top: 2rem;
   width: 100%;
-  height: 45%;
+  height: 48%;
   display: flex;
   justify-content: space-evenly;
 `;

@@ -7,7 +7,7 @@ import {
   greenTheme,
 } from './styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './utils/PrivateRoute';
@@ -23,13 +23,13 @@ import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
 import GoalContent from './components/Main/GoalContent';
+import GalleryContent from './components/Main/GalleryContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
 
 import AdminPage from './pages/AdminPage';
-import { Recording } from './components/Posture/Recording';
 
 import NotFound404 from './pages/NotFound404';
 
@@ -44,10 +44,13 @@ import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
+import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
   const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const themeInfo = localStorage.getItem('theme');
@@ -57,12 +60,12 @@ function App() {
 
   //최초 접속시에 실행되는 자동 로그인 로직입니다.
   // (1) 리덕스 스토어에 토큰과 유저정보가 있는지 확인합니다.
-  const accessToken = store.getState().auth.accessToken;
-  const currentUserEmail = store.getState().auth.user.email;
   useEffect(() => {
     const loginCheck = async () => {
+      const accessToken = store.getState().auth.accessToken;
+      const currentUserEmail = store.getState().auth.user.email;
       // (2) 스토어에 유저정보가 있다면 이미 로그인 된 것으로 판단합니다.
-      if (currentUserEmail) return;
+      if (currentUserEmail && accessToken) return;
       // (3) 스토어에 유저 정보가 없으면
       let newToken = accessToken;
       let isAutoLogin = false;
@@ -73,7 +76,14 @@ function App() {
       if (!newToken) {
         // (6) localStorage 토큰을 가져오고 sessionStorage를 업데이트 합니다.
         newToken = JSON.parse(localStorage.getItem('accessToken'));
-        sessionStorage.setItem('accessToken', JSON.stringify(newToken));
+        newToken = sessionStorage.setItem(
+          'accessToken',
+          JSON.stringify(newToken),
+        );
+        sessionStorage.setItem(
+          'refreshToken',
+          localStorage.getItem('refreshToken'),
+        );
         // (7) 또한 localStorage 토큰을 가져왔다면 자동로그인중인 것으로 플래그합니다.
         isAutoLogin = true;
       }
@@ -99,6 +109,8 @@ function App() {
         if (auth === 'ROLE_ADMIN') {
           store.dispatch(setIsAdminState(true));
         } else store.dispatch(setIsAdminState(false));
+        if (['/', '/login', 'signup'].includes(location.pathname))
+          navigate('/main');
         return;
         // store.getState().chart;
       } catch (error) {
@@ -107,12 +119,15 @@ function App() {
       }
     };
     loginCheck();
-  }, []);
+  });
 
   return (
     <Provider store={store}>
-      <ToastContainer />
       <ThemeProvider theme={theme}>
+        <ToastifyStyle>
+          <ToastContainer newestOnTop />
+        </ToastifyStyle>
+
         <GlobalStyle color={theme.color.primary} bg={theme.color.secondary} />
         <Routes>
           <Route
@@ -140,6 +155,7 @@ function App() {
             <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
             <Route path="goal" element={<GoalContent />} />
+            <Route path="gallery" element={<GalleryContent />} />
           </Route>
           <Route
             path="/posture"

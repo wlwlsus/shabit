@@ -7,7 +7,7 @@ const DonutChart = ({ jsonData, day }) => {
 
   // 자세 정보와 Label을 잇는 테이블
   // 순서 맞춤 필수 : 같은 자세, 같은 color
-  const labels = ['바른 자세', '거북목', '비스듬한 자세', '누운 자세'];
+  const labels = ['바른 자세', '거북목', '누운 자세', '비스듬한 자세'];
 
   useEffect(() => {
     // 오늘 날짜 데이터 필터링
@@ -54,7 +54,11 @@ const DonutChart = ({ jsonData, day }) => {
   };
 
   if (!data.reduce((acc, crr) => acc + crr, 0)) {
-    return <EmptyDonut>기록이 없습니다</EmptyDonut>;
+    return (
+      <EmptyDonut>
+        기록이 없습니다 <br /> 다른 날짜를 선택해주세요
+      </EmptyDonut>
+    );
   } else {
     return (
       <ReactApexChart
@@ -66,27 +70,6 @@ const DonutChart = ({ jsonData, day }) => {
       />
     );
   }
-
-  // return (
-  //   <DonutWrapper>
-  //     { ? (
-  //       <EmptyDonut>
-  //         <Msg>
-  //           {day.split('-')[0]}년 {day.split('-')[1]}월 {day.split('-')[2]}일의
-  //           기록이 없습니다
-  //         </Msg>
-  //       </EmptyDonut>
-  //     ) : (
-  //       <ReactApexChart
-  //         options={options}
-  //         series={data}
-  //         type="donut"
-  //         width={350}
-  //         height={290}
-  //       />
-  //     )}
-  //   </DonutWrapper>
-  // );
 };
 
 export default DonutChart;
@@ -99,7 +82,9 @@ const EmptyDonut = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   margin-top: 1rem;
   color: ${(props) => props.theme.color.primary};
   font-weight: bold;
+  line-height: 1.8rem;
 `;
