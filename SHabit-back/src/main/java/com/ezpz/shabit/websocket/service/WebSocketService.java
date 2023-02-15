@@ -1,7 +1,9 @@
 package com.ezpz.shabit.websocket.service;
 
 public interface WebSocketService {
-  void connectUser(String email);
+  boolean checkDuplication(String email);
 
-  void disconnectUser(String email);
+  void connectUser(String email, String token);
+
+  void disconnectUser(String email, String token);
 }

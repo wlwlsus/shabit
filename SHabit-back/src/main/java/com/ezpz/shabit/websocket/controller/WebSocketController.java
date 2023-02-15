@@ -13,28 +13,32 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class WebSocketController {
 
-  private final WebSocketService webSocketService;
+	private final WebSocketService webSocketService;
 
-  @MessageMapping("/ping")
-  @SendTo("/topic/pong")
-  public String pong(String message) {
-    log.info("메시지 수신!! : {} ", message);
-    return "PONG!";
-  }
+	@MessageMapping("/check")
+	@SendTo("/topic/check")
+	public String checkDuplicate(Message message) {
+		if (webSocketService.checkDuplication(message.getEmail())){
+			log.info("Duplicated");
+			return "Duplicated";
+		}
+		log.info("Not Duplicated");
+		return "Not Duplicated";
+	}
 
-  @MessageMapping("/connect")
-  @SendTo("/topic/connect")
-  public String getConnect(String email) {
-    log.info("getConnect 수신!! : {} ", email);
-    webSocketService.connectUser(email);
-    return "Connected!";
-  }
 
-  @MessageMapping("/disconnect")
-  @SendTo("/topic/disconnect")
-  public String getDisconnect(String email) {
-    log.info("getDisconnect 수신!! : {} ", email);
-    webSocketService.disconnectUser(email);
-    return "Disconnected!";
-  }
+	@MessageMapping("/ping")
+	@SendTo("/topic/pong")
+	public String pong(Message message) {
+		webSocketService.connectUser(message.getEmail(), message.getRefreshToken());
+		return "pong";
+	}
+
+	@MessageMapping("/disconnect")
+	@SendTo("/topic/disconnect")
+	public String getDisconnect(Message message) {
+		log.info("getDisconnect 수신 : {}", message);
+		webSocketService.disconnectUser(message.getEmail(), message.getRefreshToken());
+		return "Disconnected!";
+	}
 }

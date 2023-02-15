@@ -13,12 +13,17 @@ public class WebSocketServiceImpl implements WebSocketService {
   private final RedisService redisService;
 
   @Override
-  public void connectUser(String email) {
-    redisService.saveTrackingUserSession(email);
+  public boolean checkDuplication(String email) {
+    return redisService.checkDuplicateLogins(email);
   }
 
   @Override
-  public void disconnectUser(String email) {
-    redisService.removeTrackingUserSession(email);
+  public void connectUser(String email, String token) {
+    redisService.saveTrackingUserSession(email, token);
+  }
+
+  @Override
+  public void disconnectUser(String email, String token) {
+    redisService.removeTrackingUserSession(email, token);
   }
 }
