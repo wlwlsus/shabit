@@ -136,7 +136,19 @@ const TrackingPose = () => {
         postureId: movingArray.indexOf(Math.max(...movingArray)),
       };
       dispatch(setLogArray(movingLog));
-      //
+      /*
+      참고 : 
+      movingLog : Log가 찍히기 전까지의 모든 데이터입니다.
+      movingLogSnapshot : '현재 자세'가 되기 전의 모든 데이터입니다.
+
+      ex) 
+      0~30초 -> 움직임
+      30초~45초 -> 왼팔굄
+
+      위와 같은 상황일 때
+      movingLog : 0~45초의 데이터
+      movingLogSnapshot: 0~30초의 데이터
+      */
 
       movingLog = [0, 0, 0, 0, 0];
       clearInterval(id);
