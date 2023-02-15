@@ -33,7 +33,6 @@ const TrackingPose = () => {
     return state.tracking.trackingSetting;
   })
 
-  // let alarmSec = 9;
   const init = async () => {
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(

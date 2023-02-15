@@ -31,11 +31,7 @@ export default function Modal() {
   // 스트레칭 시작할 때 -> post
   const playVideo = () => {
     if (selected) {
-      // postData(userEmail,logArray).then(()=>{
-      //   setInitLogArray();
-      // });
       dispatch(setMode('stretching'));
-
        // 시간 같은거 모두 정지
       dispatch(setStretchingMode(true));
       dispatch(
