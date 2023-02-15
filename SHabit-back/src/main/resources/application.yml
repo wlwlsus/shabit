@@ -5,14 +5,14 @@ spring:
       client:
         registration:
           google:
-            client-id: "135940431465-e82m01dj8rp1ufn8go11e5351052ri2q.apps.googleusercontent.com"
-            client-secret: "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"
-            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            client-id: '135940431465-e82m01dj8rp1ufn8go11e5351052ri2q.apps.googleusercontent.com'
+            client-secret: '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'
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             scope: profile, email
           naver:
-            client-id: "7Ok2n8mRGPoSxzGABJRc"
-            client-secret: "QeTRN6VlPc"
-            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            client-id: '7Ok2n8mRGPoSxzGABJRc'
+            client-secret: 'QeTRN6VlPc'
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             authorization-grant-type: authorization_code
             scope:
               - name
@@ -20,15 +20,15 @@ spring:
               - profile_image
             client-name: Naver
           kakao:
-            client-id: "7b4ce626e03d4f1361d309f6b93dd0a4"
-            client-secret: "yj34MVMX2Dl8IZPqzHSym8dC1ek7ZeiS"
+            client-id: '7b4ce626e03d4f1361d309f6b93dd0a4'
+            client-secret: 'yj34MVMX2Dl8IZPqzHSym8dC1ek7ZeiS'
             scope:
               - profile_nickname
               - account_email
               - profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            redirect-uri: '{baseUrl}/{action}/oauth2/code/{registrationId}'
             client-authentication-method: POST
 
         provider:
@@ -60,8 +60,8 @@ spring:
     #    password: h2test
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://shabit.site:3306/ssafy601
-#        url: jdbc:mariadb://i8a601.p.ssafy.io:3307/ssafy601
+    #    url: jdbc:mariadb://shabit.site:3306/ssafy601
+    #        url: jdbc:mariadb://i8a601.p.ssafy.io:3307/ssafy601
     url: jdbc:mariadb://localhost:3306/ssafy
     username: root
     password: root
@@ -88,7 +88,7 @@ spring:
     # mongo db
     mongodb:
       host: localhost
-      #      host: i8a601.p.ssafy.io
+#      host: i8a601.p.ssafy.io
       port: 27017
       authentication-database: admin
       username: root
@@ -99,14 +99,14 @@ spring:
 cloud:
   aws:
     s3:
-      bucket: shabit
+      bucket: ssafy601
     region:
       static: ap-northeast-2 #Asia Pacific -> seoul
     stack:
       auto: false
     credentials:
-      access-key: AKIARYFPHUBQGRUEKLLL
-      secret-key: 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
+      access-key: AKIA4KMX2KNB3Q5COKEX
+      secret-key: 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
 
 # Hibernate loggin
 logging:

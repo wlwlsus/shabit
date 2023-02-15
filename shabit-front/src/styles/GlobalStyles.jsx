@@ -48,8 +48,8 @@ export const blueTheme = {
 
 export const darkTheme = {
   color: {
-    primary: '#2C3333',
-    secondary: '#DDDDDD',
+    primary: '#7A86B6',
+    secondary: '#e9e9f5',
     whiteColor: '#fff',
     blackColor: '#000000',
     darkGrayColor: '#828282',
@@ -61,11 +61,11 @@ export const darkTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
-    scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale0: '#e9e9f5',
+    scale1: '#C8B6E2',
+    scale2: '#A8A4CE',
+    scale3: '#7A86B6',
+    scale4: '#495C83',
   },
 };
 
@@ -84,19 +84,19 @@ export const greenTheme = {
     blueColor: '#008FFB',
   },
   heatMap: {
-    scale0: '#FFE7EA',
-    scale1: '#F0C4CA',
-    scale2: '#E5949F',
-    scale3: '#C77882',
-    scale4: '#AB4653',
+    scale0: '#f7f4b2',
+    scale1: '#EAE7B1',
+    scale2: '#A6BB8D',
+    scale3: '#61876E',
+    scale4: '#3C6255',
   },
 };
 
 export const themeColor = {
   pinkPrim: '#C57A84',
   pinkSec: '#F2E4E6',
-  darkPrim: '#2C3333',
-  darkSec: '#DDDDDD',
+  darkPrim: '#7A86B6',
+  darkSec: '#e9e9f5',
   bluePrim: '#5584AC',
   blueSec: '#E3EFF3',
   greenPrim: '#749F82',
@@ -124,6 +124,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'LotteMartDream';
     color: inherit;
     outline: 0;
+
     
   }
   html {

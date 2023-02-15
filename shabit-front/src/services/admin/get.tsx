@@ -1,8 +1,6 @@
 import { header } from '..';
 import store from '../../store';
 import {
-  clearQuetesList,
-  clearVideoList,
   pushQuetesList,
   pushVideoList,
   setAlertTime,
@@ -26,7 +24,7 @@ export const fetchAlarmTime = async (): Promise<AlarmTime> => {
       store.dispatch(setAlertTime(Number(alertTime)));
       return Promise.resolve({
         setStretchingTime: Number(stretchingTime),
-        alertTime: Number(alertTime),
+        setAlertTime: Number(alertTime),
       });
     })
     .catch((err) => Promise.reject(err));
@@ -45,14 +43,17 @@ export const fetchVods = async (email: string): Promise<object> => {
 };
 
 export const retrieveVods = async (
-  page: number | string = '',
-  search: 'category' | 'title' | 'length' | '' = '',
-  query: string = '',
+  page: number = 0,
+  category: 0 | 1 | 2 | 3 = 0,
+  length: 0 | 3 | 5 | 10 = 0,
 ): Promise<[object]> => {
   return await apiRequest
-    .get(`/api/v1/admin/vods?search=${search}&query=${query}&page=${page}`, {
-      headers: header(),
-    })
+    .get(
+      `/api/v1/admin/vods?category=${category}&length=${length}&page=${page}`,
+      {
+        headers: header(),
+      },
+    )
     .then((res) => {
       if (!page) {
         store.dispatch(setVideoList(res.data.result));
@@ -80,5 +81,3 @@ export const retreivePhrases = async (page: number = 0): Promise<object> => {
     })
     .catch((err) => err.data);
 };
-
-export default { fetchAlarmTime, fetchVods, retrieveVods, retreivePhrases };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../common/animation';
+import { loadEffect } from '../../../styles/animation';
 import AlarmSettings from './AlarmSettings';
 import QuoteInput from './QuoteInput';
 import QuotesList from './QuotesList';

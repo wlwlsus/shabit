@@ -6,24 +6,17 @@ import { HiArrowRightCircle } from 'react-icons/hi2';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
+import { FireAlert, FireConfirm } from '../../services';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);
   const [message, setCurrentMessage] = useState('');
-  const [currentTimeout, setCurrentTimeout] = useState(null);
-  //전체: 메시지을 2초 후 초기화합니다.
+  const [isLoading, setIsLoading] = useState(false);
   const setMessage = (str) => {
     setCurrentMessage(str);
-    if (!str) return;
-    clearTimeout(currentTimeout);
-    const newTimeout = setTimeout(() => {
-      setCurrentMessage('');
-    }, 2000);
-    setCurrentTimeout(newTimeout);
   };
 
-  //onChange 핸들링입니다.
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
@@ -44,11 +37,12 @@ const LoginForm = () => {
     });
   };
   const { email, password, autoLogin } = inputs;
-  // ###############################
 
   const onLogin = () => {
+    if (!email) return setMessage('이메일을 입력해주세요');
+    if (!password) return setMessage('비밀번호를 입력해주세요');
     Auth.login(email, password)
-      .then(({ user, accessToken, refreshToken }) => {
+      .then(async ({ user, accessToken, refreshToken }) => {
         if (autoLogin) {
           localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
           localStorage.setItem('accessToken', JSON.stringify(accessToken));
@@ -61,20 +55,20 @@ const LoginForm = () => {
   };
 
   const onReset = () => {
+    setIsLoading(true);
+    if (!(email.includes('@') && email.includes('.'))) {
+      FireAlert('올바르지 않은 이메일입니다.');
+      return setIsLoading(false);
+    }
     Auth.resetPassword(email)
       .then((res) => {
-        setMessage('임시 비밀번호를 발송하였습니다');
-        setTimeout(() => {
-          setMessage('');
-          setForgotPassword(false);
-        }, 1000);
+        setIsLoading(false);
+        FireConfirm('임시 비밀번호를 발송하였습니다');
+        setForgotPassword(false);
       })
       .catch((err) => {
-        setMessage('비밀번호가 초기화에 실패하였습니다');
-        setTimeout(() => {
-          setMessage('');
-          setForgotPassword(false);
-        }, 1000);
+        setIsLoading(false);
+        FireAlert(err.message || '비밀번호 초기화에 실패하였습니다.');
       });
   };
 
@@ -82,18 +76,14 @@ const LoginForm = () => {
     navigate('/signup');
   };
 
+  const onCheckEnter = (e) => {
+    if (e.key === 'Enter' && !forgotPassword) {
+      onLogin();
+    }
+  };
   return (
-    <FormWrapper>
-      <Title
-        style={{
-          color: 'red',
-          position: 'absolute',
-          left: '640px',
-          top: '20px',
-        }}
-      >
-        {message}
-      </Title>
+    <FormWrapper onKeyPress={onCheckEnter}>
+      <Msg>{message}</Msg>
       {!forgotPassword ? (
         <Title>SHabit에 로그인하고 서비스를 이용해보세요</Title>
       ) : (
@@ -105,8 +95,8 @@ const LoginForm = () => {
         value={email}
         onChange={onChangeHandler}
         placeholder={'아이디'}
-        shadow={'shadow'}
       />
+
       {!forgotPassword ? (
         <>
           <Input
@@ -115,9 +105,7 @@ const LoginForm = () => {
             value={password}
             onChange={onChangeHandler}
             placeholder={'비밀번호'}
-            shadow={'shadow'}
           />
-
           <Wrapper>
             <Checkbox>
               <input
@@ -125,25 +113,40 @@ const LoginForm = () => {
                 name="autoLogin"
                 checked={autoLogin}
                 onChange={onChecked}
-              />
+              />&nbsp;
               <span>자동 로그인</span>
             </Checkbox>
             <Div onClick={() => setForgotPassword(true)}>
               비밀번호를 잊으셨나요?
             </Div>
           </Wrapper>
+
           <HiArrowRightCircle onClick={onLogin} />
+          <Signup>
+            <span>아직 계정이 없으신가요?</span>
+            <Div onClick={goSignup}>회원가입</Div>
+          </Signup>
         </>
       ) : (
         <>
-          <StyledButton onClick={onReset}>비밀번호 초기화</StyledButton>
+          <StyledButton onClick={onReset}>임시 비밀번호 발급</StyledButton>
+          {isLoading ? (
+            <StyledImage
+              alt="Spinner"
+              src="/assets/spinner.gif"
+              className="Spinner"
+            />
+          ) : (
+            <></>
+          )}
+          <StyledCancel
+            onClick={() => setForgotPassword(false)}
+            style={isLoading ? { visibility: 'hidden' } : {}}
+          >
+            로그인으로 돌아가기
+          </StyledCancel>
         </>
       )}
-
-      <Signup>
-        <span>아직 계정이 없으신가요?</span>
-        <Div onClick={goSignup}>회원가입</Div>
-      </Signup>
     </FormWrapper>
   );
 };
@@ -169,10 +172,34 @@ const FormWrapper = styled.div`
   }
 `;
 
+const StyledCancel = styled.div`
+  color: ${(props) => props.theme.color.primary};
+  cursor: pointer;
+  font-size: 0.7rem;
+  margin-top: 1rem;
+  transition: transform 0.2s linear;
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;
+
+const StyledImage = styled.img`
+  position: absolute;
+`;
+
+const Msg = styled.div`
+  color: ${(props) => props.theme.color.redColor};
+  position: absolute;
+  top: 10%;
+`;
+
 const Title = styled.div`
   width: 38%;
   color: ${(props) => props.theme.color.grayColor};
-  font-size: 0.9rem;
+
   margin-bottom: 1rem;
 `;
 
@@ -222,7 +249,7 @@ const Signup = styled.div`
 `;
 
 const StyledButton = styled.button`
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.color.whiteColor};
   padding: 0.5rem;

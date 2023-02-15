@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
-
-import ThemeBox from './ThemeBox';
-import Logo from '../common/Logo';
+import { loadEffect } from '../../styles/animation';
 
 import PostureTimeData from './PostureTimeData';
 
 export default function TimeData({ total, time }) {
   return (
     <Wrapper>
-      <TitleWrapper>
-        <Title>자세 유지 시간</Title>
-      </TitleWrapper>
+      <Title>자세 유지 시간</Title>
       <ContentWrapper>
         <Data>
           <P>바른 자세</P>
@@ -37,29 +32,20 @@ export default function TimeData({ total, time }) {
 
 const Wrapper = styled.div`
   margin-top: 2rem;
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  position: absolute;
-  align-self: start;
-  align-items: center;
-  top: 14.5rem;
+  position: relative;
+  font-weight: bold;
+  color: ${(props) => props.theme.color.primary};
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
 const Title = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: start;
-  margin-left: 3rem;
   background-color: ${(props) => props.theme.color.secondary};
-  color: ${(props) => props.theme.color.primary};
-  font-weight: bold;
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
+  position: absolute;
+  top: -5%;
+  left: 5%;
 `;
 
 const ContentWrapper = styled.div`
@@ -71,18 +57,12 @@ const ContentWrapper = styled.div`
   border-radius: 1.5rem;
   border: 0.2rem solid ${(props) => props.theme.color.secondary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.grayColor};
-  animation: 0.8s ease-in ${loadEffect.down};
 
   & > div {
     width: 47%;
   }
 `;
 
-
-const P = styled.div`
-  color: ${(props) => props.theme.color.primary};
-  font-weight: bold;
-  position: relative;
-`;
+const P = styled.div``;
 
 const Data = styled.div``;

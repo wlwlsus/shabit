@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { postVod } from '../../../services/admin/post';
-import { TiArrowSortedDown } from 'react-icons/ti';
 import useDebounce from '../../../utils/useDebounce';
+import VideoInputDropbox from './VideoInputDropbox';
 
 const VideoInput = ({ scrollProp, setScrollProp }) => {
-  const [categoryInput, setCategoryInput] = useState(1);
   const [urlInput, setUrlInput] = useState('');
   const [videoId, setVideoId] = useState('');
   const [hasImage, setHasImage] = useState(false);
+  const [selected, setSelected] = useState(1);
 
   const debouncedInput = useDebounce(urlInput, 300);
   const myRef = useRef();
@@ -37,75 +37,7 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
   return (
     <VideoInputWrapper>
       <StyledDropBox>
-        <div className="select-box">
-          <div
-            className="select-box__current"
-            tabIndex={1}
-            onClick={(e) => e.target?.value && setCategoryInput(e.target.value)}
-          >
-            <div className="select-box__value">
-              <input
-                className="select-box__input"
-                type="radio"
-                id={0}
-                defaultValue={1}
-                name="Ben"
-                defaultChecked="checked"
-              />
-              <p className="select-box__input-text">목 운동</p>
-            </div>
-            <div className="select-box__value">
-              <input
-                className="select-box__input"
-                type="radio"
-                id={1}
-                defaultValue={2}
-                name="Ben"
-              />
-              <p className="select-box__input-text">허리 운동</p>
-            </div>
-            <div className="select-box__value">
-              <input
-                className="select-box__input"
-                type="radio"
-                id={2}
-                defaultValue={3}
-                name="Ben"
-              />
-              <p className="select-box__input-text">전신 운동</p>
-            </div>
-            <TiArrowSortedDown className="select-box__icon" />
-          </div>
-          <ul className="select-box__list">
-            <li>
-              <label
-                className="select-box__option"
-                htmlFor={0}
-                aria-hidden="true"
-              >
-                목 운동
-              </label>
-            </li>
-            <li>
-              <label
-                className="select-box__option"
-                htmlFor={1}
-                aria-hidden="true"
-              >
-                허리 운동
-              </label>
-            </li>
-            <li>
-              <label
-                className="select-box__option"
-                htmlFor={2}
-                aria-hidden="true"
-              >
-                전신 운동
-              </label>
-            </li>
-          </ul>
-        </div>
+        <VideoInputDropbox selected={selected} setSelected={setSelected} />
       </StyledDropBox>
       <StyledInputTag>
         <input
@@ -123,15 +55,14 @@ const VideoInput = ({ scrollProp, setScrollProp }) => {
         className={hasImage && 'buttonVisible'}
         onClick={() => {
           if (!hasImage) return;
-          postVod(~~categoryInput || 1, urlInput.split('&')[0]).then(() => {
+          postVod(~~selected || 1, urlInput.split('&')[0]).then(() => {
             setUrlInput('');
-            setCategoryInput(1);
             setHasImage(false);
             setScrollProp({ ...scrollProp, page: 0 });
           });
         }}
       >
-        추가하기
+        추가
       </StyledButton>
       {videoId ? (
         <ThumbNailFloat>
@@ -156,7 +87,7 @@ export default VideoInput;
 const VideoInputWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 0rem;
   .buttonVisible {
     background-color: ${(props) => props.theme.color.primary};
     cursor: pointer;
@@ -164,7 +95,7 @@ const VideoInputWrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-  background-color: ${(props) => props.theme.color.whiteColor};
+  background-color: ${(props) => props.theme.color.grayColor};
   cursor: default;
   color: ${(props) => props.theme.color.whiteColor};
   width: 7rem;
@@ -183,6 +114,7 @@ const StyledDropBox = styled.div`
   border: 0.1rem solid ${(props) => props.theme.color.primary};
   border-right: none;
   border-radius: 1rem 0 0 1rem;
+  cursor: pointer;
   .select-box {
     position: relative;
     display: block;
@@ -248,8 +180,11 @@ const StyledDropBox = styled.div`
   }
   .select-box__option {
     display: block;
+    border: 0.1rem solid ${(props) => props.theme.color.primary};
+    margin-bottom: -0.1rem;
+    border-radius: 1rem;
     padding: 15px;
-    background-color: ${(props) => props.theme.color.lightGrayColor};
+    background-color: ${(props) => props.theme.color.whiteColor};
   }
   .select-box__option:hover,
   .select-box__option:focus {
@@ -284,7 +219,7 @@ const ThumbNailFloat = styled.div`
   display: flex;
   justify-content: space-around;
   position: absolute;
-  top: 4.35rem;
+  top: -3.9rem;
   left: 7.4rem;
 `;
 

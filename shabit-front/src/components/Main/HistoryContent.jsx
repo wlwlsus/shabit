@@ -1,31 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../common/animation';
+import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
-import { shallowEqual } from 'react-redux';
-import { typedUseSelector } from '../../store';
-// import { typedUseSelector } from '../../store';
+import { fetchTodayPostureTime } from '../../services/goal/get';
 
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);
   const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
 
-  // const user = JSON.parse(sessionStorage.getItem('user'));
-
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  }, shallowEqual);
-
-  // useEffect(() => {
-  //   if (!user.email) return;
-  //   Promise.allSettled([
-  //     fetchWeekly(user.email, page),
-  //     fetchMonthly(user.email, page),
-  //   ]);
-  // }, [user.email]);
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
     if (!user.email) return;
@@ -45,13 +31,38 @@ export default function HistoryContent() {
     setMode(newMode);
   };
 
+  const [total, setTotal] = useState('0분');
+  const [time, setTime] = useState('0분');
+  useEffect(() => {
+    const mounted = async () => {
+      fetchTodayPostureTime(user.email).then((res) => {
+        // 분 -> 시
+        let hour = parseInt(res.total / 60);
+        let time = res.total % 60;
+
+        let str = '';
+        if (hour != 0) str += hour + '시간 ';
+        str += time + '분';
+        setTotal(str);
+
+        hour = parseInt(res.time[0] / 60);
+        time = res.time[0] % 60;
+
+        str = '';
+        if (hour != 0) str += hour + '시간 ';
+        str += time + '분';
+        setTime(str);
+      });
+    };
+    mounted();
+  }, []);
+
   return (
     <Wrapper>
       <TitleWrapper>
         <Title>Today</Title>
         <Content>
-          총 <P> 6시간 32분</P> 중, <P> 3시간 29분</P> 동안 바른 자세를
-          유지하셨습니다
+          총 <P> {total}</P> 중, <P> {time}</P> 동안 바른 자세를 유지하셨습니다
         </Content>
       </TitleWrapper>
 
@@ -108,16 +119,12 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  display: flex;
-  align-items: center;
-  align-self: start;
   margin-left: 3.5rem;
   background-color: ${(props) => props.theme.color.secondary};
   color: ${(props) => props.theme.color.primary};
   font-weight: bold;
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 `;
 

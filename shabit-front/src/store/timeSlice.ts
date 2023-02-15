@@ -3,16 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 const timeSlice = createSlice({
   name: 'timeSlice',
   initialState: {
-    stretchTime: {min:0,sec:0},
-    usedTime : {hour:0,min:0},
-    isRunning:true
+    stretchTime: {min:50,sec:0},
+    usedTime : {hour:0,min:0}
   },
   reducers: {
-    setInitTime: (state,action)=>{
-        state.stretchTime.min = action.payload;
-        state.stretchTime.sec = 0;
-        state.usedTime.hour =0;
-        state.usedTime.min =0;
+    setInitStretchingTime : (state,action) =>{
+      state.stretchTime.min = action.payload;
+      state.stretchTime.sec = 0;
+    },
+    setInitUsedTime : (state) =>{
+      state.usedTime.hour = 0;
+      state.usedTime.min = 0;
     },
     calUsedTime :(state) =>{
         if(state.usedTime.min===59){
@@ -27,13 +28,10 @@ const timeSlice = createSlice({
             state.stretchTime.min-=1;
         }
         else state.stretchTime.sec-=1;
-    },
-    setIsRunning :(state)=>{
-        state.isRunning = !state.isRunning;
     }
   },
 });
 
 export default timeSlice;
-export const { setInitTime,calStretchTime,calUsedTime,setIsRunning } = timeSlice.actions;
+export const { setInitStretchingTime,calStretchTime,calUsedTime,setInitUsedTime } = timeSlice.actions;
 
