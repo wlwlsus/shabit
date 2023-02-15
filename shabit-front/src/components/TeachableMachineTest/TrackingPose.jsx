@@ -127,6 +127,7 @@ const TrackingPose = () => {
   const onStop = useCallback(
     (id, timerId) => {
       webcam.stop();
+      setPose('');
       clearInterval(id);
       clearInterval(timerId);
       dispatch(setTrackingSetting(false));
