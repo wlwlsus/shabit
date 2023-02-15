@@ -50,9 +50,9 @@ const Sidebar = () => {
       notify(pose, 'stretching');
       // dispatch(setMode('stretching'));
       dispatch(setMode('pausedLive'));
-      // postData(userEmail,logArray).then(()=>{
-      //   setInitLogArray();
-      // });
+      postData(userEmail,logArray).then(()=>{
+        setInitLogArray();
+      });
       // TODO 스트레칭 시간 setting
       dispatch(setInitStretchingTime(initStretchingMin));
       // dispatch(setInitStretchingTime(initStretchingMin));

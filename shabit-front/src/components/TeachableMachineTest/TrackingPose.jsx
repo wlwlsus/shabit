@@ -4,8 +4,9 @@ import { setPose, setPoseId } from '../../store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
 import { setLogArray, setCapture,setTrackingSetting } from '../../store/trackingSlice';
-import dateFormat from '../../utils/dateFormat';
-import { setMode } from '../../store/modeSlice';
+import {dateFormat} from '../../utils/dateFormat';
+import {getSeconds} from '../../utils/dateFormat';
+
 
 const TrackingPose = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,6 @@ const TrackingPose = () => {
 
   // let alarmSec = 9;
   const init = async () => {
-    console.log("INIT")
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(
       '/my_model/model.json',
@@ -61,11 +61,12 @@ const TrackingPose = () => {
         //자세 바뀜 -> data저장해서 보내줘야됨
         if (prevPose !== maxPose) {
           prevPose = maxPose;
-          endTime = dateFormat(new Date());
-          //로그 저장
-          log = { startTime, endTime, postureId: i };
-          console.log(log);
-          dispatch(setLogArray(log));
+          endTime = new Date();
+          if(getSeconds(endTime)-getSeconds(startTime)>60){
+             //로그 저장
+              log = { startTime:dateFormat(startTime), endTime:dateFormat(endTime), postureId: i };
+              dispatch(setLogArray(log));
+          }
           startTime = endTime;
           dispatch(setPose(prediction[i].className));
           dispatch(setPoseId(i)); //다를 경우만 포즈설정
@@ -103,7 +104,7 @@ const TrackingPose = () => {
   const onStart = useCallback(async () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
-    startTime = dateFormat(new Date());
+    startTime = new Date();
     console.log(startTime);
     setTimerId(
       setInterval(() => {

@@ -28,11 +28,12 @@ export default function Modal() {
   });
   // 비디오 URL 할당 => 모달창 닫음 & 동영상 재생
   // TODO stretching mode로 바꿔야됨
+  // 스트레칭 시작할 때 -> post
   const playVideo = () => {
     if (selected) {
-      postData(userEmail,logArray).then(()=>{
-        setInitLogArray();
-      });
+      // postData(userEmail,logArray).then(()=>{
+      //   setInitLogArray();
+      // });
       dispatch(setMode('stretching'));
 
        // 시간 같은거 모두 정지

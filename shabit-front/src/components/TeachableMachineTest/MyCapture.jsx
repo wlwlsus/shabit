@@ -17,14 +17,10 @@ const MyCapture = () => {
     </ContainerWrapper>
   );
 };
-const ContainerWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 100%;
-`;
 
+const ContainerWrapper = styled.div`
+  margin-top:3rem;
+`;
 const InfoBox = styled.div`
   width: 45rem;
   height: 3rem;

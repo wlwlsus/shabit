@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect,useState } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,9 +83,9 @@ const MyCapture = () => {
       const time = new Date().toLocaleTimeString('en-US', options);
       const imageSrc = webcamRef.current.getScreenshot();
       let poseId;
-      if (curPoseId == 0) poseId = 1;
-      else if (curPoseId == 3) poseId = 2;
-      else if (curPoseId == 1 || curPoseId == 2) poseId = 3;
+      if (curPoseId === 0) poseId = 1;
+      else if (curPoseId === 3) poseId = 2;
+      else if (curPoseId === 1 || curPoseId === 2) poseId = 3;
       else poseId = 4;
       const file = dataURLtoFile(imageSrc, `${time} ${poseId}.jpg`);
       const formData = new FormData();
@@ -189,24 +189,14 @@ const NoticeText = styled.div`
   margin-left: 1rem;
 `;
 
-const InfoBox = styled.div`
-  width: 45rem;
-  height: 3rem;
-  background-color: ${(props) => props.theme.color.secondary};
-  border: 0.1rem solid ${(props) => props.theme.color.primary};
-  border-radius: 1rem;
-  font-weight: bold;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-`;
-
 const WebcamWrapper = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
-  margin-top: 1rem;
-  width:80%;
+  width:100%;
   height:80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default MyCapture;

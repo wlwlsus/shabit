@@ -1,4 +1,4 @@
-const dateFormat=(date)=> {
+export const dateFormat=(date)=> {
     let month = date.getMonth() + 1;
     let day = date.getDate();
     let hour = date.getHours();
@@ -13,4 +13,10 @@ const dateFormat=(date)=> {
 
     return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
 }
-export default dateFormat;
+export const getSeconds = (date) =>{
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    return (hour*60*60)+(minute*60)+second;
+}
