@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect,useState } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,8 @@ const MyCapture = () => {
   const dispatch = useDispatch();
   const webcamRef = useRef(null); //window
   const mediaRecorderRef = useRef(null); //viewRef
+  const [deviceId, setDeviceId] = useState({});
+  const [devices, setDevices] = useState([]);
 
   const curPoseId = useSelector((state) => {
     return state.pose.poseId;
@@ -42,6 +44,7 @@ const MyCapture = () => {
   const captureTiming = useSelector((state) => {
     return state.tracking.capture;
   });
+
   // 캡쳐 시작
   const init = useCallback(() => {
     if(videoSetting===false){
@@ -143,6 +146,15 @@ const MyCapture = () => {
     }, 3000);
   }, [webcamRef, mediaRecorderRef])
 
+    const handleDevices = useCallback((mediaDevices) => {
+        setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput"));
+      },[setDevices]
+    );
+
+    useEffect(() => {
+        navigator.mediaDevices.enumerateDevices().then(handleDevices);
+    },[handleDevices]);
+
   useEffect(()=>{
     if(videoSetting && mode==='startLive') onResume();
     if(mode === 'stopLive') onStop();
@@ -164,10 +176,20 @@ const MyCapture = () => {
               audio={false}
               ref={webcamRef}
               mirrored={true}
-              videoConstraints={videoConstraints}
+              videoConstraints={{deviceId}}
               screenshotFormat="image/jpg"
             />
           </WebcamWrapper>
+          <div>
+        {devices.map((device, key) => (
+          <button
+            key={device.deviceId}
+            onClick={() => setDeviceId(device.deviceId)}
+          >
+            {device.label || `Device ${key + 1}`}
+          </button>
+        ))}
+      </div>
         </>
       ) : (
         <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
