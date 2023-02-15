@@ -20,7 +20,7 @@ public class RedisService {
 
 	private final RedisTemplate<String, String> redisTemplate;
 	private static final String TRACKING = "tracking:";
-	private static final long TRACKING_USER_EXPIRE_TIME = 10 * 1000L;    // 10초
+	private static final long TRACKING_USER_EXPIRE_TIME = 15 * 1000L;    // 15초
 
 	public boolean checkDuplicateLogins(String email) {
 		return redisTemplate.opsForValue().get(TRACKING + email) != null;
