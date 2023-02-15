@@ -127,21 +127,21 @@ const Sidebar = () => {
         </TimeContainer>
       )}
       <CapturingContainer>
-        {toggle ? (
+        {(toggle&&curPose)&&(
           <IconWrapper>
             <CgPlayPause onClick={clickPauseButton} />
             <Text>일시정지</Text>
           </IconWrapper>
-        ) : (
+        )}{(!toggle&&curPose)&&(
           <IconWrapper>
             <CgPlayButton onClick={clickPlayButton} />
             <Text>시작</Text>
           </IconWrapper>
         )}
-        <IconWrapper>
+        {curPose&&<IconWrapper>
           <ImExit onClick={clickStop} />
           <Text>종료하기</Text>
-        </IconWrapper>
+        </IconWrapper>}
       </CapturingContainer>
     </ContainerWrapper>
   );
