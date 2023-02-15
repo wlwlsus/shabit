@@ -3,61 +3,91 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import apiRequest from '../../utils/apiRequest';
 
-export const HEARTBEAT_INTERVAL = 3000; // 핑 메시지 전송 간격 (30초)
-// export let pingTimer;
-
 class WebSocketComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.connected = false;
-    this.stompClient = null;
-    this.pingTimer = null;
+    this.url = `${apiRequest.defaults.baseURL}/ws`;
+    this.HEARTBEAT_INTERVAL = 3000; // 핑 메시지 전송 간격 (3초)
+    this.connected = false; // 연결 상태
+    this.stompClient = null; // 웹소켓 객체
+    this.pingTimer = null; // 핑 전송 타이머
+    this.message = {
+      email: '',
+      refreshToken: '',
+    };
   }
 
-  connect = () => {
-    const socket = new SockJS(`${apiRequest.defaults.baseURL}/ws`);
+  connect = async (email, token) => {
+    this.message.email = email;
+    this.message.refreshToken = token;
+
+    const socket = new SockJS(this.url);
     this.stompClient = Stomp.over(socket);
     this.stompClient.debug = () => {};
-    this.stompClient.connect({}, (frame) => {
-      console.log('Connected: ' + frame);
-      this.startHeartbeat();
 
-      this.connected = true;
-      console.log('연결 상태 : ', this.connected);
-      this.stompClient.subscribe('/topic/pong', (message) => {
-        console.log('메시지 수신', message);
-      });
+    return new Promise((resolve, reject) => {
+      this.stompClient.connect(
+        {},
+        () => {
+          this.connected = true;
+          this.stompClient.subscribe('/topic/pong', (message) => {
+            // console.log('pong');
+          });
 
-      this.stompClient.ws.onclose = () => {
-        console.log('연결 끊김 Callback');
-        this.connected = false;
-      };
+          this.stompClient.subscribe('/topic/disconnect', (message) => {
+            // console.log('disconnect');
+          });
+
+          this.stompClient.ws.onclose = () => {
+            // console.log('연결 끊김 Callback');
+            this.connected = false;
+          };
+          resolve(this.stompClient);
+        },
+
+        (error) => {
+          reject(error);
+        },
+      );
     });
   };
 
   disconnect = () => {
-    console.log('Disconnected');
+    // console.log('Disconnected');
     if (this.stompClient !== null) {
-      console.log('연결 종료 !');
       this.stompClient.disconnect();
       this.connected = false;
     }
   };
 
   ping = () => {
-    this.stompClient.send('/app/ping', {}, 'PING!');
+    this.stompClient.send('/app/ping', {}, JSON.stringify(this.message));
   };
 
   startHeartbeat = () => {
     this.pingTimer = setInterval(() => {
       this.ping();
-    }, HEARTBEAT_INTERVAL);
+    }, this.HEARTBEAT_INTERVAL);
   };
 
   stopHeartbeat = () => {
-    this.stompClient.send('/app/ping', {}, 'Disconnect!!');
+    // console.log(this.message);
+    this.stompClient.send('/app/disconnect', {}, JSON.stringify(this.message));
     clearInterval(this.pingTimer);
     this.disconnect();
+  };
+
+  asyncConnect = async (email, token) => {
+    if (this.connected === false) await this.connect(email, token);
+  };
+
+  checkDuplicated = async () => {
+    return new Promise((resolve, reject) => {
+      this.stompClient.send('/app/check', {}, JSON.stringify(this.message));
+      this.stompClient.subscribe('/topic/check', (message) => {
+        resolve(message.body);
+      });
+    });
   };
 }
 

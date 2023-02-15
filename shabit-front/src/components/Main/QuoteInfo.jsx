@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
@@ -9,30 +9,37 @@ import { setIsRunning, setIsStop } from '../../store/timeSlice';
 import { useDispatch } from 'react-redux';
 import { fetchAlarmTime } from '../../services/admin/get';
 import WebSocketComponent from './WebSocketComponent';
+import { FireAlert } from '../../services';
 
-const wsc = new WebSocketComponent();
+export const wsc = new WebSocketComponent();
 
 export default function QuoteInfo() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const defaultQuote =
     'SHabit의 트래킹 기능을 사용해보세요! 바른자세가 될 수 있도록 도와드립니다.';
+  const duplicate = '이미 서비스를 이용 중인 계정입니다.';
 
   const quote = typedUseSelector((state) => {
     if (state.chart.quote.length === 0) return defaultQuote;
     return state.chart.quote;
   });
 
-  const handleClick = () => {
-    if (wsc.connected === false) {
-      console.log('연결 시도');
-      wsc.connect();
-    } else {
-      console.log('이미 연결되어 있습니다.');
-      // wsc.disconnect();
-      wsc.stopHeartbeat();
-      // wsc.ping('메시지 전송 내용..');
-    }
+  const email = JSON.parse(sessionStorage.getItem('user')).email; // user 불러오기
+  const refreshToken = JSON.parse(sessionStorage.getItem('refreshToken')); // user 불러오기
+
+  const handleClick = async () => {
+    if (wsc.connected === false) await wsc.asyncConnect(email, refreshToken);
+
+    await wsc.checkDuplicated().then((res) => {
+      if (res === 'Not Duplicated') {
+        wsc.startHeartbeat();
+        dispatch(setIsRunning(true));
+        dispatch(setIsStop(false));
+        fetchAlarmTime();
+        navigate('/posture/live');
+      } else FireAlert(duplicate);
+    });
   };
 
   return (
@@ -46,16 +53,7 @@ export default function QuoteInfo() {
       </InfoBox>
 
       <Start>
-        <BsFillCaretRightSquareFill
-          onClick={handleClick}
-          // onClick={() => {
-          //   console.log('자세 교정 시작하기!');
-          //   // dispatch(setIsRunning(true));
-          //   // dispatch(setIsStop(false));
-          //   // fetchAlarmTime();
-          //   // navigate('/posture/live');
-          // }}
-        />
+        <BsFillCaretRightSquareFill onClick={handleClick} />
         <div>자세교정 시작하기</div>
       </Start>
     </Wrapper>
