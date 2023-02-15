@@ -14,7 +14,6 @@ const notify = (pose, kind) => {
       icon: img,
     });
   } else if (Notification.permission === 'denied') {
-    console.log('hi');
     Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
         notification = new Notification(`현재 자세 :${pose}`, {

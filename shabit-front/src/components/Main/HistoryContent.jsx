@@ -4,8 +4,6 @@ import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
-import { shallowEqual } from 'react-redux';
-import { typedUseSelector } from '../../store';
 import { fetchTodayPostureTime } from '../../services/goal/get';
 
 export default function HistoryContent() {
@@ -13,9 +11,7 @@ export default function HistoryContent() {
   const [mode, setMode] = useState('w');
   const [page, setPage] = useState(0);
 
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  }, shallowEqual);
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
     if (!user.email) return;
