@@ -73,7 +73,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 		Users user = Users.builder()
 						.email(userInfo.getEmail())
 						.nickname(userInfo.getName())
-						.profile(userInfo.getImageUrl())
 						.providerType(providerType)
 						.roles(Collections.singletonList(Authority.ROLE_USER.name()))
 						.build();
