@@ -5,6 +5,7 @@ import { BiDownload } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { setVideoModal, clearRecordedChunks } from '../../store/trackingSlice';
 import { setMode } from '../../store/modeSlice';
+
 import { BsFillXCircleFill } from 'react-icons/bs';
 import { wsc } from '../Main/QuoteInfo';
 
