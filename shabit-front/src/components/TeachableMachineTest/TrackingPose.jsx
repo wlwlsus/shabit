@@ -185,7 +185,6 @@ const TrackingPose = ({ webCamRef }) => {
       }, 1000),
     ); // 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
-    console.log(id);
   }, [webcam, setTimerId, setId]);
 
   useEffect(() => {
