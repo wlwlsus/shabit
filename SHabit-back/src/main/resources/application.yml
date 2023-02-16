@@ -48,23 +48,12 @@ spring:
       ddl-auto: update
     generate-ddl: false # db 초기화 설정 끔
     show-sql: true # 사용된 sql 보임
-    # h2 설정
-  #    properties:
-  #      hibernate:
-  #        dialect: org.hibernate.dialect.H2Dialect
   datasource:
-    # test h2db setting
-    #    driver-class-name: org.h2.Driver
-    #    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
-    #    username: h2test
-    #    password: h2test
     # mariaDB Setting
     driver-class-name: org.mariadb.jdbc.Driver
-    #    url: jdbc:mariadb://shabit.site:3306/ssafy601
-    #        url: jdbc:mariadb://i8a601.p.ssafy.io:3307/ssafy601
-    url: jdbc:mariadb://localhost:3306/ssafy
-    username: root
-    password: root
+    url: jdbc:mariadb://localhost:3306/ssafy601
+    username: ssafy601
+    password: ssafy601
 
   # Mail Sending
   mail:
@@ -78,17 +67,14 @@ spring:
           auth: true
           starttls:
             enable: true
+
   data:
     redis:
       host: localhost
       port: 6379
-    #      host: i8a601.p.ssafy.io
-    #      port: 6380
-
     # mongo db
     mongodb:
       host: localhost
-#      host: i8a601.p.ssafy.io
       port: 27017
       authentication-database: admin
       username: root
@@ -126,4 +112,3 @@ key:
 app:
   oauth2:
     authorizedRedirectUris: http://localhost:3000/oauth/redirect
-#    authorizedRedirectUris: https://shabit.site/oauth/redirect
