@@ -42,6 +42,6 @@ public interface UserService {
 
   long getAllPosture(String email, long postureId);
 
-  void addPostureImage(String email, MultipartFile image) throws Exception;
+  boolean addPostureImage(String email, MultipartFile image) throws Exception;
 
 }
