@@ -21,8 +21,6 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const { email, nickname, profile } = user;
   const [changingNickname, setChangingNickname] = useState(false);
   useEffect(() => {
-    console.log(JSON.parse(sessionStorage.getItem('isSocial')));
-    console.log(typeof JSON.parse(sessionStorage.getItem('isSocial')));
     setIsSocial(JSON.parse(sessionStorage.getItem('isSocial')));
   });
 
