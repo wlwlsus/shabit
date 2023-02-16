@@ -112,7 +112,7 @@ public class UserController {
       if (success) {
         return Response.makeResponse(HttpStatus.OK, "자세 사진 등록 성공");
       } else {
-        Response.makeResponse(HttpStatus.CONFLICT, "이미 존재하는 사진입니다.");
+        return Response.makeResponse(HttpStatus.CONFLICT, "이미 존재하는 사진입니다.");
       }
     } catch (NoSuchElementException e) {
       log.error(e.getMessage());
