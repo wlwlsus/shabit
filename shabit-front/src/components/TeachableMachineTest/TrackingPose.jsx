@@ -10,6 +10,7 @@ import {
 } from '../../store/trackingSlice';
 import { dateFormat } from '../../utils/dateFormat';
 import { getSeconds } from '../../utils/dateFormat';
+import poseIdConvert from '../../utils/poseIdConvert';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();
@@ -82,9 +83,9 @@ const TrackingPose = () => {
               movingLog = {
                 startTime: dateFormat(movingStartTime),
                 endTime: dateFormat(startTime),
-                postureId: movingArraySnapshot.indexOf(
+                postureId: poseIdConvert(movingArraySnapshot.indexOf(
                   Math.max(...movingArraySnapshot),
-                ),
+                )),
               };
               dispatch(setLogArray(movingLog));
               // console.log(movingArraySnapshot);
@@ -97,7 +98,7 @@ const TrackingPose = () => {
             log = {
               startTime: dateFormat(startTime),
               endTime: dateFormat(endTime),
-              postureId: prediction.findIndex((e) => e.className === prevPose),
+              postureId: poseIdConvert(prediction.findIndex((e) => e.className === prevPose)),
             };
             dispatch(setLogArray(log));
             // console.log(prediction[log.postureId]);
