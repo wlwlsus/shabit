@@ -46,6 +46,7 @@ export const login = async (email: string, password: string) => {
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
       store.dispatch(setIsSocialState(false));
+      sessionStorage.setItem('isSocial', JSON.stringify(false));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
       sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       sessionStorage.setItem('user', JSON.stringify(user));
@@ -90,6 +91,7 @@ export const logout = async (): Promise<boolean> => {
       { headers: header() },
     )
     .then(() => {
+      sessionStorage.setItem('isSocial', JSON.stringify(false));
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       sessionStorage.removeItem('accessToken');
