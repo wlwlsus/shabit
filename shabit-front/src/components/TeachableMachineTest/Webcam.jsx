@@ -55,7 +55,6 @@ const MyCapture = () => {
       mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
         mimeType: 'video/webm',
       });
-      console.log("WEBCAMinit",webcamRef);
       mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
         chunkData = [...chunkData, event.data];
         dispatch(setRecordedChunks(chunkData));
@@ -177,7 +176,7 @@ const MyCapture = () => {
   return (
     <>
     <DropDownWrapper>
-    {devices.length>1 && (
+    {(devices.length>1&&!stretchingMode) && (
          <DropDown>
            <DropBtn onClick={dropHandler} ref={dropRef}>카메라 선택</DropBtn>
            <DropDownContent isDropped={dropIsOpen}>
