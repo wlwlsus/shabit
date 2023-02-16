@@ -168,7 +168,6 @@ const TrackingPose = () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = new Date();
-    console.log(startTime);
     setTimerId(
       setInterval(() => {
         time += 1;
@@ -184,7 +183,6 @@ const TrackingPose = () => {
       }, 1000),
     ); // 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
-    console.log(id);
   }, [webcam, setTimerId, setId]);
 
   useEffect(() => {
