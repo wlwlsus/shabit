@@ -31,15 +31,12 @@ class WebSocketComponent extends React.Component {
         () => {
           this.connected = true;
           this.stompClient.subscribe('/topic/pong', (message) => {
-            // console.log('pong');
           });
 
           this.stompClient.subscribe('/topic/disconnect', (message) => {
-            // console.log('disconnect');
           });
 
           this.stompClient.ws.onclose = () => {
-            // console.log('연결 끊김 Callback');
             this.connected = false;
           };
           resolve(this.stompClient);
@@ -53,7 +50,6 @@ class WebSocketComponent extends React.Component {
   };
 
   disconnect = () => {
-    // console.log('Disconnected');
     if (this.stompClient !== null) {
       this.stompClient.disconnect();
       this.connected = false;

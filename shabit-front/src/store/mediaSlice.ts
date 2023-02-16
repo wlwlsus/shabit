@@ -10,14 +10,12 @@ const mediaSlice = createSlice({
   reducers: {
     setMediaRecorder: (state,action)=>{
         state.mediaRecorderRef = action.payload;
-        console.log(state.mediaRecorderRef);
     },
     setWebCam : (state,action)=>{
         state.webcamRef = action.payload;
     },
     setStream: (state,action)=>{
         state.stream = action.payload;
-        console.log(state.stream);
     }
   },
 });
