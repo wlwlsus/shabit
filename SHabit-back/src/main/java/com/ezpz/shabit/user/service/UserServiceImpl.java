@@ -293,7 +293,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public void addPostureImage(String email, MultipartFile image) throws Exception {
+  public boolean addPostureImage(String email, MultipartFile image) throws Exception {
     // 유저 정보 가져오기
     final Users user = userRepository.findByEmail(email).orElseThrow();
     String imageName = image.getOriginalFilename();
@@ -308,7 +308,7 @@ public class UserServiceImpl implements UserService {
     String url = "gallery/" + email + " " + image.getOriginalFilename();
     if (galleryRepository.existsByUrl(url)) {
       log.info("already exist");
-      return;
+      return false;
     }
 
     // 프로필 사진 저장하기
@@ -320,6 +320,7 @@ public class UserServiceImpl implements UserService {
       .posture(posture)
       .build();
     galleryRepository.save(gallery);
+    return true;
   }
 
   @Override
