@@ -56,12 +56,15 @@ const Sidebar = () => {
         setInitLogArray();
       });
       // TODO 스트레칭 시간 setting
-      dispatch(setInitStretchingTime(initStretchingMin));
+      dispatch(setInitStretchingTime(1));
+      
+      // dispatch(setInitStretchingTime(initStretchingMin));
       dispatch(setStretchModal(true));
     }
   }, [stretchingMin, stretchingSec]);
   useEffect(()=>{
-    dispatch(setInitStretchingTime(initStretchingMin));
+    // dispatch(setInitStretchingTime(initStretchingMin));
+    dispatch(setInitStretchingTime(1));
   },[]);
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}시간 ${state.time.usedTime.min}분`;
