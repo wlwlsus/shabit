@@ -10,9 +10,11 @@ import { FireAlert, FireConfirm } from '../../services';
 
 import { useDispatch } from 'react-redux';
 import { setPasswordModal } from '../../store/authSlice';
+import { typedUseSelector } from '../../store';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const dispatch = useDispatch();
+  const isSocial = typedUseSelector((state) => state.auth.isSocial);
 
   const { email, nickname, profile } = user;
   const [changingNickname, setChangingNickname] = useState(false);
@@ -90,6 +92,7 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
           onClick={() => {
             dispatch(setPasswordModal(true));
           }}
+          style={isSocial ? { visibility: 'hidden' } : {}}
         >
           비밀번호 변경
         </StyledButton>

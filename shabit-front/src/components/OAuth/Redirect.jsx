@@ -5,6 +5,7 @@ import {
   setUserState,
   setTokenState,
   setIsAdminState,
+  setIsSocialState,
 } from '../../store/authSlice';
 import Auth from '../../services/auth';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -55,6 +56,7 @@ export default function Redirect() {
         store.dispatch(setUserState(user));
         store.dispatch(setTokenState(accessToken));
         store.dispatch(setIsAdminState(result.auth === 'ROLE_ADMIN'));
+        store.dispatch(setIsSocialState(true));
         navigate('/main');
       })
       .catch((err) => {
