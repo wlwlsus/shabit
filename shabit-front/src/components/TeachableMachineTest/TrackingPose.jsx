@@ -94,9 +94,6 @@ const TrackingPose = () => {
                 ),
               };
               dispatch(setLogArray(movingLog));
-              // console.log(movingLog);
-              // console.log(movingArraySnapshot);
-              // console.log(prediction[movingLog.postureId]);
             } else if (resume) {
               resume = false;
             } else {
@@ -111,8 +108,6 @@ const TrackingPose = () => {
               ),
             };
             dispatch(setLogArray(log));
-            // console.log(log);
-            // console.log(prediction[log.postureId]);
 
             //로그를 남긴 후, 움직이는 상태 배열을 초기화
             movingStartTime = endTime;
@@ -175,7 +170,7 @@ const TrackingPose = () => {
         time += 1;
         captureTime += 1;
         if (time >= alarmSec) {
-          notify(maxPose, 'pose');
+          notify('pose',maxPose);
           time = 0;
         }
         if (captureTime === DURATION_TIME) {
@@ -192,9 +187,9 @@ const TrackingPose = () => {
   }, []);
 
   useEffect(() => {
-    if (trackingSetting && mode &&webCamSetting === 'startLive') onStart();
+    if (trackingSetting && mode === 'startLive' && webCamSetting) onStart();
     else if (mode === 'stopLive') onStop(id, timerId);
-    else if (mode === 'pausedLive') onPause();
+    else if (mode === 'pausedLive') onPause(id, timerId);
     else if (mode === 'stretching') onStop(id, timerId);
   }, [mode]);
 };

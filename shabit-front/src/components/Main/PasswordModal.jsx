@@ -111,7 +111,6 @@ export default function Modal() {
           dispatch(setPasswordModal(false));
         })
         .catch((err) => {
-          console.log(err);
           setMessage(err.message || '비밀번호 변경에 실패하였습니다.');
         });
     }

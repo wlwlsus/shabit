@@ -50,7 +50,7 @@ const Sidebar = () => {
   });
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
-      notify(pose, 'stretching');
+      notify('stretching');
       dispatch(setMode('pausedLive'));
       postData(userEmail, logArray).then(() => {
         setInitLogArray();
