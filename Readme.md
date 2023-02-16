@@ -88,7 +88,15 @@ SHabit은 사용자의 자세를 트래킹하여 올바르지 않은 자세를 �
 - JWT
 
 **Frontend**
-- 
+- React
+- Redux Toolkit
+- Styled Components
+- TypeScript
+- SockJS-client
+- Teachable Machine
+- React-Webcam
+- Axios
+- ApexCharts
 
 **CI/CD**
 - AWS EC2
@@ -239,30 +247,35 @@ shabit-front
 ## ✔ 프로젝트 결과물
 - [포팅메뉴얼](./exec/Porting%20Manual.md)
 - [중간발표자료](./docs/shabit_중간발표.pdf)
-- [최종발표자료]()
+- [최종발표자료](./docs/shabit_최종발표.pdf)
 
 
 ## 🌸 SHabit 서비스 화면
 ---
 
 ### 랜딩 페이지
-
+![landingPage](./image/gifs/LandingPage.gif)
 <br>
 
 ### 로그인 화면
+![Login1](./image/gifs/Login1-HQ.gif)
 
+![Login3](./image/gifs/Login3-HQ.gif)
 <br>
 
 ### 회원 가입 화면
-
+![Signup](./image/gifs/Signup-HQ.gif)
 <br>
 
 ### 비밀번호 초기화 화면
-
+![Login2](./image/gifs/Login2-HQ.gif)
 <br>
 
 ### 메인 화면
-
+![Main4](./image/gifs/Main4-ChangeTheme-HQ.gif)
+![Main1](./image/gifs/Main1-HQ.gif)
+![Main2](./image/gifs/Main2-ChangePassword-HQ.gif)
+![Main3](./image/gifs/Main3-ChangeNickname-HQ.gif)
 <br>
 
 ### 트래킹 화면
@@ -270,15 +283,21 @@ shabit-front
 <br>
 
 ### 자세 기록 화면
-
+![History1](./image/gifs/History-HQ.gif)
+![History2](./image/gifs/History2-HQ.gif)
 <br>
 
 ### 나의 목표 화면
-
+![Goal1-HQ](./image/gifs/Goal1-HQ.gif)
+![Goal2-HQ](./image/gifs/Goal2-HQ.gif)
 <br>
 
 ### 갤러리 화면
-
+![gallary-HQ](./image/gifs/gallary-HQ.gif)
 <br>
 
 ### 관리자 화면
+![admin1](./image/gifs/admin1-HQ.gif)
+![admin2](./image/gifs/admin2-HQ.gif)
+![admin3](./image/gifs/admin3-HQ.gif)
+![admin4](./image/gifs/admin4-HQ.gif)

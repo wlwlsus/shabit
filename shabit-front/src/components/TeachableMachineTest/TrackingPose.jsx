@@ -10,29 +10,32 @@ import {
 } from '../../store/trackingSlice';
 import { dateFormat } from '../../utils/dateFormat';
 import { getSeconds } from '../../utils/dateFormat';
+import poseIdConvert from '../../utils/poseIdConvert';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();
   //트래킹을 위한 webcam setting의 완료 여부
   const [id, setId] = useState();
   const [timerId, setTimerId] = useState();
+  const [webCamSetting,setWebcamSetting] = useState(false);
   let log = {};
   let model, webcam, poseCnt;
   let maxPose;
   let prevPose;
   let time = 0;
   let captureTime = 0;
-  let startTime, endTime, movingStartTime;
+  let startTime, endTime, movingStartTime, resume;
   let movingLog = {};
   let movingArray = [0, 0, 0, 0, 0];
   let movingArraySnapshot = [0, 0, 0, 0, 0];
 
   // 특정 자세 유지 시간
-  const DURATION_TIME = 60;
+  const DURATION_TIME = 10;
 
-  let alarmSec = useSelector((state) => {
-    return state.admin.alertTime;
-  });
+  // let alarmSec = useSelector((state) => {
+  //   return state.admin.alertTime;
+  // });
+  let alarmSec = 20;
   const mode = useSelector((state) => {
     return state.mode.mode;
   });
@@ -53,9 +56,10 @@ const TrackingPose = () => {
     await webcam.setup(); // request access to the webcam
     onStart();
     dispatch(setTrackingSetting(true));
+    setWebcamSetting(true);
   };
 
-  const predictPose = async () => {
+  const predictPose = async (isStop = false) => {
     const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
     const prediction = await model.predict(posenetOutput);
     let res;
@@ -64,16 +68,20 @@ const TrackingPose = () => {
       res = prediction[i].probability.toFixed(2);
       // 최초 시작 포즈를 설정함
       if (!prevPose) prevPose = prediction[i].className;
-      if (!movingStartTime) movingStartTime = startTime;
+      if (!movingStartTime) movingStartTime = new Date();
+
       // 움직이는 상태 배열에 현재 포즈의 자세를 1 올림
       if (res > 0.7) {
         movingArray[i] += 1;
         maxPose = prediction[i].className;
-        if (prevPose !== maxPose) {
+        if (isStop || prevPose !== maxPose) {
           endTime = new Date();
           //자세가 30초 유지됐을 때 로그 저장
           const timeLimit = 30;
-          if (getSeconds(endTime) - getSeconds(startTime) > timeLimit) {
+          if (
+            isStop ||
+            getSeconds(endTime) - getSeconds(startTime) > timeLimit
+          ) {
             //움직이는 상태가 30초 이상 지속됐으면 snapshot에서 가장 큰 값을 로그 남김
             if (
               getSeconds(startTime) - getSeconds(movingStartTime) >
@@ -82,14 +90,13 @@ const TrackingPose = () => {
               movingLog = {
                 startTime: dateFormat(movingStartTime),
                 endTime: dateFormat(startTime),
-                postureId: movingArraySnapshot.indexOf(
-                  Math.max(...movingArraySnapshot),
+                postureId: poseIdConvert(
+                  movingArraySnapshot.indexOf(Math.max(...movingArraySnapshot)),
                 ),
               };
               dispatch(setLogArray(movingLog));
-              // console.log(movingArraySnapshot);
-              // console.log(prediction[movingLog.postureId]);
-              // console.log(movingLog);
+            } else if (resume) {
+              resume = false;
             } else {
               //움직이는 상태가 30초 미만이면 로그 안남기고 그냥 통합시킴
               startTime = movingStartTime;
@@ -97,11 +104,11 @@ const TrackingPose = () => {
             log = {
               startTime: dateFormat(startTime),
               endTime: dateFormat(endTime),
-              postureId: prediction.findIndex((e) => e.className === prevPose),
+              postureId: poseIdConvert(
+                prediction.findIndex((e) => e.className === prevPose),
+              ),
             };
             dispatch(setLogArray(log));
-            // console.log(prediction[log.postureId]);
-            // console.log(log);
 
             //로그를 남긴 후, 움직이는 상태 배열을 초기화
             movingStartTime = endTime;
@@ -126,20 +133,31 @@ const TrackingPose = () => {
 
   const onStop = useCallback(
     (id, timerId) => {
-      webcam.stop();
-      setPose('');
-      clearInterval(id);
-      clearInterval(timerId);
-      dispatch(setTrackingSetting(false));
+      predictPose(true).finally(() => {
+        webcam.stop();
+        setPose('');
+        clearInterval(id);
+        clearInterval(timerId);
+        dispatch(setTrackingSetting(false));
+        movingStartTime = 0;
+        movingArray = [0, 0, 0, 0, 0];
+        movingArraySnapshot = [0, 0, 0, 0, 0];
+      });
     },
     [webcam],
   );
 
   const onPause = useCallback(
     (id, timerId) => {
-      clearInterval(id);
-      clearInterval(timerId);
-      webcam.pause();
+      predictPose(true).finally(() => {
+        clearInterval(id);
+        clearInterval(timerId);
+        webcam.pause();
+        movingStartTime = 0;
+        movingArray = [0, 0, 0, 0, 0];
+        movingArraySnapshot = [0, 0, 0, 0, 0];
+        resume = true;
+      });
     },
     [webcam],
   );
@@ -148,13 +166,12 @@ const TrackingPose = () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = new Date();
-    console.log(startTime);
     setTimerId(
       setInterval(() => {
         time += 1;
         captureTime += 1;
         if (time >= alarmSec) {
-          notify(maxPose, 'pose');
+          notify('pose',maxPose);
           time = 0;
         }
         if (captureTime === DURATION_TIME) {
@@ -164,7 +181,6 @@ const TrackingPose = () => {
       }, 1000),
     ); // 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
-    console.log(id);
   }, [webcam, setTimerId, setId]);
 
   useEffect(() => {
@@ -172,9 +188,9 @@ const TrackingPose = () => {
   }, []);
 
   useEffect(() => {
-    if (trackingSetting && mode === 'startLive') onStart();
+    if (trackingSetting && mode === 'startLive' && webCamSetting) onStart();
     else if (mode === 'stopLive') onStop(id, timerId);
-    else if (mode === 'pausedLive') onPause();
+    else if (mode === 'pausedLive') onPause(id, timerId);
     else if (mode === 'stretching') onStop(id, timerId);
   }, [mode]);
 };

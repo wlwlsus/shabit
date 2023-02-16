@@ -13,9 +13,15 @@ import { setPasswordModal } from '../../store/authSlice';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const dispatch = useDispatch();
+  const [isSocial, setIsSocial] = useState(() => {
+    JSON.parse(sessionStorage.getItem('isSocial'));
+  });
 
   const { email, nickname, profile } = user;
   const [changingNickname, setChangingNickname] = useState(false);
+  useEffect(() => {
+    setIsSocial(JSON.parse(sessionStorage.getItem('isSocial')));
+  });
 
   const onSubmit = () => {
     if (nicknameInput.length < 2 || nicknameInput.length > 14) {
@@ -90,6 +96,7 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
           onClick={() => {
             dispatch(setPasswordModal(true));
           }}
+          style={isSocial ? { display: 'none' } : {}}
         >
           비밀번호 변경
         </StyledButton>
@@ -132,7 +139,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   position: absolute;
   right: 42rem;
-  top: 4.5rem;
+  top: 4.2rem;
   animation: 0.8s ease-in ${loadEffect.down};
 `;
 
@@ -142,6 +149,7 @@ const StyledButton = styled.button`
   font-size: 0.8rem;
   line-height: 0.8rem;
   padding: 0.1rem 0.5rem;
+  padding-top: 0.2rem;
   background-color: ${(props) => props.theme.color.secondary};
   border-radius: 1.5rem;
   border: 0.1rem solid ${(props) => props.theme.color.primary};

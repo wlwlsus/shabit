@@ -109,7 +109,11 @@ function App() {
         if (auth === 'ROLE_ADMIN') {
           store.dispatch(setIsAdminState(true));
         } else store.dispatch(setIsAdminState(false));
-        if (['/', '/login', 'signup'].includes(location.pathname))
+        if (
+          ['', 'login', 'signup', '/', '/login', '/signup'].includes(
+            location.pathname,
+          )
+        )
           navigate('/main');
         return;
         // store.getState().chart;

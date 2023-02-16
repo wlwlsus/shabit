@@ -5,6 +5,7 @@ import {
   setUserState,
   setTokenState,
   setIsAdminState,
+  setIsSocialState,
 } from '../../store/authSlice';
 import Auth from '../../services/auth';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -16,6 +17,7 @@ export default function Redirect() {
   const [serchParams] = useSearchParams();
   const accessToken = serchParams.get('accessToken');
   const refreshToken = serchParams.get('refreshToken');
+  sessionStorage.setItem('isSocial', JSON.stringify(true));
   const error = serchParams.get('error');
 
   const ASUS = 'already_signed_up_social';
@@ -49,16 +51,16 @@ export default function Redirect() {
 
     Auth.fetchProfile(result.sub)
       .then((res) => {
-        console.log('Get User Info');
         const user = res;
         sessionStorage.setItem('user', JSON.stringify(user));
         store.dispatch(setUserState(user));
         store.dispatch(setTokenState(accessToken));
         store.dispatch(setIsAdminState(result.auth === 'ROLE_ADMIN'));
+        store.dispatch(setIsSocialState(true));
         navigate('/main');
       })
       .catch((err) => {
-        console.log(err);
+        sessionStorage.setItem('isSocial', JSON.stringify(false));
       });
   });
 }

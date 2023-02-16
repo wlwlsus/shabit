@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
@@ -6,15 +6,21 @@ import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
 import { fetchAlarmTime } from '../../services/admin/get';
+import WebSocketComponent from './WebSocketComponent';
+import { FireAlert } from '../../services';
+
 import { setMode } from '../../store/modeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInitUsedTime, setInitStretchingTime } from '../../store/timeSlice';
+
+export const wsc = new WebSocketComponent();
 
 export default function QuoteInfo() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const defaultQuote =
     'SHabit의 트래킹 기능을 사용해보세요! 바른자세가 될 수 있도록 도와드립니다.';
+  const duplicate = '이미 서비스를 이용 중인 계정입니다.';
 
   const quote = typedUseSelector((state) => {
     if (state.chart.quote.length === 0) return defaultQuote;
@@ -23,14 +29,26 @@ export default function QuoteInfo() {
   const initStretchingMin = useSelector((state) => {
     return state.admin.stretchingTime / 60;
   });
-  const onStart = () => {
-    //TODO 처리(시작)
-    fetchAlarmTime().then(() => {
-      dispatch(setInitStretchingTime(initStretchingMin));
-      dispatch(setMode('startLive'));
-      dispatch(setInitUsedTime());
 
-      navigate('/posture/live');
+  const email = JSON.parse(sessionStorage.getItem('user')).email; // user 불러오기
+  const refreshToken = JSON.parse(sessionStorage.getItem('refreshToken')); // user 불러오기
+
+  const onStart = async () => {
+    if (wsc.connected === false) await wsc.asyncConnect(email, refreshToken);
+
+    await wsc.checkDuplicated().then((res) => {
+      if (res === 'Not Duplicated') {
+        //TODO 처리(시작)
+        fetchAlarmTime().then(() => {
+          dispatch(setInitStretchingTime(1));
+          // dispatch(setInitStretchingTime(initStretchingMin));
+          dispatch(setMode('startLive'));
+          dispatch(setInitUsedTime());
+
+          wsc.startHeartbeat();
+          navigate('/posture/live');
+        });
+      } else FireAlert(duplicate);
     });
   };
 

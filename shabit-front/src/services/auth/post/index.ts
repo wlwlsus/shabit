@@ -4,7 +4,8 @@ import {
   setUserState,
   setTokenState,
   setIsAdminState,
-  clearAuthState,
+  setIsSocialState,
+  // clearAuthState,
 } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 import jwt_decode from 'jwt-decode';
@@ -44,11 +45,13 @@ export const login = async (email: string, password: string) => {
       const user = res.data.result.user;
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
+      store.dispatch(setIsSocialState(false));
+      sessionStorage.setItem('isSocial', JSON.stringify(false));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
       sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       sessionStorage.setItem('user', JSON.stringify(user));
       const decodedToken: DecodedJWT = jwt_decode(accessToken);
-      // console.log(decodedToken);
+      // decodedToken);
       if (decodedToken.auth === 'ROLE_ADMIN') {
         store.dispatch(setIsAdminState(true));
       } else store.dispatch(setIsAdminState(false));
@@ -88,12 +91,12 @@ export const logout = async (): Promise<boolean> => {
       { headers: header() },
     )
     .then(() => {
+      sessionStorage.setItem('isSocial', JSON.stringify(false));
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
-      sessionStorage.removeItem('user');
-      store.dispatch(clearAuthState());
+      // store.dispatch(clearAuthState());
       return Promise.resolve(true);
     })
     .catch(() => Promise.reject(false));
