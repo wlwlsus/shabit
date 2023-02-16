@@ -11,6 +11,7 @@ import {
 import { dateFormat } from '../../utils/dateFormat';
 import { getSeconds } from '../../utils/dateFormat';
 import poseIdConvert from '../../utils/poseIdConvert';
+import { FireConfirm } from '../../services';
 
 const TrackingPose = ({ webCamRef }) => {
   const dispatch = useDispatch();
@@ -137,6 +138,7 @@ const TrackingPose = ({ webCamRef }) => {
     (id, timerId) => {
       predictPose(true).finally(() => {
         webcam.stop();
+        FireConfirm('카메라를 종료하였습니다.');
         setPose('');
         clearInterval(id);
         clearInterval(timerId);
