@@ -14,10 +14,17 @@ import { typedUseSelector } from '../../store';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const dispatch = useDispatch();
-  const isSocial = typedUseSelector((state) => state.auth.isSocial);
+  const [isSocial, setIsSocial] = useState(() => {
+    JSON.parse(sessionStorage.getItem('isSocial'));
+  });
 
   const { email, nickname, profile } = user;
   const [changingNickname, setChangingNickname] = useState(false);
+  useEffect(() => {
+    console.log(JSON.parse(sessionStorage.getItem('isSocial')));
+    console.log(typeof JSON.parse(sessionStorage.getItem('isSocial')));
+    setIsSocial(JSON.parse(sessionStorage.getItem('isSocial')));
+  });
 
   const onSubmit = () => {
     if (nicknameInput.length < 2 || nicknameInput.length > 14) {
@@ -92,7 +99,7 @@ export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
           onClick={() => {
             dispatch(setPasswordModal(true));
           }}
-          style={isSocial ? { visibility: 'hidden' } : {}}
+          style={isSocial ? { display: 'none' } : {}}
         >
           비밀번호 변경
         </StyledButton>
