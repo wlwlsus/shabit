@@ -11,6 +11,7 @@ import {
 import { dateFormat } from '../../utils/dateFormat';
 import { getSeconds } from '../../utils/dateFormat';
 import poseIdConvert from '../../utils/poseIdConvert';
+import { useNavigate } from 'react-router-dom';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const TrackingPose = () => {
 
   // 특정 자세 유지 시간
   const DURATION_TIME = 10;
+  const navigate = useNavigate();
 
   // let alarmSec = useSelector((state) => {
   //   return state.admin.alertTime;
@@ -44,6 +46,7 @@ const TrackingPose = () => {
   });
 
   const init = async () => {
+    console.log("INIT");
     //TODO : 개선) 이 model을 load하는 부분만 맨 밖으로 빼도 괜찮을 것 같음
     model = await tmPose.load(
       '/my_model/model.json',
@@ -53,10 +56,15 @@ const TrackingPose = () => {
     const size = 300;
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-    await webcam.setup(); // request access to the webcam
-    onStart();
-    dispatch(setTrackingSetting(true));
-    setWebcamSetting(true);
+    try{
+      await webcam.setup(); // request access to the webcam
+      onStart();
+      dispatch(setTrackingSetting(true));
+      setWebcamSetting(true);
+    }catch(err){
+      alert("카메라를 찾을 수 없습니다.");
+      navigate('/main');
+    }
   };
 
   const predictPose = async (isStop = false) => {

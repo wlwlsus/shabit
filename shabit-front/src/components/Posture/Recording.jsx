@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-// import Capture from '../TeachableMachineTest/Capture'
-// import MyVideo from "../TeachableMachineTest/MyVideo"
-import MyCapture from "../TeachableMachineTest/MyCapture";
-import MyPose from "../TeachableMachineTest/MyPose";
+import MyCapture from "../Live/MyCapture";
+import MyPose from "../Live/MyPose";
 
 
 export const Recording = () => {

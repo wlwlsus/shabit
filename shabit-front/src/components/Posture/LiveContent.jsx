@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { calUsedTime, calStretchTime } from '../../store/timeSlice';
-import TrackingPose from '../TeachableMachineTest/TrackingPose';
+import TrackingPose from '../Live/TrackingPose';
 import { useDispatch, useSelector } from 'react-redux';
-// import MyCapture from '../TeachableMachineTest/MyCapture';
 
 export default function LiveContent() {
   const dispatch = useDispatch();

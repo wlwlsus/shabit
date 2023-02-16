@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Modal from '../components/Posture/Modal';
-import VideoModal from '../components/TeachableMachineTest/VideoModal';
+import VideoModal from '../components/Live/VideoModal';
 import Sidebar from '../components/Posture/Sidebar';
 import Logo from '../components/common/Logo';
 import { AiFillNotification } from 'react-icons/ai';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setTokenState, setUserState } from '../store/authSlice';
-import Webcam from '../components/TeachableMachineTest/Webcam';
+import Webcam from '../components/Live/Webcam';
 
 export default function PosturePage() {
   const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';
