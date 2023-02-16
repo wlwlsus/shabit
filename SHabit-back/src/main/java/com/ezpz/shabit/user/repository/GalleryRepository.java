@@ -14,4 +14,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
   long countByUserEmail(String email);
 
   long countByUserEmailAndPosturePostureId(String email, long postureId);
+
+  boolean existsByUrl(String url);
 }
