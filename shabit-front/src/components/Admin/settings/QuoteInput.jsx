@@ -45,7 +45,7 @@ const QuoteInputWrapper = styled.div`
   margin-top: 1rem;
   .clickable {
     background-color: ${(props) => props.theme.color.primary};
-    cursor: 'pointer';
+    cursor: pointer;
   }
 `;
 

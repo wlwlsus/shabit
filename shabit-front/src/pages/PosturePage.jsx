@@ -44,7 +44,7 @@ export default function PosturePage() {
       <Container>
         <InfoBox>
           <Logo color={logoColor} size={'sm'} />
-          {curPose && !stretchingMode && <span> 현재자세 : {curPose}</span>}
+          {curPose && !stretchingMode && <span> 현재 자세 : {curPose}</span>}
           {stretchingMode && (
             <span>
               <AiFillNotification />
