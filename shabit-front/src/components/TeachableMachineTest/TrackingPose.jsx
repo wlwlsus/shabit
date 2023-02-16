@@ -56,7 +56,7 @@ const TrackingPose = () => {
     dispatch(setTrackingSetting(true));
   };
 
-  const predictPose = async () => {
+  const predictPose = async (isStop = false) => {
     const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
     const prediction = await model.predict(posenetOutput);
     let res;
@@ -70,11 +70,14 @@ const TrackingPose = () => {
       if (res > 0.7) {
         movingArray[i] += 1;
         maxPose = prediction[i].className;
-        if (prevPose !== maxPose) {
+        if (isStop || prevPose !== maxPose) {
           endTime = new Date();
           //자세가 30초 유지됐을 때 로그 저장
           const timeLimit = 30;
-          if (getSeconds(endTime) - getSeconds(startTime) > timeLimit) {
+          if (
+            isStop ||
+            getSeconds(endTime) - getSeconds(startTime) > timeLimit
+          ) {
             //움직이는 상태가 30초 이상 지속됐으면 snapshot에서 가장 큰 값을 로그 남김
             if (
               getSeconds(startTime) - getSeconds(movingStartTime) >
@@ -83,14 +86,14 @@ const TrackingPose = () => {
               movingLog = {
                 startTime: dateFormat(movingStartTime),
                 endTime: dateFormat(startTime),
-                postureId: poseIdConvert(movingArraySnapshot.indexOf(
-                  Math.max(...movingArraySnapshot),
-                )),
+                postureId: poseIdConvert(
+                  movingArraySnapshot.indexOf(Math.max(...movingArraySnapshot)),
+                ),
               };
               dispatch(setLogArray(movingLog));
+              // console.log(movingLog);
               // console.log(movingArraySnapshot);
               // console.log(prediction[movingLog.postureId]);
-              // console.log(movingLog);
             } else {
               //움직이는 상태가 30초 미만이면 로그 안남기고 그냥 통합시킴
               startTime = movingStartTime;
@@ -98,11 +101,13 @@ const TrackingPose = () => {
             log = {
               startTime: dateFormat(startTime),
               endTime: dateFormat(endTime),
-              postureId: poseIdConvert(prediction.findIndex((e) => e.className === prevPose)),
+              postureId: poseIdConvert(
+                prediction.findIndex((e) => e.className === prevPose),
+              ),
             };
             dispatch(setLogArray(log));
-            // console.log(prediction[log.postureId]);
             // console.log(log);
+            // console.log(prediction[log.postureId]);
 
             //로그를 남긴 후, 움직이는 상태 배열을 초기화
             movingStartTime = endTime;
@@ -127,11 +132,13 @@ const TrackingPose = () => {
 
   const onStop = useCallback(
     (id, timerId) => {
-      webcam.stop();
-      setPose('');
-      clearInterval(id);
-      clearInterval(timerId);
-      dispatch(setTrackingSetting(false));
+      predictPose(true).finally(() => {
+        webcam.stop();
+        setPose('');
+        clearInterval(id);
+        clearInterval(timerId);
+        dispatch(setTrackingSetting(false));
+      });
     },
     [webcam],
   );
