@@ -1,4 +1,4 @@
-package com.ezpz.shabit.config;
+package com.ezpz.shabit.config.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
