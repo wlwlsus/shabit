@@ -82,10 +82,11 @@ const InfoBox = styled.div`
   padding-left: 1.5rem;
 
   & > div:last-child {
-    width: 28rem;
+    width: 55rem;
     padding: 0.3rem 0;
+    white-space: nowrap;
     overflow: hidden;
-    word-wrap: break-word;
+    text-overflow: ellipsis; 
   }
 `;
 
