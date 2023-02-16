@@ -24,7 +24,7 @@ const TrackingPose = () => {
   let prevPose;
   let time = 0;
   let captureTime = 0;
-  let startTime, endTime, movingStartTime;
+  let startTime, endTime, movingStartTime, resume;
   let movingLog = {};
   let movingArray = [0, 0, 0, 0, 0];
   let movingArraySnapshot = [0, 0, 0, 0, 0];
@@ -58,7 +58,7 @@ const TrackingPose = () => {
     setWebcamSetting(true);
   };
 
-  const predictPose = async () => {
+  const predictPose = async (isStop = false) => {
     const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
     const prediction = await model.predict(posenetOutput);
     let res;
@@ -67,16 +67,20 @@ const TrackingPose = () => {
       res = prediction[i].probability.toFixed(2);
       // 최초 시작 포즈를 설정함
       if (!prevPose) prevPose = prediction[i].className;
-      if (!movingStartTime) movingStartTime = startTime;
+      if (!movingStartTime) movingStartTime = new Date();
+
       // 움직이는 상태 배열에 현재 포즈의 자세를 1 올림
       if (res > 0.7) {
         movingArray[i] += 1;
         maxPose = prediction[i].className;
-        if (prevPose !== maxPose) {
+        if (isStop || prevPose !== maxPose) {
           endTime = new Date();
           //자세가 30초 유지됐을 때 로그 저장
           const timeLimit = 30;
-          if (getSeconds(endTime) - getSeconds(startTime) > timeLimit) {
+          if (
+            isStop ||
+            getSeconds(endTime) - getSeconds(startTime) > timeLimit
+          ) {
             //움직이는 상태가 30초 이상 지속됐으면 snapshot에서 가장 큰 값을 로그 남김
             if (
               getSeconds(startTime) - getSeconds(movingStartTime) >
@@ -85,14 +89,16 @@ const TrackingPose = () => {
               movingLog = {
                 startTime: dateFormat(movingStartTime),
                 endTime: dateFormat(startTime),
-                postureId: poseIdConvert(movingArraySnapshot.indexOf(
-                  Math.max(...movingArraySnapshot),
-                )),
+                postureId: poseIdConvert(
+                  movingArraySnapshot.indexOf(Math.max(...movingArraySnapshot)),
+                ),
               };
               dispatch(setLogArray(movingLog));
+              // console.log(movingLog);
               // console.log(movingArraySnapshot);
               // console.log(prediction[movingLog.postureId]);
-              // console.log(movingLog);
+            } else if (resume) {
+              resume = false;
             } else {
               //움직이는 상태가 30초 미만이면 로그 안남기고 그냥 통합시킴
               startTime = movingStartTime;
@@ -100,11 +106,13 @@ const TrackingPose = () => {
             log = {
               startTime: dateFormat(startTime),
               endTime: dateFormat(endTime),
-              postureId: poseIdConvert(prediction.findIndex((e) => e.className === prevPose)),
+              postureId: poseIdConvert(
+                prediction.findIndex((e) => e.className === prevPose),
+              ),
             };
             dispatch(setLogArray(log));
-            // console.log(prediction[log.postureId]);
             // console.log(log);
+            // console.log(prediction[log.postureId]);
 
             //로그를 남긴 후, 움직이는 상태 배열을 초기화
             movingStartTime = endTime;
@@ -129,20 +137,31 @@ const TrackingPose = () => {
 
   const onStop = useCallback(
     (id, timerId) => {
-      webcam.stop();
-      setPose('');
-      clearInterval(id);
-      clearInterval(timerId);
-      dispatch(setTrackingSetting(false));
+      predictPose(true).finally(() => {
+        webcam.stop();
+        setPose('');
+        clearInterval(id);
+        clearInterval(timerId);
+        dispatch(setTrackingSetting(false));
+        movingStartTime = 0;
+        movingArray = [0, 0, 0, 0, 0];
+        movingArraySnapshot = [0, 0, 0, 0, 0];
+      });
     },
     [webcam],
   );
 
   const onPause = useCallback(
     (id, timerId) => {
-      clearInterval(id);
-      clearInterval(timerId);
-      webcam.pause();
+      predictPose(true).finally(() => {
+        clearInterval(id);
+        clearInterval(timerId);
+        webcam.pause();
+        movingStartTime = 0;
+        movingArray = [0, 0, 0, 0, 0];
+        movingArraySnapshot = [0, 0, 0, 0, 0];
+        resume = true;
+      });
     },
     [webcam],
   );
@@ -151,7 +170,6 @@ const TrackingPose = () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = new Date();
-    console.log(startTime);
     setTimerId(
       setInterval(() => {
         time += 1;
@@ -167,7 +185,6 @@ const TrackingPose = () => {
       }, 1000),
     ); // 초 세는 거 -> 지속시간 확인
     setId(setInterval(tracking, 100));
-    console.log(id);
   }, [webcam, setTimerId, setId]);
 
   useEffect(() => {
