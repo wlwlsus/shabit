@@ -60,9 +60,9 @@ const Sidebar = () => {
       dispatch(setStretchModal(true));
     }
   }, [stretchingMin, stretchingSec]);
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(setInitStretchingTime(initStretchingMin));
-  },[]);
+  }, []);
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
   });
@@ -127,21 +127,24 @@ const Sidebar = () => {
         </TimeContainer>
       )}
       <CapturingContainer>
-        {(toggle&&curPose)&&(
+        {toggle && curPose && (
           <IconWrapper>
             <CgPlayPause onClick={clickPauseButton} />
             <Text>일시정지</Text>
           </IconWrapper>
-        )}{(!toggle&&curPose)&&(
+        )}
+        {!toggle && curPose && (
           <IconWrapper>
             <CgPlayButton onClick={clickPlayButton} />
             <Text>시작</Text>
           </IconWrapper>
         )}
-        {curPose&&<IconWrapper>
-          <ImExit onClick={clickStop} />
-          <Text>종료하기</Text>
-        </IconWrapper>}
+        {curPose && (
+          <IconWrapper>
+            <ImExit onClick={clickStop} />
+            <Text>종료하기</Text>
+          </IconWrapper>
+        )}
       </CapturingContainer>
     </ContainerWrapper>
   );
