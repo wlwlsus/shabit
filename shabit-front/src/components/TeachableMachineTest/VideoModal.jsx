@@ -42,7 +42,7 @@ export default function VideoModal() {
     }
     dispatch(clearRecordedChunks());
     dispatch(setVideoModal(false));
-    dispatch(setMode('main'));
+    dispatch(setMode('stopLive'));
     dispatch(setVideoModal(false));
     navigate('/main');
   };

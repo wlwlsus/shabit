@@ -51,7 +51,7 @@ export const login = async (email: string, password: string) => {
       sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       sessionStorage.setItem('user', JSON.stringify(user));
       const decodedToken: DecodedJWT = jwt_decode(accessToken);
-      // console.log(decodedToken);
+      // decodedToken);
       if (decodedToken.auth === 'ROLE_ADMIN') {
         store.dispatch(setIsAdminState(true));
       } else store.dispatch(setIsAdminState(false));

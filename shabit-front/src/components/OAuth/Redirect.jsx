@@ -51,7 +51,6 @@ export default function Redirect() {
 
     Auth.fetchProfile(result.sub)
       .then((res) => {
-        console.log('Get User Info');
         const user = res;
         sessionStorage.setItem('user', JSON.stringify(user));
         store.dispatch(setUserState(user));
@@ -62,7 +61,6 @@ export default function Redirect() {
       })
       .catch((err) => {
         sessionStorage.setItem('isSocial', JSON.stringify(false));
-        console.log(err);
       });
   });
 }

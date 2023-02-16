@@ -37,7 +37,9 @@ const MyCapture = () => {
   var chunkData = useSelector((state) => {
     return state.tracking.recordedChunks;
   });
-  let resumeId, pauseId;
+  const resumeId = useRef()
+  const pauseId = useRef()
+  // let resumeId, pauseId;
 
   const curPose = useSelector((state) => {
     return state.pose.pose;
@@ -99,32 +101,30 @@ const MyCapture = () => {
 
   // 방 나가기 클릭하면 -> 종료 버튼 누르고나면
   const onStop = useCallback(() => {
+    clearInterval(resumeId.current);
+    clearInterval(pauseId.current);
     mediaRecorderRef.current.stop();
-    // mediaRecorderRef.stop();
     let stream = webcamRef.current.stream;
     const tracks = stream.getTracks();
     tracks.forEach((track) => track.stop());
     webcamRef.current.stream = null;
-    clearInterval(resumeId);
-    clearInterval(pauseId);
   }, [mediaRecorderRef, webcamRef]);
 
   const onPause = useCallback(() => {
     if (mediaRecorderRef.current.state !== 'paused') {
       mediaRecorderRef.current.pause();
     }
-    clearInterval(resumeId);
-    clearInterval(pauseId);
+    clearInterval(resumeId.current);
+    clearInterval(pauseId.current);
   }, [mediaRecorderRef]);
 
   const onStart = useCallback(() => {
     mediaRecorderRef.current.start();
-    // mediaRecorderRef.start();
-    resumeId = setInterval(() => {
+    resumeId.current = setInterval(() => {
       mediaRecorderRef.current.pause();
     }, 1000);
 
-    pauseId = setInterval(() => {
+    pauseId.current = setInterval(() => {
       mediaRecorderRef.current.resume();
     }, 60000);
   }, [webcamRef, mediaRecorderRef]);
@@ -132,12 +132,14 @@ const MyCapture = () => {
   const onResume = useCallback(() => {
     mediaRecorderRef.current.resume();
 
-    resumeId = setInterval(() => {
+    resumeId.current = setInterval(() => {
       mediaRecorderRef.current.pause();
+
     }, 1000);
 
-    pauseId = setInterval(() => {
+    pauseId.current = setInterval(() => {
       mediaRecorderRef.current.resume();
+
     }, 60000);
   }, [webcamRef, mediaRecorderRef]);
 

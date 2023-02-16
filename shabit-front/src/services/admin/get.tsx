@@ -71,7 +71,6 @@ export const retreivePhrases = async (page: number = 0): Promise<object> => {
   return await apiRequest
     .get(`/api/v1/admin/phrase?page=${page}`, { headers: header() })
     .then((res) => {
-      // console.log(res.data.result);
       if (!page) {
         store.dispatch(setQuetesList(res.data.result));
       } else {
