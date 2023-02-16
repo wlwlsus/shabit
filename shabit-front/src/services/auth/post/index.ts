@@ -4,7 +4,8 @@ import {
   setUserState,
   setTokenState,
   setIsAdminState,
-  clearAuthState,
+  setIsSocialState,
+  // clearAuthState,
 } from '../../../store/authSlice';
 import apiRequest from '../../../utils/apiRequest';
 import jwt_decode from 'jwt-decode';
@@ -44,6 +45,7 @@ export const login = async (email: string, password: string) => {
       const user = res.data.result.user;
       store.dispatch(setTokenState(accessToken));
       store.dispatch(setUserState(user));
+      store.dispatch(setIsSocialState(false));
       sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
       sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       sessionStorage.setItem('user', JSON.stringify(user));
@@ -92,7 +94,7 @@ export const logout = async (): Promise<boolean> => {
       localStorage.removeItem('refreshToken');
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
-      store.dispatch(clearAuthState());
+      // store.dispatch(clearAuthState());
       return Promise.resolve(true);
     })
     .catch(() => Promise.reject(false));
