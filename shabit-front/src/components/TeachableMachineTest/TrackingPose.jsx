@@ -17,6 +17,7 @@ const TrackingPose = () => {
   //트래킹을 위한 webcam setting의 완료 여부
   const [id, setId] = useState();
   const [timerId, setTimerId] = useState();
+  const [webCamSetting,setWebcamSetting] = useState(false);
   let log = {};
   let model, webcam, poseCnt;
   let maxPose;
@@ -54,6 +55,7 @@ const TrackingPose = () => {
     await webcam.setup(); // request access to the webcam
     onStart();
     dispatch(setTrackingSetting(true));
+    setWebcamSetting(true);
   };
 
   const predictPose = async () => {
@@ -173,7 +175,7 @@ const TrackingPose = () => {
   }, []);
 
   useEffect(() => {
-    if (trackingSetting && mode === 'startLive') onStart();
+    if (trackingSetting && mode &&webCamSetting === 'startLive') onStart();
     else if (mode === 'stopLive') onStop(id, timerId);
     else if (mode === 'pausedLive') onPause();
     else if (mode === 'stretching') onStop(id, timerId);
