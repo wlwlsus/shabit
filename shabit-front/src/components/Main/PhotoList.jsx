@@ -8,8 +8,8 @@ export default function PhotoList({ photoList }) {
   } else {
     return (
       <Wrapper>
-        {photoList.map((photo) => {
-          return <Img src={photo.url} key={photo.url} />;
+        {photoList.map((photo, idx) => {
+          return <Img src={photo.url} key={photo.url+idx} />;
         })}
       </Wrapper>
     );
