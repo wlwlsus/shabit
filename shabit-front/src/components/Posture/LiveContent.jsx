@@ -4,7 +4,7 @@ import TrackingPose from '../TeachableMachineTest/TrackingPose';
 import { useDispatch, useSelector } from 'react-redux';
 // import MyCapture from '../TeachableMachineTest/MyCapture';
 
-export default function LiveContent() {
+export default function LiveContent({ webCamRef }) {
   const dispatch = useDispatch();
   const mode = useSelector((state) => {
     return state.mode.mode;
@@ -30,7 +30,7 @@ export default function LiveContent() {
 
   return (
     <div>
-      <TrackingPose />
+      <TrackingPose webCamRef={webCamRef} />
     </div>
   );
 }

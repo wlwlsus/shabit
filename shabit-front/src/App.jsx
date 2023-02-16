@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   GlobalStyle,
   pinkTheme,
@@ -57,6 +57,8 @@ function App() {
     if (!themeInfo) return;
     setTheme(themeList[themeInfo]);
   }, []);
+
+  const webCamRef = useRef();
 
   //최초 접속시에 실행되는 자동 로그인 로직입니다.
   // (1) 리덕스 스토어에 토큰과 유저정보가 있는지 확인합니다.
@@ -154,7 +156,9 @@ function App() {
           />
           <Route
             path="/main"
-            element={<PrivateRoute component={<MainPage />} />}
+            element={
+              <PrivateRoute component={<MainPage webCamRef={webCamRef} />} />
+            }
           >
             <Route path="" element={<MainContent setTheme={setTheme} />} />
             <Route path="history" element={<HistoryContent />} />
@@ -165,7 +169,10 @@ function App() {
             path="/posture"
             element={<PrivateRoute component={<PosturePage />} />}
           >
-            <Route path="live" element={<LiveContent />} />
+            <Route
+              path="live"
+              element={<LiveContent webCamRef={webCamRef} />}
+            />
             <Route path="stretch" element={<StretchContent />} />
           </Route>
           <Route path="/oauth/redirect" element={<Redirect />} />

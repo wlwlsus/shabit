@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import GoalModal from '../components/Main/GoalModal';
 import PasswordModal from '../components/Main/PasswordModal';
 
-export default function MainPage() {
+export default function MainPage({ webCamRef }) {
   const navigate = useNavigate();
   const themeContext = useContext(ThemeContext);
 
@@ -20,6 +20,13 @@ export default function MainPage() {
   });
   const passwordModal = useSelector((state) => {
     return state.auth.passwordModal;
+  });
+
+  useEffect(() => {
+    if (webCamRef.current) {
+      webCamRef.current();
+      webCamRef.current = null;
+    }
   });
 
   return (

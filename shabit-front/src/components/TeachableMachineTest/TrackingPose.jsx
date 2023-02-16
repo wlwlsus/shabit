@@ -12,7 +12,7 @@ import { dateFormat } from '../../utils/dateFormat';
 import { getSeconds } from '../../utils/dateFormat';
 import poseIdConvert from '../../utils/poseIdConvert';
 
-const TrackingPose = () => {
+const TrackingPose = ({ webCamRef }) => {
   const dispatch = useDispatch();
   //트래킹을 위한 webcam setting의 완료 여부
   const [id, setId] = useState();
@@ -168,6 +168,7 @@ const TrackingPose = () => {
     await webcam.play();
     // id = setInterval(tracking, 16); //TODO reqeustAnimationFrame이랑 비슷한 효과를 내려면 16ms여야됨
     startTime = new Date();
+    webCamRef.current = onStop;
     console.log(startTime);
     setTimerId(
       setInterval(() => {
