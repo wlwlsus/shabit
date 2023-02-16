@@ -88,7 +88,15 @@ SHabit은 사용자의 자세를 트래킹하여 올바르지 않은 자세를 �
 - JWT
 
 **Frontend**
-- 
+- React
+- Redux Toolkit
+- Styled Components
+- TypeScript
+- SockJS-client
+- Teachable Machine
+- React-Webcam
+- Axios
+- ApexCharts
 
 **CI/CD**
 - AWS EC2
