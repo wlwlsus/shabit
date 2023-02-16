@@ -60,16 +60,16 @@ const Sidebar = () => {
       dispatch(setStretchModal(true));
     }
   }, [stretchingMin, stretchingSec]);
-  useEffect(() => {
+  useEffect(()=>{
     dispatch(setInitStretchingTime(initStretchingMin));
-  }, []);
+  },[]);
   const usedTime = useSelector((state) => {
-    return `${state.time.usedTime.hour}:${state.time.usedTime.min}`;
+    return `${state.time.usedTime.hour}시간 ${state.time.usedTime.min}분`;
   });
   const usedMin = useSelector((state) => {
     return state.time.usedTime.min;
   });
-  const stretchingTime = `${stretchingMin}:${stretchingSec}`;
+  const stretchingTime = `${stretchingMin}분 ${stretchingSec}초`;
   // 방 나가기 버튼 누를 때
   const clickStop = () => {
     // 선택된 비디오 리덕스에서 제거
@@ -127,24 +127,21 @@ const Sidebar = () => {
         </TimeContainer>
       )}
       <CapturingContainer>
-        {toggle && curPose && (
+        {(toggle&&curPose)&&(
           <IconWrapper>
             <CgPlayPause onClick={clickPauseButton} />
             <Text>일시정지</Text>
           </IconWrapper>
-        )}
-        {!toggle && curPose && (
+        )}{(!toggle&&curPose)&&(
           <IconWrapper>
             <CgPlayButton onClick={clickPlayButton} />
             <Text>시작</Text>
           </IconWrapper>
         )}
-        {curPose && (
-          <IconWrapper>
-            <ImExit onClick={clickStop} />
-            <Text>종료하기</Text>
-          </IconWrapper>
-        )}
+        {curPose&&<IconWrapper>
+          <ImExit onClick={clickStop} />
+          <Text>종료하기</Text>
+        </IconWrapper>}
       </CapturingContainer>
     </ContainerWrapper>
   );
