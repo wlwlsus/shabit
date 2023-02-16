@@ -10,7 +10,6 @@ import { FireAlert, FireConfirm } from '../../services';
 
 import { useDispatch } from 'react-redux';
 import { setPasswordModal } from '../../store/authSlice';
-import { typedUseSelector } from '../../store';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const dispatch = useDispatch();
