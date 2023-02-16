@@ -23,8 +23,8 @@ const authSlice = createSlice({
     setIsAdminState: (state, action) => {
       state.isAdmin = action.payload;
     },
-    clearAuthState: () => {
-      return initialState;
+    clearAuthState: (state) => {
+      state = initialState;
     },
   },
 });

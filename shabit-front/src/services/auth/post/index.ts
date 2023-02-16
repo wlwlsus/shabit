@@ -92,7 +92,6 @@ export const logout = async (): Promise<boolean> => {
       localStorage.removeItem('refreshToken');
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
-      sessionStorage.removeItem('user');
       store.dispatch(clearAuthState());
       return Promise.resolve(true);
     })

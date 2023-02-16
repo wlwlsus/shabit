@@ -7,7 +7,7 @@ class WebSocketComponent extends React.Component {
   constructor(props) {
     super(props);
     this.url = `${apiRequest.defaults.baseURL}/ws`;
-    this.HEARTBEAT_INTERVAL = 10000; // 핑 메시지 전송 간격 (3초)
+    this.HEARTBEAT_INTERVAL = 1000; // 핑 메시지 전송 간격 (3초)
     this.connected = false; // 연결 상태
     this.stompClient = null; // 웹소켓 객체
     this.pingTimer = null; // 핑 전송 타이머
