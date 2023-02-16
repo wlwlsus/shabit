@@ -23,7 +23,7 @@ const TrackingPose = () => {
   let prevPose;
   let time = 0;
   let captureTime = 0;
-  let startTime, endTime, movingStartTime;
+  let startTime, endTime, movingStartTime, resume;
   let movingLog = {};
   let movingArray = [0, 0, 0, 0, 0];
   let movingArraySnapshot = [0, 0, 0, 0, 0];
@@ -65,7 +65,8 @@ const TrackingPose = () => {
       res = prediction[i].probability.toFixed(2);
       // 최초 시작 포즈를 설정함
       if (!prevPose) prevPose = prediction[i].className;
-      if (!movingStartTime) movingStartTime = startTime;
+      if (!movingStartTime) movingStartTime = new Date();
+
       // 움직이는 상태 배열에 현재 포즈의 자세를 1 올림
       if (res > 0.7) {
         movingArray[i] += 1;
@@ -94,6 +95,8 @@ const TrackingPose = () => {
               // console.log(movingLog);
               // console.log(movingArraySnapshot);
               // console.log(prediction[movingLog.postureId]);
+            } else if (resume) {
+              resume = false;
             } else {
               //움직이는 상태가 30초 미만이면 로그 안남기고 그냥 통합시킴
               startTime = movingStartTime;
@@ -138,6 +141,9 @@ const TrackingPose = () => {
         clearInterval(id);
         clearInterval(timerId);
         dispatch(setTrackingSetting(false));
+        movingStartTime = 0;
+        movingArray = [0, 0, 0, 0, 0];
+        movingArraySnapshot = [0, 0, 0, 0, 0];
       });
     },
     [webcam],
@@ -145,9 +151,15 @@ const TrackingPose = () => {
 
   const onPause = useCallback(
     (id, timerId) => {
-      clearInterval(id);
-      clearInterval(timerId);
-      webcam.pause();
+      predictPose(true).finally(() => {
+        clearInterval(id);
+        clearInterval(timerId);
+        webcam.pause();
+        movingStartTime = 0;
+        movingArray = [0, 0, 0, 0, 0];
+        movingArraySnapshot = [0, 0, 0, 0, 0];
+        resume = true;
+      });
     },
     [webcam],
   );
