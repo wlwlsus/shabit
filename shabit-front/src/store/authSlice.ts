@@ -5,6 +5,7 @@ const initialState = {
   user: { email: '', nickname: '', profile: '', theme: 0 },
   isAdmin: false,
   passwordModal: false,
+  isSocial: false,
 };
 
 const authSlice = createSlice({
@@ -23,6 +24,9 @@ const authSlice = createSlice({
     setIsAdminState: (state, action) => {
       state.isAdmin = action.payload;
     },
+    setIsSocialState: (state, action) => {
+      state.isSocial = action.payload;
+    },
     clearAuthState: (state) => {
       state = initialState;
     },
@@ -36,4 +40,5 @@ export const {
   setUserState,
   setIsAdminState,
   clearAuthState,
+  setIsSocialState,
 } = authSlice.actions;
