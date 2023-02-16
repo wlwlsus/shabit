@@ -17,6 +17,7 @@ export default function Redirect() {
   const [serchParams] = useSearchParams();
   const accessToken = serchParams.get('accessToken');
   const refreshToken = serchParams.get('refreshToken');
+  sessionStorage.setItem('isSocial', JSON.stringify(true));
   const error = serchParams.get('error');
 
   const ASUS = 'already_signed_up_social';
@@ -60,6 +61,7 @@ export default function Redirect() {
         navigate('/main');
       })
       .catch((err) => {
+        sessionStorage.setItem('isSocial', JSON.stringify(false));
         console.log(err);
       });
   });
