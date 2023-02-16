@@ -25,16 +25,15 @@ const notify = (pose, kind) => {
       }
     });
   }else{
-    console.log("Notification ERR")
+    console.log(Notification)
   }
       // 3초뒤 알람 닫기
-  setTimeout(function(){
-      notification.close();
-  }, 3000);
 
-  notification.onclick = () => {
+  if(notification!==undefined){
+    notification.onclick = () => {
     window.focus();
-    this.close();
-  };
+    // this.close();
+    };
+  }
 };
 export default notify;
