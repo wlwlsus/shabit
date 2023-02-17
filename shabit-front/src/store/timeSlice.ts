@@ -9,7 +9,7 @@ const timeSlice = createSlice({
   reducers: {
     setInitStretchingTime : (state,action) =>{
       state.stretchTime.min = action.payload;
-      state.stretchTime.sec = 30;
+      state.stretchTime.sec = 0;
     },
     setInitUsedTime : (state) =>{
       state.usedTime.hour = 0;
