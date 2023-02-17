@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -21,7 +21,16 @@ export default function MainPage() {
   const passwordModal = useSelector((state) => {
     return state.auth.passwordModal;
   });
-
+  const requestAlarm = ()=>{
+    if(Notification.permission!=="granted"){
+      alert("알람을 허용해야 사용하실 수 있습니다.")
+      Notification.requestPermission();
+    }
+  }
+  useEffect(() => {
+    requestAlarm();
+  }, [])
+  
   return (
     <PageWrapper>
       {goalModal && <GoalModal />}
