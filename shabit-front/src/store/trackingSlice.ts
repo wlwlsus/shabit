@@ -8,6 +8,7 @@ const trackingSlice = createSlice({
     logArray: [],
     capture: false,
     trackingSetting: false,
+    settingLog: false,
   },
   reducers: {
     setRecordedChunks: (state, action) => {
@@ -20,9 +21,9 @@ const trackingSlice = createSlice({
       state.videoModal = action.payload;
     },
     setLogArray: (state, action) => {
-      // console.log(action.payload);
+      console.log(action.payload);
       state.logArray = [...state.logArray, action.payload];
-      // console.log(state.logArray);
+      console.log(state.logArray);
     },
     setInitLogArray: (state) => {
       state.logArray = [];
@@ -32,6 +33,9 @@ const trackingSlice = createSlice({
     },
     setTrackingSetting: (state, action) => {
       state.trackingSetting = action.payload;
+    },
+    setSettingLog: (state, action) => {
+      state.settingLog = action.payload;
     },
   },
 });
@@ -45,4 +49,5 @@ export const {
   setInitLogArray,
   setCapture,
   setTrackingSetting,
+  setSettingLog,
 } = trackingSlice.actions;
