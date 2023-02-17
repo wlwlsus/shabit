@@ -121,26 +121,29 @@ const MyCapture = () => {
   const onStart = useCallback(() => {
     mediaRecorderRef.current.start();
     resumeId.current = setInterval(() => {
-      mediaRecorderRef.current.pause();
-    }, 1000);
-
-    pauseId.current = setInterval(() => {
       mediaRecorderRef.current.resume();
-    }, 60000);
+    }, 61000);
+    setTimeout(()=>{
+      mediaRecorderRef.current.pause();
+      pauseId.current = setInterval(() => {
+        mediaRecorderRef.current.pause();
+      }, 61000);
+    },1000)
+
   }, [webcamRef, mediaRecorderRef]);
 
   const onResume = useCallback(() => {
     mediaRecorderRef.current.resume();
-
     resumeId.current = setInterval(() => {
-      mediaRecorderRef.current.pause();
-
-    }, 1000);
-
-    pauseId.current = setInterval(() => {
       mediaRecorderRef.current.resume();
+    }, 61000);
+    setTimeout(()=>{
+      mediaRecorderRef.current.pause();
+      pauseId.current = setInterval(() => {
+        mediaRecorderRef.current.pause();
+      }, 61000);
+    },1000)
 
-    }, 60000);
   }, [webcamRef, mediaRecorderRef]);
 
     const handleDevices = useCallback((mediaDevices) => {
