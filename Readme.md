@@ -266,7 +266,7 @@ shabit-front
 
 ---
 
-- [기능명세서](./docs/shabit\_기능 명세.html)
+- [기능명세서](./docs/shabit\_기능 명세.png)
 - [디자인](./docs/shabit_figma.pdf)
 - [유저 시나리오](./docs/shabit\_유저 시나리오.md)
 - [시퀀스다이어그램](./docs/시퀀스다이어그램.md)
