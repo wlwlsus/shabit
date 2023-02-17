@@ -16,7 +16,7 @@ import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
 import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
 import { postData } from '../../services/stat/post';
 import { useNavigate } from 'react-router-dom';
-import { setMode } from '../../store/modeSlice';
+import { setMode,setTmp } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
 import { setSelected } from '../../store/videoSlice';
@@ -52,10 +52,22 @@ const Sidebar = () => {
   const curPose = useSelector((state) => {
     return state.pose.pose;
   });
-
+  const settingLog = useSelector((state) => {
+    return state.tracking.settingLog;
+  });
   const user = JSON.parse(sessionStorage.getItem('user'));
+  const tmp = useSelector((state) => {
+    return state.mode.tmp;
+  });
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
+      dispatch(setMode('pausedLive'));
+      dispatch(setTmp(true));
+      dispatch(setInitStretchingTime(1));
+    }
+  }, [stretchingMin, stretchingSec]);
+  useEffect(() => {
+    if (settingLog && tmp) {
       postData(user.email, logArray).then(() => {
         setInitLogArray();
         fetchVods(user.email).then((res) => {
@@ -64,13 +76,12 @@ const Sidebar = () => {
           dispatch(setStretchModal(true));
         });
       });
+      setTmp(false);
       notify('stretching');
-      dispatch(setMode('pausedLive'));
       // TODO 스트레칭 시간 setting
-      dispatch(setInitStretchingTime(1));
       // dispatch(setInitStretchingTime(initStretchingMin));
     }
-  }, [stretchingMin, stretchingSec]);
+  }, [settingLog]);
   useEffect(() => {
     // dispatch(setInitStretchingTime(initStretchingMin));
     dispatch(setInitStretchingTime(1));
