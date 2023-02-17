@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
+
+import { setVideoList } from '../../store/videoSlice';
 import { ImExit } from 'react-icons/im';
 import {
   CgTimer,
@@ -18,6 +20,8 @@ import { setMode } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
 import { setSelected } from '../../store/videoSlice';
+import { fetchVods } from '../../services/info/get';
+import { typedUseSelector } from '../../store';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
@@ -48,24 +52,29 @@ const Sidebar = () => {
   const curPose = useSelector((state) => {
     return state.pose.pose;
   });
+
+  const user = JSON.parse(sessionStorage.getItem('user'));
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
+      postData(user.email, logArray).then(() => {
+        setInitLogArray();
+        fetchVods(user.email).then((res) => {
+          dispatch(setVideoList(res));
+          // console.log(res);
+          dispatch(setStretchModal(true));
+        });
+      });
       notify('stretching');
       dispatch(setMode('pausedLive'));
-      postData(userEmail, logArray).then(() => {
-        setInitLogArray();
-      });
       // TODO 스트레칭 시간 setting
       dispatch(setInitStretchingTime(1));
-      
       // dispatch(setInitStretchingTime(initStretchingMin));
-      dispatch(setStretchModal(true));
     }
   }, [stretchingMin, stretchingSec]);
-  useEffect(()=>{
+  useEffect(() => {
     // dispatch(setInitStretchingTime(initStretchingMin));
     dispatch(setInitStretchingTime(1));
-  },[]);
+  }, []);
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}시간 ${state.time.usedTime.min}분`;
   });
@@ -130,21 +139,24 @@ const Sidebar = () => {
         </TimeContainer>
       )}
       <CapturingContainer>
-        {(toggle&&curPose)&&(
+        {toggle && curPose && (
           <IconWrapper>
             <CgPlayPause onClick={clickPauseButton} />
             <Text>일시정지</Text>
           </IconWrapper>
-        )}{(!toggle&&curPose)&&(
+        )}
+        {!toggle && curPose && (
           <IconWrapper>
             <CgPlayButton onClick={clickPlayButton} />
             <Text>시작</Text>
           </IconWrapper>
         )}
-        {curPose&&<IconWrapper>
-          <ImExit onClick={clickStop} />
-          <Text>종료하기</Text>
-        </IconWrapper>}
+        {curPose && (
+          <IconWrapper>
+            <ImExit onClick={clickStop} />
+            <Text>종료하기</Text>
+          </IconWrapper>
+        )}
       </CapturingContainer>
     </ContainerWrapper>
   );
