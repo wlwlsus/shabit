@@ -44,6 +44,7 @@ export default function VideoModal() {
     dispatch(setVideoModal(false));
     dispatch(setMode('stopLive'));
     dispatch(setVideoModal(false));
+    wsc.stopHeartbeat();
     navigate('/main');
   };
   useEffect(() => {
