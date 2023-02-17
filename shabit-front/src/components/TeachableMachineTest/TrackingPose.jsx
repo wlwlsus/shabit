@@ -31,12 +31,12 @@ const TrackingPose = () => {
   let movingArraySnapshot = [0, 0, 0, 0, 0];
 
   // 특정 자세 유지 시간
-  const DURATION_TIME = 10;
+  const DURATION_TIME = 60;
 
-  // let alarmSec = useSelector((state) => {
-  //   return state.admin.alertTime;
-  // });
-  let alarmSec = 20;
+  let alarmSec = useSelector((state) => {
+    return state.admin.alertTime;
+  });
+  // let alarmSec = 20;
   const mode = useSelector((state) => {
     return state.mode.mode;
   });
