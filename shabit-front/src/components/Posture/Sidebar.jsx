@@ -54,12 +54,11 @@ const Sidebar = () => {
       dispatch(setMode('pausedLive'));
       postData(userEmail, logArray).then(() => {
         setInitLogArray();
+        dispatch(setStretchModal(true));
       });
       // TODO 스트레칭 시간 setting
       dispatch(setInitStretchingTime(1));
-      
       // dispatch(setInitStretchingTime(initStretchingMin));
-      dispatch(setStretchModal(true));
     }
   }, [stretchingMin, stretchingSec]);
   useEffect(()=>{
