@@ -278,7 +278,7 @@ shabit-front
 
 ## ✔ 프로젝트 결과물
 
-- [포팅메뉴얼](./exec/Porting_Manual.md)
+- [포팅메뉴얼](./exec/Porting_Manual.pdf)
 - [중간발표자료](./docs/shabit_중간발표.pdf)
 - [최종발표자료](./docs/shabit_최종발표.pdf)
 
