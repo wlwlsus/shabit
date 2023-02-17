@@ -3,24 +3,20 @@ import styled, { ThemeContext } from 'styled-components';
 import { shallowEqual, useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
 
-import { fetchVods } from '../../services/info/get';
-import { typedUseSelector } from '../../store';
+// import { fetchVods } from '../../services/info/get';
+// import { typedUseSelector } from '../../store';
+import { useSelector } from 'react-redux';
 
 export default function VideoList() {
-  const [videoList, setVideoList] = useState(); // 비디오 리스트
+  // const [videoList, setVideoList] = useState(); // 비디오 리스트
   const [isClicked, setIsClicked] = useState();
-  const user = typedUseSelector((state) => {
-    return state.auth.user;
-  }, shallowEqual);
+
   const dispatch = useDispatch();
   const themeContext = useContext(ThemeContext);
-
-  useEffect(() => {
-    fetchVods(user.email).then((res) => {
-      setVideoList(res);
-    });
-  }, []);
-
+  const videoList = useSelector((state) => {
+    // console.log(state.video.videoList);
+    return state.video.videoList;
+  });
   // 선택한 비디오 정보 redux로 보냄
   const selectVideo = (idx) => {
     dispatch(setSelected(videoList[idx]));
