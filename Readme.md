@@ -271,7 +271,7 @@ shabit-front
 - [유저 시나리오](./docs/shabit\_유저 시나리오.md)
 - [시퀀스다이어그램](./docs/시퀀스다이어그램.md)
 - [아키텍처](./docs/shabit_아키텍처.jpg)
-- [API](./docs/shabit_API%EC%84%A4%EA%B3%84.html)
+- [API](./docs/API설계.png)
 - [ERD](./docs/shabit_erd.png)
 - [회의록](./docs/회의록.md)
 - [테스트 시나리오]()
