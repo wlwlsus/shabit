@@ -4,7 +4,7 @@
 
 ## SHabit 링크(웹사이트) : [SHabit](https://shabit.site/)
 
-## 소개 영상 보기 : [UCC 링크]()
+## 소개 영상 보기 : [UCC 링크](./docs/UCC.mp4)
 
 ## 개발 과정 보기 : [Notion](https://relieved-cave-3bc.notion.site/SHabit-d3967a3cf3e440fa82292323d28fb0d6)
 
