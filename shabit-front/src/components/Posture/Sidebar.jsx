@@ -52,10 +52,17 @@ const Sidebar = () => {
   const curPose = useSelector((state) => {
     return state.pose.pose;
   });
-
+  const settingLog = useSelector((state) => {
+    return state.tracking.settingLog;
+  });
   const user = JSON.parse(sessionStorage.getItem('user'));
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
+      dispatch(setMode('pausedLive'));
+    }
+  }, [stretchingMin, stretchingSec]);
+  useEffect(() => {
+    if (settingLog) {
       postData(user.email, logArray).then(() => {
         setInitLogArray();
         fetchVods(user.email).then((res) => {
@@ -65,12 +72,11 @@ const Sidebar = () => {
         });
       });
       notify('stretching');
-      dispatch(setMode('pausedLive'));
       // TODO 스트레칭 시간 setting
       dispatch(setInitStretchingTime(1));
       // dispatch(setInitStretchingTime(initStretchingMin));
     }
-  }, [stretchingMin, stretchingSec]);
+  }, [settingLog]);
   useEffect(() => {
     // dispatch(setInitStretchingTime(initStretchingMin));
     dispatch(setInitStretchingTime(1));

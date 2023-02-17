@@ -7,6 +7,7 @@ import {
   setLogArray,
   setCapture,
   setTrackingSetting,
+  setSettingLog,
 } from '../../store/trackingSlice';
 import { dateFormat } from '../../utils/dateFormat';
 import { getSeconds } from '../../utils/dateFormat';
@@ -17,7 +18,7 @@ const TrackingPose = () => {
   //트래킹을 위한 webcam setting의 완료 여부
   const [id, setId] = useState();
   const [timerId, setTimerId] = useState();
-  const [webCamSetting,setWebcamSetting] = useState(false);
+  const [webCamSetting, setWebcamSetting] = useState(false);
   let log = {};
   let model, webcam, poseCnt;
   let maxPose;
@@ -95,6 +96,7 @@ const TrackingPose = () => {
                 ),
               };
               dispatch(setLogArray(movingLog));
+              console.log(movingLog);
             } else if (resume) {
               resume = false;
             } else {
@@ -109,6 +111,7 @@ const TrackingPose = () => {
               ),
             };
             dispatch(setLogArray(log));
+            dispatch(setSettingLog(true));
 
             //로그를 남긴 후, 움직이는 상태 배열을 초기화
             movingStartTime = endTime;
@@ -171,7 +174,7 @@ const TrackingPose = () => {
         time += 1;
         captureTime += 1;
         if (time >= alarmSec) {
-          notify('pose',maxPose);
+          notify('pose', maxPose);
           time = 0;
         }
         if (captureTime === DURATION_TIME) {
