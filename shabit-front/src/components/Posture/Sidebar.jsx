@@ -16,7 +16,7 @@ import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
 import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
 import { postData } from '../../services/stat/post';
 import { useNavigate } from 'react-router-dom';
-import { setMode } from '../../store/modeSlice';
+import { setMode,setTmp } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
 import { setSelected } from '../../store/videoSlice';
@@ -56,13 +56,18 @@ const Sidebar = () => {
     return state.tracking.settingLog;
   });
   const user = JSON.parse(sessionStorage.getItem('user'));
+  const tmp = useSelector((state) => {
+    return state.mode.tmp;
+  });
   useEffect(() => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       dispatch(setMode('pausedLive'));
+      dispatch(setTmp(true));
+      dispatch(setInitStretchingTime(1));
     }
   }, [stretchingMin, stretchingSec]);
   useEffect(() => {
-    if (settingLog) {
+    if (settingLog && tmp) {
       postData(user.email, logArray).then(() => {
         setInitLogArray();
         fetchVods(user.email).then((res) => {
@@ -71,9 +76,9 @@ const Sidebar = () => {
           dispatch(setStretchModal(true));
         });
       });
+      setTmp(false);
       notify('stretching');
       // TODO 스트레칭 시간 setting
-      dispatch(setInitStretchingTime(1));
       // dispatch(setInitStretchingTime(initStretchingMin));
     }
   }, [settingLog]);

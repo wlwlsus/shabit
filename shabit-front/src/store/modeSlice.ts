@@ -5,6 +5,7 @@ const modeSlice = createSlice({
   initialState: {
     mode:'main',
     videoSetting:false,
+    tmp:false,
   },
   reducers: {
     setMode: (state,action)=>{
@@ -12,10 +13,13 @@ const modeSlice = createSlice({
     },
     setVideoSetting : (state,action) =>{
       state.videoSetting = action.payload;
+    },
+    setTmp:(state,action)=>{
+      state.tmp = action.payload;
     }
   },
 });
 
 export default modeSlice;
-export const { setMode,setVideoSetting } = modeSlice.actions;
+export const { setMode,setVideoSetting,setTmp } = modeSlice.actions;
 
