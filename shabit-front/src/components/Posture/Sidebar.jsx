@@ -63,7 +63,7 @@ const Sidebar = () => {
     if (stretchingMin === 0 && stretchingSec === 0) {
       dispatch(setMode('pausedLive'));
       dispatch(setTmp(true));
-      dispatch(setInitStretchingTime(1));
+      dispatch(setInitStretchingTime(initStretchingMin));
     }
   }, [stretchingMin, stretchingSec]);
   useEffect(() => {
@@ -76,15 +76,14 @@ const Sidebar = () => {
           dispatch(setStretchModal(true));
         });
       });
-      setTmp(false);
+      dispatch(setTmp(false));
       notify('stretching');
       // TODO 스트레칭 시간 setting
-      // dispatch(setInitStretchingTime(initStretchingMin));
+      dispatch(setInitStretchingTime(initStretchingMin));
     }
   }, [settingLog]);
   useEffect(() => {
-    // dispatch(setInitStretchingTime(initStretchingMin));
-    dispatch(setInitStretchingTime(1));
+    dispatch(setInitStretchingTime(initStretchingMin));
   }, []);
   const usedTime = useSelector((state) => {
     return `${state.time.usedTime.hour}시간 ${state.time.usedTime.min}분`;
