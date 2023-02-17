@@ -93,6 +93,7 @@ const InfoBox = styled.div`
     width: 20rem;
     height: 5.5rem;
     overflow: hidden;
+    word-break: keep-all;
     word-wrap: break-word;
   }
 `;
