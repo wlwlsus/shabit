@@ -19,6 +19,8 @@ import StartForm from './components/Landing/StartForm';
 import SignupForm from './components/Landing/SignupForm';
 import LoginForm from './components/Landing/LoginForm';
 
+import Redirect from './components/OAuth/Redirect'; // social login redirect
+
 import MainPage from './pages/MainPage';
 import MainContent from './components/Main/MainContent';
 import HistoryContent from './components/Main/HistoryContent';
@@ -30,21 +32,20 @@ import LiveContent from './components/Posture/LiveContent';
 import StretchContent from './components/Posture/StretchContent';
 
 import AdminPage from './pages/AdminPage';
+import AdminVideoContainer from './components/Admin/AdminVideoContainer';
+import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
+import AdminRoute from './utils/AdminRoute';
 
 import NotFound404 from './pages/NotFound404';
 
-import Redirect from './components/OAuth/Redirect';
-import AdminRoute from './utils/AdminRoute';
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AdminVideoContainer from './components/Admin/AdminVideoContainer';
-import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
+import ToastifyStyle from './components/common/ToastifyStyle';
+
 import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth/get';
 import { refreshLogin } from './services/auth/post';
-import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);
