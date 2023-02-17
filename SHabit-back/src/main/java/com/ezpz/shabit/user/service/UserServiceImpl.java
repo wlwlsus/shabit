@@ -283,15 +283,14 @@ public class UserServiceImpl implements UserService {
     final Posture posture = postureRepository.findById(postureId).orElseThrow();
     log.info("posture : {}", postureId);
 
-    String url = "gallery/" + email + " " + image.getOriginalFilename();
-    if (galleryRepository.existsByUrl(url)) {
-      log.info("already exist");
-      return false;
-    }
-
     // 프로필 사진 저장하기
     String result = s3File.upload(image, "gallery/" + email, email);
     log.info("posture image uploaded successfully");
+
+    if (galleryRepository.existsByUrl(result)) {
+      log.info("already exist");
+      return false;
+    }
     Gallery gallery = Gallery.builder().user(user).url(result).posture(posture).build();
     galleryRepository.save(gallery);
     return true;
