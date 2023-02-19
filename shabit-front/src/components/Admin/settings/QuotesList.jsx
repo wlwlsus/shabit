@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import styled from 'styled-components';
 import { retreivePhrases } from '../../../services/admin/get';
-import { typedUseSelector } from '../../../store';
+import { useSelector } from 'react-redux';
 import { useIntersection } from '../../../utils/useIntersection';
 import QuoteCard from './QuoteCard';
 
@@ -16,7 +16,7 @@ const QuotesList = ({
 }) => {
   const trigger = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const quetesList = typedUseSelector(
+  const quetesList = useSelector(
     (state) => state.admin.quetesList,
     shallowEqual,
   );

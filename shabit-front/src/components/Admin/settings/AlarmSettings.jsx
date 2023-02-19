@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import styled from 'styled-components';
 import { fetchAlarmTime, putAlarmTime } from '../../../services/admin';
-import { typedUseSelector } from '../../../store';
+import { useSelector } from 'react-redux';
 import { loadEffect } from '../../../styles/animation';
 
 export default function AlarmSettings() {
-  const stretchingTime = typedUseSelector(
-    (state) => state.admin.stretchingTime,
-  );
-  const alertTime = typedUseSelector((state) => state.admin.alertTime);
+  const stretchingTime = useSelector((state) => state.admin.stretchingTime);
+  const alertTime = useSelector((state) => state.admin.alertTime);
   const [stretchingTimeInput, setStretchingTimeInput] = useState(0);
   const [alertTimeInput, setAlertTimeInput] = useState(0);
 

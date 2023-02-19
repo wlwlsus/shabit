@@ -21,9 +21,7 @@ const trackingSlice = createSlice({
       state.videoModal = action.payload;
     },
     setLogArray: (state, action) => {
-      console.log(action.payload);
       state.logArray = [...state.logArray, action.payload];
-      console.log(state.logArray);
     },
     setInitLogArray: (state) => {
       state.logArray = [];

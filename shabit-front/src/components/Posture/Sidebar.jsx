@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
 
 import { setVideoList } from '../../store/videoSlice';
@@ -14,16 +14,13 @@ import {
 } from 'react-icons/cg';
 import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
 import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
-// import { postData } from '../../services/stat/post';
 import { postData } from '../../services/chart';
 import { useNavigate } from 'react-router-dom';
 import { setMode, setTmp } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
 import { setSelected } from '../../store/videoSlice';
-// import { fetchVods } from '../../services/info/get';
 import { fetchVods } from '../../services/info';
-import { typedUseSelector } from '../../store';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
@@ -38,9 +35,6 @@ const Sidebar = () => {
   });
   const stretchingSec = useSelector((state) => {
     return state.time.stretchTime.sec;
-  });
-  const pose = useSelector((state) => {
-    return state.pose.pose;
   });
   const logArray = useSelector((state) => {
     return state.tracking.logArray;

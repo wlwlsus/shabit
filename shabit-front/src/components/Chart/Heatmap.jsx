@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import { typedUseSelector } from '../../store';
+import { useSelector } from 'react-redux';
 
 const Heatmap = () => {
   const [startDate, setStartDate] = useState('');
-  const heatmapData = typedUseSelector((state) => {
+  const heatmapData = useSelector((state) => {
     return state.chart.heatmapData;
   });
 

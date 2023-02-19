@@ -4,26 +4,22 @@ import { loadEffect } from '../../styles/animation';
 
 import UserInfo from './UserInfo';
 import QuoteInfo from './QuoteInfo';
-import Heatmap from '../Chart/Heatmap';
+import Heatmap from '../chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-import { typedUseSelector } from '../../store';
-// import { fetchHeatmap } from '../../services/stat/get';
-// import { fetchQuote } from '../../services/info/get';
 import { fetchHeatmap } from '../../services/chart';
 import { fetchQuote } from '../../services/info';
-// import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
-import { shallowEqual } from 'react-redux';
-import MoveToAdmin from '../Admin/MoveToAdmin';
+import { shallowEqual, useSelector } from 'react-redux';
+import MoveToAdmin from '../admin/MoveToAdmin';
 
 export default function MainContent({ setTheme }) {
   const [lastDate, setLastDate] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
   // const user = JSON.parse(sessionStorage.getItem('user'));
-  const user = typedUseSelector((state) => {
+  const user = useSelector((state) => {
     return state.auth.user;
   }, shallowEqual);
   useEffect(() => {
@@ -31,7 +27,7 @@ export default function MainContent({ setTheme }) {
     Promise.allSettled([fetchHeatmap(user.email), fetchQuote()]);
   }, [user.email]);
 
-  const heatmap = typedUseSelector((state) => {
+  const heatmap = useSelector((state) => {
     return state.chart.heatmapData;
   });
 

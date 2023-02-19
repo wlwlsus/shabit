@@ -1,3 +1,5 @@
+// Redirect for Social Login
+
 import { Buffer } from 'buffer';
 import { useEffect } from 'react';
 import store from '../../store';
@@ -10,7 +12,6 @@ import {
 import { fetchProfile } from '../../services/auth';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FireAlert } from '../../services';
-// import jwt_decode from 'jwt-decode';
 
 export default function Redirect() {
   const navigate = useNavigate();

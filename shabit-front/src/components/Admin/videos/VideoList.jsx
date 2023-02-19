@@ -1,33 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
-import { typedUseSelector } from '../../../store';
+import { useSelector } from 'react-redux';
 import VideoCard from './VideoCard';
 import VideoInfiniteScroll from './VideoInfiniteScroll';
 
 const VideoList = ({ scrollProp, setScrollProp }) => {
-  const vodsList = typedUseSelector((state) => {
+  const vodsList = useSelector((state) => {
     return state.admin.videoList;
   });
   return (
     <ListWrapper>
-      {
-        vodsList.length==0 && <EmptyBox>데이터가 존재하지 않습니다.</EmptyBox>
-      }
-      {vodsList.length!=0 && vodsList.map((element, idx) => {
-        return (
-          <VideoCard
-            key={element.videoId + Math.random()}
-            thumbnail={element.thumbnail}
-            categoryId={element.category.categoryId}
-            title={element.title}
-            originalLength={element.originalLength}
-            videoId={element.videoId}
-            vodsList={vodsList}
-            scrollProp={scrollProp}
-            setScrollProp={setScrollProp}
-          />
-        );
-      })}
+      {vodsList.length === 0 && (
+        <EmptyBox>데이터가 존재하지 않습니다.</EmptyBox>
+      )}
+      {vodsList.length !== 0 &&
+        vodsList.map((element, idx) => {
+          return (
+            <VideoCard
+              key={element.videoId + Math.random()}
+              thumbnail={element.thumbnail}
+              categoryId={element.category.categoryId}
+              title={element.title}
+              originalLength={element.originalLength}
+              videoId={element.videoId}
+              vodsList={vodsList}
+              scrollProp={scrollProp}
+              setScrollProp={setScrollProp}
+            />
+          );
+        })}
       <VideoInfiniteScroll
         scrollProp={scrollProp}
         setScrollProp={setScrollProp}

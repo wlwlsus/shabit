@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/Landing/Navbar';
+import Navbar from '../components/landing/Navbar';
 import { loadEffect } from '../styles/animation';
 
 export default function LandingPage({ content, form }) {

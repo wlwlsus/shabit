@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { typedUseSelector } from '../../store';
 import jwt_decode from 'jwt-decode';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setIsAdminState } from '../../store/authSlice';
 
 const MoveToAdmin = () => {
@@ -11,7 +10,7 @@ const MoveToAdmin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [pathName, setPathName] = useState('');
-  const isAdmin = typedUseSelector((state) => {
+  const isAdmin = useSelector((state) => {
     return state.auth.isAdmin;
   });
   const token = JSON.parse(sessionStorage.getItem('accessToken'));
@@ -54,7 +53,7 @@ const StyledButton = styled.button`
   font-weight: bold;
   box-shadow: 0 0.1rem 0.5rem ${(props) => props.theme.color.lightGrayColor};
 
-  &:hover{
+  &:hover {
     background-color: ${(props) => props.theme.color.primary};
   }
 `;

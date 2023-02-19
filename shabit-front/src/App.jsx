@@ -13,33 +13,33 @@ import store from './store';
 import PrivateRoute from './utils/PrivateRoute';
 
 import LandingPage from './pages/LandingPage';
-import Introduction from './components/Landing/Introduction';
-import LandingContent from './components/Landing/LandingContent';
-import StartForm from './components/Landing/StartForm';
-import SignupForm from './components/Landing/SignupForm';
-import LoginForm from './components/Landing/LoginForm';
+import Introduction from './components/landing/Introduction';
+import LandingContent from './components/landing/LandingContent';
+import StartForm from './components/landing/StartForm';
+import SignupForm from './components/landing/SignupForm';
+import LoginForm from './components/landing/LoginForm';
 
 import MainPage from './pages/MainPage';
-import MainContent from './components/Main/MainContent';
-import HistoryContent from './components/Main/HistoryContent';
-import GoalContent from './components/Main/GoalContent';
-import GalleryContent from './components/Main/GalleryContent';
+import MainContent from './components/main/MainContent';
+import HistoryContent from './components/main/HistoryContent';
+import GoalContent from './components/main/GoalContent';
+import GalleryContent from './components/main/GalleryContent';
 
 import PosturePage from './pages/PosturePage';
-import LiveContent from './components/Posture/LiveContent';
-import StretchContent from './components/Posture/StretchContent';
+import LiveContent from './components/posture/LiveContent';
+import StretchContent from './components/posture/StretchContent';
 
 import AdminPage from './pages/AdminPage';
 
 import NotFound404 from './pages/NotFound404';
 
-import Redirect from './components/OAuth/Redirect';
+import Redirect from './components/landing/Redirect';
 import AdminRoute from './utils/AdminRoute';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AdminVideoContainer from './components/Admin/AdminVideoContainer';
-import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
+import AdminVideoContainer from './components/admin/AdminVideoContainer';
+import AdminSettingsContainer from './components/admin/AdminSettingsContainer';
 import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
 import { fetchProfile } from './services/auth';
