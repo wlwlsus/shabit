@@ -4,7 +4,7 @@ import { loadEffect } from '../../styles/animation';
 
 import UserInfo from './UserInfo';
 import QuoteInfo from './QuoteInfo';
-import Heatmap from '../Chart/Heatmap';
+import Heatmap from '../chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
 import { typedUseSelector } from '../../store';
@@ -14,7 +14,7 @@ import { fetchQuote } from '../../services/info/get';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
 import { shallowEqual } from 'react-redux';
-import MoveToAdmin from '../Admin/MoveToAdmin';
+import MoveToAdmin from '../admin/MoveToAdmin';
 
 export default function MainContent({ setTheme }) {
   const [lastDate, setLastDate] = useState('');

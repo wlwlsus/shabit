@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
-import BarChart from '../Chart/BarChart';
-import LineChart from '../Chart/LineChart';
+import BarChart from '../chart/BarChart';
+import LineChart from '../chart/LineChart';
 import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
 import { fetchTodayPostureTime } from '../../services/goal/get';
 

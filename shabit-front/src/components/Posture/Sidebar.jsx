@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import notify from '../../utils/notify';
 
 import { setVideoList } from '../../store/videoSlice';
@@ -21,7 +21,6 @@ import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
 import { setSelected } from '../../store/videoSlice';
 import { fetchVods } from '../../services/info/get';
-import { typedUseSelector } from '../../store';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);
