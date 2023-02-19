@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PhotoList from './PhotoList';
-// import { fetchPhoto } from '../../services/info/get';
-import { fetchPhoto } from '../../services/info';
-// import { loadEffect } from '../../styles/animation';
-// import { useSelector } from 'react-redux';
+import { fetchPhoto } from '../../../services/info';
 
 import {
   BsFillArrowLeftSquareFill,

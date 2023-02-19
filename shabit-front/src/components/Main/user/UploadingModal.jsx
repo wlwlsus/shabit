@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { changeImage } from '../../services/auth';
+import { changeImage } from '../../../services/auth';
 import { useSelector } from 'react-redux';
 import { BiUserCircle } from 'react-icons/bi';
 

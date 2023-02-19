@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from '../../../styles/animation';
 
 import ThemeBox from './ThemeBox';
 import { BiUserCircle } from 'react-icons/bi';
-import { fetchProfile, changeNickname } from '../../services/auth';
-import { FireAlert, FireConfirm } from '../../services';
+import { fetchProfile, changeNickname } from '../../../services/auth';
+import { FireAlert, FireConfirm } from '../../../services';
 
 import { useDispatch } from 'react-redux';
-import { setPasswordModal } from '../../store/authSlice';
+import { setPasswordModal } from '../../../store/authSlice';
 
 export default function UserInfo({ user, lastDate, isModalOpen, setTheme }) {
   const dispatch = useDispatch();

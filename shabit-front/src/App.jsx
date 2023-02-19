@@ -20,10 +20,10 @@ import SignupForm from './components/landing/SignupForm';
 import LoginForm from './components/landing/LoginForm';
 
 import MainPage from './pages/MainPage';
-import MainContent from './components/main/MainContent';
-import HistoryContent from './components/main/HistoryContent';
-import GoalContent from './components/main/GoalContent';
-import GalleryContent from './components/main/GalleryContent';
+import MainContent from './components/main/user/MainContent';
+import HistoryContent from './components/main/history/HistoryContent';
+import GoalContent from './components/main/goal/GoalContent';
+import GalleryContent from './components/main/gallery/GalleryContent';
 
 import PosturePage from './pages/PosturePage';
 import LiveContent from './components/posture/LiveContent';

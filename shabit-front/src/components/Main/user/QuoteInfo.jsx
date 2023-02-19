@@ -1,15 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from '../../../styles/animation';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { fetchAlarmTime } from '../../services/admin';
-import WebSocketComponent from './WebSocketComponent';
-import { FireAlert } from '../../services';
-import { setMode } from '../../store/modeSlice';
+import { fetchAlarmTime } from '../../../services/admin';
+import WebSocketComponent from '../WebSocketComponent';
+import { FireAlert } from '../../../services';
+import { setMode } from '../../../store/modeSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { setInitUsedTime, setInitStretchingTime } from '../../store/timeSlice';
+import {
+  setInitUsedTime,
+  setInitStretchingTime,
+} from '../../../store/timeSlice';
 
 export const wsc = new WebSocketComponent();
 

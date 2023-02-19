@@ -7,7 +7,7 @@ import { setVideoModal, clearRecordedChunks } from '../../store/trackingSlice';
 import { setMode } from '../../store/modeSlice';
 
 import { BsFillXCircleFill } from 'react-icons/bs';
-import { wsc } from '../main/QuoteInfo';
+import { wsc } from '../main/user/QuoteInfo';
 
 export default function VideoModal() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from '../../../styles/animation';
 
 export default function PhotoList({ photoList }) {
   if (!photoList.length) {
@@ -9,7 +9,7 @@ export default function PhotoList({ photoList }) {
     return (
       <Wrapper>
         {photoList.map((photo, idx) => {
-          return <Img src={photo.url} key={photo.url+idx} />;
+          return <Img src={photo.url} key={photo.url + idx} />;
         })}
       </Wrapper>
     );

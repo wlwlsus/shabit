@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { logout } from '../../services/auth';
-import { clearAuthState } from '../../store/authSlice';
+import { logout } from '../../../services/auth';
+import { clearAuthState } from '../../../store/authSlice';
 
 const LogoutButton = () => {
   const navigate = useNavigate();

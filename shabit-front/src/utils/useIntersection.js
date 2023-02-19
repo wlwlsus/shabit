@@ -34,10 +34,5 @@ export function useIntersection(elem, callback) {
     let observer = getIntersectionObserver();
     listenerCallbacks.set(target, callback);
     observer.observe(target);
-
-    // return () => {
-    //   listenerCallbacks.delete(target);
-    //   observer.unobserve(target);
-    // };
   }, []);
 }

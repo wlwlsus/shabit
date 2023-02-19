@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
-import BarChart from '../chart/BarChart';
-import LineChart from '../chart/LineChart';
+import { loadEffect } from '../../../styles/animation';
+import BarChart from '../../chart/BarChart';
+import LineChart from '../../chart/LineChart';
 // import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
-import { fetchWeekly, fetchMonthly } from '../../services/chart';
+import { fetchWeekly, fetchMonthly } from '../../../services/chart';
 // import { fetchTodayPostureTime } from '../../services/goal/get';
-import { fetchTodayPostureTime } from '../../services/goal';
+import { fetchTodayPostureTime } from '../../../services/goal';
 
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);

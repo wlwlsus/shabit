@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from '../../../styles/animation';
 import { useSelector } from 'react-redux';
 
 import { RxThickArrowRight } from 'react-icons/rx';
 import { HiPencilAlt } from 'react-icons/hi';
 
 import { useDispatch } from 'react-redux';
-import { setGoalModal } from '../../store/goalSlice';
+import { setGoalModal } from '../../../store/goalSlice';
 
 export default function GoalBox({ today }) {
   const dispatch = useDispatch();
