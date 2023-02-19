@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Modal from '../components/posture/Modal';
-import VideoModal from '../components/live/VideoModal';
-import Sidebar from '../components/posture/Sidebar';
-import Logo from '../components/common/Logo';
+import VideoModal from 'components/live/VideoModal';
+import Modal from 'components/stretch/Modal';
+import Sidebar from 'components/stretch/Sidebar';
+import Logo from 'components/common/Logo';
 import { AiFillNotification } from 'react-icons/ai';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setTokenState, setUserState } from '../store/authSlice';
-import Webcam from '../components/live/Webcam';
+import { setTokenState, setUserState } from 'store/authSlice';
+import Webcam from 'components/live/Webcam';
 
 export default function PosturePage() {
   const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';

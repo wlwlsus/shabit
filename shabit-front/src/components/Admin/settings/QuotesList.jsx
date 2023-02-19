@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import styled from 'styled-components';
-import { retreivePhrases } from '../../../services/admin/get';
-import { typedUseSelector } from '../../../store';
-import { useIntersection } from '../../../utils/useIntersection';
+import { retreivePhrases } from 'services/admin/get';
+import { typedUseSelector } from 'store';
+import { useIntersection } from 'utils/useIntersection';
 import QuoteCard from './QuoteCard';
 
 const QuotesList = ({

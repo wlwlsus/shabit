@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { typedUseSelector } from '../../store';
+import { typedUseSelector } from 'store';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { setIsAdminState } from '../../store/authSlice';
+import { setIsAdminState } from 'store/authSlice';
 
 const MoveToAdmin = () => {
   const location = useLocation();

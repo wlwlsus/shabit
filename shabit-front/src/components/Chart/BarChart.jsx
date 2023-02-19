@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import { ThemeContext } from 'styled-components';
-import { fetchDaily } from '../../services/stat/get';
+import { fetchDaily } from 'services/stat/get';
 
 const BarChart = ({ user }) => {
   const [data, setData] = useState([]);

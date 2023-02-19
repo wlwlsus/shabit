@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../../styles/animation';
+import { loadEffect } from 'styles/animation';
 import VideoFilter from './VideoFilter';
 import VideoInput from './VideoInput';
 import VideoList from './VideoList';

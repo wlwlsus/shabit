@@ -2,11 +2,11 @@ import React, { useRef, useCallback, useEffect,useState } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCapture, setRecordedChunks } from '../../store/trackingSlice';
-import { postImage } from '../../services/info/post';
-import { setVideoSetting } from '../../store/modeSlice';
-import poseIdConvert from '../../utils/poseIdConvert';
-import useDetectClose from "../../utils/useDetectClose"
+import { setCapture, setRecordedChunks } from 'store/trackingSlice';
+import { postImage } from 'services/info/post';
+import { setVideoSetting } from 'store/modeSlice';
+import poseIdConvert from 'utils/poseIdConvert';
+import useDetectClose from "utils/useDetectClose"
 import {useNavigate} from 'react-router-dom'
 
 const MyCapture = () => {

@@ -1,5 +1,5 @@
-import { FireAlert, FireConfirm, header } from '..';
-import apiRequest from '../../utils/apiRequest';
+import { header } from '..';
+import apiRequest from 'utils/apiRequest';
 
 interface Goal {
   percentage: number;
@@ -24,5 +24,3 @@ export const putGoal = async (
       return Promise.reject(err);
     });
 };
-
-export default { putGoal };

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { postVod } from '../../../services/admin/post';
-import useDebounce from '../../../utils/useDebounce';
+import { postVod } from 'services/admin/post';
+import useDebounce from 'utils/useDebounce';
 import VideoInputDropbox from './VideoInputDropbox';
 
 const VideoInput = ({ scrollProp, setScrollProp }) => {

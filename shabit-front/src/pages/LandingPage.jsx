@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Navbar from '../components/landing/Navbar';
-import { loadEffect } from '../styles/animation';
+import Navbar from 'components/landing/Navbar';
+import { loadEffect } from 'styles/animation';
 
 export default function LandingPage({ content, form }) {
   return (

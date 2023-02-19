@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import { typedUseSelector } from '../../store';
+import { typedUseSelector } from 'store';
 
 const Heatmap = () => {
   const [startDate, setStartDate] = useState('');

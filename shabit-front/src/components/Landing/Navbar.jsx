@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Logo from '../common/Logo';
+import Logo from 'components/common/Logo';
 
 import { RiUser3Line, RiUserAddLine, RiBookmark2Line } from 'react-icons/ri';
 

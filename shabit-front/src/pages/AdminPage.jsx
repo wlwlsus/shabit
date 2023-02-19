@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import MoveToAdmin from '../components/admin/MoveToAdmin';
-import LogoutButton from '../components/main/LogoutButton';
+import MoveToAdmin from 'components/admin/MoveToAdmin';
+import LogoutButton from 'components/main/LogoutButton';
 
 const AdminPage = () => {
   const navigate = useNavigate();

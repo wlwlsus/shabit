@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { deleteVod } from '../../../services/admin/delete';
+import { deleteVod } from 'services/admin/delete';
 
 const VideoCard = ({
   thumbnail,

@@ -1,7 +1,7 @@
 import React from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import apiRequest from '../../utils/apiRequest';
+import apiRequest from 'utils/apiRequest';
 
 class WebSocketComponent extends React.Component {
   constructor(props) {

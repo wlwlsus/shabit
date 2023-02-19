@@ -1,17 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
 import * as tmPose from '@teachablemachine/pose';
-import { setPose, setPoseId } from '../../store/poseSlice';
+import { setPose, setPoseId } from 'store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import notify from '../../utils/notify';
+import notify from 'utils/notify';
 import {
   setLogArray,
   setCapture,
   setTrackingSetting,
   setSettingLog,
-} from '../../store/trackingSlice';
-import { dateFormat } from '../../utils/dateFormat';
-import { getSeconds } from '../../utils/dateFormat';
-import poseIdConvert from '../../utils/poseIdConvert';
+} from 'store/trackingSlice';
+import { dateFormat } from 'utils/dateFormat';
+import { getSeconds } from 'utils/dateFormat';
+import poseIdConvert from 'utils/poseIdConvert';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();

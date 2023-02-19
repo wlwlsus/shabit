@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import Logo from '../common/Logo';
+import Logo from 'components/common/Logo';
 import { RiDownload2Line } from 'react-icons/ri';
 
-import { setPercentage, setTime } from '../../store/goalSlice';
+import { setPercentage, setTime } from 'store/goalSlice';
 import GoalBox from './GoalBox';
 import TimeData from './TimeData';
 
@@ -14,7 +14,7 @@ import {
   fetchGoal,
   fetchTodayGoal,
   fetchTodayPostureTime,
-} from '../../services/goal/get';
+} from 'services/goal/get';
 
 export default function GoalContent() {
   const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';

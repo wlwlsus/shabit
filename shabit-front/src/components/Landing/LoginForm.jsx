@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Input from '../common/Input';
+import Input from 'components/common/Input';
 import { HiArrowRightCircle } from 'react-icons/hi2';
-import Auth from '../../services/auth';
+import Auth from 'services/auth';
 import { useNavigate } from 'react-router-dom';
 
-import { loadEffect } from '../../styles/animation';
-import { FireAlert, FireConfirm } from '../../services';
+import { loadEffect } from 'styles/animation';
+import { FireAlert, FireConfirm } from 'services';
 
 const LoginForm = () => {
   const [forgotPassword, setForgotPassword] = useState(false);

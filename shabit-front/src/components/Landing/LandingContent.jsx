@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from 'styles/animation';
 
-import Logo from '../common/Logo';
+import Logo from 'components/common/Logo';
 import SocialLogin from './SocialLogin';
 
 const LandingContent = () => {

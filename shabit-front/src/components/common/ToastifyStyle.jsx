@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { themeColor } from '../../styles/GlobalStyles';
+import { themeColor } from 'styles/GlobalStyles';
 
 const ToastifyStyle = ({ children }) => {
   return <StyledContainer>{children}</StyledContainer>;

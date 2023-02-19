@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { TiArrowSortedDown, TiArrowSortedUp } from 'react-icons/ti';
 import styled from 'styled-components';
-import { fetchAlarmTime } from '../../../services/admin/get';
-import { putAlarmTime } from '../../../services/admin/put';
-import { typedUseSelector } from '../../../store';
-import { loadEffect } from '../../../styles/animation';
+import { fetchAlarmTime } from 'services/admin/get';
+import { putAlarmTime } from 'services/admin/put';
+import { typedUseSelector } from 'store';
+import { loadEffect } from 'styles/animation';
 
 export default function AlarmSettings() {
   const stretchingTime = typedUseSelector(

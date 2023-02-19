@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVideoURL, setStretchModal } from '../../store/videoSlice';
+import { setVideoURL, setStretchModal } from 'store/videoSlice';
 import { BsFillXCircleFill, BsPlayCircleFill } from 'react-icons/bs';
-import { setStretchingMode } from '../../store/videoSlice';
+import { setStretchingMode } from 'store/videoSlice';
 import VideoList from './VideoList';
-import { setMode } from '../../store/modeSlice';
+import { setMode } from 'store/modeSlice';
 
 export default function Modal() {
   const [err, setErr] = useState();

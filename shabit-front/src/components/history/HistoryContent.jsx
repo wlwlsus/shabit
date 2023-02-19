@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
-import BarChart from '../chart/BarChart';
-import LineChart from '../chart/LineChart';
-import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
-import { fetchTodayPostureTime } from '../../services/goal/get';
+import { loadEffect } from 'styles/animation';
+import BarChart from 'components/chart/BarChart';
+import LineChart from 'components/chart/LineChart';
+import { fetchWeekly, fetchMonthly } from 'services/stat/get';
+import { fetchTodayPostureTime } from 'services/goal/get';
 
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);

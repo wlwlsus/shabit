@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from 'styles/animation';
 
 import UserInfo from './UserInfo';
 import QuoteInfo from './QuoteInfo';
-import Heatmap from '../chart/Heatmap';
+import Heatmap from 'components/chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
-import { typedUseSelector } from '../../store';
-import { fetchHeatmap } from '../../services/stat/get';
-import { fetchQuote } from '../../services/info/get';
-// import { setUserState } from '../../store/authSlice';
+import { typedUseSelector } from 'store';
+import { fetchHeatmap } from 'services/stat/get';
+import { fetchQuote } from 'services/info/get';
+// import { setUserState } from 'store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';
 import { shallowEqual } from 'react-redux';
-import MoveToAdmin from '../admin/MoveToAdmin';
+import MoveToAdmin from 'components/admin/MoveToAdmin';
 
 export default function MainContent({ setTheme }) {
   const [lastDate, setLastDate] = useState('');

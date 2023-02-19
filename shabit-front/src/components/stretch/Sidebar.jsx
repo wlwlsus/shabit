@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import notify from '../../utils/notify';
+import notify from 'utils/notify';
 
-import { setVideoList } from '../../store/videoSlice';
+import { setVideoList } from 'store/videoSlice';
 import { ImExit } from 'react-icons/im';
 import {
   CgTimer,
@@ -12,15 +12,15 @@ import {
   CgPlayButton,
   CgRedo,
 } from 'react-icons/cg';
-import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
-import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
-import { postData } from '../../services/stat/post';
+import { setInitLogArray, setVideoModal } from 'store/trackingSlice';
+import { setStretchingMode, setStretchModal } from 'store/videoSlice';
+import { postData } from 'services/stat/post';
 import { useNavigate } from 'react-router-dom';
-import { setMode,setTmp } from '../../store/modeSlice';
-import { setInitStretchingTime } from '../../store/timeSlice';
-import { setVideoSetting } from '../../store/modeSlice';
-import { setSelected } from '../../store/videoSlice';
-import { fetchVods } from '../../services/info/get';
+import { setMode,setTmp } from 'store/modeSlice';
+import { setInitStretchingTime } from 'store/timeSlice';
+import { setVideoSetting } from 'store/modeSlice';
+import { setSelected } from 'store/videoSlice';
+import { fetchVods } from 'services/info/get';
 
 const Sidebar = () => {
   const [toggle, setToggle] = useState(true);

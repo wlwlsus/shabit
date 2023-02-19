@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from 'styles/animation';
 
 import PostureTimeData from './PostureTimeData';
 

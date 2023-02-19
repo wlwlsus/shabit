@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { changeImage } from '../../services/auth/put';
-import { typedUseSelector } from '../../store';
+import { changeImage } from 'services/auth/put';
+import { typedUseSelector } from 'store';
 import { BiUserCircle } from 'react-icons/bi';
 
 const UploadingModal = ({ isModalOpen }) => {

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { BiDownload } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { setVideoModal, clearRecordedChunks } from '../../store/trackingSlice';
-import { setMode } from '../../store/modeSlice';
+import { setVideoModal, clearRecordedChunks } from 'store/trackingSlice';
+import { setMode } from 'store/modeSlice';
 
 import { BsFillXCircleFill } from 'react-icons/bs';
-import { wsc } from '../main/QuoteInfo';
+import { wsc } from 'components/main/QuoteInfo';
 
 export default function VideoModal() {
   const navigate = useNavigate();

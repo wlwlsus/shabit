@@ -5,46 +5,46 @@ import {
   blueTheme,
   darkTheme,
   greenTheme,
-} from './styles/GlobalStyles';
+} from 'styles/GlobalStyles';
 import { ThemeProvider } from 'styled-components';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store';
-import PrivateRoute from './utils/PrivateRoute';
+import store from 'store';
+import PrivateRoute from 'utils/PrivateRoute';
 
-import LandingPage from './pages/LandingPage';
-import Introduction from './components/landing/Introduction';
-import LandingContent from './components/landing/LandingContent';
-import StartForm from './components/landing/StartForm';
-import SignupForm from './components/landing/SignupForm';
-import LoginForm from './components/landing/LoginForm';
+import LandingPage from 'pages/LandingPage';
+import Introduction from 'components/landing/Introduction';
+import LandingContent from 'components/landing/LandingContent';
+import StartForm from 'components/landing/StartForm';
+import SignupForm from 'components/landing/SignupForm';
+import LoginForm from 'components/landing/LoginForm';
 
-import MainPage from './pages/MainPage';
-import MainContent from './components/main/MainContent';
-import HistoryContent from './components/history/HistoryContent';
-import GoalContent from './components/goal/GoalContent';
-import GalleryContent from './components/gallery/GalleryContent';
+import MainPage from 'pages/MainPage';
+import MainContent from 'components/main/MainContent';
+import HistoryContent from 'components/history/HistoryContent';
+import GoalContent from 'components/goal/GoalContent';
+import GalleryContent from 'components/gallery/GalleryContent';
 
-import PosturePage from './pages/PosturePage';
-import LiveContent from './components/posture/LiveContent';
-import StretchContent from './components/posture/StretchContent';
+import PosturePage from 'pages/PosturePage';
+import LiveContent from 'components/live/LiveContent';
+import StretchContent from 'components/posture/StretchContent';
 
-import AdminPage from './pages/AdminPage';
+import AdminPage from 'pages/AdminPage';
 
-import NotFound404 from './pages/NotFound404';
+import NotFound404 from 'pages/NotFound404';
 
-import Redirect from './components/OAuth/Redirect';
-import AdminRoute from './utils/AdminRoute';
+import Redirect from 'components/OAuth/Redirect';
+import AdminRoute from 'utils/AdminRoute';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AdminVideoContainer from './components/admin/AdminVideoContainer';
-import AdminSettingsContainer from './components/admin/AdminSettingsContainer';
+import AdminVideoContainer from 'components/admin/AdminVideoContainer';
+import AdminSettingsContainer from 'components/admin/AdminSettingsContainer';
 import jwtDecode from 'jwt-decode';
-import { setIsAdminState, setTokenState } from './store/authSlice';
-import { fetchProfile } from './services/auth/get';
-import { refreshLogin } from './services/auth/post';
-import ToastifyStyle from './components/common/ToastifyStyle';
+import { setIsAdminState, setTokenState } from 'store/authSlice';
+import { fetchProfile } from 'services/auth/get';
+import { refreshLogin } from 'services/auth/post';
+import ToastifyStyle from 'components/common/ToastifyStyle';
 
 function App() {
   const [theme, setTheme] = useState(pinkTheme);

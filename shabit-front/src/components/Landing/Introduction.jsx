@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Logo from '../common/Logo';
+import Logo from 'components/common/Logo';
 
 import { TbArrowBigRightLine } from 'react-icons/tb';
 
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from 'styles/animation';
 
 const Introduction = () => {
   return (

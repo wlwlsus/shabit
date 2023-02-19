@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import useDebounce from '../../utils/useDebounce';
-import Services, { FireConfirm } from '../../services';
+import useDebounce from 'utils/useDebounce';
+import Services, { FireConfirm } from 'services';
 import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
-import Auth from '../../services/auth';
+import Auth from 'services/auth';
 import { useNavigate } from 'react-router-dom';
-import { confirmEmail } from '../../services/auth/get';
+import { confirmEmail } from 'services/auth/get';
 
-import { loadEffect } from '../../styles/animation';
+import { loadEffect } from 'styles/animation';
 import { BsFillXCircleFill } from 'react-icons/bs';
 
 const SignupForm = () => {

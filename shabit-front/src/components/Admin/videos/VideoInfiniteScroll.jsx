@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { retrieveVods } from '../../../services/admin/get';
-import { useIntersection } from '../../../utils/useIntersection';
+import { retrieveVods } from 'services/admin/get';
+import { useIntersection } from 'utils/useIntersection';
 
 const VideoInfiniteScroll = ({ scrollProp, setScrollProp, vodsList }) => {
   const { page, category, length } = scrollProp;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import * as tmPose from '@teachablemachine/pose';
-import { setPose, setPoseId } from '../../store/poseSlice';
+import { setPose, setPoseId } from 'store/poseSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import notify from '../../utils/notify';
-import { setLogArray, setCapture } from '../../store/trackingSlice';
-import dateFormat from '../../utils/dateFormat';
+import notify from 'utils/notify';
+import { setLogArray, setCapture } from 'store/trackingSlice';
+import dateFormat from 'utils/dateFormat';
 
 const TrackingPose = () => {
   const dispatch = useDispatch();

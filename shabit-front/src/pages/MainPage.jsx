@@ -2,8 +2,8 @@ import React, { useContext, useState,useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { ThemeContext } from 'styled-components';
 import { Outlet, useNavigate } from 'react-router-dom';
-import GoalModal from '../components/goal/GoalModal';
-import PasswordModal from '../components/main/PasswordModal';
+import GoalModal from 'components/goal/GoalModal';
+import PasswordModal from 'components/main/PasswordModal';
 
 export default function MainPage() {
   const navigate = useNavigate();

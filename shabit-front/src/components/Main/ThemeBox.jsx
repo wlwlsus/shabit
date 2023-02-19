@@ -6,7 +6,7 @@ import {
   darkTheme,
   blueTheme,
   greenTheme,
-} from '../../styles/GlobalStyles';
+} from 'styles/GlobalStyles';
 
 export default function ThemeBox({ setTheme }) {
   const themeList = [pinkTheme, darkTheme, blueTheme, greenTheme];
