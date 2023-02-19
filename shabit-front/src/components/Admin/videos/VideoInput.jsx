@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { postVod } from '../../../services/admin/post';
+import { postVod } from '../../../services/admin';
 import useDebounce from '../../../utils/useDebounce';
 import VideoInputDropbox from './VideoInputDropbox';
 

@@ -8,8 +8,10 @@ import Heatmap from '../Chart/Heatmap';
 import HeatmapScale from './HeatmapScale';
 
 import { typedUseSelector } from '../../store';
-import { fetchHeatmap } from '../../services/stat/get';
-import { fetchQuote } from '../../services/info/get';
+// import { fetchHeatmap } from '../../services/stat/get';
+// import { fetchQuote } from '../../services/info/get';
+import { fetchHeatmap } from '../../services/chart';
+import { fetchQuote } from '../../services/info';
 // import { setUserState } from '../../store/authSlice';
 import UploadingModal from './UploadingModal';
 import LogoutButton from './LogoutButton';

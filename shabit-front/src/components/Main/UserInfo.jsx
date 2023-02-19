@@ -4,8 +4,7 @@ import { loadEffect } from '../../styles/animation';
 
 import ThemeBox from './ThemeBox';
 import { BiUserCircle } from 'react-icons/bi';
-import { changeNickname } from '../../services/auth/put';
-import { fetchProfile } from '../../services/auth/get';
+import { fetchProfile, changeNickname } from '../../services/auth';
 import { FireAlert, FireConfirm } from '../../services';
 
 import { useDispatch } from 'react-redux';

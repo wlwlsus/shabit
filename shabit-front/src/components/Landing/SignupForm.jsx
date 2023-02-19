@@ -6,7 +6,7 @@ import Input from '../common/Input';
 import ConfirmForm from './ConfirmForm';
 import Auth from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
-import { confirmEmail } from '../../services/auth/get';
+import { confirmEmail } from '../../services/auth';
 
 import { loadEffect } from '../../styles/animation';
 import { BsFillXCircleFill } from 'react-icons/bs';

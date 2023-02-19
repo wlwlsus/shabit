@@ -7,7 +7,7 @@ import {
   setIsAdminState,
   setIsSocialState,
 } from '../../store/authSlice';
-import Auth from '../../services/auth';
+import { fetchProfile } from '../../services/auth';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FireAlert } from '../../services';
 // import jwt_decode from 'jwt-decode';
@@ -49,7 +49,7 @@ export default function Redirect() {
     sessionStorage.setItem('accessToken', JSON.stringify(accessToken));
     sessionStorage.setItem('refreshToken', JSON.stringify(refreshToken));
 
-    Auth.fetchProfile(result.sub)
+    fetchProfile(result.sub)
       .then((res) => {
         const user = res;
         sessionStorage.setItem('user', JSON.stringify(user));

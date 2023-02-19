@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import styled from 'styled-components';
-import { deletePhrase } from '../../../services/admin/delete';
+import { deletePhrase } from '../../../services/admin';
 import { loadEffect } from '../../../styles/animation';
 
 const QuoteCard = ({ quote, setTriggered, setPage, setIsLastPage }) => {
@@ -86,7 +86,7 @@ const InfoBox = styled.div`
     padding: 0.3rem 0;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
   }
 `;
 

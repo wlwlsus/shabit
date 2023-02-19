@@ -5,7 +5,7 @@ import { loadEffect } from '../../styles/animation';
 import { typedUseSelector } from '../../store';
 import { FiAlertCircle } from 'react-icons/fi';
 import { BsFillCaretRightSquareFill } from 'react-icons/bs';
-import { fetchAlarmTime } from '../../services/admin/get';
+import { fetchAlarmTime } from '../../services/admin';
 import WebSocketComponent from './WebSocketComponent';
 import { FireAlert } from '../../services';
 

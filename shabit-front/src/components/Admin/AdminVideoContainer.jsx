@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { fetchAlarmTime } from '../../services/admin/get';
+import { fetchAlarmTime } from '../../services/admin';
 import VideoSettings from './videos/VideoSettings';
 
 const AdminVideoContainer = () => {

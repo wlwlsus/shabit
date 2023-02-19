@@ -1,7 +1,8 @@
 import Admin from './admin';
 import Auth from './auth';
 import Info from './info';
-import Stat from './stat';
+import Chart from './chart';
+import Goal from './goal';
 import { toast, Zoom } from 'react-toastify';
 
 export const header = () => {
@@ -51,7 +52,9 @@ export const FireConfirm = (message) => {
 const Services = {
   Auth,
   Info,
-  Stat,
+  Chart,
+  Goal,
   Admin,
 };
+
 export default Services;

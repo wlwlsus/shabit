@@ -1,9 +1,10 @@
-import { header } from '..';
-import store from '../../store';
-import { setHeatmapData } from '../../store/chartSlice';
-import apiRequest from '../../utils/apiRequest';
+import { header } from '.';
+import apiRequest from '../utils/apiRequest';
+import store from '../store';
+import { setHeatmapData } from '../store/chartSlice';
 
-export const fetchDaily = async (email: string): Promise<object> => {
+// GET request
+export const fetchDaily = async (email) => {
   return await apiRequest
     .get(`/api/v1/statistics/today/${email}`, { headers: header() })
     .then((res) => {
@@ -12,10 +13,7 @@ export const fetchDaily = async (email: string): Promise<object> => {
     .catch((err) => Promise.reject(err.data));
 };
 
-export const fetchWeekly = async (
-  email: string,
-  page: number,
-): Promise<object> => {
+export const fetchWeekly = async (email, page) => {
   return await apiRequest
     .get(`/api/v1/statistics/weekly/${email}?page=${~~page}`, {
       headers: header(),
@@ -26,10 +24,7 @@ export const fetchWeekly = async (
     .catch((err) => Promise.reject(err.data));
 };
 
-export const fetchMonthly = async (
-  email: string,
-  page: number,
-): Promise<object> => {
+export const fetchMonthly = async (email, page) => {
   return await apiRequest
     .get(`/api/v1/statistics/monthly/${email}?page=${~~page}`, {
       headers: header(),
@@ -41,7 +36,7 @@ export const fetchMonthly = async (
     .catch((err) => Promise.reject(err.data));
 };
 
-export const fetchHeatmap = async (email: string): Promise<object> => {
+export const fetchHeatmap = async (email) => {
   return await apiRequest
     .get(`/api/v1/statistics/grass/${email}`, { headers: header() })
     .then((res) => {
@@ -61,3 +56,25 @@ export const fetchHeatmap = async (email: string): Promise<object> => {
     })
     .catch((err) => err.data);
 };
+
+// POST request
+export const postData = async (email, data) => {
+  const { Authorization } = header();
+  // console.log(Authorization);
+  return await apiRequest
+    .post(`/api/v1/statistics/${email}`, data, {
+      headers: { Authorization, 'Content-Type': 'application/json' },
+    })
+    .then(() => Promise.resolve(true))
+    .catch(() => Promise.reject(false));
+};
+
+const Chart = {
+  fetchDaily,
+  fetchWeekly,
+  fetchMonthly,
+  fetchHeatmap,
+  postData,
+};
+
+export default Chart;

@@ -14,13 +14,15 @@ import {
 } from 'react-icons/cg';
 import { setInitLogArray, setVideoModal } from '../../store/trackingSlice';
 import { setStretchingMode, setStretchModal } from '../../store/videoSlice';
-import { postData } from '../../services/stat/post';
+// import { postData } from '../../services/stat/post';
+import { postData } from '../../services/chart';
 import { useNavigate } from 'react-router-dom';
-import { setMode,setTmp } from '../../store/modeSlice';
+import { setMode, setTmp } from '../../store/modeSlice';
 import { setInitStretchingTime } from '../../store/timeSlice';
 import { setVideoSetting } from '../../store/modeSlice';
 import { setSelected } from '../../store/videoSlice';
-import { fetchVods } from '../../services/info/get';
+// import { fetchVods } from '../../services/info/get';
+import { fetchVods } from '../../services/info';
 import { typedUseSelector } from '../../store';
 
 const Sidebar = () => {

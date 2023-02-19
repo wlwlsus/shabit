@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { postQuote } from '../../../services/admin/post';
+import { postQuote } from '../../../services/admin';
 import useDebounce from '../../../utils/useDebounce';
 const QuoteInput = ({ setTriggered, setPage, setIsLastPage }) => {
   const [quoteInput, setQuoteInput] = useState('');

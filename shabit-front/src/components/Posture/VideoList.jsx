@@ -2,9 +2,6 @@ import React, { useContext, useState, useEffect } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import { shallowEqual, useDispatch } from 'react-redux';
 import { setSelected } from '../../store/videoSlice';
-
-// import { fetchVods } from '../../services/info/get';
-// import { typedUseSelector } from '../../store';
 import { useSelector } from 'react-redux';
 
 export default function VideoList() {

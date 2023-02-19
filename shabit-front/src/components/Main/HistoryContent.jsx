@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { loadEffect } from '../../styles/animation';
 import BarChart from '../Chart/BarChart';
 import LineChart from '../Chart/LineChart';
-import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
-import { fetchTodayPostureTime } from '../../services/goal/get';
+// import { fetchWeekly, fetchMonthly } from '../../services/stat/get';
+import { fetchWeekly, fetchMonthly } from '../../services/chart';
+// import { fetchTodayPostureTime } from '../../services/goal/get';
+import { fetchTodayPostureTime } from '../../services/goal';
 
 export default function HistoryContent() {
   const [lineData, setLineData] = useState([]);

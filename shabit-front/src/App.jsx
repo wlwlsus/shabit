@@ -42,8 +42,8 @@ import AdminVideoContainer from './components/Admin/AdminVideoContainer';
 import AdminSettingsContainer from './components/Admin/AdminSettingsContainer';
 import jwtDecode from 'jwt-decode';
 import { setIsAdminState, setTokenState } from './store/authSlice';
-import { fetchProfile } from './services/auth/get';
-import { refreshLogin } from './services/auth/post';
+import { fetchProfile } from './services/auth';
+import { refreshLogin } from './services/auth';
 import ToastifyStyle from './components/common/ToastifyStyle';
 
 function App() {

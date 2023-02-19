@@ -9,12 +9,11 @@ import GoalBox from './GoalBox';
 import TimeData from './TimeData';
 
 import * as htmlToImage from 'html-to-image';
-
 import {
-  fetchGoal,
   fetchTodayGoal,
+  fetchGoal,
   fetchTodayPostureTime,
-} from '../../services/goal/get';
+} from '../../services/goal';
 
 export default function GoalContent() {
   const logoColor = Number(localStorage.getItem('theme')) ? 'black' : 'pink';

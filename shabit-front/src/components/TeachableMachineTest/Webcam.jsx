@@ -1,13 +1,14 @@
-import React, { useRef, useCallback, useEffect,useState } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCapture, setRecordedChunks } from '../../store/trackingSlice';
-import { postImage } from '../../services/info/post';
+// import { postImage } from '../../services/info/post';
+import { postImage } from '../../services/info';
 import { setVideoSetting } from '../../store/modeSlice';
 import poseIdConvert from '../../utils/poseIdConvert';
-import useDetectClose from "../../utils/useDetectClose"
-import {useNavigate} from 'react-router-dom'
+import useDetectClose from '../../utils/useDetectClose';
+import { useNavigate } from 'react-router-dom';
 
 const MyCapture = () => {
   const dispatch = useDispatch();
@@ -37,8 +38,8 @@ const MyCapture = () => {
   var chunkData = useSelector((state) => {
     return state.tracking.recordedChunks;
   });
-  const resumeId = useRef()
-  const pauseId = useRef()
+  const resumeId = useRef();
+  const pauseId = useRef();
   // let resumeId, pauseId;
 
   const curPose = useSelector((state) => {
@@ -123,13 +124,12 @@ const MyCapture = () => {
     resumeId.current = setInterval(() => {
       mediaRecorderRef.current.resume();
     }, 61000);
-    setTimeout(()=>{
+    setTimeout(() => {
       mediaRecorderRef.current.pause();
       pauseId.current = setInterval(() => {
         mediaRecorderRef.current.pause();
       }, 61000);
-    },1000)
-
+    }, 1000);
   }, [webcamRef, mediaRecorderRef]);
 
   const onResume = useCallback(() => {
@@ -137,23 +137,24 @@ const MyCapture = () => {
     resumeId.current = setInterval(() => {
       mediaRecorderRef.current.resume();
     }, 61000);
-    setTimeout(()=>{
+    setTimeout(() => {
       mediaRecorderRef.current.pause();
       pauseId.current = setInterval(() => {
         mediaRecorderRef.current.pause();
       }, 61000);
-    },1000)
-
+    }, 1000);
   }, [webcamRef, mediaRecorderRef]);
 
-    const handleDevices = useCallback((mediaDevices) => {
-        setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput"));
-      },[setDevices]
-    );
+  const handleDevices = useCallback(
+    (mediaDevices) => {
+      setDevices(mediaDevices.filter(({ kind }) => kind === 'videoinput'));
+    },
+    [setDevices],
+  );
 
-    useEffect(() => {
-        navigator.mediaDevices.enumerateDevices().then(handleDevices);
-    },[handleDevices]);
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices().then(handleDevices);
+  }, [handleDevices]);
 
   useEffect(() => {
     if (videoSetting && mode === 'startLive') onResume();
@@ -165,10 +166,10 @@ const MyCapture = () => {
   useEffect(() => {
     if (captureTiming) capturePose(curPoseId, curPose);
   }, [captureTiming]);
-  const handleErr=()=>{
-    alert("카메라를 허용해야 사용할 수 있습니다");
-    navigate('/main')
-  }
+  const handleErr = () => {
+    alert('카메라를 허용해야 사용할 수 있습니다');
+    navigate('/main');
+  };
   const resize = {
     width: '47%',
     height: '60%',
@@ -180,52 +181,54 @@ const MyCapture = () => {
 
   return (
     <>
-    <DropDownWrapper>
-    {(devices.length>1&&!stretchingMode) && (
-         <DropDown>
-           <DropBtn onClick={dropHandler} ref={dropRef}>카메라 선택</DropBtn>
-           <DropDownContent isDropped={dropIsOpen}>
-             <ItemUl>
-               {devices.map((device, key) => (
-                 <Item
-                   key={device.deviceId}
-                   onClick={() => setDeviceId(device.deviceId)}
-                 >
-                   {device.label || `Device ${key + 1}`}
-                 </Item>
-               ))}
-               </ItemUl>
-           </DropDownContent>
-         </DropDown>) }
-     </DropDownWrapper>
-    <ContainerWrapper>
-      {curPose ? (
-        <>
-        
-          <WebcamWrapper style={stretchingMode ? resize : null}>
-          <Webcam
-            onUserMedia={init}
-            onUserMediaError={handleErr}
-            audio={false}
-            ref={webcamRef}
-            mirrored={true}
-            videoConstraints={{deviceId}}
-            screenshotFormat="image/jpg"
-          />
-        </WebcamWrapper>
+      <DropDownWrapper>
+        {devices.length > 1 && !stretchingMode && (
+          <DropDown>
+            <DropBtn onClick={dropHandler} ref={dropRef}>
+              카메라 선택
+            </DropBtn>
+            <DropDownContent isDropped={dropIsOpen}>
+              <ItemUl>
+                {devices.map((device, key) => (
+                  <Item
+                    key={device.deviceId}
+                    onClick={() => setDeviceId(device.deviceId)}
+                  >
+                    {device.label || `Device ${key + 1}`}
+                  </Item>
+                ))}
+              </ItemUl>
+            </DropDownContent>
+          </DropDown>
+        )}
+      </DropDownWrapper>
+      <ContainerWrapper>
+        {curPose ? (
+          <>
+            <WebcamWrapper style={stretchingMode ? resize : null}>
+              <Webcam
+                onUserMedia={init}
+                onUserMediaError={handleErr}
+                audio={false}
+                ref={webcamRef}
+                mirrored={true}
+                videoConstraints={{ deviceId }}
+                screenshotFormat="image/jpg"
+              />
+            </WebcamWrapper>
           </>
-      ) : (
-        <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
-      )}
-    </ContainerWrapper>
-    </> 
+        ) : (
+          <NoticeText>로딩중..잠시만 기다려주세요</NoticeText>
+        )}
+      </ContainerWrapper>
+    </>
   );
 };
 const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   height: 80%;
 `;
 const NoticeText = styled.div`
@@ -245,10 +248,10 @@ const WebcamWrapper = styled.div`
   justify-content: center;
 `;
 const DropDownWrapper = styled.div`
-  display:flex;
-  justify-content:flex-end;
-  width:70%;
-  margin-top:0.7rem;
+  display: flex;
+  justify-content: flex-end;
+  width: 70%;
+  margin-top: 0.7rem;
 `;
 const DropDown = styled.div`
   position: relative;
@@ -256,50 +259,50 @@ const DropDown = styled.div`
 `;
 const DropBtn = styled.button`
   cursor: pointer;
-  padding:0.5rem;
+  padding: 0.5rem;
   border: 2px solid ${(props) => props.theme.color.primary};
-  border-radius : 0.5rem;
-  display:flex;
-  font-size:0.8rem;
-  color:${(props) => props.theme.color.whiteColor};
+  border-radius: 0.5rem;
+  display: flex;
+  font-size: 0.8rem;
+  color: ${(props) => props.theme.color.whiteColor};
   background-color: ${(props) => props.theme.color.primary};
-  
-  &:hover{
+
+  &:hover {
     background-color: ${(props) => props.theme.color.secondary};
-    color:${(props) => props.theme.color.blackColor};
+    color: ${(props) => props.theme.color.blackColor};
   }
 `;
 const DropDownContent = styled.div`
-background: ${(props) => props.theme.color.secondary};
-position: absolute;
-top: 52px;
-left: 50%;
-width: 100px;
-text-align: center;
-box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-border-radius: 3px;
-opacity: 0;
-visibility: hidden;
-transform: translate(-50%, -20px);
-transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-z-index: 9;
-
-&:after {
-  content: "";
-  height: 0;
-  width: 0;
+  background: ${(props) => props.theme.color.secondary};
   position: absolute;
-  top: -3px;
+  top: 52px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  border: 12px solid transparent;
-  border-top-width: 0;
-  border-bottom-color: ${(props) => props.theme.color.secondary};
-}
+  width: 100px;
+  text-align: center;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  z-index: 9;
 
-${({ isDropped }) =>
-  isDropped &&
-  `
+  &:after {
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 12px solid transparent;
+    border-top-width: 0;
+    border-bottom-color: ${(props) => props.theme.color.secondary};
+  }
+
+  ${({ isDropped }) =>
+    isDropped &&
+    `
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, 0);
@@ -314,7 +317,7 @@ const ItemUl = styled.ul`
   & > li:first-of-type {
     margin-top: 10px;
   }
-  font-size:0.8rem;
+  font-size: 0.8rem;
   list-style-type: none;
   padding: 0;
   margin: 0;
