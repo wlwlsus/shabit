@@ -319,10 +319,10 @@ shabit-front
 
 ### 트래킹 화면
 
-<!-- ![Tracking1](./image/gifs/Tracking1-HQ.gif) -->
-<!-- ![Tracking2](./image/gifs/Tracking2-HQ.gif) -->
-<!-- ![Tracking3](./image/gifs/Tracking3-HQ.gif) -->
-<!-- ![Tracking4](./image/gifs/Tracking4-HQ.gif) -->
+![Tracking1](./image/gifs/Tracking1-HQ.gif)
+![Tracking2](./image/gifs/Tracking2-HQ.gif)
+![Tracking3](./image/gifs/Tracking3-HQ.gif)
+![Tracking4](./image/gifs/Tracking4-HQ.gif)
 <br>
 
 ### 자세 기록 화면
@@ -339,7 +339,7 @@ shabit-front
 
 ### 갤러리 화면
 
-<!-- ![gallary-HQ](./image/gifs/gallary-HQ.gif) -->
+![gallary-HQ](./image/gifs/gallary-HQ.gif)
 <br>
 
 ### 관리자 화면
