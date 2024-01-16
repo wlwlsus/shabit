@@ -2,7 +2,7 @@
 
 <img src="image/logo2.png" width="100%"/>
 
-## SHabit 링크(웹사이트, 서버 다운) : [SHabit](https://shabit.site/)
+## SHabit 링크(웹사이트) : [SHabit](https://shabit.site/)
 
 ## 소개 영상 보기 : 
 https://user-images.githubusercontent.com/77595685/230024164-640b127e-7c37-4023-ae20-712fc7848097.mov
